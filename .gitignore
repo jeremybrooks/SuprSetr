@@ -10,4 +10,5 @@ build
 dist
 deploy
 web
+nbproject/private/profiler/*.hprof
 src/net/jeremybrooks/suprsetr/private.properties
