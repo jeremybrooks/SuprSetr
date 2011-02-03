@@ -43,21 +43,21 @@ required libraries from the lib directory of the SuprSetr installation. This
 will ensure that you have the versions that SuprSetr has been tested with.
 
 If you want to download the libraries, you will need these:
-<ul>
-<li><a href="http://jeremybrooks.net/jinx/">jinx</a></li>
-<li><a href="http://twitter4j.org/en/index.html">Twitter4J</a></li>
-<li><a href="http://code.google.com/p/bitlyj/">bitlyj</a></li>
-<li><a href="http://commons.apache.org/beanutils/">commons-beanutils</a></li>
-<li><a href="http://commons.apache.org/collections/">commons-collections</a></li>
-<li><a href="http://commons.apache.org/lang/">commons-lang</a></li>
-<li><a href="http://commons.apache.org/logging/">commons-logging</a></li>
-<li><a href="http://logging.apache.org/log4j/1.2/">log4j</a></li>
-<li><a href="http://db.apache.org/derby/">derby</a></li>
-<li><a href="http://json-lib.sourceforge.net/">json-lib</a></li>
-<li><a href="http://ezmorph.sourceforge.net/">ezmorph</a></li>
-<li>Whirljack-common - copy from SuprSetr installation</li>
-<li>AbsoluteLayout.jar - included with NetBeans</li>
-<li>swing-layout - included with NetBeans</li>
-</ul>
+
+Jinx - http://jeremybrooks.net/jinx/
+Twitter4J - http://twitter4j.org/en/index.html
+bitlyj - http://code.google.com/p/bitlyj/
+commons-beanutils - http://commons.apache.org/beanutils/
+commson-collections - http://commons.apache.org/collections/
+commons-lang - http://commons.apache.org/lang/
+commons-logging - http://commons.apache.org/logging/
+log4j - http://logging.apache.org/log4j/1.2/
+derby - http://db.apache.org/derby/
+json-lib - http://json-lib.sourceforge.net/
+ezmorph - http://ezmorph.sourceforge.net/
+Whirljack-common - copy from SuprSetr installation
+AbsoluteLayout.jar - included with NetBeans
+swing-layout - included with NetBeans
+
 
 
