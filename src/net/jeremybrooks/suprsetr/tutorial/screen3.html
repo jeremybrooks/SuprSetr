@@ -1,0 +1,70 @@
+<!--
+/*
+ * SuprSetr is Copyright 2010 by Jeremy Brooks
+ *
+ * This file is part of SuprSetr.
+ *
+ *  SuprSetr is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  SuprSetr is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+*/
+-->
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>Managing Your Sets</h1>
+        <p>
+            To allow SuprSetr to manage one of your sets, double click the set
+            and you will be taken to the Set Editor window. Once you check the
+            box that says
+            "Manage this set with SuprSetr", you can define the parameters of
+            the set. Parameters include:
+        </p>
+        <ul>
+            <li>Tags</li>
+            <li>Date Taken</li>
+            <li>Date Uploaded</li>
+            <li>Sorting</li>
+        </ul>
+        <p>
+            Once you define the parameters of the set, SuprSetr will know how to
+            search your Flickr stream for photos that match the parameters, and
+            can then update the content of the photoset based on the search
+            results. SuprSetr will add and remove photos from the set to make
+            it match the results of the search. However, SuprSetr will NEVER
+            delete photos from your photostream.
+        </p>
+        
+        <h1>Twitter</h1>
+        <p>If you authorize SuprSetr to use your Twitter account, you can choose
+            to send a tweet each time new photos are added to your sets. You can
+            enable and disable tweets for each photoset, and you can customize
+            the message per set. When customizing the message, you can specify
+            some tokens that will be filled in:
+        </p>
+        <ul>
+            <li>%t - This will be replaced with the photoset title</li>
+            <li>%u - This will be replaced with the photoset URL. The URL will be shortened with bit.ly</li>
+            <li>%c - This will be replaced with the number of photos that were added to the photoset</li>
+            <li>%C - This will be replaced with the total number of photos in the photoset</li>
+        </ul>
+        <p>
+            When making a custom tweet template for a set, make sure to keep in mind
+            the 140 character limit, remembering that the token replacement will
+            most likely make the message longer than it appears in the text box.
+            SuprSetr will trim the final message to fit within 140 characters,
+            truncating the message to fit.
+        </p>
+    </body>
+</html>

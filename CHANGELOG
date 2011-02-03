@@ -1,0 +1,178 @@
+Version
+ * Added a missing tool tip (thanks M. Moore)
+
+Version 0.9.9
+ * Added ability to change the primary photo from within SuprSetr.
+ * More efficient API usage when refreshing a set.
+ * More efficient API usage when sets have a size limit.
+ * Photoset icons are now square images.
+ * Changed the order in which browsers are tested when opening the Flickr
+   authentication page when running under Linux.
+ * Fixed a case preventing refresh all from continuing when there was an error.
+ * FavrTagr updates the log window prior to blocking on a JOptionPane.
+ * Adding "Managed by SuprSetr" to the end of descriptions now works correctly,
+   and adds a space between the description text and the "Managed by" text. (thanks Troy)
+
+Version 0.9.8
+ * Fixed a bug where, when the results where evenly divisible by the results
+   page size, the total count would be reset and SuprSetr would think that there
+   were no results found.
+ * Fixed a bug that would prevent photos on the max taken/max uploaded date
+   from being found in searches.
+ * Corrected the text labels describing min/max dates in set editor.
+ * Added new "On This Day" search option in set editor.
+ * Database schema upgrade to version 5 to support On This Day search parameters.
+ * Added log file size/index options to preferences.
+ * The zip file containing logs now has a more detailed name, including the
+   Flickr username and current date and time.
+ * Added tooltips to the set editor window.
+ * More reliable paging when performing searches.
+ * Remember size and position of activity window.
+ * An error in one set will not halt a refresh all operation.
+ * Added a refresh all toolbar button.
+
+Version 0.9.7
+ * Added ability to cap the size of each set (thanks Michael Moore).
+ * Cleaned up some outdated tool tips.
+ * Added case sensitive option to View menu (thanks Mo Tabesh).
+ * Added option to sort photos in set by title (thanks Mo Tabesh).
+ * Better handling of too many tags in FavrTagr.
+ * Added menu option to clear all fav tags.
+ * Added new FavrTagr interval "10 up to 100, then 100".
+
+
+Version 0.9.6
+ * Added preferences option to enable detailed logging from Jinx.
+ * Use default icon if there is an error getting the thumbnail from Flickr.
+ * Fixed a bug that prevented FavrTagr from working.
+ * About dialog now lists jinx library rather than flickrj.
+
+Version 0.9.5
+ * Fixed a bug where privacy setting were misapplied, causing some photos
+   to be missed in search results.
+ * Clarified privacy settings label text.
+
+Version 0.9.4
+ * Switched to Jinx for Flickr API access from flickrj.
+ * Very large (10,000+) sets now update correctly!
+ * Fixed bug where new set name did not display correctly in activity window.
+ * Fixed bug where error flag was not cleared on subsequent refreshes.
+ * Added option to tweet when a set is created.
+ * Fixed display of tags in set editor.
+ * Added advanced search options, including:
+    - Privacy level
+    - Media Type
+    - Geotagged/Not Geotagged
+    - Part of Flickr Commons
+    - In a gallery
+ * Added support for advanced search options, but hidden currently because of
+   bugs in Flickr API:
+    - For sale on Getty
+    - Safe Search (restricted, moderate)
+    - Content Type
+
+Version 0.9.3
+ * Activity window will scroll as new items are added to it.
+ * Made the "no photos matched" message more accurate.
+ * Errors and warnings during a refresh are logged and shown in the activity
+   window, rather than displaying a modal dialog.
+ * Warning icon on the set list for any sets that got errors or warnings during
+   the last refresh.
+ * Filtering happens when the button is clicked, rather than after each keystroke.
+ * Improved performace of updating list model.
+ * Implemented backup and restore of SuprSetr database.
+ * Fixed error when filter did not match any sets.
+ * Performance improvements, especially for users with large numbers of sets.
+
+Version 0.9.2
+ * Update button will now open the correct download page URL, rather than the
+   old page that is redirected
+ * Compress logs includes all log files now
+ * When refreshing all photosets, if none of them are ready for refresh, the
+   user is given the option to force a refresh anyway
+ * Better error handling during Flickr operations
+ * Set Editor now has a "Save" as well as "Save & Refresh" button, so you can
+   save changes to the set definition without being forced to refresh the set
+   every time
+ * Various performance enhancements
+
+Version 0.9.1
+ * Increase size of Description column to hold large descriptions
+ * Increased performance when creating and refreshing sets
+ * Added option on sets to lock primary photo
+ * Upgrade database schema automatically to support new lock primary photo option
+ * Added disclaimer as required by Flickr
+ * Added an activity log
+ * Database tables are compressed to recover space when the program exits
+
+Version 0.9.0
+ * Added option to add "Managed by SuprSetr" to end of the description for
+   managed sets
+ * Filled out the About dialog
+ * Added a tutorial
+ * Uses a specific suprset bit.ly account
+ * Added network proxy support
+ * Remove Preferences menu when running on a Mac
+ * Added View menu
+ * Added option to hide unmanaged sets (on View menu)
+
+Version 0.8.7
+ * New splash screen
+ * Use lastest versin of IzPack for creating Windows installer
+ * Added tooltip text for the toolbar icons
+ * Can close preferences using the window button
+ * Added right-click menu for set actions
+ * Fixed bug where double right-click acted like a double click
+ * Can close set editor with window button
+ * Resized open in browser icon to be consistent with other icons
+ * Moved the Compress Logs menu item to the Tools menu
+ * Fixed double about menu display on Mac
+ * Added set ordering tool
+
+Version 0.8.6
+ * New icon!
+ * Catch exceptions when getting icons and use default icon
+ * Increased memory parameters
+
+Version 0.8.5
+ * Added FavrTagr tool
+ * Added Twitter icon to indicate which sets will tweet when updated
+ * The main window is not refreshed every time the preferences dialog is closed,
+   only if the refresh hours has been changed
+ * Added FavrTagr interval option for those with very popular photostreams
+ * Disable filter during operations that change the listing
+ * Added Flickr deauthenticate button in Preferences
+ * Fixed a bug in the version checking routine
+
+Version 0.8.0
+ * Added more icons
+ * Added update available button
+ * Added version checker
+ * Restore window size and position
+ * Flickr and Twitter authentication dialogs are more responsive
+ * Added about dialog
+
+Version 0.7.2
+ * Added buttons for add/edit/delete/refresh to toolbar
+ * Fixed null pointer when a new set had no matches
+ * Description text area in SetEditor now wraps words
+
+Version 0.7.1
+ * Added option to compress log files
+
+Version 0.7.0
+ * Splash screen works on Mac now
+ * Added preferences dialog
+ * Added Twitter integration
+ * Refresh All works correctly now. I think.
+ * Added filter to main window
+ * Number of hours before a set is stale is configurable
+ * Prompted if you request a refresh on a set that is not stale
+ * Open in Browser works correctly
+ * Much more efficient list model updates
+ * Added shutdown hook
+
+Version 0.6.0
+ * Fixed "Open in browser" bug
+ * Scroll to set and make it selected after operations that change the list
+ * Added "Refresh All" menu option

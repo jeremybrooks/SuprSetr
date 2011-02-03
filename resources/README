@@ -1,0 +1,9 @@
+This directory contains various junk needed to build installers for different platforms.
+
+The shortcut spec files are used by IzPack to create nice desktop shortcuts on Unix and Windows systems.  
+
+The scripts directory holds some scripts used to start the program on Unix and Windows systems.
+
+The mac directory holds the directory structure and files necessary to create Mac .app folders that can be installed and removed via drag and drop, and can be launched by double clicking.  I love mac.
+
+
