@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import net.jeremybrooks.jinx.dto.Photo;
+import net.jeremybrooks.jinx.dto.Photos;
 import net.jeremybrooks.jinx.dto.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -235,5 +236,9 @@ public class SSUtils {
 
     public static int getCurrentYear() {
 	return new GregorianCalendar().get(Calendar.YEAR);
+    }
+
+    public static void stripSearch(Photos photos, List<String> tags) {
+	
     }
 }

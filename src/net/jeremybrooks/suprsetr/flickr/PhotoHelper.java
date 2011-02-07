@@ -20,6 +20,7 @@ package net.jeremybrooks.suprsetr.flickr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import javax.swing.ImageIcon;
 import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.api.PhotosApi;
@@ -27,6 +28,7 @@ import net.jeremybrooks.jinx.dto.Photo;
 import net.jeremybrooks.jinx.dto.PhotoInfo;
 import net.jeremybrooks.jinx.dto.Photos;
 import net.jeremybrooks.jinx.dto.SearchParameters;
+import net.jeremybrooks.suprsetr.dto.SSSearch;
 import org.apache.log4j.Logger;
 
 
@@ -123,7 +125,7 @@ public class PhotoHelper {
 	if (params == null) {
 	    throw new Exception("Cannot get photos for a null search parameter.");
 	}
-
+	
 	List<Photo> list = new ArrayList<Photo>();
 
 	Photos photos = null;
@@ -132,9 +134,13 @@ public class PhotoHelper {
 	// return max allowed results
 	params.setPerPage(perPage);
 
+	
 	do {
 
 	    results = PhotosApi.getInstance().search(params);
+
+	    // Remove photos that have tags matching the "-" matches
+	    removeNegativeMatches(results, params);
 
 	    // The first search results object becomes the object that is
 	    // returned. The "photos" parameter of the returned object will be
@@ -162,9 +168,35 @@ public class PhotoHelper {
 	    logger.debug(count + " search results trimmed to " + list.size());
 	}
 
+
 	photos.setPhotos(list);
+	photos.setTotal(list.size());
 
 	return photos;
+    }
+
+    private void removeNegativeMatches(Photos results, SearchParameters params) {
+	List<Photo> removeMe = new ArrayList<Photo>();
+
+	if (params instanceof SSSearch) {
+	    List<String> negativeTagMatch = ((SSSearch)params).getNegativeTagMatch();
+	    for (Photo p : results.getPhotos()) {
+		StringTokenizer tok = new StringTokenizer(p.getTags());
+		while (tok.hasMoreTokens()) {
+		    String tag = tok.nextToken();
+		    if (negativeTagMatch.contains(tag)) {
+			removeMe.add(p);
+			break;
+		    }
+		}
+
+	    }
+	}
+
+	for (Photo p : removeMe) {
+	    results.getPhotos().remove(p);
+	    logger.info("Removed '" + p.getTitle() + "' from search results.");
+	}
     }
 
 

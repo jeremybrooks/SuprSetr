@@ -27,6 +27,7 @@ import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.dto.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.SSPhotoset;
+import net.jeremybrooks.suprsetr.dto.SSSearch;
 
 
 
@@ -83,7 +84,7 @@ public class SearchHelper {
      * @throws Exception if there are any errors.
      */
     public SearchParameters getSearchParameters(SSPhotoset ssPhotoset) throws Exception {
-	SearchParameters sp = new SearchParameters();
+	SSSearch sp = new SSSearch();
 
 	sp.setUserId(FlickrHelper.getInstance().getNSID());
 
@@ -258,7 +259,8 @@ public class SearchHelper {
 	if(ssPhotoset.isInGetty()) {
 	    sp.setIsGetty(true);
 	}
-	
+
+
 	return sp;
     }
 

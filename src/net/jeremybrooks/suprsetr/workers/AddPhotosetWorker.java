@@ -18,6 +18,7 @@
  */
 package net.jeremybrooks.suprsetr.workers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -87,7 +88,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 	Photoset newSet = null;
 	Photo firstPhoto = null;
 	Photos photos = null;
-
+	
 	// TO CREATE A SET, WE NEED PHOTOS
 	// SO GET SEARCH RESULTS FOR THE PARAMETERS
 	try {
@@ -113,6 +114,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 				+ year + "....");
 			tempResults = PhotoHelper.getInstance().getPhotos(params);
 			logger.info("Got " + tempResults.getTotal() + " results.");
+			
 			if (photos == null) {
 			    photos = tempResults;
 			} else {
