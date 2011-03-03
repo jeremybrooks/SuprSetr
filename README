@@ -1,11 +1,5 @@
 SuprSetr - advanced set management for Flickr
 
-***** This is beta software. It certainly has bugs. If it eats your cat, burns your
-house down, and makes your mother-in-law move in, don't blame me. I warned you. *****
-
-That said, SuprSetr should be quite safe to use. It CAN delete sets from Flickr
-if you ask it to, but it cannot delete photos. Sets can always be created again.
-
 When you start SuprSetr, it will connect to Flickr and get a list of all your
 sets. Data about these sets will be stored in a local database, and updated
 every time you launch SuprSetr. This process takes a little while the first
@@ -28,8 +22,6 @@ top of the list. Additional sort options may be added in the future if users
 want that feature.
 
 
-*** KNOWN BUGS/ISSUES/TODO ***
-Performance issues when updating the list model
 
 
 *** DEVELOPERS ***
@@ -53,8 +45,6 @@ commons-lang - http://commons.apache.org/lang/
 commons-logging - http://commons.apache.org/logging/
 log4j - http://logging.apache.org/log4j/1.2/
 derby - http://db.apache.org/derby/
-json-lib - http://json-lib.sourceforge.net/
-ezmorph - http://ezmorph.sourceforge.net/
 Whirljack-common - copy from SuprSetr installation
 AbsoluteLayout.jar - included with NetBeans
 swing-layout - included with NetBeans
