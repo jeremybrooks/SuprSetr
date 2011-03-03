@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -18,14 +18,10 @@
  */
 package net.jeremybrooks.suprsetr.workers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import net.jeremybrooks.jinx.JinxConstants;
-import net.jeremybrooks.jinx.JinxException;
 import net.jeremybrooks.jinx.dto.Photo;
 import net.jeremybrooks.jinx.dto.PhotoInfo;
 import net.jeremybrooks.jinx.dto.Photos;
@@ -34,8 +30,6 @@ import net.jeremybrooks.jinx.dto.Tag;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
-import net.jeremybrooks.suprsetr.SSConstants;
-import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import org.apache.log4j.Logger;

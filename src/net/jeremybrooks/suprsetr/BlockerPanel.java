@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -154,11 +154,12 @@ public class BlockerPanel extends JPanel implements MouseInputListener, KeyListe
      * Restore the cursor and hide the blocker panel.
      */
     public void unBlock() {
-	// undo work-around for intercepting keyboard events
-	MainWindow.getMainWindow().enableFilter(true);
+	
 
         this.setCursor(this.oldCursor);
         this.setVisible(false);
+	// undo work-around for intercepting keyboard events
+	MainWindow.getMainWindow().enableFilter(true);
     }
 
 

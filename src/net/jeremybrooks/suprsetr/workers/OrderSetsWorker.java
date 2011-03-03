@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *

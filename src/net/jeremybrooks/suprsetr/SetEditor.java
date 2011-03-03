@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -33,6 +33,7 @@ import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
+import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.log4j.Logger;
 
 
@@ -910,6 +911,7 @@ public class SetEditor extends javax.swing.JDialog {
 	if (this.doValidation()) {
 	    try {
 		PhotosetDAO.updatePhotoset(this.ssPhotoset);
+		SimpleCache.getInstance().invalidate(this.ssPhotoset.getId());
 		this.setVisible(false);
 		this.dispose();
 	    } catch (Exception e) {

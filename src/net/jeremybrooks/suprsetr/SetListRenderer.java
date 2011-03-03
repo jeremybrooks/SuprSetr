@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -15,13 +15,13 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ */
 package net.jeremybrooks.suprsetr;
 
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import net.jeremybrooks.suprsetr.utils.SimpleCache;
 
 
 /**
@@ -31,6 +31,13 @@ import javax.swing.ListCellRenderer;
  */
 public class SetListRenderer implements ListCellRenderer {
 
+    /** Cache the set list instances. */
+    private SimpleCache cache;
+
+    public SetListRenderer() {
+	super();
+	this.cache = SimpleCache.getInstance();
+    }
 
 
     /**
@@ -45,44 +52,66 @@ public class SetListRenderer implements ListCellRenderer {
      */
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-	SetListCell cell = new SetListCell();
-	StringBuilder sb = new StringBuilder();
+	SSPhotoset def = null;
+	SetListCell cell = null;
+	
+	if (!(value instanceof SSPhotoset)) {
+	    cell = new SetListCell();
+	    cell.setTitle("Cell Render Error: wrong class!");
 
-	if (value instanceof SSPhotoset) {
-	    SSPhotoset def = (SSPhotoset) value;
-
-	    sb.append(def.getTitle());
-	    sb.append("   [");
-	    sb.append(def.getPhotos());
-	    sb.append(" photo");
-	    if (def.getPhotos() != 1) {
-		sb.append('s');
-	    }
-	    sb.append(']');
-	    cell.setTitle(sb.toString());
-
-	    if (def.getDescription() == null || def.getDescription().isEmpty()) {
-		cell.setDescription("This photoset does not have a description.");
-	    } else {
-		cell.setDescription(def.getDescription());
+	} else {
+	    def = (SSPhotoset) value;
+	    
+	    cell = this.cache.getFromCache(def.getId());
+	    if (cell == null) {
+		cell = new SetListCell();
+		cell.setCacheValid(false);
 	    }
 
-	    if (def.isManaged()) {
-		cell.setLastUpdate(def.getLastRefreshDate());
-	    } else {
-		cell.hideLastUpdate();
+	    if (!cell.isCacheValid()) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(def.getTitle());
+		sb.append("   [");
+		sb.append(def.getPhotos());
+		sb.append(" photo");
+		if (def.getPhotos() != 1) {
+		    sb.append('s');
+		}
+		sb.append(']');
+
+		cell.setTitle(sb.toString());
+
+
+		if (def.getDescription() == null || def.getDescription().isEmpty()) {
+		    cell.setDescription("This photoset does not have a description.");
+		} else {
+		    cell.setDescription(def.getDescription());
+		}
+
+
+		if (def.isManaged()) {
+		    cell.setLastUpdate(def.getLastRefreshDate());
+		} else {
+		    cell.hideLastUpdate();
+		}
+
+		cell.setManaged(def.isManaged());
+
+		if (def.getPrimaryPhotoIcon() != null) {
+		    cell.setImage(def.getPrimaryPhotoIcon());
+		}
+
+		cell.setTwitter(def.isSendTweet());
+
+		cell.setWarnIcon(def.isErrorFlag());
+
+
+		cell.setCacheValid(true);
+		this.cache.putInCache(def.getId(), cell);
+
 	    }
-
-	    cell.setManaged(def.isManaged());
-
-	    if (def.getPrimaryPhotoIcon() != null) {
-		cell.setImage(def.getPrimaryPhotoIcon());
-	    }
-
-	    cell.setTwitter(def.isSendTweet());
-
-	    cell.setWarnIcon(def.isErrorFlag());
-
+	    
 	}
 	cell.setSelected(isSelected);
 

@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -18,7 +18,6 @@
  */
 package net.jeremybrooks.suprsetr.utils;
 
-//import com.aetrion.flickr.photos.SearchParameters;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;

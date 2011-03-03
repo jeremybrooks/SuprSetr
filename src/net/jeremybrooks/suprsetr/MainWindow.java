@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -18,10 +18,13 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +35,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -74,6 +78,9 @@ public class MainWindow extends javax.swing.JFrame {
     /** Log window */
     private LogWindow logWindow = null;
 
+    /** Timer used to trigger filtering. */
+    private Timer filterTimer = null;
+
 
     /** Creates new form MainWindow */
     public MainWindow() {
@@ -82,11 +89,9 @@ public class MainWindow extends javax.swing.JFrame {
 
 	initComponents();
 
-	this.setUpdateAvailable(false);
-
 	this.mnuHideUnmanaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED)));
 	this.mnuCaseSensitive.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE)));
-	
+
 	try {
 	    setBounds(
 		    Integer.parseInt(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_X)),
@@ -110,6 +115,15 @@ public class MainWindow extends javax.swing.JFrame {
 	this.logWindow = new LogWindow();
 	LogWindow.addLogMessage("Started up at " + new Date());
 
+	this.filterTimer = new Timer(500, new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		doFilter();
+	    }
+
+	});
+	this.filterTimer.setRepeats(false);
     }
 
 
@@ -134,11 +148,9 @@ public class MainWindow extends javax.swing.JFrame {
         btnDeleteSet = new javax.swing.JButton();
         btnRefreshSet = new javax.swing.JButton();
         btnRefreshAll = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jLabel1 = new javax.swing.JLabel();
         txtFilter = new javax.swing.JTextField();
-        btnFilter = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -169,6 +181,7 @@ public class MainWindow extends javax.swing.JFrame {
         mnuAbout = new javax.swing.JMenuItem();
         mnuTutorial = new javax.swing.JMenuItem();
         mnuSSHelp = new javax.swing.JMenuItem();
+        mnuCheckUpdates = new javax.swing.JMenuItem();
 
         mnuPopupCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add16.png"))); // NOI18N
         mnuPopupCreate.setText("Create Set");
@@ -280,43 +293,23 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnRefreshAll);
-
-        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new16.png"))); // NOI18N
-        btnUpdate.setText("Update Available");
-        btnUpdate.setToolTipText("A new version is available. Click to visit the download page.");
-        btnUpdate.setFocusable(false);
-        btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnUpdate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnUpdate);
         jToolBar1.add(jSeparator2);
 
         jLabel1.setText("Filter");
         jToolBar1.add(jLabel1);
 
-        txtFilter.setToolTipText("Filter displayed sets by title");
+        txtFilter.setToolTipText("Filter displayed sets by title. Filtering will start automatically when you stop typing.");
+        txtFilter.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtFilterFocusGained(evt);
+            }
+        });
         txtFilter.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtFilterKeyReleased(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFilterKeyTyped(evt);
             }
         });
         jToolBar1.add(txtFilter);
-
-        btnFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/filter16.png"))); // NOI18N
-        btnFilter.setEnabled(false);
-        btnFilter.setFocusable(false);
-        btnFilter.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnFilter.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnFilter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFilterActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnFilter);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.NORTH);
 
@@ -537,6 +530,15 @@ public class MainWindow extends javax.swing.JFrame {
         });
         mnuHelp.add(mnuSSHelp);
 
+        mnuCheckUpdates.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new16.png"))); // NOI18N
+        mnuCheckUpdates.setText("Check For Updates");
+        mnuCheckUpdates.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCheckUpdatesActionPerformed(evt);
+            }
+        });
+        mnuHelp.add(mnuCheckUpdates);
+
         jMenuBar1.add(mnuHelp);
 
         setJMenuBar(jMenuBar1);
@@ -592,7 +594,7 @@ public class MainWindow extends javax.swing.JFrame {
 	this.doRefreshSetAction();
     }//GEN-LAST:event_mnuRefreshSetActionPerformed
 
-    
+
     private void mnuBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBrowserActionPerformed
 	this.doOpenInBrowserAction();
     }//GEN-LAST:event_mnuBrowserActionPerformed
@@ -611,7 +613,7 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	// If the list is empty, warn the user
-	if (list.size() == 0) {
+	if (list.isEmpty()) {
 	    int confirm = JOptionPane.showConfirmDialog(this,
 		    "None of your sets are ready to be refreshed.\n"
 		    + "Would you like to refresh all managed sets anyway?",
@@ -764,20 +766,15 @@ public class MainWindow extends javax.swing.JFrame {
 	new Preferences(this, true).setVisible(true);
     }//GEN-LAST:event_mnuPreferencesActionPerformed
 
-    private void txtFilterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFilterKeyReleased
-	// Enable filter button when user types in this field
-	this.btnFilter.setEnabled(true);
-    }//GEN-LAST:event_txtFilterKeyReleased
-
     private void mnuLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLogsActionPerformed
 	JFileChooser jfc = new JFileChooser();
 	jfc.setDialogTitle("Select Location To Save Archive");
 	jfc.setDialogType(JFileChooser.OPEN_DIALOG);
 	jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-	String filename = "suprsetr_logs-" +
-	    FlickrHelper.getInstance().getUsername() + "-" +
-	    new java.util.Date() + ".zip";
+	String filename = "suprsetr_logs-"
+		+ FlickrHelper.getInstance().getUsername() + "-"
+		+ new java.util.Date() + ".zip";
 	filename = filename.replaceAll(" ", "_");
 
 	if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -848,20 +845,6 @@ public class MainWindow extends javax.swing.JFrame {
 	this.mnuRefreshSetActionPerformed(evt);
     }//GEN-LAST:event_btnRefreshSetActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-	try {
-	    BrowserLauncher.openURL(SSConstants.DOWNLOAD_URL);
-	} catch (Exception e) {
-	    JOptionPane.showMessageDialog(this,
-		    "There was an error opening the download URL.\n"
-		    + "You can download the new version here:\n"
-		    + SSConstants.DOWNLOAD_URL,
-		    "Error Opening URL",
-		    JOptionPane.ERROR_MESSAGE);
-	    logger.warn("ERROR OPENING DOWNLOAD URL.", e);
-	}
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
     private void mnuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAboutActionPerformed
 	new AboutDialog(this, true).setVisible(true);
     }//GEN-LAST:event_mnuAboutActionPerformed
@@ -921,10 +904,27 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuSetOrderActionPerformed
 
     private void mnuSSHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSSHelpActionPerformed
-	JOptionPane.showMessageDialog(this,
-		"Sorry, the help file has not been written yet.",
-		"TODO",
-		JOptionPane.INFORMATION_MESSAGE);
+	int option =
+		JOptionPane.showConfirmDialog(this,
+		"The best place to get help is on the FAQ page:\n" +
+		"http://jeremybrooks.net/suprsetr/faq.html\n\n" +
+		"This page also has contact information.\n" +
+		"Would you like to go there now?",
+		"Help",
+		JOptionPane.YES_NO_OPTION,
+		JOptionPane.QUESTION_MESSAGE);
+
+	if (option == JOptionPane.YES_OPTION) {
+	    try {
+		BrowserLauncher.openURL("http://jeremybrooks.net/suprsetr/faq.html");
+	    } catch (IOException e) {
+		logger.error("Could not open help URL.", e);
+		JOptionPane.showMessageDialog(this,
+			"Something went wrong while trying to launch the browser.",
+			"Error",
+			JOptionPane.ERROR_MESSAGE);
+	    }
+	}
     }//GEN-LAST:event_mnuSSHelpActionPerformed
 
     private void mnuHideUnmanagedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuHideUnmanagedActionPerformed
@@ -989,7 +989,8 @@ public class MainWindow extends javax.swing.JFrame {
 	}
     }//GEN-LAST:event_mnuRestoreActionPerformed
 
-    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+
+    private void doFilter() {
 	String filter = this.getFilter();
 	this.listModel.clear();
 
@@ -997,9 +998,7 @@ public class MainWindow extends javax.swing.JFrame {
 	setGlassPane(blocker);
 	new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
 
-	// Filter has been performed, so disable button
-	this.btnFilter.setEnabled(false);
-    }//GEN-LAST:event_btnFilterActionPerformed
+    }
 
     private void mnuClearFaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClearFaveActionPerformed
 	int confirm = JOptionPane.showConfirmDialog(this,
@@ -1029,7 +1028,7 @@ public class MainWindow extends javax.swing.JFrame {
 	} catch (Exception e) {
 	    logger.error("Error while getting photoset list.", e);
 	}
-	
+
 	BlockerPanel blocker = new BlockerPanel(this, "Filtering List");
 	setGlassPane(blocker);
 	new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
@@ -1039,6 +1038,69 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnRefreshAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshAllActionPerformed
 	this.mnuRefreshAllActionPerformed(evt);
     }//GEN-LAST:event_btnRefreshAllActionPerformed
+
+
+    /**
+     * Respond to KEY_TYPED events in the filter box.
+     *
+     * The list will filter when the filterTimer fires. If the user types the
+     * enter key, the list will filter immediately.
+     *
+     * @param evt
+     */
+    private void txtFilterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFilterKeyTyped
+	if (evt.getKeyChar() == '\n') {
+	    this.filterTimer.stop();
+	    doFilter();
+	} else {
+	    this.filterTimer.stop();
+	    this.filterTimer.start();
+	}
+    }//GEN-LAST:event_txtFilterKeyTyped
+
+
+    /**
+     * This method is called by the BlockerPanel to disable keyboard input
+     * while some task is running.
+     *
+     * There is not a reliable way to intercept keyboard events with a GlassPane,
+     * so this is used as a workaround.
+     *
+     * Note that after the focus is requested, the text in the text box will
+     * be selected. To remove the selection, the FOCUS_GAINED event is used
+     * to know when the focus is actually gained, and we remove the selection.
+     *
+     * @param enabled
+     */
+    public void enableFilter(boolean enabled) {
+	this.txtFilter.setEnabled(enabled);
+	if (enabled) {
+	    this.txtFilter.requestFocusInWindow();
+	}
+    }
+
+
+    /**
+     * When the filter box gets the focus, the text will be selected. We respond
+     * to the FOCUS_GAINED event and move the caret to the end of the text, which
+     * removes the selection.
+     * 
+     * @param evt
+     */
+    private void txtFilterFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFilterFocusGained
+	this.txtFilter.setCaretPosition(this.txtFilter.getText().length());
+    }//GEN-LAST:event_txtFilterFocusGained
+
+
+    /**
+     * Check for updates, telling the VersionChecker to display a message
+     * if there are no updates.
+     * 
+     * @param evt
+     */
+    private void mnuCheckUpdatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCheckUpdatesActionPerformed
+	new Thread(new VersionChecker(true, false)).start();
+    }//GEN-LAST:event_mnuCheckUpdatesActionPerformed
 
 
     public void doAuth() {
@@ -1150,28 +1212,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
 
-    /**
-     * Sets the master list, and updates the list model.
-     * Only elements matching the filter text are added to the list model.
-     * 
-     * @param masterList
-     */
-//    public void setMasterList(List<SSPhotoset> masterList) {
-//	this.masterList = masterList;
-//	this.listModel.clear();
-//	String filter = this.getFilter();
-//	boolean hide = this.mnuHideUnmanaged.isSelected();
-//
-//	for (SSPhotoset set : this.masterList) {
-//	    if (filter == null || set.getTitle().toLowerCase().contains(filter)) {
-//		if ((!hide) || (set.isManaged())) {
-//		    this.listModel.addElement(set);
-//		}
-//	    }
-//	}
-//
-//	this.setTitle("SuprSetr :: " + FlickrHelper.getInstance().getUsername() + " :: " + this.masterList.size() + " sets");
-//    }
+    
     /**
      * This will replace the master list that backs the list model.
      *
@@ -1275,26 +1316,42 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
 
-    public void setUpdateAvailable(boolean update) {
-	this.btnUpdate.setVisible(update);
+    public void showUpdateDialog() {
+	int response = JOptionPane.showConfirmDialog(this,
+		"An new version of SuprSetr is available!\n"
+		+ "Would you like to go to the download page now?",
+		"Update Available",
+		JOptionPane.YES_NO_OPTION,
+		JOptionPane.QUESTION_MESSAGE);
+
+	if (response == JOptionPane.YES_OPTION) {
+	    try {
+		BrowserLauncher.openURL(SSConstants.DOWNLOAD_URL);
+	    } catch (Exception e) {
+		JOptionPane.showMessageDialog(this,
+			"There was an error opening the download URL.\n"
+			+ "You can download the new version here:\n"
+			+ SSConstants.DOWNLOAD_URL,
+			"Error Opening URL",
+			JOptionPane.ERROR_MESSAGE);
+		logger.warn("ERROR OPENING DOWNLOAD URL.", e);
+	    }
+	}
     }
 
-
-    public void enableFilter(boolean enabled) {
-	this.txtFilter.setEnabled(enabled);
-	if (enabled) {
-	    this.txtFilter.requestFocus();
-	}
+    public void showNoUpdateDialog() {
+	JOptionPane.showMessageDialog(this,
+		"You are running the most current version of SuprSetr.",
+		"No Updates Available",
+		JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSet;
     private javax.swing.JButton btnDeleteSet;
     private javax.swing.JButton btnEditSet;
-    private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnRefreshAll;
     private javax.swing.JButton btnRefreshSet;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1306,6 +1363,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuBackup;
     private javax.swing.JMenuItem mnuBrowser;
     private javax.swing.JCheckBoxMenuItem mnuCaseSensitive;
+    private javax.swing.JMenuItem mnuCheckUpdates;
     private javax.swing.JMenuItem mnuClearFave;
     private javax.swing.JMenuItem mnuCreateSet;
     private javax.swing.JMenuItem mnuDeleteSet;
@@ -1408,8 +1466,9 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 
+	@Override
 	public void run() {
-	    listModel.add(index, photoset);
+	    listModel.addElement(photoset);
 	    scrollToPhotoset(photoset.getId());
 	}
 
@@ -1426,6 +1485,7 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 
+	@Override
 	public void run() {
 	    int index = listModel.indexOf(photoset);
 
@@ -1441,4 +1501,3 @@ public class MainWindow extends javax.swing.JFrame {
 
     }
 }
-

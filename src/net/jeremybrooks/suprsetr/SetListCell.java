@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -30,6 +30,8 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
  * @author jeremyb
  */
 public class SetListCell extends javax.swing.JPanel {
+
+    private boolean cacheValid = false;
 
     // Some static references to often-used icons. No need to have more than
     // one instance of these
@@ -103,6 +105,14 @@ public class SetListCell extends javax.swing.JPanel {
         this.lblTitle.setText(title);
     }
 
+    /**
+     * Get the value of the title text.
+     * @return title text.
+     */
+    public String getTitle() {
+	return this.lblTitle.getText();
+    }
+
 
     /**
      * Set the image of the cell.
@@ -122,6 +132,13 @@ public class SetListCell extends javax.swing.JPanel {
         this.setToolTipText(description);
     }
 
+    /**
+     * Get the description text.
+     * @return description text.
+     */
+    public String getDescription() {
+	return this.getToolTipText();
+    }
 
     /**
      * Set the background to indicate that this cell is selected.
@@ -216,5 +233,22 @@ public class SetListCell extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTwitter;
     // End of variables declaration//GEN-END:variables
+
+
+
+    /**
+     * @return the valid
+     */
+    public boolean isCacheValid() {
+	return cacheValid;
+    }
+
+
+    /**
+     * @param valid the valid to set
+     */
+    public void setCacheValid(boolean cacheValid) {
+	this.cacheValid = cacheValid;
+    }
 
 }

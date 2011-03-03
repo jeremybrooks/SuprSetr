@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -15,14 +15,18 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ */
 package net.jeremybrooks.suprsetr;
 
 // APPLE STUFF
+import com.apple.eawt.AboutHandler;
+import com.apple.eawt.AppEvent.AboutEvent;
+import com.apple.eawt.AppEvent.PreferencesEvent;
+import com.apple.eawt.AppEvent.QuitEvent;
 import com.apple.eawt.Application;
-import com.apple.eawt.ApplicationEvent;
-import com.apple.eawt.ApplicationAdapter;
+import com.apple.eawt.PreferencesHandler;
+import com.apple.eawt.QuitHandler;
+import com.apple.eawt.QuitResponse;
 
 import javax.swing.JOptionPane;
 
@@ -37,107 +41,53 @@ public class OSXSetup {
 
     public OSXSetup() {
 	Application app = Application.getApplication();
-	app.addApplicationListener(new MacOSEventHandler());
-	app.setEnabledAboutMenu(true);
-	app.setEnabledPreferencesMenu(true);
-    }
 
+	app.setAboutHandler(new AboutHandler() {
 
-    class MacOSEventHandler extends ApplicationAdapter {
-
-	/**
-	 * Handle the About event.
-	 *
-	 * @param event the application event.
-	 */
-	@Override
-	public void handleAbout(ApplicationEvent event) {
-	    event.setHandled(true);
-	    new AboutDialog(null, true).setVisible(true);
-	}
-
-
-	/**
-	 * Handle the Quit event.
-	 *
-	 * @param event the application event.
-	 */
-	@Override
-	public void handleQuit(ApplicationEvent event) {
-	    int confirm = JOptionPane.YES_OPTION;
-
-	    // make the user confirm if busy
-	    if (MainWindow.isBlocked()) {
-		confirm = JOptionPane.showConfirmDialog(MainWindow.getMainWindow(),
-			"SuprSetr is currently busy.\n"
-			+ "Are you sure you want to quit now?",
-			"Quit?",
-			JOptionPane.YES_NO_OPTION,
-			JOptionPane.QUESTION_MESSAGE);
+	    @Override
+	    public void handleAbout(AboutEvent ae) {
+		new AboutDialog(null, true).setVisible(true);
 	    }
 
+	});
 
-	    if (confirm == JOptionPane.YES_OPTION) {
-		System.exit(0);
+
+	app.setQuitHandler(new QuitHandler() {
+
+	    @Override
+	    public void handleQuitRequestWith(QuitEvent qe, QuitResponse qr) {
+		int confirm = JOptionPane.YES_OPTION;
+
+		// make the user confirm if busy
+		if (MainWindow.isBlocked()) {
+		    confirm = JOptionPane.showConfirmDialog(MainWindow.getMainWindow(),
+			    "SuprSetr is currently busy.\n"
+			    + "Are you sure you want to quit now?",
+			    "Quit?",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE);
+
+		    if (confirm == JOptionPane.YES_OPTION) {
+			qr.performQuit();
+		    }
+		    
+		} else {
+		    qr.performQuit();
+		}
 	    }
-	}
+
+	});
 
 
-	/**
-	 * Handle the OpenApplication event.
-	 *
-	 * <p>Currently, we do not do anything with this event.</p>
-	 *
-	 * @param event the application event.
-	 */
-	public void handleOpenApplication(ApplicationEvent event) {
-	}
+	app.setPreferencesHandler(new PreferencesHandler() {
 
+	    @Override
+	    public void handlePreferences(PreferencesEvent pe) {
+		new Preferences(MainWindow.getMainWindow(), true).setVisible(true);
+	    }
 
-	/**
-	 * Handle the OpenFile event.
-	 *
-	 * <p>Currently, we do not do anything with this event.</p>
-	 *
-	 * @param event the application event.
-	 */
-	public void handleOpenFile(ApplicationEvent event) {
-	}
-
-
-	/**
-	 * Handle the Preferences event.
-	 *
-	 * <p>Currently, we do not do anything with this event.</p>
-	 *
-	 * @param event the application event.
-	 */
-	@Override
-	public void handlePreferences(ApplicationEvent event) {
-	    new Preferences(MainWindow.getMainWindow(), true).setVisible(true);
-	}
-
-
-	/**
-	 * Handle the PrintFile event.
-	 *
-	 * <p>Currently, we do not do anything with this event.</p>
-	 *
-	 * @param event the application event.
-	 */
-	public void handlePrintFile(ApplicationEvent event) {
-	}
-
-
-	/**
-	 * Handle the ReOpenApplication event.
-	 *
-	 * <p>Currently, we do not do anything with this event.</p>
-	 *
-	 * @param event the application event.
-	 */
-	public void handleReOpenApplication(ApplicationEvent event) {
-	}
+	});
 
     }
+
 }

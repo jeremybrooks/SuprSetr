@@ -1,8 +1,8 @@
+When the list is filtered, and a new set is added that matches the filter,
+it is not visible.
+
 Import from smartsetr (troy)
 Add a "Manage all sets" checkbox to facilitate migration to SuprSetr (troy) -- won't fix
-
-*** Check to see if the primary photo is being set every time a set is refreshed.
-
 
 use BrowserLauncher from whirljack common.
     (Depends on moving BrowserLauncher to whirljack common)
@@ -12,7 +12,6 @@ change without refreshing, the set should be removed from the list model.
 
 
 
-FEATURE: Support multiple accounts
 
 BUG: when adding a new set, if the list is filtered to show less photos than the
      position of the new set, an error occurrs:
@@ -23,26 +22,19 @@ java.lang.ArrayIndexOutOfBoundsException: 22 > 12
 	at net.jeremybrooks.suprsetr.MainWindow.insertPhotosetInListModel(MainWindow.java:1157)
 
 
- * Move to github
- * Make the Windows installer look like a windows installer....
-
 
  * Set search level to RESTRICTED (bug in Flickr API is preventing this, but is supported in 0.9.4)
    via a hidden option in the Advanced pane of the Set Editor
 
-1.0.0
- * Add sorting options for list view
- * Timed refresh; or run in background with command line options.
-
 
 Post 1.0
 
+ * Add sorting options for list view
+ * Timed refresh; or run in background with command line options.
  * Flickr Collection support (missing from the API. bummer.)
-
-
  * ENH: Handle different date formats, or provide a pop up calendar to select dates (Andrew Lighten)
+ * Support multiple accounts
 
- * Build should sanitize the constants file before making source archive
 
 
 

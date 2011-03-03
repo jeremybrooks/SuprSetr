@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -19,8 +19,7 @@
 
 package net.jeremybrooks.suprsetr.flickr;
 
-//import com.aetrion.flickr.photos.PhotosInterface;
-//import com.aetrion.flickr.photosets.PhotosetsInterface;
+
 import java.io.File;
 import java.net.URL;
 import net.jeremybrooks.jinx.Jinx;

@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -19,9 +19,8 @@
 
 package net.jeremybrooks.suprsetr.twitter;
 
-import com.rosaloves.net.shorturl.bitly.Bitly;
-import com.rosaloves.net.shorturl.bitly.BitlyFactory;
-import com.rosaloves.net.shorturl.bitly.url.BitlyUrl;
+import com.rosaloves.bitlyj.Url;
+import static com.rosaloves.bitlyj.Bitly.*;
 import javax.swing.JOptionPane;
 import net.jeremybrooks.suprsetr.BrowserLauncher;
 import net.jeremybrooks.suprsetr.Main;
@@ -176,9 +175,11 @@ public class TwitterHelper {
 	// Now shorten the URL
 	if (url != null) {
 	    try {
-		Bitly bitly = BitlyFactory.newInstance(Main.getPrivateProperty("BITLY_USERNAME"), Main.getPrivateProperty("BITLY_API_KEY"));
-		BitlyUrl bUrl = bitly.shorten(url);
-		template = template.replace("%u", bUrl.getShortUrl().toString());
+
+	    Url bitlyUrl = as(Main.getPrivateProperty("BITLY_USERNAME"),
+		    Main.getPrivateProperty("BITLY_API_KEY")).call(shorten(url));
+
+		template = template.replace("%u", bitlyUrl.getShortUrl());
 	    } catch (Exception e) {
 		logger.warn("ERROR WHILE SHORTENING URL.", e);
 	    }

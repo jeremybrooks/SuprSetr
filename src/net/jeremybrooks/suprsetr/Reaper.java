@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -19,8 +19,6 @@
 package net.jeremybrooks.suprsetr;
 
 import java.awt.Rectangle;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import org.apache.log4j.Logger;

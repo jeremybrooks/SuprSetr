@@ -1,5 +1,8 @@
-Version
+Version 1.0.0
  * Added a missing tool tip (thanks M. Moore)
+ * List filtering and refresh is much faster now.
+ * Filtering starts automatically shortly after a user stops typing.
+ * Implemented newer OS X AppEvent model.
 
 Version 0.9.9
  * Added ability to change the primary photo from within SuprSetr.

@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -36,6 +36,7 @@ import net.jeremybrooks.suprsetr.flickr.PhotosetHelper;
 import net.jeremybrooks.suprsetr.flickr.SearchHelper;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
+import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.log4j.Logger;
 
 
@@ -281,6 +282,9 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 		ssPhotoset.setSyncTimestamp(System.currentTimeMillis());
 	    } //- end if is managed
 
+	    // mark the list cell as invalid, so anything that has changed
+	    // will get updated when the list is repainted
+	    SimpleCache.getInstance().invalidate(ssPhotoset.getId());
 
 	    PhotosetDAO.updatePhotoset(ssPhotoset);
 

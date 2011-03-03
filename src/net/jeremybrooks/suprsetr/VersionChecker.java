@@ -1,5 +1,5 @@
 /*
- * SuprSetr is Copyright 2010 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
@@ -43,7 +43,18 @@ public class VersionChecker implements Runnable {
     /** Logging. */
     private Logger logger = Logger.getLogger(VersionChecker.class);
 
+    private boolean showNoUpdateMessage;
 
+    private boolean delayCheck;
+
+    public VersionChecker() {
+	this(false, true);
+    }
+    
+    public VersionChecker(boolean showNoUpdateMessage, boolean delayCheck) {
+	this.showNoUpdateMessage = showNoUpdateMessage;
+	this.delayCheck = delayCheck;
+    }
 
     /**
      * Run loop for the Runnable.
@@ -60,8 +71,10 @@ public class VersionChecker implements Runnable {
 
 
         try {
-            // WAIT A LITTLE BIT TO MAKE SURE THE MAIN WINDOW IS INSTANSIATED
-            Thread.sleep(2000);
+	    if (delayCheck) {
+		// WAIT A LITTLE BIT TO MAKE SURE THE MAIN WINDOW IS INSTANSIATED
+		Thread.sleep(2000);
+	    }
 
             // GET THE VERSION WEB PAGE
             conn = (HttpURLConnection) new URL(SSConstants.VERSION_URL).openConnection();
@@ -71,9 +84,12 @@ public class VersionChecker implements Runnable {
 	    
             if (latestVersion.compareTo(Main.VERSION) > 0) {
 		logger.info("New version is available.");
-		MainWindow.getMainWindow().setUpdateAvailable(true);
+		MainWindow.getMainWindow().showUpdateDialog();
             } else {
 		logger.info("No new version is available.");
+		if (this.showNoUpdateMessage) {
+		    MainWindow.getMainWindow().showNoUpdateDialog();
+		}
 	    }
 
         } catch (Exception e) {
