@@ -3,6 +3,7 @@ Version 1.0.0
  * List filtering and refresh is much faster now.
  * Filtering starts automatically shortly after a user stops typing.
  * Implemented newer OS X AppEvent model.
+ * Right-click works correctly under Windows now.
 
 Version 0.9.9
  * Added ability to change the primary photo from within SuprSetr.

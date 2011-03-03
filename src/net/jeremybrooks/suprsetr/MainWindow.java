@@ -320,6 +320,9 @@ public class MainWindow extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jList1MousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jList1MouseReleased(evt);
+            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
             }
@@ -888,6 +891,12 @@ public class MainWindow extends javax.swing.JFrame {
 	this.doOpenInBrowserAction();
     }//GEN-LAST:event_mnuPopupOpenActionPerformed
 
+    /*
+     * Check for popup and double click.
+     *
+     * Note: must check for popup in mouseReleased as well to be compatible
+     * across all platforms.
+     */
     private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
 	if (evt.isPopupTrigger()) {
 	    this.showPopup(evt);
@@ -898,6 +907,8 @@ public class MainWindow extends javax.swing.JFrame {
 	    }
 	}
     }//GEN-LAST:event_jList1MousePressed
+
+
 
     private void mnuSetOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSetOrderActionPerformed
 	new SetOrderer(this, true).setVisible(true);
@@ -1101,6 +1112,19 @@ public class MainWindow extends javax.swing.JFrame {
     private void mnuCheckUpdatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCheckUpdatesActionPerformed
 	new Thread(new VersionChecker(true, false)).start();
     }//GEN-LAST:event_mnuCheckUpdatesActionPerformed
+
+
+    /*
+     * Check for popup trigger.
+     *
+     * Note: Must check in mousePressed as well to be compatible across all
+     * platforms.
+     */
+    private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
+	if (evt.isPopupTrigger()) {
+	    this.showPopup(evt);
+	}
+    }//GEN-LAST:event_jList1MouseReleased
 
 
     public void doAuth() {
