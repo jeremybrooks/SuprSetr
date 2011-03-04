@@ -1002,14 +1002,19 @@ public class MainWindow extends javax.swing.JFrame {
 
 
     private void doFilter() {
+	this.doFilter(null);
+    }
+    
+    private void doFilter(String visibleId) {
 	String filter = this.getFilter();
 	this.listModel.clear();
 
 	BlockerPanel blocker = new BlockerPanel(this, "Filtering List");
 	setGlassPane(blocker);
-	new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
-
+	new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), visibleId).execute();
+    
     }
+
 
     private void mnuClearFaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClearFaveActionPerformed
 	int confirm = JOptionPane.showConfirmDialog(this,
@@ -1492,8 +1497,12 @@ public class MainWindow extends javax.swing.JFrame {
 
 	@Override
 	public void run() {
-	    listModel.addElement(photoset);
-	    scrollToPhotoset(photoset.getId());
+	    if (getFilter() == null) {
+		listModel.add(index, photoset);
+		scrollToPhotoset(photoset.getId());
+	    } else {
+		doFilter(photoset.getId());
+	    }
 	}
 
     }
