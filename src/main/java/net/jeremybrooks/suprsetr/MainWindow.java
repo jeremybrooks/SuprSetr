@@ -1001,11 +1001,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRestoreActionPerformed
 
 
-    private void doFilter() {
+    public void doFilter() {
 	this.doFilter(null);
     }
     
-    private void doFilter(String visibleId) {
+    public void doFilter(String visibleId) {
 	String filter = this.getFilter();
 	this.listModel.clear();
 

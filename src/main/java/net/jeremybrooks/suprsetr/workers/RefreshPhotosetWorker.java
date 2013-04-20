@@ -326,11 +326,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
     protected void done() {
 
 	try {
-	    if (this.photosetList.size() == 1) {
-		MainWindow.getMainWindow().scrollToPhotoset(this.photosetList.get(0).getId());
-	    } else {
-		MainWindow.getMainWindow().makeIndexVisibleAndSelected(0);
-	    }
+	    String id = null;
+//	    if (this.photosetList.size() == 1) {
+		id = this.photosetList.get(0).getId();
+//		MainWindow.getMainWindow().scrollToPhotoset(this.photosetList.get(0).getId());
+//	    } else {
+//		MainWindow.getMainWindow().makeIndexVisibleAndSelected(0);
+//	    }
+	    MainWindow.getMainWindow().doFilter(id);
 
 
 	} catch (Exception e) {
