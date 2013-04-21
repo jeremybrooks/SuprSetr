@@ -1,26 +1,25 @@
 /*
- * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2013 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
- *  SuprSetr is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * SuprSetr is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  SuprSetr is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * SuprSetr is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * You should have received a copy of the GNU General Public License
+ * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package net.jeremybrooks.suprsetr;
 
 
-import javax.swing.JOptionPane;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -30,6 +29,8 @@ import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import net.whirljack.common.util.NetUtil;
 import org.apache.log4j.Logger;
+
+import javax.swing.JOptionPane;
 
 
 /**
@@ -83,10 +84,25 @@ public class Preferences extends javax.swing.JDialog {
 
 	// The value "0" indicates a special selection for interval, so set accordingly
 	String interval = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL);
-	if (interval.equals("0")) {
-	    this.cmbFavr.setSelectedIndex(3);
-	} else {
-	    this.cmbFavr.setSelectedItem(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL));
+	switch (Integer.valueOf(interval)) {
+		case 10:
+			this.cmbFavr.setSelectedIndex(0);
+			break;
+		case 25:
+			this.cmbFavr.setSelectedIndex(1);
+			break;
+		case 100:
+			this.cmbFavr.setSelectedIndex(2);
+			break;
+		case 0:
+			this.cmbFavr.setSelectedIndex(3);
+			break;
+		case 4:
+			this.cmbFavr.setSelectedIndex(4);
+			break;
+		default:
+			this.cmbFavr.setSelectedIndex(0);
+			break;
 	}
 
 	this.cbxUpdate.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE)));
@@ -194,16 +210,21 @@ public class Preferences extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setText("FavrTagr adds a tag for every");
+        jLabel3.setText("FavrTagr adds a tag for");
 
-        cmbFavr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10", "25", "100", "10 up to 100, then 100" }));
+        cmbFavr.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
+				"every 10 favorites",
+				"every 25 favorites",
+				"every 100 favorites",
+				"every 10 favorites up to 100, then every 100 favorites",
+				"only 10, 25, and 100 favorites (Hawk Mode)" }));
         cmbFavr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbFavrActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("favorites.");
+        jLabel4.setText("");
 
         cbxDetailLog.setText("Enable detailed logging");
         cbxDetailLog.setToolTipText("Enable logging of detailed data from the Flickr library.");
@@ -471,7 +492,7 @@ public class Preferences extends javax.swing.JDialog {
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-526)/2, (screenSize.height-398)/2, 526, 398);
+        setBounds((screenSize.width-650)/2, (screenSize.height-398)/2, 650, 398);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -602,12 +623,26 @@ public class Preferences extends javax.swing.JDialog {
     }//GEN-LAST:event_cbxUpdateActionPerformed
 
     private void cmbFavrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFavrActionPerformed
-	if (this.cmbFavr.getSelectedIndex() == 3) {
-	    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "0");
-	} else {
-	    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, this.cmbFavr.getSelectedItem().toString());
-	}
-    }//GEN-LAST:event_cmbFavrActionPerformed
+		switch (this.cmbFavr.getSelectedIndex()) {
+			case 0:
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "10");
+				break;
+			case 1:
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "25");
+				break;
+			case 2:
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "100");
+				break;
+			case 3:
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "0");
+				break;
+			case 4:
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "4");
+				break;
+			default:
+				break;
+		}
+	}//GEN-LAST:event_cmbFavrActionPerformed
 
     private void cmbRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRefreshActionPerformed
 	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_REFRESH_WAIT, cmbRefresh.getSelectedItem().toString());

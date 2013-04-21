@@ -1,27 +1,25 @@
 /*
- * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2013 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
- *  SuprSetr is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * SuprSetr is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  SuprSetr is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * SuprSetr is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * You should have received a copy of the GNU General Public License
+ * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package net.jeremybrooks.suprsetr.twitter;
 
 import com.rosaloves.bitlyj.Url;
-import static com.rosaloves.bitlyj.Bitly.*;
-import javax.swing.JOptionPane;
 import net.jeremybrooks.suprsetr.BrowserLauncher;
 import net.jeremybrooks.suprsetr.Main;
 import net.jeremybrooks.suprsetr.SSConstants;
@@ -31,6 +29,11 @@ import org.apache.log4j.Logger;
 import twitter4j.Twitter;
 import twitter4j.http.AccessToken;
 import twitter4j.http.RequestToken;
+
+import javax.swing.JOptionPane;
+
+import static com.rosaloves.bitlyj.Bitly.as;
+import static com.rosaloves.bitlyj.Bitly.shorten;
 
 
 /**

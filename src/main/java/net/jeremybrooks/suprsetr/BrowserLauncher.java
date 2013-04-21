@@ -1,21 +1,21 @@
 /*
- * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2013 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
- *  SuprSetr is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * SuprSetr is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  SuprSetr is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * SuprSetr is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * You should have received a copy of the GNU General Public License
+ * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 
 package net.jeremybrooks.suprsetr;
@@ -30,53 +30,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 
-/**
- * BrowserLauncher is a class that provides one static method, openURL, which opens the default
- * web browser for the current user of the system to the given URL.  It may support other
- * protocols depending on the system -- mailto, ftp, etc. -- but that has not been rigorously
- * tested and is not guaranteed to work.
- * <p>
- * Yes, this is platform-specific code, and yes, it may rely on classes on certain platforms
- * that are not part of the standard JDK.  What we're trying to do, though, is to take something
- * that's frequently desirable but inherently platform-specific -- opening a default browser --
- * and allow programmers (you, for example) to do so without worrying about dropping into native
- * code or doing anything else similarly evil.
- * <p>
- * Anyway, this code is completely in Java and will run on all JDK 1.1-compliant systems without
- * modification or a need for additional libraries.  All classes that are required on certain
- * platforms to allow this to run are dynamically loaded at runtime via reflection and, if not
- * found, will not cause this to do anything other than returning an error when opening the
- * browser.
- * <p>
- * There are certain system requirements for this class, as it's running through Runtime.exec(),
- * which is Java's way of making a native system call.  Currently, this requires that a Macintosh
- * have a Finder which supports the GURL event, which is true for Mac OS 8.0 and 8.1 systems that
- * have the Internet Scripting AppleScript dictionary installed in the Scripting Additions folder
- * in the Extensions folder (which is installed by default as far as I know under Mac OS 8.0 and
- * 8.1), and for all Mac OS 8.5 and later systems.  On Windows, it only runs under Win32 systems
- * (Windows 95, 98, and NT 4.0, as well as later versions of all).  On other systems, this drops
- * back from the inherently platform-sensitive concept of a default browser and simply attempts
- * to launch Netscape via a shell command.
- * <p>
- * This code is Copyright 1999-2001 by Eric Albert (ejalbert@cs.stanford.edu) and may be
- * redistributed or modified in any form without restrictions as long as the portion of this
- * comment from this paragraph through the end of the comment is not removed.  The author
- * requests that he be notified of any application, applet, or other binary that makes use of
- * this code, but that's more out of curiosity than anything and is not required.  This software
- * includes no warranty.  The author is not repsonsible for any loss of data or functionality
- * or any adverse or unexpected effects of using this software.
- * <p>
- * Credits:
- * <br>Steven Spencer, JavaWorld magazine (<a href="http://www.javaworld.com/javaworld/javatips/jw-javatip66.html">Java Tip 66</a>)
- * <br>Thanks also to Ron B. Yeh, Eric Shapiro, Ben Engber, Paul Teitlebaum, Andrea Cantatore,
- * Larry Barowski, Trevor Bedzek, Frank Miedrich, and Ron Rabakukk
- *
- * @author Eric Albert (<a href="mailto:ejalbert@cs.stanford.edu">ejalbert@cs.stanford.edu</a>)
- * @author Jeremy Brooks (<jeremyb@whirljack.net>)
- * @version 1.4b1 (Released June 20, 2001)
- *
- * TODO: This class needs to be overhauled. It's old.... but it works. -- jb
- */
 public class BrowserLauncher {
 
     /**

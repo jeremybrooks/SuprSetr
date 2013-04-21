@@ -1,41 +1,23 @@
 /*
- * SuprSetr is Copyright 2010-2011 by Jeremy Brooks
+ * SuprSetr is Copyright 2010-2013 by Jeremy Brooks
  *
  * This file is part of SuprSetr.
  *
- *  SuprSetr is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * SuprSetr is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  SuprSetr is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * SuprSetr is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 package net.jeremybrooks.suprsetr;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -49,12 +31,31 @@ import net.jeremybrooks.suprsetr.workers.DatabaseRestoreWorker;
 import net.jeremybrooks.suprsetr.workers.DeletePhotosetWorker;
 import net.jeremybrooks.suprsetr.workers.FavDeleteWorker;
 import net.jeremybrooks.suprsetr.workers.FavrTagrWorker;
-import net.jeremybrooks.suprsetr.workers.LoadFlickrSetsWorker;
 import net.jeremybrooks.suprsetr.workers.FilterSetListWorker;
+import net.jeremybrooks.suprsetr.workers.LoadFlickrSetsWorker;
 import net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker;
 import net.whirljack.common.util.FilenameContainsFilter;
 import net.whirljack.common.util.IOUtil;
 import org.apache.log4j.Logger;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 /**

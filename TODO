@@ -1,3 +1,5 @@
+Make the Tweet text box in Set Editor wrap words.
+
 When the list is filtered, and a new set is added that matches the filter,
 it is not visible.
 
