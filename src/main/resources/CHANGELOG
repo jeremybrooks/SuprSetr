@@ -1,3 +1,8 @@
+Version 1.1.0
+ * Added a FavrTagr mode to add tags for only 10, 25, 50, and 100 faves (Hawk Mode!)
+ * Fixed bug where FavrTagr preference was saved, but not displayed correctly
+ * Target Java 1.7+
+
 Version 1.0.0
  * Added a missing tool tip (thanks M. Moore)
  * List filtering and refresh is much faster now.
