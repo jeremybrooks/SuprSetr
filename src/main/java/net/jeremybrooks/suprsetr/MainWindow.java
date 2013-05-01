@@ -44,6 +44,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -51,6 +52,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -747,7 +749,7 @@ public class MainWindow extends javax.swing.JFrame {
 	    SSPhotoset ssPhotoset = (SSPhotoset) listModel.get(index);
 
 	    try {
-		BrowserLauncher.openURL(ssPhotoset.getUrl());
+			Desktop.getDesktop().browse(new URL(ssPhotoset.getUrl()).toURI());
 	    } catch (Exception e) {
 		logger.error("COULD NOT LAUNCH URL " + ssPhotoset.getUrl() + " IN BROWSER.", e);
 		JOptionPane.showMessageDialog(this,
@@ -928,8 +930,8 @@ public class MainWindow extends javax.swing.JFrame {
 
 	if (option == JOptionPane.YES_OPTION) {
 	    try {
-		BrowserLauncher.openURL("http://jeremybrooks.net/suprsetr/faq.html");
-	    } catch (IOException e) {
+			Desktop.getDesktop().browse(new URL("http://jeremybrooks.net/suprsetr/faq.html").toURI());
+	    } catch (Exception e) {
 		logger.error("Could not open help URL.", e);
 		JOptionPane.showMessageDialog(this,
 			"Something went wrong while trying to launch the browser.",
@@ -1356,7 +1358,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 	if (response == JOptionPane.YES_OPTION) {
 	    try {
-		BrowserLauncher.openURL(SSConstants.DOWNLOAD_URL);
+			Desktop.getDesktop().browse(new URL(SSConstants.DOWNLOAD_URL).toURI());
 	    } catch (Exception e) {
 		JOptionPane.showMessageDialog(this,
 			"There was an error opening the download URL.\n"

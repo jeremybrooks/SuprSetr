@@ -20,6 +20,7 @@
 package net.jeremybrooks.suprsetr;
 
 
+import javax.swing.JDialog;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -30,599 +31,676 @@ import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import net.whirljack.common.util.NetUtil;
 import org.apache.log4j.Logger;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
+import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ResourceBundle;
 
 
 /**
- *
  * @author jeremyb
  */
 public class Preferences extends javax.swing.JDialog {
 
-    /** Logging. */
-    private Logger logger = Logger.getLogger(Preferences.class);
+	private static final long serialVersionUID = 6297020767085159090L;
+	/**
+	 * Logging.
+	 */
+	private Logger logger = Logger.getLogger(Preferences.class);
 
-    /** Constant defining the options tab panel. */
-    public static final int OPTIONS_PANEL = 0;
+	/**
+	 * Constant defining the options tab panel.
+	 */
+	public static final int OPTIONS_PANEL = 0;
 
-    /** Constant defining the Flickr tab panel. */
-    public static final int FLICKR_PANEL = 1;
+	/**
+	 * Constant defining the Flickr tab panel.
+	 */
+	public static final int FLICKR_PANEL = 1;
 
-    /** Constant defining the Twitter tab panel. */
-    public static final int TWITTER_PANEL = 2;
+	/**
+	 * Constant defining the Twitter tab panel.
+	 */
+	public static final int TWITTER_PANEL = 2;
 
-    /** Constant defining the Proxy tab panel. */
-    public static final int PROXY_PANEL = 3;
-    
-    /** Flag indicating if something has changed requiring list refresh. */
-    private boolean refreshList = false;
+	/**
+	 * Constant defining the Proxy tab panel.
+	 */
+	public static final int PROXY_PANEL = 3;
+
+	/**
+	 * Flag indicating if something has changed requiring list refresh.
+	 */
+	private boolean refreshList = false;
 
 
-    /**
-     * Creates new form Preferences
-     *
-     * @param parent the parent frame.
-     * @param modal display as modal or not.
-     */
-    public Preferences(java.awt.Frame parent, boolean modal) {
-	super(parent, modal);
-	initComponents();
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.preferences");
 
-	// After window is init'ed, lookup values in DB and set accordingly
-	this.cbxAddVia.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA)));
+	private void btnTwitterActionPerformed(ActionEvent e) {
+		this.lblMessage.setText("");
 
-	String refresh = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_REFRESH_WAIT);
-	if (refresh == null) {
-	    this.cmbRefresh.setSelectedItem(SSConstants.DEFAULT_REFRESH_WAIT);
-	} else {
-	    this.cmbRefresh.setSelectedItem(refresh);
+		if (btnTwitter.getText().equals(resourceBundle.getString("Preferences.btnTwitter_LoggedOut.text"))) {
+			BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("Preferences.message.twitterAuthorization"));
+			setGlassPane(blocker);
+			new TwitterAuthenticatorWorker(this, blocker).execute();
+		} else {
+			TwitterHelper.logout();
+			updateStatus();
+		}
 	}
 
-	this.cbxDetailLog.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG)));
-	this.cmbLogSize.setSelectedItem(Main.getLoggingProperties().getProperty("size"));
-	this.cmbLogIndex.setSelectedItem(Main.getLoggingProperties().getProperty("index"));
 
-	// The value "0" indicates a special selection for interval, so set accordingly
-	String interval = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL);
-	switch (Integer.valueOf(interval)) {
-		case 10:
-			this.cmbFavr.setSelectedIndex(0);
-			break;
-		case 25:
-			this.cmbFavr.setSelectedIndex(1);
-			break;
-		case 100:
-			this.cmbFavr.setSelectedIndex(2);
-			break;
-		case 0:
-			this.cmbFavr.setSelectedIndex(3);
-			break;
-		case 4:
-			this.cmbFavr.setSelectedIndex(4);
-			break;
-		default:
-			this.cmbFavr.setSelectedIndex(0);
-			break;
+	/**
+	 * Update and close the window.
+	 * When the user clicks OK, we need to update the list view because the
+	 * options affect the state of the photosets.
+	 *
+	 * @param e
+	 */
+	private void btnOKActionPerformed(ActionEvent e) {
+		if (this.validateProxyInput()) {
+			if (this.cbxProxy.isSelected()) {
+				// save proxy settings
+				String host = this.txtProxyHost.getText().trim();
+				if (host != null) {
+					if (host.startsWith("http://")) {
+						host = host.substring("http://".length());
+					}
+				}
+
+				String port = this.txtProxyPort.getText().trim();
+				String user = this.txtProxyUser.getText().trim();
+				String pass = new String(this.txtProxyPass.getPassword());
+
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(true));
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_HOST, host);
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PORT, port);
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USER, user);
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PASS, pass);
+
+
+				logger.info("Using proxy " + host + ":" + port);
+
+				NetUtil.enableProxy(host, port, user, pass.toCharArray());
+
+			} else {
+				// Save proxy setting and clear system properties
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(false));
+				NetUtil.clearProxy();
+			}
+
+			// save logging properties
+			Main.getLoggingProperties().setProperty("size", this.cmbLogSize.getSelectedItem().toString());
+			Main.getLoggingProperties().setProperty("index", this.cmbLogIndex.getSelectedItem().toString());
+			Main.storeLoggingProperties();
+
+			if (this.refreshList) {
+				try {
+					MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
+				} catch (Exception ex) {
+					logger.warn("Could not update the list.", ex);
+				}
+			}
+
+			this.setVisible(false);
+			this.dispose();
+		} else {
+			JOptionPane.showMessageDialog(this,
+					resourceBundle.getString("Preferences.message.proxyErrorMsg"),
+					resourceBundle.getString("Preferences.message.proxyErrorTitle"),
+					JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
-	this.cbxUpdate.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE)));
-	this.updateStatus();
 
-	this.cbxProxy.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_USE_PROXY)));
-	this.txtProxyHost.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST));
-	this.txtProxyPort.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT));
-	this.txtProxyUser.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER));
-	this.txtProxyPass.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS));
-	this.cbxProxyActionPerformed(null);
-
-	this.cbxAddManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_MANAGED)));
-	this.refreshList = false;
-    }
-
-
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        cbxAddVia = new javax.swing.JCheckBox();
-        cbxAddManaged = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
-        cmbRefresh = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
-        cbxUpdate = new javax.swing.JCheckBox();
-        jLabel3 = new javax.swing.JLabel();
-        cmbFavr = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        cbxDetailLog = new javax.swing.JCheckBox();
-        jLabel9 = new javax.swing.JLabel();
-        cmbLogSize = new javax.swing.JComboBox();
-        jLabel10 = new javax.swing.JLabel();
-        cmbLogIndex = new javax.swing.JComboBox();
-        jLabel11 = new javax.swing.JLabel();
-        pnlFlickr = new javax.swing.JPanel();
-        lblFlickrStatus = new javax.swing.JLabel();
-        btnFlickr = new javax.swing.JButton();
-        pnlTwitter = new javax.swing.JPanel();
-        lblStatus = new javax.swing.JLabel();
-        btnAction = new javax.swing.JButton();
-        lblMessage = new javax.swing.JLabel();
-        pnlProxy = new javax.swing.JPanel();
-        cbxProxy = new javax.swing.JCheckBox();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtProxyHost = new javax.swing.JTextField();
-        txtProxyPort = new javax.swing.JTextField();
-        txtProxyUser = new javax.swing.JTextField();
-        txtProxyPass = new javax.swing.JPasswordField();
-        btnOK = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("SuprSetr Preferences");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
-
-        cbxAddVia.setText("Add \"via SuprSetr\" to tweets if there is room");
-        cbxAddVia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxAddViaActionPerformed(evt);
-            }
-        });
-
-        cbxAddManaged.setText("Add \"Managed by SuprSetr\" to end of descriptions");
-        cbxAddManaged.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxAddManagedActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Photosets need refresh after");
-
-        cmbRefresh.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "6", "12", "24", "48", "72" }));
-        cmbRefresh.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbRefreshItemStateChanged(evt);
-            }
-        });
-        cmbRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbRefreshActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("hours.");
-
-        cbxUpdate.setText("Check for updates at startup");
-        cbxUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxUpdateActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("FavrTagr adds a tag for");
-
-        cmbFavr.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-				"every 10 favorites",
-				"every 25 favorites",
-				"every 100 favorites",
-				"every 10 favorites up to 100, then every 100 favorites",
-				"only 10, 25, and 100 favorites (Hawk Mode)" }));
-        cmbFavr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFavrActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("");
-
-        cbxDetailLog.setText("Enable detailed logging");
-        cbxDetailLog.setToolTipText("Enable logging of detailed data from the Flickr library.");
-        cbxDetailLog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxDetailLogActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setText("Log file maximum size");
-
-        cmbLogSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1MB", "5MB", "10MB" }));
-
-        jLabel10.setText("Retain this many log files");
-
-        cmbLogIndex.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "5", "10" }));
-
-        jLabel11.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
-        jLabel11.setText("Note: Changes to log size or retention policy will take effect at next launch.");
-
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(cbxAddVia)
-                    .add(cbxUpdate)
-                    .add(cbxAddManaged)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(9, 9, 9)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jLabel3)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(cmbFavr, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jLabel4))
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jLabel1)
-                                .add(10, 10, 10)
-                                .add(cmbRefresh, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(jLabel2))))
-                    .add(cbxDetailLog)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(8, 8, 8)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel9)
-                                    .add(jLabel10))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(cmbLogSize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(cmbLogIndex, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                            .add(jLabel11))))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(cbxAddVia)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(cbxAddManaged)
-                .add(7, 7, 7)
-                .add(cbxUpdate)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel1)
-                    .add(jLabel2)
-                    .add(cmbRefresh, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel3)
-                    .add(cmbFavr, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel4))
-                .add(18, 18, 18)
-                .add(cbxDetailLog)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel9)
-                    .add(cmbLogSize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel10)
-                    .add(cmbLogIndex, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 8, Short.MAX_VALUE)
-                .add(jLabel11)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Options", jPanel1);
-
-        lblFlickrStatus.setText("jLabel5");
-
-        btnFlickr.setText("jButton1");
-        btnFlickr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFlickrActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout pnlFlickrLayout = new org.jdesktop.layout.GroupLayout(pnlFlickr);
-        pnlFlickr.setLayout(pnlFlickrLayout);
-        pnlFlickrLayout.setHorizontalGroup(
-            pnlFlickrLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlFlickrLayout.createSequentialGroup()
-                .add(pnlFlickrLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlFlickrLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(lblFlickrStatus))
-                    .add(btnFlickr))
-                .addContainerGap(408, Short.MAX_VALUE))
-        );
-        pnlFlickrLayout.setVerticalGroup(
-            pnlFlickrLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlFlickrLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lblFlickrStatus)
-                .add(18, 18, 18)
-                .add(btnFlickr)
-                .addContainerGap(210, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Flickr", pnlFlickr);
-
-        lblStatus.setText("jLabel1");
-
-        btnAction.setText("jButton1");
-        btnAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActionActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout pnlTwitterLayout = new org.jdesktop.layout.GroupLayout(pnlTwitter);
-        pnlTwitter.setLayout(pnlTwitterLayout);
-        pnlTwitterLayout.setHorizontalGroup(
-            pnlTwitterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlTwitterLayout.createSequentialGroup()
-                .add(pnlTwitterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlTwitterLayout.createSequentialGroup()
-                        .add(20, 20, 20)
-                        .add(lblStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
-                    .add(btnAction)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlTwitterLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(lblMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 361, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        pnlTwitterLayout.setVerticalGroup(
-            pnlTwitterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlTwitterLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lblStatus)
-                .add(18, 18, 18)
-                .add(btnAction)
-                .add(34, 34, 34)
-                .add(lblMessage)
-                .addContainerGap(176, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Twitter", pnlTwitter);
-
-        pnlProxy.setBorder(javax.swing.BorderFactory.createTitledBorder("Network Proxy Settings"));
-
-        cbxProxy.setText("Use Proxy");
-        cbxProxy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxProxyActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Host:");
-
-        jLabel6.setText("Port:");
-
-        jLabel7.setText("Username:");
-
-        jLabel8.setText("Password:");
-
-        org.jdesktop.layout.GroupLayout pnlProxyLayout = new org.jdesktop.layout.GroupLayout(pnlProxy);
-        pnlProxy.setLayout(pnlProxyLayout);
-        pnlProxyLayout.setHorizontalGroup(
-            pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlProxyLayout.createSequentialGroup()
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlProxyLayout.createSequentialGroup()
-                        .add(23, 23, 23)
-                        .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(jLabel8)
-                            .add(jLabel6)
-                            .add(jLabel5)))
-                    .add(pnlProxyLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jLabel7)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlProxyLayout.createSequentialGroup()
-                        .add(7, 7, 7)
-                        .add(txtProxyPass, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(pnlProxyLayout.createSequentialGroup()
-                        .add(6, 6, 6)
-                        .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(txtProxyPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 92, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(txtProxyUser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 177, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(197, Short.MAX_VALUE))
-            .add(pnlProxyLayout.createSequentialGroup()
-                .add(92, 92, 92)
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlProxyLayout.createSequentialGroup()
-                        .add(cbxProxy)
-                        .addContainerGap())
-                    .add(txtProxyHost, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)))
-        );
-        pnlProxyLayout.setVerticalGroup(
-            pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlProxyLayout.createSequentialGroup()
-                .add(cbxProxy)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtProxyHost, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtProxyPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel6))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtProxyUser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel7))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlProxyLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtProxyPass, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel8))
-                .addContainerGap(101, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Proxy", pnlProxy);
-
-        btnOK.setText("OK");
-        btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOKActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(btnOK))
-            .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnOK)
-                .addContainerGap())
-        );
-
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-650)/2, (screenSize.height-398)/2, 650, 398);
-    }// </editor-fold>//GEN-END:initComponents
-
-
-    /**
-     * Handle clicks on the Authorize/De-authorize button.
-     *
-     * @param evt
-     */
-    private void btnActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionActionPerformed
-	this.lblMessage.setText("");
-
-	if (btnAction.getText().equals("Authorize")) {
-	    BlockerPanel blocker = new BlockerPanel(this, "Twitter Authorization");
-	    setGlassPane(blocker);
-	    new TwitterAuthenticatorWorker(this, blocker).execute();
-	} else {
-	    TwitterHelper.logout();
-	    updateStatus();
+	private void cbxAddViaActionPerformed(ActionEvent e) {
+		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_VIA, DAOHelper.booleanToString(this.cbxAddVia.isSelected()));
 	}
-    }//GEN-LAST:event_btnActionActionPerformed
-
-    private void cbxAddViaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAddViaActionPerformed
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_VIA, DAOHelper.booleanToString(this.cbxAddVia.isSelected()));
-    }//GEN-LAST:event_cbxAddViaActionPerformed
 
 
-    /**
-     * Update and close the window.
-     * When the user clicks OK, we need to update the list view because the
-     * options affect the state of the photosets.
-     * 
-     * @param evt
-     */
-    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
 
-	if (this.validateProxyInput()) {
-	    if (this.cbxProxy.isSelected()) {
-		// save proxy settings
-		String host = this.txtProxyHost.getText().trim();
-		if (host != null) {
-		    if (host.startsWith("http://")) {
-			host = host.substring("http://".length());
-		    }
+	public Preferences(java.awt.Frame parent, boolean modal) {
+		super(parent, modal);
+		initComponents();
+
+		// After window is init'ed, lookup values in DB and set accordingly
+		this.cbxAddVia.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA)));
+
+		String refresh = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_REFRESH_WAIT);
+		if (refresh == null) {
+			this.cmbRefresh.setSelectedItem(SSConstants.DEFAULT_REFRESH_WAIT);
+		} else {
+			this.cmbRefresh.setSelectedItem(refresh);
 		}
 
-		String port = this.txtProxyPort.getText().trim();
-		String user = this.txtProxyUser.getText().trim();
-		String pass = new String(this.txtProxyPass.getPassword());
+		this.cbxDetailLog.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG)));
+		this.cmbLogSize.setSelectedItem(Main.getLoggingProperties().getProperty("size"));
+		this.cmbLogIndex.setSelectedItem(Main.getLoggingProperties().getProperty("index"));
 
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(true));
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_HOST, host);
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PORT, port);
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USER, user);
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PASS, pass);
+		// The value "0" indicates a special selection for interval, so set accordingly
+		String interval = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL);
+		switch (Integer.valueOf(interval)) {
+			case 10:
+				this.cmbFavr.setSelectedIndex(0);
+				break;
+			case 25:
+				this.cmbFavr.setSelectedIndex(1);
+				break;
+			case 100:
+				this.cmbFavr.setSelectedIndex(2);
+				break;
+			case 0:
+				this.cmbFavr.setSelectedIndex(3);
+				break;
+			case 4:
+				this.cmbFavr.setSelectedIndex(4);
+				break;
+			default:
+				this.cmbFavr.setSelectedIndex(0);
+				break;
+		}
+
+		this.cbxUpdate.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE)));
+		this.updateStatus();
+
+		this.cbxProxy.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_USE_PROXY)));
+		this.txtProxyHost.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST));
+		this.txtProxyPort.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT));
+		this.txtProxyUser.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER));
+		this.txtProxyPass.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS));
+		this.cbxProxyActionPerformed(null);
+
+		this.cbxAddManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_MANAGED)));
+		this.refreshList = false;
+	}
 
 
-		logger.info("Using proxy " + host + ":" + port);
+	/**
+	 * This method is called from within the constructor to
+	 * initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is
+	 * always regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
+		ResourceBundle bundle = this.resourceBundle;
+		jTabbedPane1 = new JTabbedPane();
+		jPanel1 = new JPanel();
+		cbxAddVia = new JCheckBox();
+		cbxAddManaged = new JCheckBox();
+		lblRefreshPrefix = new JLabel();
+		cmbRefresh = new JComboBox<>();
+		lblRefreshSuffix = new JLabel();
+		cbxUpdate = new JCheckBox();
+		lblFavrPrefix = new JLabel();
+		cmbFavr = new JComboBox<>();
+		cbxDetailLog = new JCheckBox();
+		lblLogFile = new JLabel();
+		cmbLogSize = new JComboBox<>();
+		lblRetain = new JLabel();
+		cmbLogIndex = new JComboBox<>();
+		lblNote = new JLabel();
+		pnlFlickr = new JPanel();
+		lblFlickrStatus = new JLabel();
+		btnFlickr = new JButton();
+		pnlTwitter = new JPanel();
+		lblTwitterStatus = new JLabel();
+		btnTwitter = new JButton();
+		lblMessage = new JLabel();
+		pnlProxy = new JPanel();
+		cbxProxy = new JCheckBox();
+		lblHost = new JLabel();
+		lblPort = new JLabel();
+		lblUsername = new JLabel();
+		lblPassword = new JLabel();
+		txtProxyHost = new JTextField();
+		txtProxyPort = new JTextField();
+		txtProxyUser = new JTextField();
+		txtProxyPass = new JPasswordField();
+		btnOK = new JButton();
 
-		NetUtil.enableProxy(host, port, user, pass.toCharArray());
+		//======== this ========
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle(bundle.getString("Preferences.this.title"));
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				formWindowClosed(e);
+			}
+		});
+		Container contentPane = getContentPane();
 
-	    } else {
-		// Save proxy setting and clear system properties
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(false));
-		NetUtil.clearProxy();
-	    }
+		//======== jTabbedPane1 ========
+		{
 
-	    // save logging properties
-	    Main.getLoggingProperties().setProperty("size", this.cmbLogSize.getSelectedItem().toString());
-	    Main.getLoggingProperties().setProperty("index", this.cmbLogIndex.getSelectedItem().toString());
-	    Main.storeLoggingProperties();
+			//======== jPanel1 ========
+			{
 
-	    if (this.refreshList) {
+				//---- cbxAddVia ----
+				cbxAddVia.setText(bundle.getString("Preferences.cbxAddVia.text"));
+				cbxAddVia.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cbxAddViaActionPerformed(e);
+					}
+				});
+
+				//---- cbxAddManaged ----
+				cbxAddManaged.setText(bundle.getString("Preferences.cbxAddManaged.text"));
+				cbxAddManaged.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cbxAddManagedActionPerformed(e);
+					}
+				});
+
+				//---- lblRefreshPrefix ----
+				lblRefreshPrefix.setText(bundle.getString("Preferences.lblRefreshPrefix.text"));
+
+				//---- cmbRefresh ----
+				cmbRefresh.setModel(new DefaultComboBoxModel<>(new String[] {
+					"6",
+					"12",
+					"24",
+					"48",
+					"72"
+				}));
+				cmbRefresh.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cmbRefreshActionPerformed(e);
+					}
+				});
+
+				//---- lblRefreshSuffix ----
+				lblRefreshSuffix.setText(bundle.getString("Preferences.lblRefreshSuffix.text"));
+
+				//---- cbxUpdate ----
+				cbxUpdate.setText(bundle.getString("Preferences.cbxUpdate.text"));
+				cbxUpdate.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cbxUpdateActionPerformed(e);
+					}
+				});
+
+				//---- lblFavrPrefix ----
+				lblFavrPrefix.setText(bundle.getString("Preferences.lblFavrPrefix.text"));
+
+				//---- cmbFavr ----
+				cmbFavr.setModel(new DefaultComboBoxModel<>(new String[] {
+					"every 10 favorites",
+					"every 25 favorites",
+					"every 100 favorites",
+					"every 10 favorites up to 100, then every 100 favorites",
+					"only 10, 25, 50, and 100 favorites"
+				}));
+				cmbFavr.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cmbFavrActionPerformed(e);
+					}
+				});
+
+				//---- cbxDetailLog ----
+				cbxDetailLog.setText(bundle.getString("Preferences.cbxDetailLog.text"));
+				cbxDetailLog.setToolTipText(bundle.getString("Preferences.cbxDetailLog.toolTipText"));
+				cbxDetailLog.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cbxDetailLogActionPerformed(e);
+					}
+				});
+
+				//---- lblLogFile ----
+				lblLogFile.setText(bundle.getString("Preferences.lblLogFile.text"));
+
+				//---- cmbLogSize ----
+				cmbLogSize.setModel(new DefaultComboBoxModel<>(new String[] {
+					"1MB",
+					"5MB",
+					"10MB"
+				}));
+
+				//---- lblRetain ----
+				lblRetain.setText(bundle.getString("Preferences.lblRetain.text"));
+
+				//---- cmbLogIndex ----
+				cmbLogIndex.setModel(new DefaultComboBoxModel<>(new String[] {
+					"2",
+					"5",
+					"10"
+				}));
+
+				//---- lblNote ----
+				lblNote.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
+				lblNote.setText(bundle.getString("Preferences.lblNote.text"));
+
+				GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+				jPanel1.setLayout(jPanel1Layout);
+				jPanel1Layout.setHorizontalGroup(
+					jPanel1Layout.createParallelGroup()
+						.addGroup(jPanel1Layout.createSequentialGroup()
+							.addGroup(jPanel1Layout.createParallelGroup()
+								.addComponent(cbxAddVia)
+								.addComponent(cbxUpdate)
+								.addComponent(cbxAddManaged)
+								.addGroup(jPanel1Layout.createSequentialGroup()
+									.addGap(9, 9, 9)
+									.addGroup(jPanel1Layout.createParallelGroup()
+										.addGroup(jPanel1Layout.createSequentialGroup()
+											.addComponent(lblFavrPrefix)
+											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+											.addComponent(cmbFavr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(jPanel1Layout.createSequentialGroup()
+											.addComponent(lblRefreshPrefix)
+											.addGap(10, 10, 10)
+											.addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+											.addComponent(lblRefreshSuffix))))
+								.addComponent(cbxDetailLog)
+								.addGroup(jPanel1Layout.createSequentialGroup()
+									.addGap(8, 8, 8)
+									.addGroup(jPanel1Layout.createParallelGroup()
+										.addGroup(jPanel1Layout.createSequentialGroup()
+											.addGroup(jPanel1Layout.createParallelGroup()
+												.addComponent(lblLogFile)
+												.addComponent(lblRetain))
+											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+											.addGroup(jPanel1Layout.createParallelGroup()
+												.addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addComponent(lblNote))))
+							.addContainerGap(14, Short.MAX_VALUE))
+				);
+				jPanel1Layout.setVerticalGroup(
+					jPanel1Layout.createParallelGroup()
+						.addGroup(jPanel1Layout.createSequentialGroup()
+							.addComponent(cbxAddVia)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+							.addComponent(cbxAddManaged)
+							.addGap(7, 7, 7)
+							.addComponent(cbxUpdate)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(lblRefreshPrefix)
+								.addComponent(lblRefreshSuffix)
+								.addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(lblFavrPrefix)
+								.addComponent(cmbFavr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18, 18, 18)
+							.addComponent(cbxDetailLog)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(lblLogFile)
+								.addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(lblRetain)
+								.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(lblNote)
+							.addContainerGap())
+				);
+			}
+			jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
+
+
+			//======== pnlFlickr ========
+			{
+
+				//---- lblFlickrStatus ----
+				lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
+
+				//---- btnFlickr ----
+				btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
+				btnFlickr.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnFlickrActionPerformed(e);
+					}
+				});
+
+				GroupLayout pnlFlickrLayout = new GroupLayout(pnlFlickr);
+				pnlFlickr.setLayout(pnlFlickrLayout);
+				pnlFlickrLayout.setHorizontalGroup(
+					pnlFlickrLayout.createParallelGroup()
+						.addGroup(pnlFlickrLayout.createSequentialGroup()
+							.addGroup(pnlFlickrLayout.createParallelGroup()
+								.addGroup(pnlFlickrLayout.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblFlickrStatus))
+								.addComponent(btnFlickr))
+							.addContainerGap(460, Short.MAX_VALUE))
+				);
+				pnlFlickrLayout.setVerticalGroup(
+					pnlFlickrLayout.createParallelGroup()
+						.addGroup(pnlFlickrLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblFlickrStatus)
+							.addGap(18, 18, 18)
+							.addComponent(btnFlickr)
+							.addContainerGap(225, Short.MAX_VALUE))
+				);
+			}
+			jTabbedPane1.addTab(bundle.getString("Preferences.pnlFlickr.tab.title"), pnlFlickr);
+
+
+			//======== pnlTwitter ========
+			{
+
+				//---- lblTwitterStatus ----
+				lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
+
+				//---- btnTwitter ----
+				btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
+				btnTwitter.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnTwitterActionPerformed(e);
+					}
+				});
+
+				GroupLayout pnlTwitterLayout = new GroupLayout(pnlTwitter);
+				pnlTwitter.setLayout(pnlTwitterLayout);
+				pnlTwitterLayout.setHorizontalGroup(
+					pnlTwitterLayout.createParallelGroup()
+						.addGroup(pnlTwitterLayout.createSequentialGroup()
+							.addGroup(pnlTwitterLayout.createParallelGroup()
+								.addGroup(pnlTwitterLayout.createSequentialGroup()
+									.addGap(20, 20, 20)
+									.addComponent(lblTwitterStatus, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE))
+								.addComponent(btnTwitter)
+								.addGroup(GroupLayout.Alignment.TRAILING, pnlTwitterLayout.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)))
+							.addContainerGap())
+				);
+				pnlTwitterLayout.setVerticalGroup(
+					pnlTwitterLayout.createParallelGroup()
+						.addGroup(pnlTwitterLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblTwitterStatus)
+							.addGap(18, 18, 18)
+							.addComponent(btnTwitter)
+							.addGap(34, 34, 34)
+							.addComponent(lblMessage)
+							.addContainerGap(191, Short.MAX_VALUE))
+				);
+			}
+			jTabbedPane1.addTab(bundle.getString("Preferences.pnlTwitter.tab.title"), pnlTwitter);
+
+
+			//======== pnlProxy ========
+			{
+				pnlProxy.setBorder(new TitledBorder(bundle.getString("Preferences.pnlProxy.border")));
+
+				//---- cbxProxy ----
+				cbxProxy.setText(bundle.getString("Preferences.cbxProxy.text"));
+				cbxProxy.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cbxProxyActionPerformed(e);
+					}
+				});
+
+				//---- lblHost ----
+				lblHost.setText(bundle.getString("Preferences.lblHost.text"));
+
+				//---- lblPort ----
+				lblPort.setText(bundle.getString("Preferences.lblPort.text"));
+
+				//---- lblUsername ----
+				lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
+
+				//---- lblPassword ----
+				lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
+
+				GroupLayout pnlProxyLayout = new GroupLayout(pnlProxy);
+				pnlProxy.setLayout(pnlProxyLayout);
+				pnlProxyLayout.setHorizontalGroup(
+					pnlProxyLayout.createParallelGroup()
+						.addGroup(pnlProxyLayout.createSequentialGroup()
+							.addGroup(pnlProxyLayout.createParallelGroup()
+								.addGroup(pnlProxyLayout.createSequentialGroup()
+									.addGap(23, 23, 23)
+									.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+										.addComponent(lblPassword)
+										.addComponent(lblPort)
+										.addComponent(lblHost)))
+								.addGroup(pnlProxyLayout.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblUsername)))
+							.addGroup(pnlProxyLayout.createParallelGroup()
+								.addGroup(pnlProxyLayout.createSequentialGroup()
+									.addGap(7, 7, 7)
+									.addComponent(txtProxyPass, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE))
+								.addGroup(pnlProxyLayout.createSequentialGroup()
+									.addGap(6, 6, 6)
+									.addGroup(pnlProxyLayout.createParallelGroup()
+										.addComponent(txtProxyPort, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtProxyUser, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))))
+							.addContainerGap(259, Short.MAX_VALUE))
+						.addGroup(pnlProxyLayout.createSequentialGroup()
+							.addGap(92, 92, 92)
+							.addGroup(pnlProxyLayout.createParallelGroup()
+								.addGroup(pnlProxyLayout.createSequentialGroup()
+									.addComponent(cbxProxy)
+									.addContainerGap())
+								.addComponent(txtProxyHost, GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)))
+				);
+				pnlProxyLayout.setVerticalGroup(
+					pnlProxyLayout.createParallelGroup()
+						.addGroup(pnlProxyLayout.createSequentialGroup()
+							.addComponent(cbxProxy)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(txtProxyHost, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblHost))
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(txtProxyPort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPort))
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(txtProxyUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblUsername))
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(txtProxyPass, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPassword))
+							.addContainerGap(106, Short.MAX_VALUE))
+				);
+			}
+			jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
+
+		}
+
+		//---- btnOK ----
+		btnOK.setText(bundle.getString("Preferences.btnOK.text"));
+		btnOK.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnOKActionPerformed(e);
+			}
+		});
+
+		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+		contentPane.setLayout(contentPaneLayout);
+		contentPaneLayout.setHorizontalGroup(
+			contentPaneLayout.createParallelGroup()
+				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnOK))
+				.addComponent(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+		);
+		contentPaneLayout.setVerticalGroup(
+			contentPaneLayout.createParallelGroup()
+				.addGroup(contentPaneLayout.createSequentialGroup()
+					.addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addComponent(btnOK)
+					.addContainerGap())
+		);
+		setSize(590, 425);
+		setLocationRelativeTo(null);
+	}// </editor-fold>//GEN-END:initComponents
+
+
+	/**
+	 * Simple check for valid input in the Proxy tab.
+	 *
+	 * @return true if the proxy dialog input passes simple sanity tests.
+	 */
+	private boolean validateProxyInput() {
+
+		// everything is OK if the checkbox is not selected
+		if (!this.cbxProxy.isSelected()) {
+			return true;
+		}
+
+		// Fail if the host is empty
+		if (this.txtProxyHost.getText().trim().length() == 0) {
+			return false;
+		}
+
+		// Fail if the port is not an Integer
 		try {
-		    MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
+			Integer.parseInt(this.txtProxyPort.getText().trim());
 		} catch (Exception e) {
-		    logger.warn("Could not update the list.", e);
+			return false;
 		}
-	    }
 
-	    this.setVisible(false);
-	    this.dispose();
-	} else {
-	    JOptionPane.showMessageDialog(this,
-		    "Please check your proxy settings.",
-		    "Error In Proxy Settings",
-		    JOptionPane.WARNING_MESSAGE);
-	}
-    }//GEN-LAST:event_btnOKActionPerformed
-
-
-    /**
-     * Simple check for valid input in the Proxy tab.
-     *
-     *
-     * @return
-     */
-    private boolean validateProxyInput() {
-
-	// everything is OK if the checkbox is not selected
-	if (!this.cbxProxy.isSelected()) {
-	    return true;
+		// Looks good
+		return true;
 	}
 
-	// Fail if the host is empty
-	if (this.txtProxyHost.getText().trim().length() == 0) {
-	    return false;
+
+	private void cbxUpdateActionPerformed(java.awt.event.ActionEvent evt) {
+		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE, DAOHelper.booleanToString(this.cbxUpdate.isSelected()));
 	}
 
-	// Fail if the port is not an Integer
-	try {
-	    Integer.parseInt(this.txtProxyPort.getText().trim());
-	} catch (Exception e) {
-	    return false;
-	}
-
-	// Looks good
-	return true;
-    }
-
-
-    private void cmbRefreshItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbRefreshItemStateChanged
-//	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_REFRESH_WAIT, cmbRefresh.getSelectedItem().toString());
-//	this.refreshList = true;
-    }//GEN-LAST:event_cmbRefreshItemStateChanged
-
-    private void cbxUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxUpdateActionPerformed
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE, DAOHelper.booleanToString(this.cbxUpdate.isSelected()));
-    }//GEN-LAST:event_cbxUpdateActionPerformed
-
-    private void cmbFavrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFavrActionPerformed
+	private void cmbFavrActionPerformed(java.awt.event.ActionEvent evt) {
 		switch (this.cmbFavr.getSelectedIndex()) {
 			case 0:
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "10");
@@ -642,157 +720,152 @@ public class Preferences extends javax.swing.JDialog {
 			default:
 				break;
 		}
-	}//GEN-LAST:event_cmbFavrActionPerformed
-
-    private void cmbRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRefreshActionPerformed
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_REFRESH_WAIT, cmbRefresh.getSelectedItem().toString());
-	this.refreshList = true;
-    }//GEN-LAST:event_cmbRefreshActionPerformed
-
-    private void btnFlickrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFlickrActionPerformed
-	int confirm = JOptionPane.showConfirmDialog(this,
-		"Clearing the authorization requires that SuprSetr restarts.\n"
-		+ "If you continue, SuprSetr will exit, and you will have to\n"
-		+ "launch it again to re-authorize Flickr.\n\n"
-		+ "Do you want to continue?",
-		"De-authorize and Exit?",
-		JOptionPane.YES_NO_OPTION,
-		JOptionPane.QUESTION_MESSAGE);
-	if (confirm == JOptionPane.YES_OPTION) {
-	    FlickrHelper.getInstance().deauthorize();
-	    System.exit(2);
-	}
-    }//GEN-LAST:event_btnFlickrActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-	if (this.refreshList) {
-	    try {
-		MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
-	    } catch (Exception e) {
-		logger.warn("Could not update the list.", e);
-	    }
-	}
-    }//GEN-LAST:event_formWindowClosed
-
-
-    /**
-     * Respond to clicks on the "Use Proxy" checkbox.
-     *
-     * <p>The text entryfields will be enabled/disabled based on the state of
-     * the checkbox.</p>
-     * 
-     * @param evt
-     */
-    private void cbxProxyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProxyActionPerformed
-	this.txtProxyHost.setEnabled(this.cbxProxy.isSelected());
-	this.txtProxyPass.setEnabled(this.cbxProxy.isSelected());
-	this.txtProxyPort.setEnabled(this.cbxProxy.isSelected());
-	this.txtProxyUser.setEnabled(this.cbxProxy.isSelected());
-    }//GEN-LAST:event_cbxProxyActionPerformed
-
-    
-    /**
-     * 
-     * @param evt
-     */
-    private void cbxAddManagedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAddManagedActionPerformed
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_MANAGED, DAOHelper.booleanToString(this.cbxAddManaged.isSelected()));
-    }//GEN-LAST:event_cbxAddManagedActionPerformed
-
-    private void cbxDetailLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDetailLogActionPerformed
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_DETAIL_LOG, DAOHelper.booleanToString(this.cbxDetailLog.isSelected()));
-	if (this.cbxDetailLog.isSelected()) {
-	    // Turn on detailed logging
-	    JinxLogger.setLogger(new MyJinxLogger());
-	} else {
-	    JinxLogger.setLogger(null);
-	}
-    }//GEN-LAST:event_cbxDetailLogActionPerformed
-
-
-    public void updateStatus() {
-	String token = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN);
-	final String labelText;
-	final String buttonText;
-	final String flickrLabelText;
-	final String flickrButtonText;
-
-	if (token == null || token.isEmpty()) {
-	    labelText = "You have not authorized Twitter yet.";
-	    buttonText = "Authorize";
-	} else {
-	    labelText = "You are authorized to tweet as " + LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_USERNAME);
-	    buttonText = "Deauthorize";
 	}
 
-	String username = FlickrHelper.getInstance().getUsername();
-	if (username == null) {
-	    flickrLabelText = "You are not logged in to Flickr.";
-	    flickrButtonText = "Authorize";
-	} else {
-	    flickrLabelText = "You are logged in to Flickr as " + FlickrHelper.getInstance().getUsername();
-	    flickrButtonText = "Clear Authorization";
+	private void cmbRefreshActionPerformed(java.awt.event.ActionEvent evt) {
+		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_REFRESH_WAIT, cmbRefresh.getSelectedItem().toString());
+		this.refreshList = true;
 	}
 
-	java.awt.EventQueue.invokeLater(new Runnable() {
+	private void btnFlickrActionPerformed(java.awt.event.ActionEvent evt) {
+		int confirm = JOptionPane.showConfirmDialog(this,
+				resourceBundle.getString("Preferences.message.clearFlickrMsg"),
+				resourceBundle.getString("Preferences.message.clearFlickrTitle"),
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
+		if (confirm == JOptionPane.YES_OPTION) {
+			FlickrHelper.getInstance().deauthorize();
+			System.exit(2);
+		}
+	}
 
-	    @Override
-	    public void run() {
-		lblStatus.setText(labelText);
-		btnAction.setText(buttonText);
-		lblFlickrStatus.setText(flickrLabelText);
-		btnFlickr.setText(flickrButtonText);
-	    }
-
-	});
-    }
-
-
-    public void setTabIndex(int index) {
-	this.jTabbedPane1.setSelectedIndex(index);
-    }
+	private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+		if (this.refreshList) {
+			try {
+				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
+			} catch (Exception e) {
+				logger.warn("Could not update the list.", e);
+			}
+		}
+	}//GEN-LAST:event_formWindowClosed
 
 
-    public void setMessage(String message) {
-	this.lblMessage.setText(message);
-    }
+	/**
+	 * Respond to clicks on the "Use Proxy" checkbox.
+	 * <p/>
+	 * <p>The text entryfields will be enabled/disabled based on the state of
+	 * the checkbox.</p>
+	 *
+	 * @param evt
+	 */
+	private void cbxProxyActionPerformed(java.awt.event.ActionEvent evt) {
+		this.txtProxyHost.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyPass.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyPort.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyUser.setEnabled(this.cbxProxy.isSelected());
+	}
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAction;
-    private javax.swing.JButton btnFlickr;
-    private javax.swing.JButton btnOK;
-    private javax.swing.JCheckBox cbxAddManaged;
-    private javax.swing.JCheckBox cbxAddVia;
-    private javax.swing.JCheckBox cbxDetailLog;
-    private javax.swing.JCheckBox cbxProxy;
-    private javax.swing.JCheckBox cbxUpdate;
-    private javax.swing.JComboBox cmbFavr;
-    private javax.swing.JComboBox cmbLogIndex;
-    private javax.swing.JComboBox cmbLogSize;
-    private javax.swing.JComboBox cmbRefresh;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblFlickrStatus;
-    private javax.swing.JLabel lblMessage;
-    private javax.swing.JLabel lblStatus;
-    private javax.swing.JPanel pnlFlickr;
-    private javax.swing.JPanel pnlProxy;
-    private javax.swing.JPanel pnlTwitter;
-    private javax.swing.JTextField txtProxyHost;
-    private javax.swing.JPasswordField txtProxyPass;
-    private javax.swing.JTextField txtProxyPort;
-    private javax.swing.JTextField txtProxyUser;
-    // End of variables declaration//GEN-END:variables
+
+	/**
+	 * @param evt
+	 */
+	private void cbxAddManagedActionPerformed(java.awt.event.ActionEvent evt) {
+		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_MANAGED, DAOHelper.booleanToString(this.cbxAddManaged.isSelected()));
+	}
+
+	private void cbxDetailLogActionPerformed(java.awt.event.ActionEvent evt) {
+		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_DETAIL_LOG, DAOHelper.booleanToString(this.cbxDetailLog.isSelected()));
+		if (this.cbxDetailLog.isSelected()) {
+			// Turn on detailed logging
+			JinxLogger.setLogger(new MyJinxLogger());
+		} else {
+			JinxLogger.setLogger(null);
+		}
+	}
+
+
+	public void updateStatus() {
+		String token = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN);
+		final String twitterLabelText;
+		final String twitterButtonText;
+		final String flickrLabelText;
+		final String flickrButtonText;
+
+		if (token == null || token.isEmpty()) {
+			twitterLabelText = resourceBundle.getString("Preferences.lblTwitterStatus_LoggedOut.text");
+			twitterButtonText = resourceBundle.getString("Preferences.btnTwitter_LoggedOut.text");
+		} else {
+			twitterLabelText = resourceBundle.getString("Preferences.lblTwitterStatus_LoggedIn.text") + " " + LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_USERNAME);
+			twitterButtonText = resourceBundle.getString("Preferences.btnTwitter_LoggedIn.text");
+		}
+
+		String username = FlickrHelper.getInstance().getUsername();
+		if (username == null) {
+			flickrLabelText = resourceBundle.getString("Preferences.lblFlickrStatus_LoggedOut.text");
+			flickrButtonText = resourceBundle.getString("Preferences.btnFlickr_LoggedOut.text");
+		} else {
+			flickrLabelText = resourceBundle.getString("Preferences.lblFlickrStatus_LoggedIn.text") + " " + FlickrHelper.getInstance().getUsername();
+			flickrButtonText = resourceBundle.getString("Preferences.btnFlickr_LoggedIn.text");
+		}
+
+		java.awt.EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				lblTwitterStatus.setText(twitterLabelText);
+				btnTwitter.setText(twitterButtonText);
+				lblFlickrStatus.setText(flickrLabelText);
+				btnFlickr.setText(flickrButtonText);
+			}
+
+		});
+	}
+
+
+	public void setTabIndex(int index) {
+		this.jTabbedPane1.setSelectedIndex(index);
+	}
+
+
+	public void setMessage(String message) {
+		this.lblMessage.setText(message);
+	}
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private JTabbedPane jTabbedPane1;
+	private JPanel jPanel1;
+	private JCheckBox cbxAddVia;
+	private JCheckBox cbxAddManaged;
+	private JLabel lblRefreshPrefix;
+	private JComboBox<String> cmbRefresh;
+	private JLabel lblRefreshSuffix;
+	private JCheckBox cbxUpdate;
+	private JLabel lblFavrPrefix;
+	private JComboBox<String> cmbFavr;
+	private JCheckBox cbxDetailLog;
+	private JLabel lblLogFile;
+	private JComboBox<String> cmbLogSize;
+	private JLabel lblRetain;
+	private JComboBox<String> cmbLogIndex;
+	private JLabel lblNote;
+	private JPanel pnlFlickr;
+	private JLabel lblFlickrStatus;
+	private JButton btnFlickr;
+	private JPanel pnlTwitter;
+	private JLabel lblTwitterStatus;
+	private JButton btnTwitter;
+	private JLabel lblMessage;
+	private JPanel pnlProxy;
+	private JCheckBox cbxProxy;
+	private JLabel lblHost;
+	private JLabel lblPort;
+	private JLabel lblUsername;
+	private JLabel lblPassword;
+	private JTextField txtProxyHost;
+	private JTextField txtProxyPort;
+	private JTextField txtProxyUser;
+	private JPasswordField txtProxyPass;
+	private JButton btnOK;
+	// End of variables declaration//GEN-END:variables
 
 }
