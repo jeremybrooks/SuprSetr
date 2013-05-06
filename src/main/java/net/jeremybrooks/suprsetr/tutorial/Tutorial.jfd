@@ -1,0 +1,48 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "tutorial"
+	"i18n.autoExternalize": true
+	"i18n.keyPrefix": "Tutorial"
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {space ::496:x, comp btnBack:::p::p, space u:::p, comp btnNext:::p::p}, comp jScrollPane1::l::629:x}"
+			"$verticalGroup": "par l {seq t {comp jScrollPane1::::283:x, space :::p, par b {comp btnNext::b:p::p, comp btnBack::b:p::p}}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 0
+			"$sizePolicy": 1
+			"$locationPolicy": 1
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "formWindowClosing", false ) )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JEditorPane" ) {
+					name: "jEditorPane1"
+					"contentType": "text/html"
+					"editable": false
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnBack"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/back16.png" )
+				"text": new FormMessage( null, "Tutorial.btnBack.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBackActionPerformed", false ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnNext"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/next16.png" )
+				"text": new FormMessage( null, "Tutorial.btnNext.text" )
+				"horizontalTextPosition": 2
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnNextActionPerformed", false ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 631, 341 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
