@@ -20,9 +20,9 @@
 package net.jeremybrooks.suprsetr;
 
 
-import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import java.awt.Component;
 
 
 /**
@@ -33,34 +33,27 @@ import javax.swing.ListCellRenderer;
 public class SetOrdererRenderer implements ListCellRenderer {
 
 
-
-    /**
-     * Return a custom Component that represents the photoset.
-     *
-     * @param list the list.
-     * @param value this is an instance of Photoset.
-     * @param index the index
-     * @param isSelected true if the list item is selected.
-     * @param cellHasFocus true if the cell has focus.
-     * @return instance of SetListCell representing the photoset.
-     */
-    @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-	SetOrdererCell soc = new SetOrdererCell();
-
-	if (value instanceof SetOrdererDTO) {
-	    SetOrdererDTO dto = (SetOrdererDTO) value;
-
-	    soc.setTitle(dto.getTitle());
-	    soc.setDescription(dto.getDescription());
-	    soc.setPhotoCount(dto.getPhotoCount());
-	    soc.setImage(dto.getIcon());
-	    
-	    
+	/**
+	 * Return a custom Component that represents the photoset.
+	 *
+	 * @param list         the list.
+	 * @param value        this is an instance of Photoset.
+	 * @param index        the index
+	 * @param isSelected   true if the list item is selected.
+	 * @param cellHasFocus true if the cell has focus.
+	 * @return instance of SetListCell representing the photoset.
+	 */
+	@Override
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		SetOrdererCell soc = new SetOrdererCell();
+		if (value instanceof SetOrdererDTO) {
+			SetOrdererDTO dto = (SetOrdererDTO) value;
+			soc.setTitle(dto.getTitle());
+			soc.setDescription(dto.getDescription());
+			soc.setPhotoCount(dto.getPhotoCount());
+			soc.setImage(dto.getIcon());
+		}
+		soc.setSelected(isSelected);
+		return soc;
 	}
-	soc.setSelected(isSelected);
-
-	return soc;
-    }
-
 }
