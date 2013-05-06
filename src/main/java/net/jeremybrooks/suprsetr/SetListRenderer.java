@@ -18,10 +18,12 @@
  */
 package net.jeremybrooks.suprsetr;
 
-import java.awt.Component;
+import net.jeremybrooks.suprsetr.utils.SimpleCache;
+
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import net.jeremybrooks.suprsetr.utils.SimpleCache;
+import java.awt.Component;
+import java.util.ResourceBundle;
 
 
 /**
@@ -31,91 +33,90 @@ import net.jeremybrooks.suprsetr.utils.SimpleCache;
  */
 public class SetListRenderer implements ListCellRenderer {
 
-    /** Cache the set list instances. */
-    private SimpleCache cache;
+	/**
+	 * Cache the set list instances.
+	 */
+	private SimpleCache cache;
 
-    public SetListRenderer() {
-	super();
-	this.cache = SimpleCache.getInstance();
-    }
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.misc");
 
-
-    /**
-     * Return a custom Component that represents the photoset.
-     *
-     * @param list the list.
-     * @param value this is an instance of SSPhotoset.
-     * @param index the index
-     * @param isSelected true if the list item is selected.
-     * @param cellHasFocus true if the cell has focus.
-     * @return instance of SetListCell representing the photoset.
-     */
-    @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-	SSPhotoset def = null;
-	SetListCell cell = null;
-	
-	if (!(value instanceof SSPhotoset)) {
-	    cell = new SetListCell();
-	    cell.setTitle("Cell Render Error: wrong class!");
-
-	} else {
-	    def = (SSPhotoset) value;
-	    
-	    cell = this.cache.getFromCache(def.getId());
-	    if (cell == null) {
-		cell = new SetListCell();
-		cell.setCacheValid(false);
-	    }
-
-	    if (!cell.isCacheValid()) {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(def.getTitle());
-		sb.append("   [");
-		sb.append(def.getPhotos());
-		sb.append(" photo");
-		if (def.getPhotos() != 1) {
-		    sb.append('s');
-		}
-		sb.append(']');
-
-		cell.setTitle(sb.toString());
-
-
-		if (def.getDescription() == null || def.getDescription().isEmpty()) {
-		    cell.setDescription("This photoset does not have a description.");
-		} else {
-		    cell.setDescription(def.getDescription());
-		}
-
-
-		if (def.isManaged()) {
-		    cell.setLastUpdate(def.getLastRefreshDate());
-		} else {
-		    cell.hideLastUpdate();
-		}
-
-		cell.setManaged(def.isManaged());
-
-		if (def.getPrimaryPhotoIcon() != null) {
-		    cell.setImage(def.getPrimaryPhotoIcon());
-		}
-
-		cell.setTwitter(def.isSendTweet());
-
-		cell.setWarnIcon(def.isErrorFlag());
-
-
-		cell.setCacheValid(true);
-		this.cache.putInCache(def.getId(), cell);
-
-	    }
-	    
+	public SetListRenderer() {
+		super();
+		this.cache = SimpleCache.getInstance();
 	}
-	cell.setSelected(isSelected);
 
-	return cell;
-    }
+
+	/**
+	 * Return a custom Component that represents the photoset.
+	 *
+	 * @param list         the list.
+	 * @param value        this is an instance of SSPhotoset.
+	 * @param index        the index
+	 * @param isSelected   true if the list item is selected.
+	 * @param cellHasFocus true if the cell has focus.
+	 * @return instance of SetListCell representing the photoset.
+	 */
+	@Override
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		SSPhotoset def;
+		SetListCell cell;
+
+		if (!(value instanceof SSPhotoset)) {
+			cell = new SetListCell();
+			cell.setTitle(resourceBundle.getString("SetListRenderer.error.wrongclass"));
+
+		} else {
+			def = (SSPhotoset) value;
+
+			cell = this.cache.getFromCache(def.getId());
+			if (cell == null) {
+				cell = new SetListCell();
+				cell.setCacheValid(false);
+			}
+
+			if (!cell.isCacheValid()) {
+				StringBuilder sb = new StringBuilder();
+
+				sb.append(def.getTitle());
+				sb.append("   [");
+				sb.append(def.getPhotos());
+				if (def.getPhotos() == 1) {
+					sb.append(resourceBundle.getString("SetListRenderer.text.photo"));
+				} else {
+					sb.append(resourceBundle.getString("SetListRenderer.text.photos"));
+				}
+				sb.append(']');
+
+				cell.setTitle(sb.toString());
+
+				if (def.getDescription() == null || def.getDescription().isEmpty()) {
+					cell.setDescription(resourceBundle.getString("SetListRenderer.text.nodescription"));
+				} else {
+					cell.setDescription(def.getDescription());
+				}
+
+				if (def.isManaged()) {
+					cell.setLastUpdate(def.getLastRefreshDate());
+				} else {
+					cell.hideLastUpdate();
+				}
+
+				cell.setManaged(def.isManaged());
+
+				if (def.getPrimaryPhotoIcon() != null) {
+					cell.setImage(def.getPrimaryPhotoIcon());
+				}
+
+				cell.setTwitter(def.isSendTweet());
+
+				cell.setWarnIcon(def.isErrorFlag());
+
+				cell.setCacheValid(true);
+				this.cache.putInCache(def.getId(), cell);
+			}
+		}
+		cell.setSelected(isSelected);
+		return cell;
+	}
 
 }
