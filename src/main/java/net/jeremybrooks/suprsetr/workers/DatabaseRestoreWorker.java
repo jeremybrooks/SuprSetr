@@ -20,89 +20,95 @@
 package net.jeremybrooks.suprsetr.workers;
 
 // JAVA I/O
-import java.io.File;
 
-// SWING STUFF
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-
-// SUPRSETR CLASSES
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.MainWindow;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
-
-// LOGGING
 import org.apache.log4j.Logger;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import java.io.File;
+import java.util.ResourceBundle;
+
+// SWING STUFF
+// SUPRSETR CLASSES
+// LOGGING
+
+// SWING STUFF
+// SUPRSETR CLASSES
+// LOGGING
 
 
 /**
  * This class backs up the database to the specified directory.
- *
+ * <p/>
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- *
  * @author jeremyb
  */
 public class DatabaseRestoreWorker extends SwingWorker<Void, Void> {
 
-    /** Logging. */
-    private Logger logger = Logger.getLogger(DatabaseRestoreWorker.class);
+	/**
+	 * Logging.
+	 */
+	private Logger logger = Logger.getLogger(DatabaseRestoreWorker.class);
 
-    /** The blocker instance used to provide user with feedback. */
-    private BlockerPanel blocker;
+	/**
+	 * The blocker instance used to provide user with feedback.
+	 */
+	private BlockerPanel blocker;
 
-    /** The directory that holds the backup to restore from. */
-    private File backupDirectory;
+	/**
+	 * The directory that holds the backup to restore from.
+	 */
+	private File backupDirectory;
 
-
-
-    /**
-     * Create an instance of DatabaseBackupWorker.
-     *
-     * @param blocker the blocker instance.
-     * @param backupDirectory
-     */
-    public DatabaseRestoreWorker(BlockerPanel blocker, File backupDirectory) {
-	this.blocker = blocker;
-	this.backupDirectory = backupDirectory;
-    }
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
-    /**
-     * Perform the database backup on a background thread.
-     *
-     * @return this method does not return any data.
-     */
-    @Override
-    protected Void doInBackground() {
-	try {
-	    blocker.updateMessage("Starting restore....");
-
-	    DAOHelper.restoreDatabase(backupDirectory);
-
-	} catch (Exception e) {
-	    logger.error("THERE WAS AN ERROR DURING DATABASE BACKUP.", e);
-
-	    JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
-		    "There was an error during the database restore.\n" +
-		    "Please send the logs to the developer.",
-		    "Backup Error",
-		    JOptionPane.ERROR_MESSAGE);
+	/**
+	 * Create an instance of DatabaseBackupWorker.
+	 *
+	 * @param blocker         the blocker instance.
+	 * @param backupDirectory the backup directory.
+	 */
+	public DatabaseRestoreWorker(BlockerPanel blocker, File backupDirectory) {
+		this.blocker = blocker;
+		this.backupDirectory = backupDirectory;
 	}
 
-	return null;
-    }
+
+	/**
+	 * Perform the database backup on a background thread.
+	 *
+	 * @return this method does not return any data.
+	 */
+	@Override
+	protected Void doInBackground() {
+		try {
+			blocker.updateMessage(resourceBundle.getString("DatabaseRestoreWorker.blocker.starting"));
+			DAOHelper.restoreDatabase(backupDirectory);
+		} catch (Exception e) {
+			logger.error("THERE WAS AN ERROR DURING DATABASE BACKUP.", e);
+			JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
+					resourceBundle.getString("DatabaseRestoreWorker.dialog.error.message"),
+					resourceBundle.getString("DatabaseRestoreWorker.dialog.error.title"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
 
 
-    /**
-     * Unblock the main window when finished.
-     */
-    @Override
-    protected void done() {
-	blocker.unBlock();
-    }
+	/**
+	 * Unblock the main window when finished.
+	 */
+	@Override
+	protected void done() {
+		blocker.unBlock();
+	}
 
 }

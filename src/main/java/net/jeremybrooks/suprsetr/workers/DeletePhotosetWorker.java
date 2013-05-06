@@ -19,9 +19,6 @@
 
 package net.jeremybrooks.suprsetr.workers;
 
-import java.io.ObjectOutputStream;
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
@@ -30,88 +27,96 @@ import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.PhotosetHelper;
 import org.apache.log4j.Logger;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import java.util.ResourceBundle;
+
 
 /**
  * This class removes a photoset from Flickr and from the database.
- *
+ * <p/>
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- *
  * @author jeremyb
  */
 public class DeletePhotosetWorker extends SwingWorker<Void, Void> {
 
-    /** Logging. */
-    private Logger logger = Logger.getLogger(DeletePhotosetWorker.class);
+	/**
+	 * Logging.
+	 */
+	private Logger logger = Logger.getLogger(DeletePhotosetWorker.class);
 
-    /** The blocker instance used to provide user with feedback. */
-    private BlockerPanel blocker;
+	/**
+	 * The blocker instance used to provide user with feedback.
+	 */
+	private BlockerPanel blocker;
 
-    /** The photoset to delete. */
-    private SSPhotoset ssPhotoset;
+	/**
+	 * The photoset to delete.
+	 */
+	private SSPhotoset ssPhotoset;
 
-
-    /**
-     * Create an instance of DeletePhotoset.
-     *
-     * @param blocker the blocker instance.
-     * @param ssPhotoset the photoset to add.
-     */
-    public DeletePhotosetWorker(BlockerPanel blocker, SSPhotoset ssPhotoset) {
-	this.blocker = blocker;
-	this.ssPhotoset = ssPhotoset;
-    }
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
-    /**
-     * Execute the Flickr operation and database operations on a background
-     * thread.
-     *
-     * @return this method does not return any data.
-     */
-    @Override
-    protected Void doInBackground() {
-	ObjectOutputStream out = null;
-
-	try {
-	    PhotosetHelper.getInstance().delete(ssPhotoset);
-
-	    LogWindow.addLogMessage("Deleted set '" + ssPhotoset.getTitle() + "'");
-
-	    // delete from database
-	    PhotosetDAO.delete(ssPhotoset);
-
-	} catch (Exception e) {
-	    logger.error("ERROR DELETING SET ON FLICKR.", e);
+	/**
+	 * Create an instance of DeletePhotoset.
+	 *
+	 * @param blocker    the blocker instance.
+	 * @param ssPhotoset the photoset to add.
+	 */
+	public DeletePhotosetWorker(BlockerPanel blocker, SSPhotoset ssPhotoset) {
+		this.blocker = blocker;
+		this.ssPhotoset = ssPhotoset;
 	}
 
-	return null;
-    }
 
+	/**
+	 * Execute the Flickr operation and database operations on a background
+	 * thread.
+	 *
+	 * @return this method does not return any data.
+	 */
+	@Override
+	protected Void doInBackground() {
+		try {
+			PhotosetHelper.getInstance().delete(ssPhotoset);
+			LogWindow.addLogMessage(resourceBundle.getString("DeletePhotosetWorker.blocker.deleted") +
+					" '" + ssPhotoset.getTitle() + "'");
 
-    /**
-     * Finished, so update the GUI, making the first photoset the
-     * currently selected photoset. Then remove the blocker.
-     */
-    @Override
-    protected void done() {
-
-	try {
-	    MainWindow.getMainWindow().deletePhotosetFromListModel(ssPhotoset);
-	    MainWindow.getMainWindow().makeIndexVisibleAndSelected(0);
-	    
-	} catch (Exception e) {
-	    logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);
-	    JOptionPane.showMessageDialog(null,
-		    "There was an error while trying to update the list.\n"
-		    + "However, the new set has been created successfully,\n"
-		    + "and should appear in the list next time you start SuprSetr.",
-		    "Error Updating GUI", JOptionPane.WARNING_MESSAGE);
+			// delete from database
+			PhotosetDAO.delete(ssPhotoset);
+		} catch (Exception e) {
+			logger.error("ERROR DELETING SET ON FLICKR.", e);
+			JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
+					resourceBundle.getString("DeletePhotosetWorker.dialog.error.message"),
+					resourceBundle.getString("DeletePhotosetWorker.dialog.error.title"),
+					JOptionPane.ERROR_MESSAGE
+					);
+		}
+		return null;
 	}
-	blocker.unBlock();
-    }
 
+
+	/**
+	 * Finished, so update the GUI, making the first photoset the
+	 * currently selected photoset. Then remove the blocker.
+	 */
+	@Override
+	protected void done() {
+		try {
+			MainWindow.getMainWindow().deletePhotosetFromListModel(ssPhotoset);
+			MainWindow.getMainWindow().makeIndexVisibleAndSelected(0);
+		} catch (Exception e) {
+			logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);
+			JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
+					resourceBundle.getString("dialog.guierror.message"),
+					resourceBundle.getString("dialog.guierror.title"),
+					JOptionPane.WARNING_MESSAGE);
+		}
+		blocker.unBlock();
+	}
 }
