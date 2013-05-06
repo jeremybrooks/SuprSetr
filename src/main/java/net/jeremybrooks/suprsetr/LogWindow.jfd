@@ -1,0 +1,34 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "logwindow"
+	"i18n.autoExternalize": true
+	"i18n.keyPrefix": "LogWindow"
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp jScrollPane1::l::398:x}"
+			"$verticalGroup": "par l {comp jScrollPane1::l::276:x}"
+		} ) {
+			name: "this"
+			"title": new FormMessage( null, "LogWindow.this.title" )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "formWindowClosing", false ) )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "txtLog"
+					"columns": 20
+					"editable": false
+					"rows": 5
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 10
+					}
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 400, 300 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
