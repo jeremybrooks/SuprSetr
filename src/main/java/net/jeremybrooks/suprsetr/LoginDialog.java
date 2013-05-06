@@ -19,18 +19,18 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.JDialog;
 import net.jeremybrooks.suprsetr.workers.FlickrAuthenticatorWorker;
 import org.apache.log4j.Logger;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,14 +77,18 @@ public class LoginDialog extends javax.swing.JDialog {
 		ResourceBundle bundle = this.resourceBundle;
 		jScrollPane1 = new JScrollPane();
 		jTextArea1 = new JTextArea();
-		btnAuthenticate = new JButton();
-		btnCancel = new JButton();
+		panel1 = new JPanel();
+		panel2 = new JPanel();
 		btnPreferences = new JButton();
+		panel3 = new JPanel();
+		btnCancel = new JButton();
+		btnAuthenticate = new JButton();
 
 		//======== this ========
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(bundle.getString("LoginDialog.this.title"));
 		Container contentPane = getContentPane();
+		contentPane.setLayout(new BorderLayout());
 
 		//======== jScrollPane1 ========
 		{
@@ -98,56 +102,55 @@ public class LoginDialog extends javax.swing.JDialog {
 			jTextArea1.setWrapStyleWord(true);
 			jScrollPane1.setViewportView(jTextArea1);
 		}
+		contentPane.add(jScrollPane1, BorderLayout.CENTER);
 
-		//---- btnAuthenticate ----
-		btnAuthenticate.setText(bundle.getString("LoginDialog.btnAuthenticate.text"));
-		btnAuthenticate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnAuthenticateActionPerformed(e);
+		//======== panel1 ========
+		{
+			panel1.setLayout(new BorderLayout());
+
+			//======== panel2 ========
+			{
+				panel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+				//---- btnPreferences ----
+				btnPreferences.setText(bundle.getString("LoginDialog.btnPreferences.text"));
+				btnPreferences.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnPreferencesActionPerformed();
+					}
+				});
+				panel2.add(btnPreferences);
 			}
-		});
+			panel1.add(panel2, BorderLayout.WEST);
 
-		//---- btnCancel ----
-		btnCancel.setText(bundle.getString("LoginDialog.btnCancel.text"));
-		btnCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnCancelActionPerformed(e);
+			//======== panel3 ========
+			{
+				panel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+				//---- btnCancel ----
+				btnCancel.setText(bundle.getString("LoginDialog.btnCancel.text"));
+				btnCancel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnCancelActionPerformed();
+					}
+				});
+				panel3.add(btnCancel);
+
+				//---- btnAuthenticate ----
+				btnAuthenticate.setText(bundle.getString("LoginDialog.btnAuthenticate.text"));
+				btnAuthenticate.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnAuthenticateActionPerformed();
+					}
+				});
+				panel3.add(btnAuthenticate);
 			}
-		});
-
-		//---- btnPreferences ----
-		btnPreferences.setText(bundle.getString("LoginDialog.btnPreferences.text"));
-		btnPreferences.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnPreferencesActionPerformed(e);
-			}
-		});
-
-		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
-		contentPane.setLayout(contentPaneLayout);
-		contentPaneLayout.setHorizontalGroup(
-			contentPaneLayout.createParallelGroup()
-				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-					.addComponent(btnPreferences)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-					.addComponent(btnCancel)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(btnAuthenticate))
-				.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
-		);
-		contentPaneLayout.setVerticalGroup(
-			contentPaneLayout.createParallelGroup()
-				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-					.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(btnAuthenticate)
-						.addComponent(btnPreferences)
-						.addComponent(btnCancel)))
-		);
+			panel1.add(panel3, BorderLayout.CENTER);
+		}
+		contentPane.add(panel1, BorderLayout.SOUTH);
 		setSize(419, 302);
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
@@ -158,10 +161,8 @@ public class LoginDialog extends javax.swing.JDialog {
 	 * <p/>
 	 * <p>This method will block the GUI, then use the FlickrAuthenticator
 	 * class to do the actual work of authentication.</p>
-	 *
-	 * @param evt button event.
 	 */
-	private void btnAuthenticateActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnAuthenticateActionPerformed() {
 		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("LoginDialog.message.authenticating"));
 		setGlassPane(blocker);
 		new FlickrAuthenticatorWorker(this, blocker).execute();
@@ -173,10 +174,8 @@ public class LoginDialog extends javax.swing.JDialog {
 	 * Allow user to cancel the operation.
 	 * <p/>
 	 * <p>Display a warning dialog that the program will exit if they continue.</p>
-	 *
-	 * @param evt button event.
 	 */
-	private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnCancelActionPerformed() {
 		String message = resourceBundle.getString("LoginDialog.message.cancelMessage");
 		int selection = JOptionPane.showConfirmDialog(
 				this,
@@ -190,7 +189,7 @@ public class LoginDialog extends javax.swing.JDialog {
 		}
 	}
 
-	private void btnPreferencesActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnPreferencesActionPerformed() {
 		Preferences prefs = new Preferences(null, true);
 		prefs.setTabIndex(Preferences.PROXY_PANEL);
 		prefs.setVisible(true);
@@ -199,8 +198,11 @@ public class LoginDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private JScrollPane jScrollPane1;
 	private JTextArea jTextArea1;
-	private JButton btnAuthenticate;
-	private JButton btnCancel;
+	private JPanel panel1;
+	private JPanel panel2;
 	private JButton btnPreferences;
+	private JPanel panel3;
+	private JButton btnCancel;
+	private JButton btnAuthenticate;
 	// End of variables declaration//GEN-END:variables
 }

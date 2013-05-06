@@ -1,0 +1,72 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "login"
+	"i18n.autoExternalize": true
+	"i18n.keyPrefix": "LoginDialog"
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": new FormMessage( null, "LoginDialog.this.title" )
+			"$sizePolicy": 1
+			"$locationPolicy": 1
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "jTextArea1"
+					"columns": 20
+					"editable": false
+					"lineWrap": true
+					"rows": 5
+					"text": new FormMessage( null, "LoginDialog.jTextArea1.text" )
+					"wrapStyleWord": true
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "panel1"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+					"alignment": 0
+				} ) {
+					name: "panel2"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnPreferences"
+						"text": new FormMessage( null, "LoginDialog.btnPreferences.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnPreferencesActionPerformed", false ) )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "West"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+					"alignment": 2
+				} ) {
+					name: "panel3"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnCancel"
+						"text": new FormMessage( null, "LoginDialog.btnCancel.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnCancelActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnAuthenticate"
+						"text": new FormMessage( null, "LoginDialog.btnAuthenticate.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnAuthenticateActionPerformed", false ) )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "South"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 419, 302 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
