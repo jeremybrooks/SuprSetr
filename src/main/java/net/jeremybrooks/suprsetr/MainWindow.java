@@ -243,7 +243,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuBrowser.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuBrowserActionPerformed(e);
+						mnuBrowserActionPerformed();
 					}
 				});
 				mnuFile.add(mnuBrowser);
@@ -254,7 +254,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuBackup.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuBackupActionPerformed(e);
+						mnuBackupActionPerformed();
 					}
 				});
 				mnuFile.add(mnuBackup);
@@ -265,7 +265,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuRestore.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuRestoreActionPerformed(e);
+						mnuRestoreActionPerformed();
 					}
 				});
 				mnuFile.add(mnuRestore);
@@ -277,7 +277,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuQuit.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuQuitActionPerformed(e);
+						mnuQuitActionPerformed();
 					}
 				});
 				mnuFile.add(mnuQuit);
@@ -294,7 +294,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuCreateSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuCreateSetActionPerformed(e);
+						mnuCreateSetActionPerformed();
 					}
 				});
 				mnuEdit.add(mnuCreateSet);
@@ -305,7 +305,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuEditSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuEditSetActionPerformed(e);
+						mnuEditSetActionPerformed();
 					}
 				});
 				mnuEdit.add(mnuEditSet);
@@ -316,7 +316,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuDeleteSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuDeleteSetActionPerformed(e);
+						mnuDeleteSetActionPerformed();
 					}
 				});
 				mnuEdit.add(mnuDeleteSet);
@@ -327,7 +327,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuRefreshSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuRefreshSetActionPerformed(e);
+						mnuRefreshSetActionPerformed();
 					}
 				});
 				mnuEdit.add(mnuRefreshSet);
@@ -338,7 +338,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuRefreshAll.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuRefreshAllActionPerformed(e);
+						mnuRefreshAllActionPerformed();
 					}
 				});
 				mnuEdit.add(mnuRefreshAll);
@@ -349,7 +349,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuPreferences.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuPreferencesActionPerformed(e);
+						mnuPreferencesActionPerformed();
 					}
 				});
 				mnuEdit.add(mnuPreferences);
@@ -362,7 +362,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuView.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						mnuViewMouseClicked(e);
+						mnuViewMouseClicked();
 					}
 				});
 
@@ -371,7 +371,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuHideUnmanaged.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuHideUnmanagedActionPerformed(e);
+						mnuHideUnmanagedActionPerformed();
 					}
 				});
 				mnuView.add(mnuHideUnmanaged);
@@ -381,7 +381,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuCaseSensitive.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuCaseSensitiveActionPerformed(e);
+						mnuCaseSensitiveActionPerformed();
 					}
 				});
 				mnuView.add(mnuCaseSensitive);
@@ -391,7 +391,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuLogWindow.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuLogWindowActionPerformed(e);
+						mnuLogWindowActionPerformed();
 					}
 				});
 				mnuView.add(mnuLogWindow);
@@ -408,7 +408,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuFavr.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuFavrActionPerformed(e);
+						mnuFavrActionPerformed();
 					}
 				});
 				mnuTools.add(mnuFavr);
@@ -419,7 +419,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuClearFave.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuClearFaveActionPerformed(e);
+						mnuClearFaveActionPerformed();
 					}
 				});
 				mnuTools.add(mnuClearFave);
@@ -430,7 +430,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuSetOrder.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuSetOrderActionPerformed(e);
+						mnuSetOrderActionPerformed();
 					}
 				});
 				mnuTools.add(mnuSetOrder);
@@ -441,7 +441,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuLogs.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuLogsActionPerformed(e);
+						mnuLogsActionPerformed();
 					}
 				});
 				mnuTools.add(mnuLogs);
@@ -458,7 +458,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuAbout.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuAboutActionPerformed(e);
+						mnuAboutActionPerformed();
 					}
 				});
 				mnuHelp.add(mnuAbout);
@@ -469,7 +469,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuTutorial.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuTutorialActionPerformed(e);
+						mnuTutorialActionPerformed();
 					}
 				});
 				mnuHelp.add(mnuTutorial);
@@ -480,7 +480,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuSSHelp.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuSSHelpActionPerformed(e);
+						mnuSSHelpActionPerformed();
 					}
 				});
 				mnuHelp.add(mnuSSHelp);
@@ -491,7 +491,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mnuCheckUpdates.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						mnuCheckUpdatesActionPerformed(e);
+						mnuCheckUpdatesActionPerformed();
 					}
 				});
 				mnuHelp.add(mnuCheckUpdates);
@@ -513,7 +513,7 @@ public class MainWindow extends javax.swing.JFrame {
 			btnAddSet.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnAddSetActionPerformed(e);
+					btnAddSetActionPerformed();
 				}
 			});
 			jToolBar1.add(btnAddSet);
@@ -527,7 +527,7 @@ public class MainWindow extends javax.swing.JFrame {
 			btnEditSet.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnEditSetActionPerformed(e);
+					btnEditSetActionPerformed();
 				}
 			});
 			jToolBar1.add(btnEditSet);
@@ -541,7 +541,7 @@ public class MainWindow extends javax.swing.JFrame {
 			btnDeleteSet.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnDeleteSetActionPerformed(e);
+					btnDeleteSetActionPerformed();
 				}
 			});
 			jToolBar1.add(btnDeleteSet);
@@ -555,7 +555,7 @@ public class MainWindow extends javax.swing.JFrame {
 			btnRefreshSet.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnRefreshSetActionPerformed(e);
+					btnRefreshSetActionPerformed();
 				}
 			});
 			jToolBar1.add(btnRefreshSet);
@@ -569,7 +569,7 @@ public class MainWindow extends javax.swing.JFrame {
 			btnRefreshAll.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnRefreshAllActionPerformed(e);
+					btnRefreshAllActionPerformed();
 				}
 			});
 			jToolBar1.add(btnRefreshAll);
@@ -584,7 +584,7 @@ public class MainWindow extends javax.swing.JFrame {
 			txtFilter.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent e) {
-					txtFilterFocusGained(e);
+					txtFilterFocusGained();
 				}
 			});
 			txtFilter.addKeyListener(new KeyAdapter() {
@@ -607,12 +607,10 @@ public class MainWindow extends javax.swing.JFrame {
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
-
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					jList1MouseReleased(e);
 				}
-
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					jList1MouseClicked(e);
@@ -634,7 +632,7 @@ public class MainWindow extends javax.swing.JFrame {
 			mnuPopupCreate.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mnuPopupCreateActionPerformed(e);
+					mnuPopupCreateActionPerformed();
 				}
 			});
 			mnuPopup.add(mnuPopupCreate);
@@ -646,7 +644,7 @@ public class MainWindow extends javax.swing.JFrame {
 			mnuPopupEdit.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mnuPopupEditActionPerformed(e);
+					mnuPopupEditActionPerformed();
 				}
 			});
 			mnuPopup.add(mnuPopupEdit);
@@ -658,7 +656,7 @@ public class MainWindow extends javax.swing.JFrame {
 			mnuPopupDelete.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mnuPopupDeleteActionPerformed(e);
+					mnuPopupDeleteActionPerformed();
 				}
 			});
 			mnuPopup.add(mnuPopupDelete);
@@ -670,7 +668,7 @@ public class MainWindow extends javax.swing.JFrame {
 			mnuPopupRefresh.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mnuPopupRefreshActionPerformed(e);
+					mnuPopupRefreshActionPerformed();
 				}
 			});
 			mnuPopup.add(mnuPopupRefresh);
@@ -682,7 +680,7 @@ public class MainWindow extends javax.swing.JFrame {
 			mnuPopupOpen.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mnuPopupOpenActionPerformed(e);
+					mnuPopupOpenActionPerformed();
 				}
 			});
 			mnuPopup.add(mnuPopupOpen);
@@ -690,7 +688,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 			{ // compute preferred size
 				Dimension preferredSize = new Dimension();
-				for (int i = 0; i < mnuPopup.getComponentCount(); i++) {
+				for(int i = 0; i < mnuPopup.getComponentCount(); i++) {
 					Rectangle bounds = mnuPopup.getComponent(i).getBounds();
 					preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
 					preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -705,64 +703,35 @@ public class MainWindow extends javax.swing.JFrame {
 	}// </editor-fold>//GEN-END:initComponents
 
 
-	/**
-	 * Respond to user selecting Quit option from menu.
-	 *
-	 * @param evt
-	 */
-	private void mnuQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuQuitActionPerformed
+	private void mnuQuitActionPerformed() {
 		this.confirmQuit();
-	}//GEN-LAST:event_mnuQuitActionPerformed
+	}
 
-
-	/**
-	 * Respond to user selecting Create option from menu.
-	 *
-	 * @param evt
-	 */
-	private void mnuCreateSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCreateSetActionPerformed
+	private void mnuCreateSetActionPerformed() {
 		this.doCreateSetAction();
-	}//GEN-LAST:event_mnuCreateSetActionPerformed
+	}
 
-
-	/**
-	 * Respond to user selecting Edit option from menu.
-	 *
-	 * @param evt
-	 */
-	private void mnuEditSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEditSetActionPerformed
+	private void mnuEditSetActionPerformed() {
 		this.doEditSetAction();
-	}//GEN-LAST:event_mnuEditSetActionPerformed
+	}
 
 
-	private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-	}//GEN-LAST:event_jList1MouseClicked
+	private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+	}
 
 
-	/**
-	 * Respond to user selecting Delete from menu.
-	 *
-	 * @param evt
-	 */
-	private void mnuDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDeleteSetActionPerformed
+	private void mnuDeleteSetActionPerformed() {
 		this.doDeleteSetAction();
-	}//GEN-LAST:event_mnuDeleteSetActionPerformed
-
-
-	private void mnuRefreshSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRefreshSetActionPerformed
+	}
+	private void mnuRefreshSetActionPerformed() {
 		this.doRefreshSetAction();
-	}//GEN-LAST:event_mnuRefreshSetActionPerformed
-
-
-	private void mnuBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBrowserActionPerformed
+	}
+	private void mnuBrowserActionPerformed() {
 		this.doOpenInBrowserAction();
-	}//GEN-LAST:event_mnuBrowserActionPerformed
-
-	private void mnuRefreshAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRefreshAllActionPerformed
+	}
+	private void mnuRefreshAllActionPerformed() {
 		SSPhotoset ssPhotoset;
-
 		List<SSPhotoset> list = new ArrayList<>();
-
 		// Put all sets that are ready for refresh in a list
 		for (int i = 0; i < this.listModel.getSize(); i++) {
 			ssPhotoset = (SSPhotoset) this.listModel.getElementAt(i);
@@ -794,7 +763,7 @@ public class MainWindow extends javax.swing.JFrame {
 		// if the list is empty, nothing will happen, so there's no need
 		// to check here
 		this.executeRefreshSetWorker(list);
-	}//GEN-LAST:event_mnuRefreshAllActionPerformed
+	}
 
 
 	private void doCreateSetAction() {
@@ -832,11 +801,9 @@ public class MainWindow extends javax.swing.JFrame {
 					resourceBundle.getString("MainWindow.dialog.deleteset.title"),
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
-
 			if (confirm == JOptionPane.YES_OPTION) {
 				try {
 					this.executeDeleteSetWorker(ssPhotoset);
-
 				} catch (Exception e) {
 					logger.error("Error deleting photoset " + ssPhotoset, e);
 					JOptionPane.showMessageDialog(this,
@@ -846,19 +813,12 @@ public class MainWindow extends javax.swing.JFrame {
 				}
 			}
 		}
-
 	}
-
-
 	private void doRefreshSetAction() {
 		int index = jList1.getSelectedIndex();
 		int confirm = JOptionPane.YES_OPTION;
-
-
 		if (index != -1) {
-
 			SSPhotoset ssPhotoset = (SSPhotoset) listModel.get(index);
-
 			// to update, set must be managed and ready for refresh
 			// if not ready for refresh, give user option to force refresh
 			if (!ssPhotoset.isManaged()) {
@@ -869,7 +829,6 @@ public class MainWindow extends javax.swing.JFrame {
 								resourceBundle.getString("MainWindow.dialog.unmanagedSet.message2"),
 						resourceBundle.getString("MainWindow.dialog.unmanagedSet.title"),
 						JOptionPane.INFORMATION_MESSAGE);
-
 			} else if (!SSUtils.readyForUpdate(ssPhotoset.getLastRefreshDate())) {
 				confirm = JOptionPane.showConfirmDialog(this,
 						resourceBundle.getString("MainWindow.dialog.recentSet.message"),
@@ -877,12 +836,9 @@ public class MainWindow extends javax.swing.JFrame {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 			}
-
-
 			if (confirm == JOptionPane.YES_OPTION) {
 				this.executeRefreshSetWorker(ssPhotoset);
 			}
-
 		} else {
 			JOptionPane.showMessageDialog(this,
 					resourceBundle.getString("MainWindow.dialog.selectSet.message"),
@@ -890,14 +846,10 @@ public class MainWindow extends javax.swing.JFrame {
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-
-
 	private void doOpenInBrowserAction() {
 		int index = jList1.getSelectedIndex();
 		if (index != -1) {
-
 			SSPhotoset ssPhotoset = (SSPhotoset) listModel.get(index);
-
 			try {
 				Desktop.getDesktop().browse(new URL(ssPhotoset.getUrl()).toURI());
 			} catch (Exception e) {
@@ -907,7 +859,6 @@ public class MainWindow extends javax.swing.JFrame {
 						resourceBundle.getString("MainWindow.dialog.browserError.title"),
 						JOptionPane.ERROR_MESSAGE);
 			}
-
 		} else {
 			JOptionPane.showMessageDialog(this,
 					resourceBundle.getString("MainWindow.dialog.selectSet.message"),
@@ -915,13 +866,10 @@ public class MainWindow extends javax.swing.JFrame {
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-
-
-	private void mnuPreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPreferencesActionPerformed
+	private void mnuPreferencesActionPerformed() {
 		new Preferences(this, true).setVisible(true);
-	}//GEN-LAST:event_mnuPreferencesActionPerformed
-
-	private void mnuLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLogsActionPerformed
+	}
+	private void mnuLogsActionPerformed() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(resourceBundle.getString("MainWindow.ziplogs.dialog.title.text"));
 		jfc.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -933,45 +881,30 @@ public class MainWindow extends javax.swing.JFrame {
 		filename = filename.replaceAll(" ", "_");
 
 		if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			// These are the files to include in the ZIP file
 			File[] source = Main.configDir.listFiles(new FilenameContainsFilter("suprsetr.log"));
 			logger.info("Adding " + source.length + " files to zip.");
-
-			// Create a buffer for reading the files
 			byte[] buf = new byte[1024];
-
 			try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(jfc.getSelectedFile(), filename)))) {
-				// Create the ZIP file
-//				File target = new File(jfc.getSelectedFile(), filename);
-
-				// Compress the files
 				for (File logFile : source) {
 					logger.info("Adding file " + logFile.getAbsolutePath() + " to archive.");
 					FileInputStream in = new FileInputStream(logFile);
-
 					// Add ZIP entry to output stream.
 					out.putNextEntry(new ZipEntry(logFile.getName()));
-
 					// Transfer bytes from the file to the ZIP file
 					int len;
 					while ((len = in.read(buf)) > 0) {
 						out.write(buf, 0, len);
 					}
-
 					// Complete the entry
 					out.closeEntry();
 					IOUtil.close(in);
 				}
-
-				out.close();
-
 				JOptionPane.showMessageDialog(this,
 						resourceBundle.getString("MainWindow.dialog.zipfile.created.message1") +
 								" " + new File(jfc.getSelectedFile(), filename).getAbsolutePath() + "\n" +
 								resourceBundle.getString("MainWindow.dialog.zipfile.created.message2"),
 						resourceBundle.getString("MainWindow.dialog.zipfile.created.title"),
 						JOptionPane.INFORMATION_MESSAGE);
-
 			} catch (Exception e) {
 				logger.warn("ERROR CREATING ZIP.", e);
 				JOptionPane.showMessageDialog(this,
@@ -980,64 +913,50 @@ public class MainWindow extends javax.swing.JFrame {
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
-
-	}//GEN-LAST:event_mnuLogsActionPerformed
-
-	private void btnAddSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSetActionPerformed
-		this.mnuCreateSetActionPerformed(evt);
-	}//GEN-LAST:event_btnAddSetActionPerformed
-
-	private void btnEditSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSetActionPerformed
-		this.mnuEditSetActionPerformed(evt);
-	}//GEN-LAST:event_btnEditSetActionPerformed
-
-	private void btnDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSetActionPerformed
-		this.mnuDeleteSetActionPerformed(evt);
-	}//GEN-LAST:event_btnDeleteSetActionPerformed
-
-	private void btnRefreshSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshSetActionPerformed
-		this.mnuRefreshSetActionPerformed(evt);
-	}//GEN-LAST:event_btnRefreshSetActionPerformed
-
-	private void mnuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAboutActionPerformed
+	}
+	private void btnAddSetActionPerformed() {
+		this.mnuCreateSetActionPerformed();
+	}
+	private void btnEditSetActionPerformed() {
+		this.mnuEditSetActionPerformed();
+	}
+	private void btnDeleteSetActionPerformed() {
+		this.mnuDeleteSetActionPerformed();
+	}
+	private void btnRefreshSetActionPerformed() {
+		this.mnuRefreshSetActionPerformed();
+	}
+	private void mnuAboutActionPerformed() {
 		new AboutDialog(this, true).setVisible(true);
-	}//GEN-LAST:event_mnuAboutActionPerformed
-
-	private void mnuFavrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFavrActionPerformed
+	}
+	private void mnuFavrActionPerformed() {
 		int confirm = JOptionPane.showConfirmDialog(this,
 				resourceBundle.getString("MainWindow.dialog.runfavrtagr.message"),
 				resourceBundle.getString("MainWindow.dialog.runfavrtagr.title"),
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE);
-
 		if (confirm == JOptionPane.YES_OPTION) {
 			BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.favtags"));
 			setGlassPane(blocker);
 			blocker.block("");
-
 			new FavrTagrWorker(blocker).execute();
 		}
-	}//GEN-LAST:event_mnuFavrActionPerformed
-
-	private void mnuPopupCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPopupCreateActionPerformed
+	}
+	private void mnuPopupCreateActionPerformed() {
 		this.doCreateSetAction();
-	}//GEN-LAST:event_mnuPopupCreateActionPerformed
-
-	private void mnuPopupEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPopupEditActionPerformed
+	}
+	private void mnuPopupEditActionPerformed() {
 		this.doEditSetAction();
-	}//GEN-LAST:event_mnuPopupEditActionPerformed
-
-	private void mnuPopupDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPopupDeleteActionPerformed
+	}
+	private void mnuPopupDeleteActionPerformed() {
 		this.doDeleteSetAction();
-	}//GEN-LAST:event_mnuPopupDeleteActionPerformed
-
-	private void mnuPopupRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPopupRefreshActionPerformed
+	}
+	private void mnuPopupRefreshActionPerformed() {
 		this.doRefreshSetAction();
-	}//GEN-LAST:event_mnuPopupRefreshActionPerformed
-
-	private void mnuPopupOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPopupOpenActionPerformed
+	}
+	private void mnuPopupOpenActionPerformed() {
 		this.doOpenInBrowserAction();
-	}//GEN-LAST:event_mnuPopupOpenActionPerformed
+	}
 
 	/*
 	 * Check for popup and double click.
@@ -1045,7 +964,7 @@ public class MainWindow extends javax.swing.JFrame {
 	 * Note: must check for popup in mouseReleased as well to be compatible
 	 * across all platforms.
 	 */
-	private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
+	private void jList1MousePressed(java.awt.event.MouseEvent evt) {
 		if (evt.isPopupTrigger()) {
 			this.showPopup(evt);
 		} else {
@@ -1054,14 +973,13 @@ public class MainWindow extends javax.swing.JFrame {
 				(new SetEditor(this, EditorMode.EDIT, ssp)).setVisible(true);
 			}
 		}
-	}//GEN-LAST:event_jList1MousePressed
+	}
 
 
-	private void mnuSetOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSetOrderActionPerformed
+	private void mnuSetOrderActionPerformed() {
 		new SetOrderer(this, true).setVisible(true);
-	}//GEN-LAST:event_mnuSetOrderActionPerformed
-
-	private void mnuSSHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSSHelpActionPerformed
+	}
+	private void mnuSSHelpActionPerformed() {
 		int option =
 				JOptionPane.showConfirmDialog(this,
 						resourceBundle.getString("MainWindow.dialog.help.message"),
@@ -1080,9 +998,8 @@ public class MainWindow extends javax.swing.JFrame {
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	}//GEN-LAST:event_mnuSSHelpActionPerformed
-
-	private void mnuHideUnmanagedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuHideUnmanagedActionPerformed
+	}
+	private void mnuHideUnmanagedActionPerformed() {
 		boolean hide = this.mnuHideUnmanaged.isSelected();
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED, DAOHelper.booleanToString(hide));
 		String filter = this.getFilter();
@@ -1090,31 +1007,26 @@ public class MainWindow extends javax.swing.JFrame {
 		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
 		setGlassPane(blocker);
 		new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
-	}//GEN-LAST:event_mnuHideUnmanagedActionPerformed
-
-	private void mnuTutorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTutorialActionPerformed
+	}
+	private void mnuTutorialActionPerformed() {
 		new Tutorial(this, true).setVisible(true);
-	}//GEN-LAST:event_mnuTutorialActionPerformed
-
-	private void mnuLogWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLogWindowActionPerformed
+	}
+	private void mnuLogWindowActionPerformed() {
 		this.logWindow.setVisible(!this.logWindow.isVisible());
-	}//GEN-LAST:event_mnuLogWindowActionPerformed
+	}
 
-	private void mnuViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuViewMouseClicked
+	private void mnuViewMouseClicked() {
 		if (this.logWindow.isVisible()) {
 			this.mnuLogWindow.setText(resourceBundle.getString("MainWindow.mnuLogWindow.text.hide"));
 		} else {
 			this.mnuLogWindow.setText(resourceBundle.getString("MainWindow.mnuLogWindow.text"));
 		}
-	}//GEN-LAST:event_mnuViewMouseClicked
-
-	private void mnuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBackupActionPerformed
-
+	}
+	private void mnuBackupActionPerformed() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		jfc.setMultiSelectionEnabled(false);
 		jfc.setDialogTitle(resourceBundle.getString("MainWindow.backup.dialog.title.text"));
-
 		int option = jfc.showOpenDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
 			BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.backup"));
@@ -1122,15 +1034,12 @@ public class MainWindow extends javax.swing.JFrame {
 			blocker.block("");
 			new DatabaseBackupWorker(blocker, jfc.getSelectedFile()).execute();
 		}
-
-	}//GEN-LAST:event_mnuBackupActionPerformed
-
-	private void mnuRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRestoreActionPerformed
+	}
+	private void mnuRestoreActionPerformed() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(resourceBundle.getString("MainWindow.restore.dialog.title.text"));
 		jfc.setDialogType(JFileChooser.OPEN_DIALOG);
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
 		int option = jfc.showOpenDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
 			BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.restore"));
@@ -1138,7 +1047,7 @@ public class MainWindow extends javax.swing.JFrame {
 			blocker.block("");
 			new DatabaseRestoreWorker(blocker, jfc.getSelectedFile()).execute();
 		}
-	}//GEN-LAST:event_mnuRestoreActionPerformed
+	}
 
 
 	public void doFilter() {
@@ -1156,7 +1065,7 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 
-	private void mnuClearFaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClearFaveActionPerformed
+	private void mnuClearFaveActionPerformed() {
 		int confirm = JOptionPane.showConfirmDialog(this,
 				resourceBundle.getString("MainWindow.dialog.deletefav.message"),
 				resourceBundle.getString("MainWindow.dialog.deletefav.title"),
@@ -1168,49 +1077,45 @@ public class MainWindow extends javax.swing.JFrame {
 			blocker.block("");
 			new FavDeleteWorker(blocker).execute();
 		}
-	}//GEN-LAST:event_mnuClearFaveActionPerformed
+	}
 
-	private void mnuCaseSensitiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCaseSensitiveActionPerformed
+	private void mnuCaseSensitiveActionPerformed() {
 		boolean caseSensitive = this.mnuCaseSensitive.isSelected();
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_CASE_SENSITIVE, DAOHelper.booleanToString(caseSensitive));
-
 		String filter = this.getFilter();
 		this.listModel.clear();
-
 		try {
 			this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
 		} catch (Exception e) {
 			logger.error("Error while getting photoset list.", e);
 		}
-
 		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
 		setGlassPane(blocker);
 		new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
+	}
 
-	}//GEN-LAST:event_mnuCaseSensitiveActionPerformed
-
-	private void btnRefreshAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshAllActionPerformed
-		this.mnuRefreshAllActionPerformed(evt);
-	}//GEN-LAST:event_btnRefreshAllActionPerformed
+	private void btnRefreshAllActionPerformed() {
+		this.mnuRefreshAllActionPerformed();
+	}
 
 
-	/**
+	/*
 	 * Respond to KEY_TYPED events in the filter box.
 	 * <p/>
 	 * The list will filter when the filterTimer fires. If the user types the
 	 * enter key, the list will filter immediately.
 	 *
-	 * @param evt
+	 * @param e the key event
 	 */
-	private void txtFilterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFilterKeyTyped
-		if (evt.getKeyChar() == '\n') {
+	private void txtFilterKeyTyped(KeyEvent e) {
+		if (e.getKeyChar() == '\n') {
 			this.filterTimer.stop();
 			doFilter();
 		} else {
 			this.filterTimer.stop();
 			this.filterTimer.start();
 		}
-	}//GEN-LAST:event_txtFilterKeyTyped
+	}
 
 
 	/**
@@ -1224,7 +1129,7 @@ public class MainWindow extends javax.swing.JFrame {
 	 * be selected. To remove the selection, the FOCUS_GAINED event is used
 	 * to know when the focus is actually gained, and we remove the selection.
 	 *
-	 * @param enabled
+	 * @param enabled true if filter should be enabled.
 	 */
 	public void enableFilter(boolean enabled) {
 		this.txtFilter.setEnabled(enabled);
@@ -1234,40 +1139,30 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 
-	/**
+	/*
 	 * When the filter box gets the focus, the text will be selected. We respond
 	 * to the FOCUS_GAINED event and move the caret to the end of the text, which
 	 * removes the selection.
 	 *
 	 * @param evt
 	 */
-	private void txtFilterFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFilterFocusGained
+	private void txtFilterFocusGained() {
 		this.txtFilter.setCaretPosition(this.txtFilter.getText().length());
-	}//GEN-LAST:event_txtFilterFocusGained
-
-
-	/**
-	 * Check for updates, telling the VersionChecker to display a message
-	 * if there are no updates.
-	 *
-	 * @param evt
-	 */
-	private void mnuCheckUpdatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCheckUpdatesActionPerformed
+	}
+	private void mnuCheckUpdatesActionPerformed() {
 		new Thread(new VersionChecker(true, false)).start();
-	}//GEN-LAST:event_mnuCheckUpdatesActionPerformed
-
-
+	}
 	/*
 	 * Check for popup trigger.
 	 *
 	 * Note: Must check in mousePressed as well to be compatible across all
 	 * platforms.
 	 */
-	private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
+	private void jList1MouseReleased(java.awt.event.MouseEvent evt) {
 		if (evt.isPopupTrigger()) {
 			this.showPopup(evt);
 		}
-	}//GEN-LAST:event_jList1MouseReleased
+	}
 
 
 	public void doAuth() {
@@ -1350,27 +1245,19 @@ public class MainWindow extends javax.swing.JFrame {
 		}
 	}
 
-
 	/**
 	 * Get the filter text. This will be returned in lower case, so comparisons
 	 * should be done in lower case.
 	 *
-	 * @return
+	 * @return the filter text in lower case, or null if there is no filter text.
 	 */
 	public String getFilter() {
 		String filter = this.txtFilter.getText().toLowerCase().trim();
 		if (filter.isEmpty()) {
 			filter = null;
 		}
-
 		return filter;
 	}
-
-
-	public List<SSPhotoset> getMasterList() {
-		return this.masterList;
-	}
-
 
 	/**
 	 * This will replace the master list that backs the list model.
@@ -1382,15 +1269,13 @@ public class MainWindow extends javax.swing.JFrame {
 	 * entire list needs to be refreshed, as it can take time if the user has a
 	 * lot of sets.
 	 *
-	 * @param masterList
-	 * @param visiblePhotosetId
+	 * @param masterList the master list.
+	 * @param visiblePhotosetId id of the photoset that should be visible.
 	 */
 	public void setMasterList(List<SSPhotoset> masterList, String visiblePhotosetId) {
 		this.masterList = masterList;
-
 		String filter = this.getFilter();
 		this.listModel.clear();
-
 		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
 		setGlassPane(blocker);
 		new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), visiblePhotosetId).execute();
@@ -1400,7 +1285,7 @@ public class MainWindow extends javax.swing.JFrame {
 	/**
 	 * Delete the specified set from the backing list and list model.
 	 *
-	 * @param photoset
+	 * @param photoset photoset to delete from list model.
 	 */
 	public void deletePhotosetFromListModel(SSPhotoset photoset) {
 		this.listModel.removeElement(photoset);
@@ -1422,13 +1307,11 @@ public class MainWindow extends javax.swing.JFrame {
 	 * This method must honor the filter text and the hide unmanaged sets menu
 	 * selection.
 	 *
-	 * @param masterList
-	 * @param photoset
+	 * @param masterList the master list.
+	 * @param photoset photoset to insert in list model.
 	 */
 	public void insertPhotosetInListModel(List<SSPhotoset> masterList, SSPhotoset photoset) {
-
 		int index = masterList.indexOf(photoset);
-
 		if (index != -1) {
 			String filter = this.txtFilter.getText();
 			this.masterList = masterList;
@@ -1444,11 +1327,9 @@ public class MainWindow extends javax.swing.JFrame {
 					}
 				}
 			}
-
 			this.updateTitle();
 		} else {
-			logger.warn("ATTEMPTING TO INSERT A NEW PHOTOSET, BUT THE PHOTOSET "
-					+ "IS NOT IN THE MASTER LIST.");
+			logger.warn("ATTEMPTING TO INSERT A NEW PHOTOSET, BUT THE PHOTOSET IS NOT IN THE MASTER LIST.");
 		}
 	}
 
@@ -1456,7 +1337,7 @@ public class MainWindow extends javax.swing.JFrame {
 	/**
 	 * Update the photoset object in the list model.
 	 *
-	 * @param photoset
+	 * @param photoset photoset to be updated.
 	 */
 	public void updatePhotosetInList(SSPhotoset photoset) {
 		try {
