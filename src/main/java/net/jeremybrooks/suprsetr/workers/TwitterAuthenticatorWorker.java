@@ -82,10 +82,8 @@ public class TwitterAuthenticatorWorker extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() {
 		blocker.block(resourceBundle.getString("TwitterAuthWorker.blocker.authorizing"));
-
 		try {
 			TwitterHelper.authenticate();
-
 		} catch (Exception e) {
 			logger.warn("COULD NOT AUTHORIZE TWITTER.", e);
 			((Preferences) this.parent).setMessage(resourceBundle.getString("TwitterAuthWorker.message.error"));
@@ -99,7 +97,6 @@ public class TwitterAuthenticatorWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected void done() {
-
 		try {
 			((Preferences) this.parent).updateStatus();
 		} catch (Exception e) {
