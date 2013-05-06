@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 /**
@@ -81,6 +82,8 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 	 */
 	private boolean hasErrors = false;
 
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+
 	/**
 	 * Create a new instance of FavrTagr.
 	 *
@@ -110,14 +113,14 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected Void doInBackground() {
-		Photos photos = null;
-		List<String> newFaves = null;
+		Photos photos;
+		List<String> newFaves;
 		int processed = 0;
-		int total = 0;
+		int total;
 
 		try {
-			blocker.setTitle("FavrTagr Running");
-			blocker.updateMessage("Getting a list of your photos....");
+			blocker.setTitle(resourceBundle.getString("FavrTagrWorker.blocker.title"));
+			blocker.updateMessage(resourceBundle.getString("FavrTagrWorker.blocker.list"));
 
 			// Search for:
 			//    All media types
@@ -135,9 +138,9 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
 			logger.info("Got " + total + " photos.");
 
-			blocker.updateMessage("Looking for photos to tag...");
+			blocker.updateMessage(resourceBundle.getString("FavrTagrWorker.blocker.looking"));
 
-			blocker.setTitle("FavrTagr Processed " + processed + "/" + total);
+			blocker.setTitle(resourceBundle.getString("FavrTagrWorker.blocker.title.status") + " " + processed + "/" + total);
 
 			// iterate through all photos
 			for (Photo p : photos.getPhotos()) {
@@ -154,26 +157,27 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 					// if existing + new > 75, trim the new tag list
 					if (existingTags.size() >= 75) {
 						this.hasErrors = true;
-						StringBuilder sb = new StringBuilder("FavrTagr: Photo ");
-						sb.append(p.getId()).append(" <").append(p.getUrl());
-						sb.append("> has too many tags! Cannot add any more.");
+						StringBuilder sb = new StringBuilder(resourceBundle.getString("FavrTagrWorker.message.toomanytags1"));
+						sb.append(" ").append(p.getId()).append(" <").append(p.getUrl()).append("> ");
+						sb.append(resourceBundle.getString("FavrTagrWorker.message.toomanytags2"));
 						LogWindow.addLogMessage(sb.toString());
 					} else if (existingTags.size() + newFaves.size() > 75) {
 						// remove elements from the beginning of the list as needed
-
 						int del = (existingTags.size() + newFaves.size()) - 75;
 						newFaves.subList(0, del).clear();
-
-						LogWindow.addLogMessage("Photo " + p.getId() +
-								" had too many tags. Tag list was trimmed.");
+						LogWindow.addLogMessage(resourceBundle.getString("message.photo") + " " + p.getId() +
+								" " + resourceBundle.getString("FavrTagrWorker.message.toomanytags3"));
 					}
 
 					// Don't even try if there are too many tags.
 					if (existingTags.size() < 75) {
 						try {
-							PhotoHelper.getInstance().addTags(p, newFaves.toArray(new String[0]));
-							LogWindow.addLogMessage("Photo " + p.getId() + " was tagged with: " + newFaves);
-							blocker.updateMessage("Tagged '" + p.getTitle() + "', looking for more photos to tag...");
+							PhotoHelper.getInstance().addTags(p, newFaves.toArray(new String[newFaves.size()]));
+							LogWindow.addLogMessage(resourceBundle.getString("message.Photo") +
+									" " + p.getId() + "  " + resourceBundle.getString("FavrTagrWorker.message.taggedwith") + " " + newFaves);
+							blocker.updateMessage(resourceBundle.getString("FavrTagrWorker.blocker.tagged") +
+									" '" + p.getTitle() +
+									resourceBundle.getString("FavrTagrWorker.blocker.lookingmore"));
 							this.count++;
 						} catch (JinxException je) {
 							if (je.getErrorCode() == 2) {
@@ -183,9 +187,9 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 								// the limit, since we already check for the number
 								// of tags before attempting to add more.
 								this.hasErrors = true;
-								StringBuilder sb = new StringBuilder("FavrTagr: Photo ");
-								sb.append(p.getId()).append(" <").append(p.getUrl());
-								sb.append("> has too many tags! Cannot add any more.");
+								StringBuilder sb = new StringBuilder(resourceBundle.getString("FavrTagrWorker.message.toomanytags1"));
+								sb.append(" ").append(p.getId()).append(" <").append(p.getUrl()).append("> ");
+								sb.append(resourceBundle.getString("FavrTagrWorker.message.toomanytags2"));
 								LogWindow.addLogMessage(sb.toString());
 							}
 						} catch (Exception e) {
@@ -197,7 +201,8 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
 				processed++;
 				if (processed % 100 == 0) {
-					blocker.setTitle("FavrTagr Processed " + processed + "/" + total);
+					blocker.setTitle(resourceBundle.getString("FavrTagrWorker.blocker.title.status") +
+							" " + processed + "/" + total);
 				}
 			}
 
@@ -215,28 +220,26 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected void done() {
-		StringBuilder message = new StringBuilder("Added new fav tags to ");
+		StringBuilder message = new StringBuilder(resourceBundle.getString("FavrTagrWorker.message.addednew"));
+		message.append(" ");
 		message.append(this.count);
 		if (this.count == 1) {
-			message.append(" photo.");
+			message.append(resourceBundle.getString("message.photo"));
 		} else {
-			message.append(" photos.");
+			message.append(resourceBundle.getString("message.photos"));
 		}
+		message.append('.');
 
 		blocker.unBlock();
-		LogWindow.addLogMessage("FavrTagr finished. " + message.toString());
+		LogWindow.addLogMessage(resourceBundle.getString("FavrTagrWorker.message.finished") + ". " + message.toString());
 		JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
 				message.toString(),
-				"FavrTagr Finished",
+				resourceBundle.getString("FavrTagrWorker.message.finished"),
 				JOptionPane.INFORMATION_MESSAGE);
-
-
 		if (this.hasErrors) {
 			JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
-					"Some photos could not be tagged because they already\n" +
-							"have too many tags. Look in the Activity Log\n" +
-							"(View -> Show Activity Log) for details.",
-					"Errors",
+					resourceBundle.getString("FavrTagrWorker.dialog.error.message"),
+					resourceBundle.getString("FavrTagrWorker.dialog.error.title"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -262,7 +265,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 			return null;
 		}
 
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		int faveCheck = myInterval;
 
 		// Check to see if the fave count is greater than each fave interval
@@ -283,11 +286,13 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 				faveCheck += myInterval;
 			}
 
-			// for special mode "The Hawk....", only check for 10, 25, and 100 faves
+			// for special mode "The Hawk....", only check for 10, 25, 50, and 100 faves
 			if (this.interval == 4) {
 				if (faveCheck == 10) {
 					faveCheck = 25;
 				} else if (faveCheck == 25) {
+					faveCheck = 50;
+				} else if (faveCheck == 50) {
 					faveCheck = 100;
 				} else if (faveCheck == 100) {
 					faveCheck = Integer.MAX_VALUE;
@@ -297,6 +302,4 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
 		return list;
 	}
-
-
 }

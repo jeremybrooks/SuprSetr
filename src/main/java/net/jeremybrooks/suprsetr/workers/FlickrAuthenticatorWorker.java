@@ -28,96 +28,98 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import java.awt.Desktop;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 
 /**
  * This class performs Flickr authentication on a background thread.
- *
+ * <p/>
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- *
  * @author jeremyb
  */
 public class FlickrAuthenticatorWorker extends SwingWorker<Void, Void> {
 
-    /** Logging. */
-    private Logger logger = Logger.getLogger(FlickrAuthenticatorWorker.class);
+	/**
+	 * Logging.
+	 */
+	private Logger logger = Logger.getLogger(FlickrAuthenticatorWorker.class);
 
-    /** The blocker instance. */
-    private BlockerPanel blocker;
+	/**
+	 * The blocker instance.
+	 */
+	private BlockerPanel blocker;
 
-    /** The parent dialog. */
-    private JDialog parent;
-
-
-    /**
-     * Create a new instance of FlickrAuthenticator.
-     *
-     * @param parent the parent dialog.
-     * @param blocker the blocker.
-     */
-    public FlickrAuthenticatorWorker(JDialog parent, BlockerPanel blocker) {
-	this.parent = parent;
-	this.blocker = blocker;
-    }
+	/**
+	 * The parent dialog.
+	 */
+	private JDialog parent;
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
-    /**
-     * Execute the Flickr operation and database operations on a background
-     * thread.
-     *
-     * <p>The user's browser will be opened to the Flickr auth page. Once the
-     * user has authorized SuprSetr, control will return to the parent dialog.</p>
-     *
-     * @return this method does not return any data.
-     */
-    @Override
-    protected Void doInBackground() {
-	blocker.block("Getting authentication URL...");
-	try {
-	    URL url = FlickrHelper.getInstance().getAuthenticationURL();
-
-		Desktop.getDesktop().browse(url.toURI());
-
-	    blocker.updateMessage("Waiting for authentication...");
-	    
-	    JOptionPane.showMessageDialog(this.parent,
-		    "Your browser will open the Flickr site.\n" +
-		    "After granting permission to SuprSetr, click OK.",
-		    "Waiting For Authentication",
-		    JOptionPane.INFORMATION_MESSAGE);
-
-	    blocker.updateMessage("Completing authentication...");
-	    
-	    FlickrHelper.getInstance().completeAuthentication();
-
-	    logger.info("Authentication success.");
-	    
-	} catch (Exception e) {
-	    logger.error("Error while attempting to authenticate.", e);
-            JOptionPane.showMessageDialog(this.parent,
-                    "There was an error while attempting to authenticate.\n" +
-                    "Please check the log file.",
-                    e.getMessage(),
-                    JOptionPane.ERROR_MESSAGE);
+	/**
+	 * Create a new instance of FlickrAuthenticator.
+	 *
+	 * @param parent  the parent dialog.
+	 * @param blocker the blocker.
+	 */
+	public FlickrAuthenticatorWorker(JDialog parent, BlockerPanel blocker) {
+		this.parent = parent;
+		this.blocker = blocker;
 	}
 
-	return null;
-    }
+
+	/**
+	 * Execute the Flickr operation and database operations on a background
+	 * thread.
+	 * <p/>
+	 * <p>The user's browser will be opened to the Flickr auth page. Once the
+	 * user has authorized SuprSetr, control will return to the parent dialog.</p>
+	 *
+	 * @return this method does not return any data.
+	 */
+	@Override
+	protected Void doInBackground() {
+		blocker.block(resourceBundle.getString("FlickrAuthWorker.blocker.gettingurl"));
+		try {
+			URL url = FlickrHelper.getInstance().getAuthenticationURL();
+
+			Desktop.getDesktop().browse(url.toURI());
+
+			blocker.updateMessage(resourceBundle.getString("FlickrAuthWorker.blocker.waiting"));
+
+			JOptionPane.showMessageDialog(this.parent,
+					resourceBundle.getString("FlickrAuthWorker.dialog.open.message"),
+					resourceBundle.getString("FlickrAuthWorker.dialog.open.title"),
+					JOptionPane.INFORMATION_MESSAGE);
+
+			blocker.updateMessage(resourceBundle.getString("FlickrAuthWorker.blocker.completing"));
+
+			FlickrHelper.getInstance().completeAuthentication();
+
+			logger.info("Authentication success.");
+
+		} catch (Exception e) {
+			logger.error("Error while attempting to authenticate.", e);
+			JOptionPane.showMessageDialog(this.parent,
+					resourceBundle.getString("FlickrAuthWorker.dialog.error.message"),
+					e.getMessage(),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
 
 
-    /**
-     * Finished, so unblock and return control to the parent dialog.
-     */
-    @Override
-    protected void done() {
-
-	blocker.unBlock();
-	this.parent.dispose();
-	this.parent.setVisible(false);
-    }
-
+	/**
+	 * Finished, so unblock and return control to the parent dialog.
+	 */
+	@Override
+	protected void done() {
+		blocker.unBlock();
+		this.parent.dispose();
+		this.parent.setVisible(false);
+	}
 }

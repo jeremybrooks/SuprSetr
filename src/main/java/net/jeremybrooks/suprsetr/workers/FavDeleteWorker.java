@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 
 /**
@@ -66,10 +67,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 	 */
 	private int count = 0;
 
-	/**
-	 * Flag to indicate if there were errors.
-	 */
-	private boolean hasErrors = false;
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
 	/**
@@ -97,8 +95,8 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 		int total;
 
 		try {
-			blocker.setTitle("Fav Tag Delete Running");
-			blocker.updateMessage("Getting a list of your photos....");
+			blocker.setTitle(resourceBundle.getString("FavDeleteWorker.blocker.title.running"));
+			blocker.updateMessage(resourceBundle.getString("FavDeleteWorker.blocker.list"));
 
 			// Search for:
 			//    All media types
@@ -116,17 +114,15 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 
 			logger.info("Got " + total + " photos.");
 
-			blocker.updateMessage("Looking for fav tags...");
+			blocker.updateMessage(resourceBundle.getString("FavDeleteWorker.blocker.looking"));
 
-			blocker.setTitle("Fav Tag Delete Processed " + processed + "/" + total);
+			blocker.setTitle(resourceBundle.getString("FavDeleteWorker.blocker.title.status") + " " + processed + "/" + total);
 
 			// iterate through all photos
 			for (Photo p : photos.getPhotos()) {
-
 				// if it looks like we might have some fav tags, get the photo info
 				if (p.getTags().contains("fav")) {
 					PhotoInfo pi = PhotoHelper.getInstance().getPhotoInfo(p);
-
 					// Look for "favxx" tags, and delete them.
 					for (Tag tag : pi.getTagList()) {
 						if (tag.getRaw().startsWith("fav")) {
@@ -135,7 +131,10 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 									logger.info("Removing tag " + tag.toString() + " from photo " + p.getId());
 									PhotoHelper.getInstance().removeTag(tag.getId());
 									this.count++;
-									LogWindow.addLogMessage("Removed tag " + tag.getText() + " from photo " + p.getId());
+									LogWindow.addLogMessage(resourceBundle.getString("FavDeleteWorker.log.removed") +
+											" " + tag.getText() + " " +
+											resourceBundle.getString("FavDeleteWorker.log.fromphoto") +
+											" " + p.getId());
 								}
 							} catch (Exception e) {
 								// ignore
@@ -143,21 +142,15 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 						}
 					}
 				}
-
 				processed++;
-
 				if (processed % 100 == 0) {
-					blocker.setTitle("Fav Tag Delete Processed " + processed + "/" + total);
+					blocker.setTitle(resourceBundle.getString("FavDeleteWorker.blocker.title.finished") + " " + processed + "/" + total);
 				}
 			}
-
 		} catch (Exception e) {
 			logger.info("ERROR RUNNING FAV TAG DELETE.", e);
 		}
-
 		return null;
-
-
 	}
 
 
@@ -167,21 +160,20 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected void done() {
-		StringBuilder message = new StringBuilder("Removed fav tags from ");
-		message.append(this.count);
+		StringBuilder message = new StringBuilder(resourceBundle.getString("FavDeleteWorker.message.removed"));
+		message.append(" ").append(this.count);
 		if (this.count == 1) {
-			message.append(" photo.");
+			message.append(resourceBundle.getString("message.photo"));
 		} else {
-			message.append(" photos.");
+			message.append(resourceBundle.getString("message.photos"));
 		}
+		message.append(".");
 
 		blocker.unBlock();
 		JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
 				message.toString(),
-				"Fav Tag Delete Finished",
+				resourceBundle.getString("FavDeleteWorker.dialog.finished.title"),
 				JOptionPane.INFORMATION_MESSAGE);
 		LogWindow.addLogMessage(message.toString());
 	}
-
-
 }

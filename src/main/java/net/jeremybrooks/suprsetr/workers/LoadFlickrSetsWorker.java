@@ -19,8 +19,6 @@
 
 package net.jeremybrooks.suprsetr.workers;
 
-//import com.aetrion.flickr.photosets.Photoset;
-
 import net.jeremybrooks.jinx.api.PhotosetsApi;
 import net.jeremybrooks.jinx.dto.Photoset;
 import net.jeremybrooks.jinx.dto.Photosets;
@@ -36,6 +34,7 @@ import org.apache.log4j.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 /**
@@ -61,6 +60,8 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 	 */
 	private BlockerPanel blocker;
 
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+
 
 	/**
 	 * Create a new instance of LoadFlickrSets.
@@ -72,6 +73,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 	}
 
 
+
 	/**
 	 * Execute the Flickr operation and database operations on a background
 	 * thread.
@@ -80,7 +82,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 	 */
 	@Override
 	protected Void doInBackground() {
-		blocker.updateMessage("Getting photosets from Flickr...");
+		blocker.updateMessage(resourceBundle.getString("LoadFlickrSetsWorker.blocker.gettingphotosets"));
 		String nsid = FlickrHelper.getInstance().getNSID();
 		Photosets photosets;
 
@@ -89,7 +91,8 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 		try {
 			photosets = PhotosetsApi.getInstance().getList(nsid, true);
 			for (Photoset p : photosets.getPhotosetList()) {
-				blocker.updateMessage("Processing \"" + p.getTitle() + "\"");
+				blocker.updateMessage(resourceBundle.getString("LoadFlickrSetsWorker.blocker.processing") +
+						" \"" + p.getTitle() + "\"");
 
 				SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getId());
 
@@ -159,19 +162,13 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					PhotosetDAO.delete(ssp);
 				}
 			}
-
-
 		} catch (Exception e) {
 			logger.error("ERROR GETTING PHOTOSET LIST.", e);
-
 			JOptionPane.showMessageDialog(null,
-					"There was an error while getting photosets.\n"
-							+ "The error was " + e.getMessage() + "\n\n"
-							+ "See the log for details.",
-					"Error",
+					resourceBundle.getString("LoadFlickrSetsWorker.dialog.error.message") + " " + e.getMessage(),
+					resourceBundle.getString("LoadFlickrSetsWorker.dialog.error.title"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-
 		return null;
 	}
 
@@ -184,16 +181,13 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 		// UPDATE THE LIST MODEL
 		try {
 			MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
-
 		} catch (Exception e) {
 			logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);
 			JOptionPane.showMessageDialog(null,
-					"There was an error while trying to update the list.\n"
-							+ "However, the new set has been created successfully,\n"
-							+ "and should appear in the list next time you start SuprSetr.",
-					"Error Updating GUI", JOptionPane.WARNING_MESSAGE);
+					resourceBundle.getString("dialog.guierror.message"),
+					resourceBundle.getString("dialog.guierror.title"),
+					JOptionPane.WARNING_MESSAGE);
 		}
 		blocker.unBlock();
 	}
-
 }
