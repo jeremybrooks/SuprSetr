@@ -1,0 +1,299 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "mainwindow"
+	"i18n.autoExternalize": true
+	"i18n.keyPrefix": "MainWindow"
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"defaultCloseOperation": 3
+			"title": new FormMessage( null, "MainWindow.this.title" )
+			"$sizePolicy": 1
+			"$locationPolicy": 1
+			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+				name: "jToolBar1"
+				"rollover": true
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnAddSet"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
+					"toolTipText": new FormMessage( null, "MainWindow.btnAddSet.toolTipText" )
+					"focusable": false
+					"horizontalTextPosition": 0
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnAddSetActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnEditSet"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
+					"toolTipText": new FormMessage( null, "MainWindow.btnEditSet.toolTipText" )
+					"focusable": false
+					"horizontalTextPosition": 0
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnEditSetActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnDeleteSet"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
+					"toolTipText": new FormMessage( null, "MainWindow.btnDeleteSet.toolTipText" )
+					"focusable": false
+					"horizontalTextPosition": 0
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnDeleteSetActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnRefreshSet"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
+					"toolTipText": new FormMessage( null, "MainWindow.btnRefreshSet.toolTipText" )
+					"focusable": false
+					"horizontalTextPosition": 0
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshSetActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnRefreshAll"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refreshall16.png" )
+					"toolTipText": new FormMessage( null, "MainWindow.btnRefreshAll.toolTipText" )
+					"focusable": false
+					"horizontalTextPosition": 0
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshAllActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator2"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Filter"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txtFilter"
+					"toolTipText": new FormMessage( null, "MainWindow.txtFilter.toolTipText" )
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "txtFilterFocusGained", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyTyped", "txtFilterKeyTyped", true ) )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "North"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "jList1"
+					"selectionMode": 0
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "jList1MousePressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseReleased", "jList1MouseReleased", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "jList1MouseClicked", true ) )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jMenuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnuFile"
+					"text": new FormMessage( null, "MainWindow.mnuFile.text" )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuBrowser"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/web16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuBrowser.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuBrowserActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuBackup"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/database16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuBackup.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuBackupActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuRestore"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/database16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuRestore.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRestoreActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator1"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuQuit"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/quit16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuQuit.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuQuitActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnuEdit"
+					"text": new FormMessage( null, "MainWindow.mnuEdit.text" )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuCreateSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuCreateSet.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCreateSetActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuEditSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuEditSet.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuEditSetActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuDeleteSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuDeleteSet.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuDeleteSetActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuRefreshSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuRefreshSet.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRefreshSetActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuRefreshAll"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refreshall16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuRefreshAll.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRefreshAllActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuPreferences"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/process16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuPreferences.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPreferencesActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnuView"
+					"text": new FormMessage( null, "MainWindow.mnuView.text" )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "mnuViewMouseClicked", true ) )
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "mnuHideUnmanaged"
+						"text": new FormMessage( null, "MainWindow.mnuHideUnmanaged.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuHideUnmanagedActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "mnuCaseSensitive"
+						"text": new FormMessage( null, "MainWindow.mnuCaseSensitive.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCaseSensitiveActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuLogWindow"
+						"text": new FormMessage( null, "MainWindow.mnuLogWindow.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnuTools"
+					"text": new FormMessage( null, "MainWindow.mnuTools.text" )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuFavr"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/tag16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuFavr.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuFavrActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuClearFave"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/deletetag16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuClearFave.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuClearFaveActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuSetOrder"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/order16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuSetOrder.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuSetOrderActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuLogs"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/compress16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuLogs.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogsActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnuHelp"
+					"text": new FormMessage( null, "MainWindow.mnuHelp.text" )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuAbout"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuAbout.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuAboutActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuTutorial"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/info16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuTutorial.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuTutorialActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuSSHelp"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuSSHelp.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuSSHelpActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuCheckUpdates"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/new16.png" )
+						"text": new FormMessage( null, "MainWindow.mnuCheckUpdates.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCheckUpdatesActionPerformed", true ) )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 488, 522 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "mnuPopup"
+			add( new FormComponent( "javax.swing.JMenuItem" ) {
+				name: "mnuPopupCreate"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
+				"text": new FormMessage( null, "MainWindow.mnuPopupCreate.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupCreateActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 4
+				"width": 205
+			} )
+			add( new FormComponent( "javax.swing.JMenuItem" ) {
+				name: "mnuPopupEdit"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
+				"text": new FormMessage( null, "MainWindow.mnuPopupEdit.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupEditActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 23
+				"width": 205
+			} )
+			add( new FormComponent( "javax.swing.JMenuItem" ) {
+				name: "mnuPopupDelete"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
+				"text": new FormMessage( null, "MainWindow.mnuPopupDelete.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupDeleteActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 42
+				"width": 205
+			} )
+			add( new FormComponent( "javax.swing.JMenuItem" ) {
+				name: "mnuPopupRefresh"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
+				"text": new FormMessage( null, "MainWindow.mnuPopupRefresh.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupRefreshActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 61
+				"width": 205
+			} )
+			add( new FormComponent( "javax.swing.JMenuItem" ) {
+				name: "mnuPopupOpen"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/web16.png" )
+				"text": new FormMessage( null, "MainWindow.mnuPopupOpen.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupOpenActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 80
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 532 )
+		} )
+	}
+}
