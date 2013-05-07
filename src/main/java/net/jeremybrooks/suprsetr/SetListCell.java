@@ -40,6 +40,7 @@ import java.util.ResourceBundle;
  */
 public class SetListCell extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = -1125238132858767565L;
 	private boolean cacheValid = false;
 
 	// Some static references to often-used icons. No need to have more than
