@@ -1,0 +1,68 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "setlistcell"
+	"i18n.autoExternalize": true
+	"i18n.keyPrefix": "SetListCell"
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "this"
+			"border": new javax.swing.border.BevelBorder( 0, null, null, null, null )
+			"minimumSize": new java.awt.Dimension( 494, 81 )
+			"preferredSize": new java.awt.Dimension( 0, 81 )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblTwitter"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/twitter24.png" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 40
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblPic"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/empty_set_icon.png" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 2
+				"y": 3
+				"width": 75
+				"height": 75
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblTitle"
+				"font": new java.awt.Font( "Lucida Grande", 1, 13 )
+				"text": new FormMessage( null, "SetListCell.lblTitle.text" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 80
+				"height": 23
+				"width": 350
+				"y": 5
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblLastUpdate"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/accept.png" )
+				"text": new FormMessage( null, "SetListCell.lblLastUpdate.text" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 80
+				"y": 55
+				"height": 23
+				"width": 350
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblManaged"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/accept.png" )
+				"text": new FormMessage( null, "SetListCell.lblManaged.text" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 80
+				"y": 30
+				"height": 23
+				"width": 350
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 434, 81 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
