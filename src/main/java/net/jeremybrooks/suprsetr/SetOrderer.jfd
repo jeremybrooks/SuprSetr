@@ -1,0 +1,85 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "setorderer"
+	"i18n.autoExternalize": true
+	"i18n.keyPrefix": "SetOrderer"
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0, 0, 0"
+			"$rowSpecs": "0, 0, 0"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": new FormMessage( null, "SetOrderer.this.title" )
+			"$sizePolicy": 1
+			"$locationPolicy": 1
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"text": new FormMessage( null, "SetOrderer.jLabel1.text" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"hAlign": 2
+				"vAlign": 0
+				"insets": new java.awt.Insets( 3, 3, 3, 3 )
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "cmbOrder"
+				auxiliary() {
+					"JavaCodeGenerator.postInitCode": "cmbOrder.setModel(new DefaultComboBoxModel(this.comboBoxModel));"
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbOrderActionPerformed", false ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"vAlign": 0
+				"weightx": 1.0
+				"insets": new java.awt.Insets( 3, 0, 3, 3 )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnSave"
+				"text": new FormMessage( null, "SetOrderer.btnSave.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSaveActionPerformed", false ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 2
+				"gridy": 2
+				"hAlign": 4
+				"vAlign": 0
+				"insets": new java.awt.Insets( 3, 3, 3, 3 )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "jList1"
+					"selectionMode": 0
+					auxiliary() {
+						"JavaCodeGenerator.postInitCode": "jList1.setModel(this.listModel);\njList1.setCellRenderer(new SetOrdererRenderer());"
+					}
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+				"gridwidth": 3
+				"weightx": 1.0
+				"weighty": 1.0
+				"insets": new java.awt.Insets( 3, 3, 3, 3 )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnCancel"
+				"text": new FormMessage( null, "SetOrderer.btnCancel.text" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnCancelActionPerformed", false ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 2
+				"hAlign": 4
+				"vAlign": 0
+				"insets": new java.awt.Insets( 3, 3, 3, 3 )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 429, 629 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
