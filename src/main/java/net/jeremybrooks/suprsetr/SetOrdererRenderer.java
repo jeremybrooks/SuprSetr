@@ -51,7 +51,9 @@ public class SetOrdererRenderer implements ListCellRenderer {
 			soc.setTitle(dto.getTitle());
 			soc.setDescription(dto.getDescription());
 			soc.setPhotoCount(dto.getPhotoCount());
-			soc.setImage(dto.getIcon());
+			if (dto.getIcon() != null) {
+				soc.setImage(dto.getIcon());
+			}
 		}
 		soc.setSelected(isSelected);
 		return soc;

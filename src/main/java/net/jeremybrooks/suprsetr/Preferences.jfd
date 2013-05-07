@@ -1,0 +1,216 @@
+JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
+	"i18n.bundleName": "preferences"
+	"i18n.keyPrefix": "Preferences"
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": new FormMessage( null, "Preferences.this.title" )
+			"$sizePolicy": 1
+			"$locationPolicy": 1
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "jTabbedPane1"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, par l {seq l {comp lblFavrPrefix:::p::p, space :::p, comp cmbFavr:::p::p}, seq l {comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}}}, comp cbxDetailLog::l:p::p, seq l {space :p:8:p, par l {seq l {par l {comp lblLogFile::l:p::p, comp lblRetain::l:p::p}, space :::p, par l {comp cmbLogSize:::p::p, comp cmbLogIndex::l:p::p}}, comp lblNote::l:p::p}}}, space ::14:x}}"
+					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :::p, par b {comp lblFavrPrefix::b:p::p, comp cmbFavr::b:p::p}, space s:::p, comp cbxDetailLog:::p::p, space :::p, par b {comp lblLogFile::b:p::p, comp cmbLogSize::b:p::p}, space :::p, par b {comp lblRetain::b:p::p, comp cmbLogIndex::b:p::p}, space ::38:x, comp lblNote:::p::p, space :::p}}"
+				} ) {
+					name: "jPanel1"
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxAddVia"
+						"text": new FormMessage( null, "Preferences.cbxAddVia.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAddViaActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxAddManaged"
+						"text": new FormMessage( null, "Preferences.cbxAddManaged.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAddManagedActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblRefreshPrefix"
+						"text": new FormMessage( null, "Preferences.lblRefreshPrefix.text" )
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "cmbRefresh"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "6"
+							addElement( "6" )
+							addElement( "12" )
+							addElement( "24" )
+							addElement( "48" )
+							addElement( "72" )
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbRefreshActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblRefreshSuffix"
+						"text": new FormMessage( null, "Preferences.lblRefreshSuffix.text" )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxUpdate"
+						"text": new FormMessage( null, "Preferences.cbxUpdate.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxUpdateActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblFavrPrefix"
+						"text": new FormMessage( null, "Preferences.lblFavrPrefix.text" )
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "cmbFavr"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "every 10 favorites"
+							addElement( "every 10 favorites" )
+							addElement( "every 25 favorites" )
+							addElement( "every 100 favorites" )
+							addElement( "every 10 favorites up to 100, then every 100 favorites" )
+							addElement( "only 10, 25, 50, and 100 favorites" )
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbFavrActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxDetailLog"
+						"text": new FormMessage( null, "Preferences.cbxDetailLog.text" )
+						"toolTipText": new FormMessage( null, "Preferences.cbxDetailLog.toolTipText" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDetailLogActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblLogFile"
+						"text": new FormMessage( null, "Preferences.lblLogFile.text" )
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "cmbLogSize"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "1MB"
+							addElement( "1MB" )
+							addElement( "5MB" )
+							addElement( "10MB" )
+						}
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblRetain"
+						"text": new FormMessage( null, "Preferences.lblRetain.text" )
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "cmbLogIndex"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "2"
+							addElement( "2" )
+							addElement( "5" )
+							addElement( "10" )
+						}
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblNote"
+						"font": new java.awt.Font( "Lucida Grande", 2, 13 )
+						"text": new FormMessage( null, "Preferences.lblNote.text" )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "Preferences.jPanel1.tab.title" )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {par l {seq {space :::p, comp lblFlickrStatus:::p::p}, comp btnFlickr::l:p::p}, space ::460:x}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp lblFlickrStatus:::p::p, space s:::p, comp btnFlickr:::p::p, space ::259:x}}"
+				} ) {
+					name: "pnlFlickr"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblFlickrStatus"
+						"text": new FormMessage( null, "Preferences.lblFlickrStatus.text" )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnFlickr"
+						"text": new FormMessage( null, "Preferences.btnFlickr.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFlickrActionPerformed", true ) )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "Preferences.pnlFlickr.tab.title" )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {par l {seq l {space :p:20:p, comp lblTwitterStatus::::541:x}, comp btnTwitter::l:p::p, seq t {space :::p, comp lblMessage:::p:361:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp lblTwitterStatus:::p::p, space s:::p, comp btnTwitter:::p::p, space :p:34:p, comp lblMessage:::p::p, space ::225:x}}"
+				} ) {
+					name: "pnlTwitter"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblTwitterStatus"
+						"text": new FormMessage( null, "Preferences.lblTwitterStatus.text" )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnTwitter"
+						"text": new FormMessage( null, "Preferences.btnTwitter.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnTwitterActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblMessage"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "Preferences.pnlTwitter.tab.title" )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {par l {seq {space :p:23:p, par t {comp lblPassword::t:p::p, comp lblPort::t:p::p, comp lblHost::t:p::p}}, seq l {space :::p, comp lblUsername:::p::p}}, par l {seq l {space :p:7:p, comp txtProxyPass:::p:203:p:1}, seq l {space :p:6:p, par l {comp txtProxyPort::l:p:92:p, comp txtProxyUser::l:p:177:p:1}}}, space ::259:x}, seq l {space :p:92:p, par l {seq l {comp cbxProxy:::p::p, space :::p}, comp txtProxyHost::l::463:x}}}"
+					"$verticalGroup": "par l {seq {comp cbxProxy:::p::p, space :::p, par b {comp txtProxyHost::b:p::p, comp lblHost::b:p::p}, space :p::p, par b {comp txtProxyPort::b:p::p, comp lblPort::b:p::p}, space :::p, par b {comp txtProxyUser::b:p::p, comp lblUsername::b:p::p}, space :::p, par b {comp txtProxyPass::b:p::p, comp lblPassword::b:p::p}, space ::140:x}}"
+				} ) {
+					name: "pnlProxy"
+					"border": new javax.swing.border.TitledBorder( "i18nKey=Preferences.pnlProxy.border" )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxProxy"
+						"text": new FormMessage( null, "Preferences.cbxProxy.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxProxyActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblHost"
+						"text": new FormMessage( null, "Preferences.lblHost.text" )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblPort"
+						"text": new FormMessage( null, "Preferences.lblPort.text" )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblUsername"
+						"text": new FormMessage( null, "Preferences.lblUsername.text" )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblPassword"
+						"text": new FormMessage( null, "Preferences.lblPassword.text" )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtProxyHost"
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtProxyPort"
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtProxyUser"
+					} )
+					add( new FormComponent( "javax.swing.JPasswordField" ) {
+						name: "txtProxyPass"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "Preferences.pnlProxy.tab.title" )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"alignment": 2
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnOK"
+					"text": new FormMessage( null, "Preferences.btnOK.text" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnOKActionPerformed", true ) )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "South"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 590, 425 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

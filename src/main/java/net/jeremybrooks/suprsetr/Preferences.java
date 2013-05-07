@@ -20,6 +20,8 @@
 package net.jeremybrooks.suprsetr;
 
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import javax.swing.JDialog;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
@@ -275,6 +277,7 @@ public class Preferences extends javax.swing.JDialog {
 		txtProxyPort = new JTextField();
 		txtProxyUser = new JTextField();
 		txtProxyPass = new JPasswordField();
+		panel1 = new JPanel();
 		btnOK = new JButton();
 
 		//======== this ========
@@ -287,6 +290,7 @@ public class Preferences extends javax.swing.JDialog {
 			}
 		});
 		Container contentPane = getContentPane();
+		contentPane.setLayout(new BorderLayout());
 
 		//======== jTabbedPane1 ========
 		{
@@ -458,7 +462,7 @@ public class Preferences extends javax.swing.JDialog {
 							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(lblRetain)
 								.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
 							.addComponent(lblNote)
 							.addContainerGap())
 				);
@@ -500,7 +504,7 @@ public class Preferences extends javax.swing.JDialog {
 							.addComponent(lblFlickrStatus)
 							.addGap(18, 18, 18)
 							.addComponent(btnFlickr)
-							.addContainerGap(225, Short.MAX_VALUE))
+							.addContainerGap(259, Short.MAX_VALUE))
 				);
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlFlickr.tab.title"), pnlFlickr);
@@ -545,7 +549,7 @@ public class Preferences extends javax.swing.JDialog {
 							.addComponent(btnTwitter)
 							.addGap(34, 34, 34)
 							.addComponent(lblMessage)
-							.addContainerGap(191, Short.MAX_VALUE))
+							.addContainerGap(225, Short.MAX_VALUE))
 				);
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlTwitter.tab.title"), pnlTwitter);
@@ -629,39 +633,29 @@ public class Preferences extends javax.swing.JDialog {
 							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(txtProxyPass, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblPassword))
-							.addContainerGap(106, Short.MAX_VALUE))
+							.addContainerGap(140, Short.MAX_VALUE))
 				);
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
 
 		}
+		contentPane.add(jTabbedPane1, BorderLayout.CENTER);
 
-		//---- btnOK ----
-		btnOK.setText(bundle.getString("Preferences.btnOK.text"));
-		btnOK.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnOKActionPerformed(e);
-			}
-		});
+		//======== panel1 ========
+		{
+			panel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
-		contentPane.setLayout(contentPaneLayout);
-		contentPaneLayout.setHorizontalGroup(
-			contentPaneLayout.createParallelGroup()
-				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnOK))
-				.addComponent(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
-		);
-		contentPaneLayout.setVerticalGroup(
-			contentPaneLayout.createParallelGroup()
-				.addGroup(contentPaneLayout.createSequentialGroup()
-					.addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(btnOK)
-					.addContainerGap())
-		);
+			//---- btnOK ----
+			btnOK.setText(bundle.getString("Preferences.btnOK.text"));
+			btnOK.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					btnOKActionPerformed(e);
+				}
+			});
+			panel1.add(btnOK);
+		}
+		contentPane.add(panel1, BorderLayout.SOUTH);
 		setSize(590, 425);
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
@@ -865,6 +859,7 @@ public class Preferences extends javax.swing.JDialog {
 	private JTextField txtProxyPort;
 	private JTextField txtProxyUser;
 	private JPasswordField txtProxyPass;
+	private JPanel panel1;
 	private JButton btnOK;
 	// End of variables declaration//GEN-END:variables
 
