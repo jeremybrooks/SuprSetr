@@ -146,14 +146,26 @@ public class SetOrdererCell extends javax.swing.JPanel {
 	/**
 	 * Set the photo count label.
 	 *
-	 * @param count number of photos in the set.
+	 * @param photoCount number of photos in the set.
+	 *                   @param videoCount number of videos in the set.
 	 */
-	public void setPhotoCount(int count) {
-		if (count == 1) {
-			this.lblCount.setText(count + " " + resourceBundle.getString("SetOrdererCell.photo"));
+	public void setPhotoAndVideoCount(int photoCount, int videoCount) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(photoCount).append(" ");
+		if (photoCount == 1) {
+			sb.append(resourceBundle.getString("SetOrdererCell.photo"));
 		} else {
-			this.lblCount.setText(count + " " + resourceBundle.getString("SetOrdererCell.photos"));
+			sb.append(resourceBundle.getString("SetOrdererCell.photos"));
 		}
+		if (videoCount > 0) {
+			sb.append(", ").append(videoCount).append(" ");
+			if (videoCount == 1) {
+				sb.append(resourceBundle.getString("SetOrdererCell.video"));
+			} else {
+				sb.append(resourceBundle.getString("SetOrdererCell.videos"));
+			}
+		}
+		this.lblCount.setText(sb.toString());
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

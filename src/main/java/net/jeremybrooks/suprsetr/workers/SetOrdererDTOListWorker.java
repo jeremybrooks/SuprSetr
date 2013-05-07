@@ -111,6 +111,7 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
 				SetOrdererDTO sod = new SetOrdererDTO();
 				sod.setDescription(p.getDescription());
 				sod.setPhotoCount(p.getPhotos());
+				sod.setVideoCount(p.getVideos());
 				sod.setId(p.getId());
 				sod.setTitle(p.getTitle());
 

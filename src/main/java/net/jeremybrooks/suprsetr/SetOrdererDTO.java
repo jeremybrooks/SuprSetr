@@ -43,6 +43,8 @@ public class SetOrdererDTO {
     /** The photo count. */
     private int photoCount;
 
+	private int videoCount;
+
     /** The icon. */
     private ImageIcon icon;
 
@@ -127,5 +129,11 @@ public class SetOrdererDTO {
     }
 
 
-    
+	public int getVideoCount() {
+		return videoCount;
+	}
+
+	public void setVideoCount(int videoCount) {
+		this.videoCount = videoCount;
+	}
 }
