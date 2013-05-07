@@ -602,6 +602,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 			//---- jList1 ----
 			jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			jList1.setCellRenderer(null);
 			jList1.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
@@ -616,6 +617,8 @@ public class MainWindow extends javax.swing.JFrame {
 					jList1MouseClicked(e);
 				}
 			});
+			this.jList1.setModel(this.listModel);
+			this.jList1.setCellRenderer(new SetListRenderer());
 			jScrollPane1.setViewportView(jList1);
 		}
 		contentPane.add(jScrollPane1, BorderLayout.CENTER);
@@ -1352,9 +1355,9 @@ public class MainWindow extends javax.swing.JFrame {
 	public void updateTitle() {
 		this.setTitle("SuprSetr :: " + FlickrHelper.getInstance().getUsername()
 				+ " :: " +
-				resourceBundle.getString("MainWindow.this.title.showing") + this.listModel.size() +
-				resourceBundle.getString("MainWindow.this.title.of") +
-				+ this.masterList.size() +
+				resourceBundle.getString("MainWindow.this.title.showing") + " " + this.listModel.size() +
+				" " + resourceBundle.getString("MainWindow.this.title.of") + " " +
+				+ this.masterList.size() + " " +
 				resourceBundle.getString("MainWindow.this.title.sets"));
 	}
 
