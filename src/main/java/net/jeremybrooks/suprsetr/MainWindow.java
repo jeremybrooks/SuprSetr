@@ -99,7 +99,7 @@ public class MainWindow extends javax.swing.JFrame {
 	/**
 	 * List model.
 	 */
-	private DefaultListModel listModel;
+	private DefaultListModel listModel = new DefaultListModel();
 
 	/**
 	 * Master list.
@@ -128,9 +128,6 @@ public class MainWindow extends javax.swing.JFrame {
 	 * Creates new form MainWindow
 	 */
 	public MainWindow() {
-
-		this.listModel = new DefaultListModel();
-
 		initComponents();
 
 		this.mnuHideUnmanaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED)));
@@ -608,10 +605,12 @@ public class MainWindow extends javax.swing.JFrame {
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
+
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					jList1MouseReleased(e);
 				}
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					jList1MouseClicked(e);
