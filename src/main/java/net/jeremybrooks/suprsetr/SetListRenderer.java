@@ -78,8 +78,8 @@ public class SetListRenderer implements ListCellRenderer {
 				StringBuilder sb = new StringBuilder();
 
 				sb.append(def.getTitle());
-				sb.append("   [");
-				sb.append(def.getPhotos());
+				sb.append("  [");
+				sb.append(def.getPhotos()).append(' ');
 				if (def.getPhotos() == 1) {
 					sb.append(resourceBundle.getString("SetListRenderer.text.photo"));
 				} else {
