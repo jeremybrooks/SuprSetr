@@ -618,8 +618,6 @@ public class DAOHelper {
 			logger.info("Compressing PHOTOSET");
 			cs.setString(2, "PHOTOSET");
 			cs.execute();
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			DAOHelper.close(conn, cs);
 		}
@@ -634,7 +632,6 @@ public class DAOHelper {
 	 */
 	public static void performBackup(File backupDirectory) throws Exception {
 		logger.info("Backing up database to " + backupDirectory.getAbsolutePath());
-
 		Connection conn = null;
 		CallableStatement cs = null;
 		try {
@@ -642,8 +639,6 @@ public class DAOHelper {
 			cs = conn.prepareCall(SQL_BACKUP_DATABASE);
 			cs.setString(1, backupDirectory.getAbsolutePath());
 			cs.execute();
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			DAOHelper.close(conn, cs);
 		}
@@ -652,23 +647,18 @@ public class DAOHelper {
 
 	public static void restoreDatabase(File restoreDirectory) throws Exception {
 		Connection conn = null;
-
 		logger.info("Shutting down database.");
 		try {
 			DAOHelper.shutdown();
 		} catch (Exception e) {
 			// ignore; this always throws an exception
 		}
-
 		logger.info("Restoring database from " + restoreDirectory.getAbsolutePath());
 		try {
 			DriverManager.getConnection("jdbc:derby:SuprSetrDB;restoreFrom=" + restoreDirectory.getAbsolutePath());
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			DAOHelper.close(conn);
 		}
-
 	}
 
 }
