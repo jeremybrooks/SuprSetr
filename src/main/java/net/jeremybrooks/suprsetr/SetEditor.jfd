@@ -228,9 +228,14 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "jScrollPane3"
-							add( new FormComponent( "javax.swing.JEditorPane" ) {
+							add( new FormComponent( "javax.swing.JTextArea" ) {
 								name: "txtTweet"
 								"toolTipText": new FormMessage( null, "SetEditor.txtTweet.toolTipText" )
+								"lineWrap": true
+								"wrapStyleWord": true
+								auxiliary() {
+									"JavaCodeGenerator.postInitCode": "Document styledDoc = txtTweet.getDocument();\nif (styledDoc instanceof AbstractDocument) {\n    AbstractDocument doc = (AbstractDocument)styledDoc;\n    doc.setDocumentFilter(new DocumentSizeFilter(140));\n} "
+								}
 							} )
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
@@ -277,7 +282,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {comp jPanel4::t:::x, comp jPanel5::l:::x, comp jPanel6::l:::x}"
-					"$verticalGroup": "par l {seq l {comp jPanel4:::p::p, space u:::p, comp jPanel5:::p::p, space u:::p, comp jPanel6:::p::p, space ::303:x}}"
+					"$verticalGroup": "par l {seq l {comp jPanel4:::p::p, space u:::p, comp jPanel5:::p::p, space u:::p, comp jPanel6:::p::p, space ::302:x}}"
 				} ) {
 					name: "advancedPanel"
 					"verifyInputWhenFocusTarget": false

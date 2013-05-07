@@ -18,6 +18,7 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.JDialog;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -35,7 +36,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,8 +48,10 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -278,7 +280,7 @@ public class SetEditor extends javax.swing.JDialog {
 		jLabel1 = new JLabel();
 		cmbSortBy = new JComboBox();
 		jScrollPane3 = new JScrollPane();
-		txtTweet = new JEditorPane();
+		txtTweet = new JTextArea();
 		jLabel2 = new JLabel();
 		jLabel5 = new JLabel();
 		jLabel6 = new JLabel();
@@ -668,6 +670,13 @@ public class SetEditor extends javax.swing.JDialog {
 
 						//---- txtTweet ----
 						txtTweet.setToolTipText(bundle.getString("SetEditor.txtTweet.toolTipText"));
+						txtTweet.setLineWrap(true);
+						txtTweet.setWrapStyleWord(true);
+						Document styledDoc = txtTweet.getDocument();
+						if (styledDoc instanceof AbstractDocument) {
+						    AbstractDocument doc = (AbstractDocument)styledDoc;
+						    doc.setDocumentFilter(new DocumentSizeFilter(140));
+						}
 						jScrollPane3.setViewportView(txtTweet);
 					}
 
@@ -1013,7 +1022,7 @@ public class SetEditor extends javax.swing.JDialog {
 							.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 							.addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(303, Short.MAX_VALUE))
+							.addContainerGap(302, Short.MAX_VALUE))
 				);
 			}
 			jTabbedPane1.addTab(bundle.getString("SetEditor.advancedPanel.tab.title"), advancedPanel);
@@ -1604,7 +1613,7 @@ public class SetEditor extends javax.swing.JDialog {
 	private JLabel jLabel1;
 	private JComboBox cmbSortBy;
 	private JScrollPane jScrollPane3;
-	private JEditorPane txtTweet;
+	private JTextArea txtTweet;
 	private JLabel jLabel2;
 	private JLabel jLabel5;
 	private JLabel jLabel6;
