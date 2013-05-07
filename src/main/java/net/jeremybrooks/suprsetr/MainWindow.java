@@ -1436,7 +1436,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
 	public void executeAddSetWorker(SSPhotoset ssPhotoset) {
-		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.addingset") + ssPhotoset.getTitle());
+		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.addingset") + " " + ssPhotoset.getTitle());
 		setGlassPane(blocker);
 		blocker.block("");
 		new AddPhotosetWorker(blocker, ssPhotoset).execute();

@@ -104,6 +104,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					ssp.setFarm(p.getFarm());
 					ssp.setId(p.getId());
 					ssp.setPhotos(p.getPhotos());
+					ssp.setVideos(p.getVideos());
 					ssp.setPrimary(p.getPrimary());
 					ssp.setSecret(p.getSecret());
 					ssp.setServer(p.getServer());
@@ -136,6 +137,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
 					ssp.setFarm(p.getFarm());
 					ssp.setPhotos(p.getPhotos());
+					ssp.setVideos(p.getVideos());
 
 					if (ssp.getPrimaryPhotoIcon() == null) {
 						logger.info("Retrieving missing icon for set " + ssp.getTitle());

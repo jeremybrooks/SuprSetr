@@ -18,18 +18,16 @@
  */
 package net.jeremybrooks.suprsetr.dao;
 
+import net.jeremybrooks.suprsetr.SSConstants;
+import net.jeremybrooks.suprsetr.SSPhotoset;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import net.jeremybrooks.suprsetr.SSConstants;
-
-import net.jeremybrooks.suprsetr.SSPhotoset;
-
-
-import org.apache.log4j.Logger;
 
 
 /**
@@ -56,13 +54,13 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE, "
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY,"
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END) "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT) "
 	    + "VALUES ("
 	    + "?, ?, ?, ?, ?, ?, ?,"
 	    + "?, ?, ?, ?, ?, ?, ?,"
 	    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 	    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
-	    + "?, ?, ?, ?, ?)";
+	    + "?, ?, ?, ?, ?, ?)";
 
     /** SQL to get the photoset id's. */
     private static final String SQL_GET_PHOTOSET_IDS =
@@ -90,7 +88,7 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY UPPER(TITLE)";
 
@@ -108,7 +106,7 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY TITLE";
 
@@ -126,7 +124,7 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY MANAGED DESC, UPPER(TITLE)";
 
@@ -144,7 +142,7 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY MANAGED DESC, TITLE";
 
@@ -162,7 +160,7 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
 	    + "FROM PHOTOSET "
 	    + "WHERE ID = ?";
 
@@ -207,7 +205,8 @@ public class PhotosetDAO {
 	    + " OTD_MONTH = ?, "
 	    + " OTD_DAY = ?, "
 	    + " OTD_YEAR_START = ?, "
-	    + " OTD_YEAR_END = ? "
+	    + " OTD_YEAR_END = ?," +
+				" VIDEO_COUNT = ? "
 	    + "WHERE ID = ?";
 
     /** SQL to update the metadata for a photoset. */
@@ -331,6 +330,8 @@ public class PhotosetDAO {
 	    ps.setInt(38, p.getOnThisDayDay());
 	    ps.setInt(39, p.getOnThisDayYearStart());
 	    ps.setInt(40, p.getOnThisDayYearEnd());
+
+		ps.setInt(41, p.getVideos());
 
 	    count = ps.executeUpdate();
 
@@ -615,8 +616,10 @@ public class PhotosetDAO {
 	    ps.setInt(38, ssPhotoset.getOnThisDayYearStart());
 	    ps.setInt(39, ssPhotoset.getOnThisDayYearEnd());
 
+		ps.setInt(40, ssPhotoset.getVideos());
+
 	    // where....
-	    ps.setString(40, ssPhotoset.getId());
+	    ps.setString(41, ssPhotoset.getId());
 
 	    logger.info("Updating record for photoset " + ssPhotoset.getId()
 		    + " [" + ssPhotoset.getTitle() + "]");
@@ -755,6 +758,7 @@ public class PhotosetDAO {
 	ssp.setOnThisDayDay(rs.getInt("OTD_DAY"));
 	ssp.setOnThisDayYearStart(rs.getInt("OTD_YEAR_START"));
 	ssp.setOnThisDayYearEnd(rs.getInt("OTD_YEAR_END"));
+		ssp.setVideos(rs.getInt("VIDEO_COUNT"));
 
 	return ssp;
     }

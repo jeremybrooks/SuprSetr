@@ -1,7 +1,12 @@
-Version 1.1.0
+Version ?
  * Added a FavrTagr mode to add tags for only 10, 25, 50, and 100 faves (Hawk Mode!)
  * Fixed bug where FavrTagr preference was saved, but not displayed correctly
  * Target Java 1.7+
+ * Download missing set icons when loading sets from Flickr
+ * Localized all strings
+ * Tweet box in the Set Editor now wraps words, and is limited to 140 characters
+ * Set information shows count of videos in set, if there are any
+
 
 Version 1.0.0
  * Added a missing tool tip (thanks M. Moore)
