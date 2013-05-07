@@ -124,7 +124,12 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
 					// least we get the icon
 					sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
 				} else {
-					sod.setIcon(ssp.getPrimaryPhotoIcon());
+					// Check for missing icon, setting if needed
+					if (ssp.getPrimaryPhotoIcon() == null) {
+						sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
+					} else {
+						sod.setIcon(ssp.getPrimaryPhotoIcon());
+					}
 				}
 				// add to the list
 				dtoList.add(sod);

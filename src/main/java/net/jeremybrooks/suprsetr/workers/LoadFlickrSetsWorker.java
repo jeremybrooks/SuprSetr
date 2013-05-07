@@ -137,6 +137,10 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					ssp.setFarm(p.getFarm());
 					ssp.setPhotos(p.getPhotos());
 
+					if (ssp.getPrimaryPhotoIcon() == null) {
+						logger.info("Retrieving missing icon for set " + ssp.getTitle());
+						ssp.setPrimaryPhotoIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
+					}
 					if (!p.getPrimary().equals(ssp.getPrimary())) {
 						ssp.setPrimary(p.getPrimary());
 						ssp.setPrimaryPhotoIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
