@@ -121,6 +121,11 @@ public class SetEditor extends javax.swing.JDialog {
 	private Logger logger = Logger.getLogger(SetEditor.class);
 
 	private String[] sortModelArray = new String[10];
+	private String[] privacyModelArray = new String[6];
+	private String[] safeModelArray = new String[3];
+	private String[] contentModelArray = new String[7];
+	private String[] typeModelArray = new String[3];
+	private String[] geotagModelArray = new String[3];
 
 	/**
 	 * Cancelable properties.
@@ -150,9 +155,6 @@ public class SetEditor extends javax.swing.JDialog {
 		this.yearOTDStart.setMinimum(this.yearOTDEnd.getYear());
 	}
 
-	private void radioTweetCreatedOrUpdatedActionPerformed() {
-		// TODO add your code here
-	}
 
 	public SetEditor(JFrame parent, EditorMode editorMode, SSPhotoset ssPhotoset) {
 		super(parent, true);
@@ -161,6 +163,21 @@ public class SetEditor extends javax.swing.JDialog {
 		this.editorMode = editorMode;
 		for (int i = 0; i < 10; i++) {
 			sortModelArray[i] = resourceBundle.getString("SetEditor.sortModel." + i);
+		}
+		for (int i = 0; i < 6; i++) {
+			privacyModelArray[i] = resourceBundle.getString("SetEditor.privacyModel." + i);
+		}
+		for (int i = 0; i < 3; i++) {
+			safeModelArray[i] = resourceBundle.getString("SetEditor.safeModel." + i);
+		}
+		for (int i = 0; i < 7; i++) {
+			contentModelArray[i] = resourceBundle.getString("SetEditor.contentModel." + i);
+		}
+		for (int i = 0; i < 3; i++) {
+			typeModelArray[i] = resourceBundle.getString("SetEditor.typeModel." + i);
+		}
+		for (int i = 0; i < 3; i++) {
+			geotagModelArray[i] = resourceBundle.getString("SetEditor.geotagModel." + i);
 		}
 
 		initComponents();
@@ -208,15 +225,11 @@ public class SetEditor extends javax.swing.JDialog {
 		this.dateTakenAfter.setDate(ssPhotoset.getMinTakenDate());
 		this.dateTakenBefore.setDate(ssPhotoset.getMaxTakenDate());
 		this.dateTakenBefore.setMinSelectableDate(this.dateTakenAfter.getDate());
-//		this.txtDateTakenAfter.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMinTakenDate()));
-//		this.txtDateTakenBefore.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMaxTakenDate()));
 
 		this.cbxDateUploaded.setSelected(ssPhotoset.isMatchUploadDates());
 		this.dateUploadedAfter.setDate(ssPhotoset.getMinUploadDate());
 		this.dateUploadedBefore.setDate(ssPhotoset.getMaxUploadDate());
 		this.dateUploadedBefore.setMinSelectableDate(this.dateUploadedAfter.getDate());
-//		this.txtDateUploadedAfter.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMinUploadDate()));
-//		this.txtDateUploadedBefore.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMaxUploadDate()));
 
 		this.cmbSortBy.setSelectedIndex(ssPhotoset.getSortOrder());
 
@@ -243,15 +256,12 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cmbOTDDay.setSelectedIndex(ssPhotoset.getOnThisDayDay() - 1);
 		this.yearOTDStart.setYear(ssPhotoset.getOnThisDayYearStart());
 		this.yearOTDStart.setMaximum(SSUtils.getCurrentYear());
-//		this.txtOTDYearStart.setText(Integer.toString(ssPhotoset.getOnThisDayYearStart()));
 		this.yearOTDEnd.setMaximum(SSUtils.getCurrentYear());
 		if (ssPhotoset.getOnThisDayYearEnd() == 0) {
 			this.cbxCurrentYear.setSelected(true);
 			this.yearOTDEnd.setYear(SSUtils.getCurrentYear());
-//			this.txtOTDYearEnd.setText(Integer.toString(SSUtils.getCurrentYear()));
 		} else {
 			this.yearOTDEnd.setYear(ssPhotoset.getOnThisDayYearEnd());
-//			this.txtOTDYearEnd.setText(Integer.toString(ssPhotoset.getOnThisDayYearEnd()));
 		}
 		this.yearOTDEnd.setMinimum(this.yearOTDStart.getYear());
 
@@ -324,17 +334,17 @@ public class SetEditor extends javax.swing.JDialog {
 		advancedPanel = new JPanel();
 		jPanel4 = new JPanel();
 		jLabel8 = new JLabel();
-		cmbPrivacy = new JComboBox<>();
+		cmbPrivacy = new JComboBox();
 		lblSafeSearch = new JLabel();
-		cmbSafeSearch = new JComboBox<>();
+		cmbSafeSearch = new JComboBox();
 		jPanel5 = new JPanel();
 		jLabel10 = new JLabel();
-		cmbContentType = new JComboBox<>();
+		cmbContentType = new JComboBox();
 		jLabel11 = new JLabel();
-		cmbMediaType = new JComboBox<>();
+		cmbMediaType = new JComboBox();
 		jPanel6 = new JPanel();
 		jLabel12 = new JLabel();
-		cmbGeotag = new JComboBox<>();
+		cmbGeotag = new JComboBox();
 		cbxInGallery = new JCheckBox();
 		cbxInCommons = new JCheckBox();
 		cbxInGetty = new JCheckBox();
@@ -822,15 +832,8 @@ public class SetEditor extends javax.swing.JDialog {
 						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbPrivacy ----
-					cmbPrivacy.setModel(new DefaultComboBoxModel<>(new String[] {
-						"No Restriction",
-						"Public",
-						"Friends",
-						"Family",
-						"Friends & Family",
-						"Private"
-					}));
 					cmbPrivacy.setToolTipText(bundle.getString("SetEditor.cmbPrivacy.toolTipText"));
+					cmbPrivacy.setModel(new DefaultComboBoxModel<>(this.privacyModelArray));
 					jPanel4.add(cmbPrivacy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
 						new Insets(0, 0, 5, 0), 0, 0));
@@ -842,12 +845,8 @@ public class SetEditor extends javax.swing.JDialog {
 						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- cmbSafeSearch ----
-					cmbSafeSearch.setModel(new DefaultComboBoxModel<>(new String[] {
-						"Safe",
-						"Moderate",
-						"Restricted"
-					}));
 					cmbSafeSearch.setToolTipText(bundle.getString("SetEditor.cmbSafeSearch.toolTipText"));
+					cmbSafeSearch.setModel(new DefaultComboBoxModel<>(this.safeModelArray));
 					jPanel4.add(cmbSafeSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
 						new Insets(0, 0, 0, 0), 0, 0));
@@ -870,16 +869,8 @@ public class SetEditor extends javax.swing.JDialog {
 						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbContentType ----
-					cmbContentType.setModel(new DefaultComboBoxModel<>(new String[] {
-						"Photos Only",
-						"Screenshots Only",
-						"Other Only",
-						"Photos & Screenshots",
-						"Screenshots & Other",
-						"Photos & Other",
-						"All"
-					}));
 					cmbContentType.setToolTipText(bundle.getString("SetEditor.cmbContentType.toolTipText"));
+					cmbContentType.setModel(new DefaultComboBoxModel<>(this.contentModelArray));
 					jPanel5.add(cmbContentType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
 						new Insets(0, 0, 5, 0), 0, 0));
@@ -891,12 +882,8 @@ public class SetEditor extends javax.swing.JDialog {
 						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- cmbMediaType ----
-					cmbMediaType.setModel(new DefaultComboBoxModel<>(new String[] {
-						"All",
-						"Photos",
-						"Video"
-					}));
 					cmbMediaType.setToolTipText(bundle.getString("SetEditor.cmbMediaType.toolTipText"));
+					cmbMediaType.setModel(new DefaultComboBoxModel<>(this.typeModelArray));
 					jPanel5.add(cmbMediaType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
 						new Insets(0, 0, 0, 0), 0, 0));
@@ -919,12 +906,8 @@ public class SetEditor extends javax.swing.JDialog {
 						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbGeotag ----
-					cmbGeotag.setModel(new DefaultComboBoxModel<>(new String[] {
-						"Ignore geotag data",
-						"Include only photos with geotag data",
-						"Include only photos without geotag data"
-					}));
 					cmbGeotag.setToolTipText(bundle.getString("SetEditor.cmbGeotag.toolTipText"));
+					cmbGeotag.setModel(new DefaultComboBoxModel<>(this.geotagModelArray));
 					jPanel6.add(cmbGeotag, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
 						new Insets(0, 0, 5, 0), 0, 0));
@@ -1158,7 +1141,7 @@ public class SetEditor extends javax.swing.JDialog {
 		}
 	}
 
-	private void radioTweetCreatedOrUpdatedActionPerformed(java.awt.event.ActionEvent evt) {
+	private void radioTweetCreatedOrUpdatedActionPerformed() {
 		this.txtTweet.setEnabled(true);
 		this.txtTweet.setText(SSConstants.DEFAULT_TWEET_TEMPLATE);
 		if (!TwitterHelper.isAuthorized()) {
@@ -1284,8 +1267,6 @@ public class SetEditor extends javax.swing.JDialog {
 		// IF THE DATE TAKEN CHECKBOX IS SELECTED, DATES MUST BE VALID
 		// YYYY-MM-DD FORMAT, AND BEFORE MUST BE EARLIER THAN AFTER
 		if (this.cbxDateTaken.isSelected()) {
-//			takenMin = SSUtils.parseYYYYMMDDHHmmss(this.txtDateTakenAfter.getText() + " 00:00:00");
-//			takenMax = SSUtils.parseYYYYMMDDHHmmss(this.txtDateTakenBefore.getText() + " 23:59:59");
 			takenMin = this.dateTakenAfter.getDate();
 			takenMax = this.dateTakenBefore.getDate();
 			if (takenMin == null || takenMax == null) {
@@ -1301,8 +1282,6 @@ public class SetEditor extends javax.swing.JDialog {
 		// IF THE DATE UPLOADED CHECKBOX IS SELECTED, DATES MUST BE VALID
 		// YYYY-MM-DD FORMAT
 		if (this.cbxDateUploaded.isSelected()) {
-//			uploadedMin = SSUtils.parseYYYYMMDDHHmmss(this.txtDateUploadedAfter.getText() + " 00:00:00");
-//			uploadedMax = SSUtils.parseYYYYMMDDHHmmss(this.txtDateUploadedBefore.getText() + " 23:59:59");
 			uploadedMin = this.dateUploadedAfter.getDate();
 			uploadedMax = this.dateUploadedBefore.getDate();
 			if (uploadedMin == null || uploadedMax == null) {
@@ -1333,7 +1312,6 @@ public class SetEditor extends javax.swing.JDialog {
 			int yearEnd = 0;
 			try {
 				yearStart = this.yearOTDStart.getYear();
-//				yearStart = Integer.parseInt(this.txtOTDYearStart.getText());
 				if (yearStart < 1900) {
 					throw new Exception();
 				}
@@ -1348,7 +1326,6 @@ public class SetEditor extends javax.swing.JDialog {
 					yearEnd = SSUtils.getCurrentYear();    // to make the start > end check valid
 				} else {
 					yearEnd = this.yearOTDEnd.getYear();
-//					yearEnd = Integer.parseInt(this.txtOTDYearEnd.getText());
 					if (yearEnd > SSUtils.getCurrentYear()) {
 						throw new Exception();
 					}
@@ -1456,13 +1433,9 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cbxDateTaken.setEnabled(this.cbxManage.isSelected());
 		this.dateTakenAfter.setEnabled(this.cbxManage.isSelected());
 		this.dateTakenBefore.setEnabled(this.cbxManage.isSelected());
-//		this.txtDateTakenAfter.setEnabled(this.cbxManage.isSelected());
-//		this.txtDateTakenBefore.setEnabled(this.cbxManage.isSelected());
 		this.cbxDateUploaded.setEnabled(this.cbxManage.isSelected());
 		this.dateUploadedAfter.setEnabled(this.cbxManage.isSelected());
 		this.dateUploadedBefore.setEnabled(this.cbxManage.isSelected());
-//		this.txtDateUploadedAfter.setEnabled(this.cbxManage.isSelected());
-//		this.txtDateUploadedBefore.setEnabled(this.cbxManage.isSelected());
 		this.cmbSortBy.setEnabled(this.cbxManage.isSelected());
 		this.radioTweetCreated.setEnabled(this.cbxManage.isSelected());
 		this.radioTweetNone.setEnabled(this.cbxManage.isSelected());
@@ -1474,13 +1447,9 @@ public class SetEditor extends javax.swing.JDialog {
 		if (this.cbxManage.isSelected()) {
 			this.dateTakenAfter.setEnabled(this.cbxDateTaken.isSelected());
 			this.dateTakenBefore.setEnabled(this.cbxDateTaken.isSelected());
-//			this.txtDateTakenAfter.setEnabled(this.cbxDateTaken.isSelected());
-//			this.txtDateTakenBefore.setEnabled(this.cbxDateTaken.isSelected());
 
 			this.dateUploadedAfter.setEnabled(this.cbxDateUploaded.isSelected());
 			this.dateUploadedBefore.setEnabled(this.cbxDateUploaded.isSelected());
-//			this.txtDateUploadedAfter.setEnabled(this.cbxDateUploaded.isSelected());
-//			this.txtDateUploadedBefore.setEnabled(this.cbxDateUploaded.isSelected());
 
 			this.txtTweet.setEnabled(this.radioTweetCreated.isSelected() ||
 					this.radioTweetUpdated.isSelected());
@@ -1491,10 +1460,8 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cbxOnThisDay.setEnabled(this.cbxManage.isSelected());
 		this.cmbOTDDay.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
 		this.cmbOTDMonth.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
-//		this.txtOTDYearEnd.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected() && (!this.cbxCurrentYear.isSelected()));
 		this.yearOTDEnd.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected() && (!this.cbxCurrentYear.isSelected()));
 		this.yearOTDStart.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
-//		this.txtOTDYearStart.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
 		this.cbxCurrentYear.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
 
 		// ADVANCED TAB
@@ -1590,17 +1557,17 @@ public class SetEditor extends javax.swing.JDialog {
 	private JPanel advancedPanel;
 	private JPanel jPanel4;
 	private JLabel jLabel8;
-	private JComboBox<String> cmbPrivacy;
+	private JComboBox cmbPrivacy;
 	private JLabel lblSafeSearch;
-	private JComboBox<String> cmbSafeSearch;
+	private JComboBox cmbSafeSearch;
 	private JPanel jPanel5;
 	private JLabel jLabel10;
-	private JComboBox<String> cmbContentType;
+	private JComboBox cmbContentType;
 	private JLabel jLabel11;
-	private JComboBox<String> cmbMediaType;
+	private JComboBox cmbMediaType;
 	private JPanel jPanel6;
 	private JLabel jLabel12;
-	private JComboBox<String> cmbGeotag;
+	private JComboBox cmbGeotag;
 	private JCheckBox cbxInGallery;
 	private JCheckBox cbxInCommons;
 	private JCheckBox cbxInGetty;

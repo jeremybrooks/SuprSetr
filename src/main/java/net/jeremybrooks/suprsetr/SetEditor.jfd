@@ -450,16 +450,10 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbPrivacy"
-							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "No Restriction"
-								addElement( "No Restriction" )
-								addElement( "Public" )
-								addElement( "Friends" )
-								addElement( "Family" )
-								addElement( "Friends & Family" )
-								addElement( "Private" )
-							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbPrivacy.toolTipText" )
+							auxiliary() {
+								"JavaCodeGenerator.postInitCode": "cmbPrivacy.setModel(new DefaultComboBoxModel<>(this.privacyModelArray));"
+							}
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"hAlign": 2
@@ -473,13 +467,10 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbSafeSearch"
-							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "Safe"
-								addElement( "Safe" )
-								addElement( "Moderate" )
-								addElement( "Restricted" )
-							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbSafeSearch.toolTipText" )
+							auxiliary() {
+								"JavaCodeGenerator.postInitCode": "cmbSafeSearch.setModel(new DefaultComboBoxModel<>(this.safeModelArray));"
+							}
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"gridy": 1
@@ -504,17 +495,10 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbContentType"
-							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "Photos Only"
-								addElement( "Photos Only" )
-								addElement( "Screenshots Only" )
-								addElement( "Other Only" )
-								addElement( "Photos & Screenshots" )
-								addElement( "Screenshots & Other" )
-								addElement( "Photos & Other" )
-								addElement( "All" )
-							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbContentType.toolTipText" )
+							auxiliary() {
+								"JavaCodeGenerator.postInitCode": "cmbContentType.setModel(new DefaultComboBoxModel<>(this.contentModelArray));"
+							}
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"hAlign": 2
@@ -528,13 +512,10 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbMediaType"
-							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "All"
-								addElement( "All" )
-								addElement( "Photos" )
-								addElement( "Video" )
-							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbMediaType.toolTipText" )
+							auxiliary() {
+								"JavaCodeGenerator.postInitCode": "cmbMediaType.setModel(new DefaultComboBoxModel<>(this.typeModelArray));"
+							}
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"gridy": 1
@@ -559,13 +540,10 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbGeotag"
-							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "Ignore geotag data"
-								addElement( "Ignore geotag data" )
-								addElement( "Include only photos with geotag data" )
-								addElement( "Include only photos without geotag data" )
-							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbGeotag.toolTipText" )
+							auxiliary() {
+								"JavaCodeGenerator.postInitCode": "cmbGeotag.setModel(new DefaultComboBoxModel<>(this.geotagModelArray));"
+							}
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"gridwidth": 2
