@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  *
  * @author jeremyb
  */
-public class FilterSetListWorker extends SwingWorker<Void, Void> {
+public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
 
 	/**
 	 * The blocker used for feedback.
@@ -101,23 +101,28 @@ public class FilterSetListWorker extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() {
 		blocker.block(resourceBundle.getString("FilterSetListWorker.blocker.working"));
-
 		int i = 1;
 		for (SSPhotoset set : this.list) {
 			if (filter == null || set.getTitle().toLowerCase().contains(filter)) {
 				if ((!hide) || (set.isManaged())) {
-					this.listModel.addElement(set);
+					publish(set);
 				}
 			}
+
 			if (i % 10 == 0) {
 				blocker.updateMessage(resourceBundle.getString("FilterSetListWorker.blocker.working") + " (" + i + "/" + list.size() + ")");
 			}
 			i++;
 		}
-
 		return null;
 	}
 
+	@Override
+	protected void process(List<SSPhotoset> list) {
+		for (SSPhotoset set : list) {
+			this.listModel.addElement(set);
+		}
+	}
 
 	/**
 	 * Finished, so unblock.
