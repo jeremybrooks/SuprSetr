@@ -17,14 +17,17 @@ new FormModel {
 			"$locationPolicy": 1
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {comp pnlOther:::::x, space :::p}, seq t {par t {comp pnlDates::t:::x, comp pnlTitle::t:::x, comp pnlTags::t:::x}, space :p:12:p}}"
-					"$verticalGroup": "par l {seq l {comp pnlTitle:::p::p, space :p:6:p, comp pnlTags:::p::p, space :::p, comp pnlDates:::::x, space :::p, comp pnlOther:::p::p, space :::p}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
+					"gap": 5
 				} ) {
 					name: "basicPanel"
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :::p, par t {seq l {comp lblIcon:::p:75:p, space :::p, par l {comp txtTitle::::655:x, seq {par l {comp cbxLock::l:p::p, comp cbxManage::l:p::p}, space :::p, comp lblMessage:::p::p}}}, comp jScrollPane1::t::736:x}, space :::p}}"
-						"$verticalGroup": "par l {seq l {par t:::p {seq t:::1 {par t {seq {comp cbxManage:::p::p, space :::p, comp cbxLock:::p::p, space :::x}, seq t {space :::p, comp lblMessage:::p::p, space u:::p}}, comp txtTitle:::p::p}, comp lblIcon::t:p:75:p}, space :::p, comp jScrollPane1::::198:x, space :p::p}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0, 0, 0"
+						"$rowSpecs": "0, 0, 0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
 					} ) {
 						name: "pnlTitle"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlTitle.border" )
@@ -33,22 +36,70 @@ new FormModel {
 							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/empty_set_icon.png" )
 							"toolTipText": new FormMessage( null, "SetEditor.lblIcon.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "lblIconMouseClicked", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 3
+							"hAlign": 2
+							"vAlign": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblMessage"
+							"font": new java.awt.Font( "Lucida Grande", 1, 13 )
+							"foreground": sfield java.awt.Color red
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridwidth": 2
+							"weighty": 1.0
+							"hAlign": 0
+							"vAlign": 0
 						} )
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxManage"
 							"text": new FormMessage( null, "SetEditor.cbxManage.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxManage.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxManageActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"gridwidth": 2
+							"hAlign": 2
+							"vAlign": 1
 						} )
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxLock"
 							"text": new FormMessage( null, "SetEditor.cbxLock.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxLock.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+							"gridwidth": 2
+							"hAlign": 2
+							"vAlign": 0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label1"
+							"text": new FormMessage( null, "SetEditor.label1.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 3
+							"hAlign": 4
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "txtTitle"
 							"toolTipText": new FormMessage( null, "SetEditor.txtTitle.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.KeyListener", "keyReleased", "txtTitleKeyReleased", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 3
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label2"
+							"text": new FormMessage( null, "SetEditor.label2.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 4
+							"gridwidth": 2
+							"hAlign": 4
+							"vAlign": 1
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "jScrollPane1"
@@ -60,22 +111,30 @@ new FormModel {
 								"toolTipText": new FormMessage( null, "SetEditor.txtDescription.toolTipText" )
 								"wrapStyleWord": true
 							} )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "lblMessage"
-							"font": new java.awt.Font( "Lucida Grande", 1, 13 )
-							"foreground": sfield java.awt.Color red
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 4
+							"weightx": 1.0
+							"weighty": 1.0
+							"gridx": 2
+							"insets": new java.awt.Insets( 0, 3, 0, 3 )
 						} )
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {comp cmbTags:::p::p, space :::p, comp txtTags::::662:x}}"
-						"$verticalGroup": "par l {par b {comp cmbTags::b:p:28:p, comp txtTags::b:p::p}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
 					} ) {
 						name: "pnlTags"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlTags.border" )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "txtTags"
 							"toolTipText": new FormMessage( null, "SetEditor.txtTags.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"weightx": 1.0
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbTags"
@@ -85,138 +144,199 @@ new FormModel {
 								addElement( "Any" )
 							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbTags.toolTipText" )
-						} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {space :::p, par l {seq l {par l {comp cbxDateUploaded::l:p::p, comp cbxDateTaken::l:p::p}, space :::p, par l:::p {comp txtDateTakenAfter::t:::x:1, comp txtDateUploadedAfter::t::140:x:1}, par l {seq l {space :p:2:p, comp jLabel4:::p::p, space :::p}, seq t {space :p:4:p, comp jLabel3:::p::p, space :p:8:p}}, par l:::p {comp txtDateUploadedBefore:::::x:1, comp txtDateTakenBefore::l::163:x:1}}, seq l {comp cbxOnThisDay:::p::p, space :::p, comp cmbOTDMonth:::p::p, space :::p, comp cmbOTDDay:::p::p, space :::p, comp jLabel9:::p::p, space :p:1:p, comp txtOTDYearStart:::p:51:p, space :p:6:p, comp jLabel13:::p::p, space :::p, par l {comp cbxCurrentYear::l:p::p, comp txtOTDYearEnd::l:p:51:p}}}, space ::59:x}}"
-						"$verticalGroup": "par l {seq l {par b {comp cbxDateTaken::b:p::p, comp jLabel3::b:p::p, comp txtDateTakenAfter::b:p::p, comp txtDateTakenBefore::b:p::p}, space :::p, par b {comp cbxDateUploaded::b:p::p, comp txtDateUploadedAfter::b:p::p, comp txtDateUploadedBefore::b:p::p, comp jLabel4::b:p::p}, space :::p, par b {comp cbxOnThisDay::b:p::p, comp cmbOTDMonth::b:p::p, comp cmbOTDDay::b:p::p, comp jLabel9::b:p::p, comp txtOTDYearStart::b:p::p, comp jLabel13::b:p::p, comp txtOTDYearEnd::b:p::p}, space :::x, comp cbxCurrentYear:::p::p}}"
-					} ) {
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) ) {
 						name: "pnlDates"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlDates.border" )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "cbxDateTaken"
-							"text": new FormMessage( null, "SetEditor.cbxDateTaken.text" )
-							"toolTipText": new FormMessage( null, "SetEditor.cbxDateTaken.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateTakenActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0, 0, 0"
+							"$rowSpecs": "0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignTop": true
+							"$alignLeft": true
+						} ) {
+							name: "panel1"
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "cbxDateTaken"
+								"text": new FormMessage( null, "SetEditor.cbxDateTaken.text" )
+								"toolTipText": new FormMessage( null, "SetEditor.cbxDateTaken.toolTipText" )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateTakenActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+								name: "dateTakenAfter"
+								"toolTipText": new FormMessage( null, "SetEditor.dateTakenAfter.toolTipText" )
+								addEvent( new FormEvent( "java.beans.PropertyChangeListener", "propertyChange", "dateTakenAfterPropertyChange", false ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+								"weightx": 1.0
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel3"
+								"text": new FormMessage( null, "SetEditor.jLabel3.text" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+							add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+								name: "dateTakenBefore"
+								"toolTipText": new FormMessage( null, "SetEditor.dateTakenBefore.toolTipText" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+								"weightx": 1.0
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "cbxDateUploaded"
+								"text": new FormMessage( null, "SetEditor.cbxDateUploaded.text" )
+								"toolTipText": new FormMessage( null, "SetEditor.cbxDateUploaded.toolTipText" )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateUploadedActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+							add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+								name: "dateUploadedAfter"
+								"toolTipText": new FormMessage( null, "SetEditor.dateUploadedAfter.toolTipText" )
+								addEvent( new FormEvent( "java.beans.PropertyChangeListener", "propertyChange", "dateUploadedAfterPropertyChange", false ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel4"
+								"text": new FormMessage( null, "SetEditor.jLabel4.text" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridx": 2
+							} )
+							add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+								name: "dateUploadedBefore"
+								"toolTipText": new FormMessage( null, "SetEditor.dateUploadedBefore.toolTipText" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridx": 3
+							} )
 						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "txtDateTakenAfter"
-							"toolTipText": new FormMessage( null, "SetEditor.txtDateTakenAfter.toolTipText" )
-							"enabled": false
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel3"
-							"text": new FormMessage( null, "SetEditor.jLabel3.text" )
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "txtDateTakenBefore"
-							"toolTipText": new FormMessage( null, "SetEditor.txtDateTakenBefore.toolTipText" )
-							"enabled": false
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "cbxDateUploaded"
-							"text": new FormMessage( null, "SetEditor.cbxDateUploaded.text" )
-							"toolTipText": new FormMessage( null, "SetEditor.cbxDateUploaded.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateUploadedActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "txtDateUploadedAfter"
-							"toolTipText": new FormMessage( null, "SetEditor.txtDateUploadedAfter.toolTipText" )
-							"enabled": false
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel4"
-							"text": new FormMessage( null, "SetEditor.jLabel4.text" )
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "txtDateUploadedBefore"
-							"toolTipText": new FormMessage( null, "SetEditor.txtDateUploadedBefore.toolTipText" )
-							"enabled": false
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "cbxOnThisDay"
-							"text": new FormMessage( null, "SetEditor.cbxOnThisDay.text" )
-							"toolTipText": new FormMessage( null, "SetEditor.cbxOnThisDay.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxOnThisDayActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JComboBox" ) {
-							name: "cmbOTDMonth"
-							"toolTipText": new FormMessage( null, "SetEditor.cmbOTDMonth.toolTipText" )
-							auxiliary() {
-								"JavaCodeGenerator.postInitCode": "cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));"
-							}
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbOTDMonthActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JComboBox" ) {
-							name: "cmbOTDDay"
-							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "1"
-								addElement( "1" )
-								addElement( "2" )
-								addElement( "3" )
-								addElement( "4" )
-								addElement( "5" )
-								addElement( "6" )
-								addElement( "7" )
-								addElement( "8" )
-								addElement( "9" )
-								addElement( "10" )
-								addElement( "11" )
-								addElement( "12" )
-								addElement( "13" )
-								addElement( "14" )
-								addElement( "15" )
-								addElement( "16" )
-								addElement( "17" )
-								addElement( "18" )
-								addElement( "19" )
-								addElement( "20" )
-								addElement( "21" )
-								addElement( "22" )
-								addElement( "23" )
-								addElement( "24" )
-								addElement( "25" )
-								addElement( "26" )
-								addElement( "27" )
-								addElement( "28" )
-								addElement( "29" )
-								addElement( "30" )
-								addElement( "31" )
-							}
-							"toolTipText": new FormMessage( null, "SetEditor.cmbOTDDay.toolTipText" )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel9"
-							"text": new FormMessage( null, "SetEditor.jLabel9.text" )
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "txtOTDYearStart"
-							"toolTipText": new FormMessage( null, "SetEditor.txtOTDYearStart.toolTipText" )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel13"
-							"text": new FormMessage( null, "SetEditor.jLabel13.text" )
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "txtOTDYearEnd"
-							"toolTipText": new FormMessage( null, "SetEditor.txtOTDYearEnd.toolTipText" )
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "cbxCurrentYear"
-							"text": new FormMessage( null, "SetEditor.cbxCurrentYear.text" )
-							"toolTipText": new FormMessage( null, "SetEditor.cbxCurrentYear.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxCurrentYearActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0, 0, 0, 0, 0, 0, 0"
+							"$rowSpecs": "0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignTop": true
+							"$alignLeft": true
+						} ) {
+							name: "panel2"
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "cbxOnThisDay"
+								"text": new FormMessage( null, "SetEditor.cbxOnThisDay.text" )
+								"toolTipText": new FormMessage( null, "SetEditor.cbxOnThisDay.toolTipText" )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxOnThisDayActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JComboBox" ) {
+								name: "cmbOTDMonth"
+								"toolTipText": new FormMessage( null, "SetEditor.cmbOTDMonth.toolTipText" )
+								auxiliary() {
+									"JavaCodeGenerator.postInitCode": "cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));"
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbOTDMonthActionPerformed", false ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JComboBox" ) {
+								name: "cmbOTDDay"
+								"model": new javax.swing.DefaultComboBoxModel {
+									selectedItem: "1"
+									addElement( "1" )
+									addElement( "2" )
+									addElement( "3" )
+									addElement( "4" )
+									addElement( "5" )
+									addElement( "6" )
+									addElement( "7" )
+									addElement( "8" )
+									addElement( "9" )
+									addElement( "10" )
+									addElement( "11" )
+									addElement( "12" )
+									addElement( "13" )
+									addElement( "14" )
+									addElement( "15" )
+									addElement( "16" )
+									addElement( "17" )
+									addElement( "18" )
+									addElement( "19" )
+									addElement( "20" )
+									addElement( "21" )
+									addElement( "22" )
+									addElement( "23" )
+									addElement( "24" )
+									addElement( "25" )
+									addElement( "26" )
+									addElement( "27" )
+									addElement( "28" )
+									addElement( "29" )
+									addElement( "30" )
+									addElement( "31" )
+								}
+								"toolTipText": new FormMessage( null, "SetEditor.cmbOTDDay.toolTipText" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel9"
+								"text": new FormMessage( null, "SetEditor.jLabel9.text" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+							} )
+							add( new FormComponent( "com.toedter.calendar.JYearChooser" ) {
+								name: "yearOTDStart"
+								"toolTipText": new FormMessage( null, "SetEditor.yearOTDStart.toolTipText" )
+								"minimum": 1900
+								"startYear": 1900
+								addEvent( new FormEvent( "java.beans.PropertyChangeListener", "propertyChange", "yearFromPropertyChange", false ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 4
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel13"
+								"text": new FormMessage( null, "SetEditor.jLabel13.text" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 5
+							} )
+							add( new FormComponent( "com.toedter.calendar.JYearChooser" ) {
+								name: "yearOTDEnd"
+								"toolTipText": new FormMessage( null, "SetEditor.yearOTDEnd.toolTipText" )
+								"minimum": 1900
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 6
+								"hAlign": 2
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "cbxCurrentYear"
+								"text": new FormMessage( null, "SetEditor.cbxCurrentYear.text" )
+								"toolTipText": new FormMessage( null, "SetEditor.cbxCurrentYear.toolTipText" )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxCurrentYearActionPerformed", false ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridx": 6
+								"hAlign": 4
+							} )
 						} )
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {par l:::p {seq :::1 {space :::p, par l {comp radioTweetNone::l:p::p, comp radioTweetUpdated::l:p::p, comp radioTweetCreated::l:p::p}, space :::p, comp jScrollPane3:::::x}, seq l {space :p:78:p, comp jLabel1:::p::p, space :::p, comp cmbSortBy:::p:277:p}}, space u:::p, par l {comp jLabel2:::p::p, comp jLabel5:::p::p, comp jLabel6:::p::p, comp jLabel7:::p::p}, space ::43:x}}"
-						"$verticalGroup": "par l {seq l {par b {comp cmbSortBy::b:p::p, comp jLabel1::b:p::p}, space :::p, par l {par t:::p {seq l:::1 {comp jLabel2:::p::p, space :::p, comp jLabel5:::p::p, space :::p, comp jLabel6:::p::p, space :::x, comp jLabel7:::p::p}, comp jScrollPane3::l:p:85:p}, seq {comp radioTweetNone:::p::p, space :::p, comp radioTweetUpdated:::p::p, space :::p, comp radioTweetCreated:::p::p}}, space :::p}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0, 0"
+						"$rowSpecs": "0, 0, 0, 0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
 					} ) {
 						name: "pnlOther"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlOther.border" )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel1"
 							"text": new FormMessage( null, "SetEditor.jLabel1.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 4
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbSortBy"
@@ -224,7 +344,11 @@ new FormModel {
 							auxiliary() {
 								"JavaCodeGenerator.postInitCode": "cmbSortBy.setModel(new DefaultComboBoxModel<>(this.sortModelArray));"
 							}
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbSortByActionPerformed", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbSortByActionPerformed", false ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"hAlign": 2
+							"weightx": 1.0
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "jScrollPane3"
@@ -237,22 +361,39 @@ new FormModel {
 									"JavaCodeGenerator.postInitCode": "Document styledDoc = txtTweet.getDocument();\nif (styledDoc instanceof AbstractDocument) {\n    AbstractDocument doc = (AbstractDocument)styledDoc;\n    doc.setDocumentFilter(new DocumentSizeFilter(140));\n} "
 								}
 							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"gridheight": 4
+							"weightx": 1.0
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel2"
 							"text": new FormMessage( null, "SetEditor.jLabel2.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 1
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel5"
 							"text": new FormMessage( null, "SetEditor.jLabel5.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 2
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel6"
 							"text": new FormMessage( null, "SetEditor.jLabel6.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 3
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel7"
 							"text": new FormMessage( null, "SetEditor.jLabel7.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 4
 						} )
 						add( new FormComponent( "javax.swing.JRadioButton" ) {
 							name: "radioTweetNone"
@@ -261,37 +402,52 @@ new FormModel {
 							"text": new FormMessage( null, "SetEditor.radioTweetNone.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetNone.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetNoneActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
 						} )
 						add( new FormComponent( "javax.swing.JRadioButton" ) {
 							name: "radioTweetUpdated"
 							"$buttonGroup": new FormReference( "btnGrpTweet" )
 							"text": new FormMessage( null, "SetEditor.radioTweetUpdated.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetUpdated.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetCreatedOrUpdatedActionPerformed", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetCreatedOrUpdatedActionPerformed", false ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
 						} )
 						add( new FormComponent( "javax.swing.JRadioButton" ) {
 							name: "radioTweetCreated"
 							"$buttonGroup": new FormReference( "btnGrpTweet" )
 							"text": new FormMessage( null, "SetEditor.radioTweetCreated.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetCreated.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetCreatedOrUpdatedActionPerformed", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetCreatedOrUpdatedActionPerformed", false ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "SetEditor.basicPanel.tab.title" )
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp jPanel4::t:::x, comp jPanel5::l:::x, comp jPanel6::l:::x}"
-					"$verticalGroup": "par l {seq l {comp jPanel4:::p::p, space u:::p, comp jPanel5:::p::p, space u:::p, comp jPanel6:::p::p, space ::302:x}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
+					"gap": 5
 				} ) {
 					name: "advancedPanel"
 					"verifyInputWhenFocusTarget": false
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :::p, par t {comp lblSafeSearch::t:p::p, comp jLabel8::t:p::p}, space :::p, par l:::p {comp cmbSafeSearch:::::x:1, comp cmbPrivacy::l::193:x:1}, space ::357:x}}"
-						"$verticalGroup": "par l {seq l {par b {comp cmbPrivacy::b:p::p, comp jLabel8::b:p::p}, space :::p, par b {comp lblSafeSearch::b:p::p, comp cmbSafeSearch::b:p::p}}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
 					} ) {
 						name: "jPanel4"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.jPanel4.border" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel8"
+							"text": new FormMessage( null, "SetEditor.jLabel8.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 4
+						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbPrivacy"
 							"model": new javax.swing.DefaultComboBoxModel {
@@ -304,14 +460,16 @@ new FormModel {
 								addElement( "Private" )
 							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbPrivacy.toolTipText" )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel8"
-							"text": new FormMessage( null, "SetEditor.jLabel8.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "lblSafeSearch"
 							"text": new FormMessage( null, "SetEditor.lblSafeSearch.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 4
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbSafeSearch"
@@ -322,17 +480,27 @@ new FormModel {
 								addElement( "Restricted" )
 							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbSafeSearch.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"hAlign": 2
 						} )
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :p:44:p, par t {comp jLabel11::t:p::p, comp jLabel10::t:p::p}, space u:::p, par l:::p {comp cmbMediaType:::::x:1, comp cmbContentType::l:::x:1}, space ::372:x}}"
-						"$verticalGroup": "par l {seq l {par b {comp jLabel10::b:p::p, comp cmbContentType::b:p::p}, space u:::p, par b {comp jLabel11::b:p::p, comp cmbMediaType::b:p::p}}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
 					} ) {
 						name: "jPanel5"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.jPanel5.border" )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel10"
 							"text": new FormMessage( null, "SetEditor.jLabel10.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 4
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbContentType"
@@ -347,10 +515,16 @@ new FormModel {
 								addElement( "All" )
 							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbContentType.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel11"
 							"text": new FormMessage( null, "SetEditor.jLabel11.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 4
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbMediaType"
@@ -361,17 +535,27 @@ new FormModel {
 								addElement( "Video" )
 							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbMediaType.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"hAlign": 2
 						} )
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :p:53:p, comp jLabel12:::p::p, space :::p, par l {seq l {comp cbxLimitSize:::p::p, space :::p, comp txtSetSize:::p:75:p}, comp cbxInCommons::l:p::p, comp cbxInGallery::l:p::p, comp cmbGeotag::l:p:353:p, comp cbxInGetty::l:p::p}, space ::117:x}}"
-						"$verticalGroup": "par l {seq l {par b {comp cmbGeotag::b:p::p, comp jLabel12::b:p::p}, space u:::p, comp cbxInGallery:::p::p, space :::p, comp cbxInCommons:::p::p, space :::p, comp cbxInGetty:::p::p, space :::p, par b {comp cbxLimitSize::b:p::p, comp txtSetSize::b:p::p}, space :p:20:p}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0, 0"
+						"$rowSpecs": "0, 0, 0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
 					} ) {
 						name: "jPanel6"
 						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.jPanel6.border" )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel12"
 							"text": new FormMessage( null, "SetEditor.jLabel12.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 4
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbGeotag"
@@ -382,31 +566,58 @@ new FormModel {
 								addElement( "Include only photos without geotag data" )
 							}
 							"toolTipText": new FormMessage( null, "SetEditor.cmbGeotag.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridwidth": 2
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxInGallery"
 							"text": new FormMessage( null, "SetEditor.cbxInGallery.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxInGallery.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"gridwidth": 2
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxInCommons"
 							"text": new FormMessage( null, "SetEditor.cbxInCommons.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxInCommons.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+							"gridwidth": 2
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxInGetty"
 							"text": new FormMessage( null, "SetEditor.cbxInGetty.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxInGetty.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 3
+							"gridwidth": 2
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxLimitSize"
 							"text": new FormMessage( null, "SetEditor.cbxLimitSize.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxLimitSize.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxLimitSizeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 4
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "txtSetSize"
 							"toolTipText": new FormMessage( null, "SetEditor.txtSetSize.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 4
+							"hAlign": 5
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {
@@ -435,7 +646,7 @@ new FormModel {
 					name: "btnSaveAndRefresh"
 					"text": new FormMessage( null, "SetEditor.btnSaveAndRefresh.text" )
 					"toolTipText": new FormMessage( null, "SetEditor.btnSaveAndRefresh.toolTipText" )
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSaveAndRefreshActionPerformed", true ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSaveAndRefreshActionPerformed", false ) )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Last"

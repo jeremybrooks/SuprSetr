@@ -18,6 +18,8 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -26,11 +28,11 @@ import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -44,7 +46,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.AbstractDocument;
@@ -57,12 +58,17 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DateFormatSymbols;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -129,13 +135,25 @@ public class SetEditor extends javax.swing.JDialog {
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.seteditor");
 
 
-	/**
-	 * Create a new instance of the SetEditor.
-	 *
-	 * @param parent     the parent frame.
-	 * @param editorMode mode to edit in (create or edit).
-	 * @param ssPhotoset the photoset we are editing or creating.
-	 */
+	private void dateTakenAfterPropertyChange() {
+		dateTakenBefore.setMinSelectableDate(dateTakenAfter.getDate());
+	}
+
+	private void dateUploadedAfterPropertyChange() {
+		dateUploadedBefore.setMinSelectableDate(dateTakenAfter.getDate());
+	}
+
+	private void yearFromPropertyChange() {
+		if (this.yearOTDStart.getYear() < this.yearOTDEnd.getYear()) {
+			this.yearOTDStart.setYear(this.yearOTDEnd.getYear());
+		}
+		this.yearOTDStart.setMinimum(this.yearOTDEnd.getYear());
+	}
+
+	private void radioTweetCreatedOrUpdatedActionPerformed() {
+		// TODO add your code here
+	}
+
 	public SetEditor(JFrame parent, EditorMode editorMode, SSPhotoset ssPhotoset) {
 		super(parent, true);
 
@@ -187,12 +205,18 @@ public class SetEditor extends javax.swing.JDialog {
 		this.txtTags.setText(ssPhotoset.getTagsAsString());
 
 		this.cbxDateTaken.setSelected(ssPhotoset.isMatchTakenDates());
-		this.txtDateTakenAfter.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMinTakenDate()));
-		this.txtDateTakenBefore.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMaxTakenDate()));
+		this.dateTakenAfter.setDate(ssPhotoset.getMinTakenDate());
+		this.dateTakenBefore.setDate(ssPhotoset.getMaxTakenDate());
+		this.dateTakenBefore.setMinSelectableDate(this.dateTakenAfter.getDate());
+//		this.txtDateTakenAfter.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMinTakenDate()));
+//		this.txtDateTakenBefore.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMaxTakenDate()));
 
 		this.cbxDateUploaded.setSelected(ssPhotoset.isMatchUploadDates());
-		this.txtDateUploadedAfter.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMinUploadDate()));
-		this.txtDateUploadedBefore.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMaxUploadDate()));
+		this.dateUploadedAfter.setDate(ssPhotoset.getMinUploadDate());
+		this.dateUploadedBefore.setDate(ssPhotoset.getMaxUploadDate());
+		this.dateUploadedBefore.setMinSelectableDate(this.dateUploadedAfter.getDate());
+//		this.txtDateUploadedAfter.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMinUploadDate()));
+//		this.txtDateUploadedBefore.setText(SSUtils.formatDateAsYYYYMMDD(ssPhotoset.getMaxUploadDate()));
 
 		this.cmbSortBy.setSelectedIndex(ssPhotoset.getSortOrder());
 
@@ -217,13 +241,19 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cmbOTDMonth.setSelectedIndex(ssPhotoset.getOnThisDayMonth() - 1);
 		this.updateDayOfMonthComboBox();
 		this.cmbOTDDay.setSelectedIndex(ssPhotoset.getOnThisDayDay() - 1);
-		this.txtOTDYearStart.setText(Integer.toString(ssPhotoset.getOnThisDayYearStart()));
+		this.yearOTDStart.setYear(ssPhotoset.getOnThisDayYearStart());
+		this.yearOTDStart.setMaximum(SSUtils.getCurrentYear());
+//		this.txtOTDYearStart.setText(Integer.toString(ssPhotoset.getOnThisDayYearStart()));
+		this.yearOTDEnd.setMaximum(SSUtils.getCurrentYear());
 		if (ssPhotoset.getOnThisDayYearEnd() == 0) {
 			this.cbxCurrentYear.setSelected(true);
-			this.txtOTDYearEnd.setText(Integer.toString(SSUtils.getCurrentYear()));
+			this.yearOTDEnd.setYear(SSUtils.getCurrentYear());
+//			this.txtOTDYearEnd.setText(Integer.toString(SSUtils.getCurrentYear()));
 		} else {
-			this.txtOTDYearEnd.setText(Integer.toString(ssPhotoset.getOnThisDayYearEnd()));
+			this.yearOTDEnd.setYear(ssPhotoset.getOnThisDayYearEnd());
+//			this.txtOTDYearEnd.setText(Integer.toString(ssPhotoset.getOnThisDayYearEnd()));
 		}
+		this.yearOTDEnd.setMinimum(this.yearOTDStart.getYear());
 
 		// remember these
 		this.originalPrimaryIcon = this.ssPhotoset.getPrimaryPhotoIcon();
@@ -249,31 +279,35 @@ public class SetEditor extends javax.swing.JDialog {
 		basicPanel = new JPanel();
 		pnlTitle = new JPanel();
 		lblIcon = new JLabel();
+		lblMessage = new JLabel();
 		cbxManage = new JCheckBox();
 		cbxLock = new JCheckBox();
+		label1 = new JLabel();
 		txtTitle = new JTextField();
+		label2 = new JLabel();
 		jScrollPane1 = new JScrollPane();
 		txtDescription = new JTextArea();
-		lblMessage = new JLabel();
 		pnlTags = new JPanel();
 		txtTags = new JTextField();
 		cmbTags = new JComboBox<>();
 		pnlDates = new JPanel();
+		panel1 = new JPanel();
 		cbxDateTaken = new JCheckBox();
-		txtDateTakenAfter = new JTextField();
+		dateTakenAfter = new JDateChooser();
 		jLabel3 = new JLabel();
-		txtDateTakenBefore = new JTextField();
+		dateTakenBefore = new JDateChooser();
 		cbxDateUploaded = new JCheckBox();
-		txtDateUploadedAfter = new JTextField();
+		dateUploadedAfter = new JDateChooser();
 		jLabel4 = new JLabel();
-		txtDateUploadedBefore = new JTextField();
+		dateUploadedBefore = new JDateChooser();
+		panel2 = new JPanel();
 		cbxOnThisDay = new JCheckBox();
 		cmbOTDMonth = new JComboBox();
 		cmbOTDDay = new JComboBox<>();
 		jLabel9 = new JLabel();
-		txtOTDYearStart = new JTextField();
+		yearOTDStart = new JYearChooser();
 		jLabel13 = new JLabel();
-		txtOTDYearEnd = new JTextField();
+		yearOTDEnd = new JYearChooser();
 		cbxCurrentYear = new JCheckBox();
 		pnlOther = new JPanel();
 		jLabel1 = new JLabel();
@@ -289,8 +323,8 @@ public class SetEditor extends javax.swing.JDialog {
 		radioTweetCreated = new JRadioButton();
 		advancedPanel = new JPanel();
 		jPanel4 = new JPanel();
-		cmbPrivacy = new JComboBox<>();
 		jLabel8 = new JLabel();
+		cmbPrivacy = new JComboBox<>();
 		lblSafeSearch = new JLabel();
 		cmbSafeSearch = new JComboBox<>();
 		jPanel5 = new JPanel();
@@ -321,10 +355,16 @@ public class SetEditor extends javax.swing.JDialog {
 
 			//======== basicPanel ========
 			{
+				basicPanel.setLayout(new VerticalLayout(5));
 
 				//======== pnlTitle ========
 				{
 					pnlTitle.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTitle.border")));
+					pnlTitle.setLayout(new GridBagLayout());
+					((GridBagLayout)pnlTitle.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+					((GridBagLayout)pnlTitle.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+					((GridBagLayout)pnlTitle.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlTitle.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 					//---- lblIcon ----
 					lblIcon.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
@@ -335,6 +375,16 @@ public class SetEditor extends javax.swing.JDialog {
 							lblIconMouseClicked(e);
 						}
 					});
+					pnlTitle.add(lblIcon, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
+						GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+						new Insets(0, 0, 5, 5), 0, 0));
+
+					//---- lblMessage ----
+					lblMessage.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+					lblMessage.setForeground(Color.red);
+					pnlTitle.add(lblMessage, new GridBagConstraints(1, 0, 2, 1, 0.0, 1.0,
+						GridBagConstraints.CENTER, GridBagConstraints.NONE,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cbxManage ----
 					cbxManage.setText(bundle.getString("SetEditor.cbxManage.text"));
@@ -345,10 +395,22 @@ public class SetEditor extends javax.swing.JDialog {
 							cbxManageActionPerformed(e);
 						}
 					});
+					pnlTitle.add(cbxManage, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
+						GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cbxLock ----
 					cbxLock.setText(bundle.getString("SetEditor.cbxLock.text"));
 					cbxLock.setToolTipText(bundle.getString("SetEditor.cbxLock.toolTipText"));
+					pnlTitle.add(cbxLock, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.NONE,
+						new Insets(0, 0, 5, 5), 0, 0));
+
+					//---- label1 ----
+					label1.setText(bundle.getString("SetEditor.label1.text"));
+					pnlTitle.add(label1, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- txtTitle ----
 					txtTitle.setToolTipText(bundle.getString("SetEditor.txtTitle.toolTipText"));
@@ -358,6 +420,15 @@ public class SetEditor extends javax.swing.JDialog {
 							txtTitleKeyReleased(e);
 						}
 					});
+					pnlTitle.add(txtTitle, new GridBagConstraints(2, 3, 1, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
+
+					//---- label2 ----
+					label2.setText(bundle.getString("SetEditor.label2.text"));
+					pnlTitle.add(label2, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
+						GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//======== jScrollPane1 ========
 					{
@@ -370,61 +441,26 @@ public class SetEditor extends javax.swing.JDialog {
 						txtDescription.setWrapStyleWord(true);
 						jScrollPane1.setViewportView(txtDescription);
 					}
-
-					//---- lblMessage ----
-					lblMessage.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-					lblMessage.setForeground(Color.red);
-
-					GroupLayout pnlTitleLayout = new GroupLayout(pnlTitle);
-					pnlTitle.setLayout(pnlTitleLayout);
-					pnlTitleLayout.setHorizontalGroup(
-						pnlTitleLayout.createParallelGroup()
-							.addGroup(pnlTitleLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(pnlTitleLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-									.addGroup(GroupLayout.Alignment.LEADING, pnlTitleLayout.createSequentialGroup()
-										.addComponent(lblIcon, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(pnlTitleLayout.createParallelGroup()
-											.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-											.addGroup(pnlTitleLayout.createSequentialGroup()
-												.addGroup(pnlTitleLayout.createParallelGroup()
-													.addComponent(cbxLock)
-													.addComponent(cbxManage))
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(lblMessage))))
-									.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE))
-								.addContainerGap())
-					);
-					pnlTitleLayout.setVerticalGroup(
-						pnlTitleLayout.createParallelGroup()
-							.addGroup(pnlTitleLayout.createSequentialGroup()
-								.addGroup(pnlTitleLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-									.addGroup(pnlTitleLayout.createSequentialGroup()
-										.addGroup(pnlTitleLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-											.addGroup(pnlTitleLayout.createSequentialGroup()
-												.addComponent(cbxManage)
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(cbxLock)
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-											.addGroup(pnlTitleLayout.createSequentialGroup()
-												.addContainerGap()
-												.addComponent(lblMessage)
-												.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)))
-										.addComponent(txtTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addComponent(lblIcon, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-								.addContainerGap())
-					);
+					pnlTitle.add(jScrollPane1, new GridBagConstraints(2, 4, 1, 1, 1.0, 1.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 3, 0, 8), 0, 0));
 				}
+				basicPanel.add(pnlTitle);
 
 				//======== pnlTags ========
 				{
 					pnlTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTags.border")));
+					pnlTags.setLayout(new GridBagLayout());
+					((GridBagLayout)pnlTags.getLayout()).columnWidths = new int[] {0, 0, 0};
+					((GridBagLayout)pnlTags.getLayout()).rowHeights = new int[] {0, 0};
+					((GridBagLayout)pnlTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
 					//---- txtTags ----
 					txtTags.setToolTipText(bundle.getString("SetEditor.txtTags.toolTipText"));
+					pnlTags.add(txtTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
 
 					//---- cmbTags ----
 					cmbTags.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -432,237 +468,251 @@ public class SetEditor extends javax.swing.JDialog {
 						"Any"
 					}));
 					cmbTags.setToolTipText(bundle.getString("SetEditor.cmbTags.toolTipText"));
-
-					GroupLayout pnlTagsLayout = new GroupLayout(pnlTags);
-					pnlTags.setLayout(pnlTagsLayout);
-					pnlTagsLayout.setHorizontalGroup(
-						pnlTagsLayout.createParallelGroup()
-							.addGroup(pnlTagsLayout.createSequentialGroup()
-								.addComponent(cmbTags, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(txtTags, GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE))
-					);
-					pnlTagsLayout.setVerticalGroup(
-						pnlTagsLayout.createParallelGroup()
-							.addGroup(pnlTagsLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(cmbTags, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtTags, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					);
+					pnlTags.add(cmbTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 5), 0, 0));
 				}
+				basicPanel.add(pnlTags);
 
 				//======== pnlDates ========
 				{
 					pnlDates.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlDates.border")));
+					pnlDates.setLayout(new VerticalLayout());
 
-					//---- cbxDateTaken ----
-					cbxDateTaken.setText(bundle.getString("SetEditor.cbxDateTaken.text"));
-					cbxDateTaken.setToolTipText(bundle.getString("SetEditor.cbxDateTaken.toolTipText"));
-					cbxDateTaken.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							cbxDateTakenActionPerformed(e);
-						}
-					});
+					//======== panel1 ========
+					{
+						panel1.setLayout(new GridBagLayout());
+						((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+						((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+						((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+						((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
-					//---- txtDateTakenAfter ----
-					txtDateTakenAfter.setToolTipText(bundle.getString("SetEditor.txtDateTakenAfter.toolTipText"));
-					txtDateTakenAfter.setEnabled(false);
+						//---- cbxDateTaken ----
+						cbxDateTaken.setText(bundle.getString("SetEditor.cbxDateTaken.text"));
+						cbxDateTaken.setToolTipText(bundle.getString("SetEditor.cbxDateTaken.toolTipText"));
+						cbxDateTaken.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cbxDateTakenActionPerformed(e);
+							}
+						});
+						panel1.add(cbxDateTaken, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- jLabel3 ----
-					jLabel3.setText(bundle.getString("SetEditor.jLabel3.text"));
+						//---- dateTakenAfter ----
+						dateTakenAfter.setToolTipText(bundle.getString("SetEditor.dateTakenAfter.toolTipText"));
+						dateTakenAfter.addPropertyChangeListener(new PropertyChangeListener() {
+							@Override
+							public void propertyChange(PropertyChangeEvent e) {
+								dateTakenAfterPropertyChange();
+							}
+						});
+						panel1.add(dateTakenAfter, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- txtDateTakenBefore ----
-					txtDateTakenBefore.setToolTipText(bundle.getString("SetEditor.txtDateTakenBefore.toolTipText"));
-					txtDateTakenBefore.setEnabled(false);
+						//---- jLabel3 ----
+						jLabel3.setText(bundle.getString("SetEditor.jLabel3.text"));
+						panel1.add(jLabel3, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- cbxDateUploaded ----
-					cbxDateUploaded.setText(bundle.getString("SetEditor.cbxDateUploaded.text"));
-					cbxDateUploaded.setToolTipText(bundle.getString("SetEditor.cbxDateUploaded.toolTipText"));
-					cbxDateUploaded.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							cbxDateUploadedActionPerformed(e);
-						}
-					});
+						//---- dateTakenBefore ----
+						dateTakenBefore.setToolTipText(bundle.getString("SetEditor.dateTakenBefore.toolTipText"));
+						panel1.add(dateTakenBefore, new GridBagConstraints(3, 0, 1, 1, 1.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 0), 0, 0));
 
-					//---- txtDateUploadedAfter ----
-					txtDateUploadedAfter.setToolTipText(bundle.getString("SetEditor.txtDateUploadedAfter.toolTipText"));
-					txtDateUploadedAfter.setEnabled(false);
+						//---- cbxDateUploaded ----
+						cbxDateUploaded.setText(bundle.getString("SetEditor.cbxDateUploaded.text"));
+						cbxDateUploaded.setToolTipText(bundle.getString("SetEditor.cbxDateUploaded.toolTipText"));
+						cbxDateUploaded.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cbxDateUploadedActionPerformed(e);
+							}
+						});
+						panel1.add(cbxDateUploaded, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- jLabel4 ----
-					jLabel4.setText(bundle.getString("SetEditor.jLabel4.text"));
+						//---- dateUploadedAfter ----
+						dateUploadedAfter.setToolTipText(bundle.getString("SetEditor.dateUploadedAfter.toolTipText"));
+						dateUploadedAfter.addPropertyChangeListener(new PropertyChangeListener() {
+							@Override
+							public void propertyChange(PropertyChangeEvent e) {
+								dateUploadedAfterPropertyChange();
+							}
+						});
+						panel1.add(dateUploadedAfter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- txtDateUploadedBefore ----
-					txtDateUploadedBefore.setToolTipText(bundle.getString("SetEditor.txtDateUploadedBefore.toolTipText"));
-					txtDateUploadedBefore.setEnabled(false);
+						//---- jLabel4 ----
+						jLabel4.setText(bundle.getString("SetEditor.jLabel4.text"));
+						panel1.add(jLabel4, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- cbxOnThisDay ----
-					cbxOnThisDay.setText(bundle.getString("SetEditor.cbxOnThisDay.text"));
-					cbxOnThisDay.setToolTipText(bundle.getString("SetEditor.cbxOnThisDay.toolTipText"));
-					cbxOnThisDay.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							cbxOnThisDayActionPerformed(e);
-						}
-					});
+						//---- dateUploadedBefore ----
+						dateUploadedBefore.setToolTipText(bundle.getString("SetEditor.dateUploadedBefore.toolTipText"));
+						panel1.add(dateUploadedBefore, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 0), 0, 0));
+					}
+					pnlDates.add(panel1);
 
-					//---- cmbOTDMonth ----
-					cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
-					cmbOTDMonth.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							cmbOTDMonthActionPerformed(e);
-						}
-					});
-					cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
+					//======== panel2 ========
+					{
+						panel2.setLayout(new GridBagLayout());
+						((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+						((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0};
+						((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+						((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-					//---- cmbOTDDay ----
-					cmbOTDDay.setModel(new DefaultComboBoxModel<>(new String[] {
-						"1",
-						"2",
-						"3",
-						"4",
-						"5",
-						"6",
-						"7",
-						"8",
-						"9",
-						"10",
-						"11",
-						"12",
-						"13",
-						"14",
-						"15",
-						"16",
-						"17",
-						"18",
-						"19",
-						"20",
-						"21",
-						"22",
-						"23",
-						"24",
-						"25",
-						"26",
-						"27",
-						"28",
-						"29",
-						"30",
-						"31"
-					}));
-					cmbOTDDay.setToolTipText(bundle.getString("SetEditor.cmbOTDDay.toolTipText"));
+						//---- cbxOnThisDay ----
+						cbxOnThisDay.setText(bundle.getString("SetEditor.cbxOnThisDay.text"));
+						cbxOnThisDay.setToolTipText(bundle.getString("SetEditor.cbxOnThisDay.toolTipText"));
+						cbxOnThisDay.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cbxOnThisDayActionPerformed(e);
+							}
+						});
+						panel2.add(cbxOnThisDay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- jLabel9 ----
-					jLabel9.setText(bundle.getString("SetEditor.jLabel9.text"));
+						//---- cmbOTDMonth ----
+						cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
+						cmbOTDMonth.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cmbOTDMonthActionPerformed();
+							}
+						});
+						cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
+						panel2.add(cmbOTDMonth, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- txtOTDYearStart ----
-					txtOTDYearStart.setToolTipText(bundle.getString("SetEditor.txtOTDYearStart.toolTipText"));
+						//---- cmbOTDDay ----
+						cmbOTDDay.setModel(new DefaultComboBoxModel<>(new String[] {
+							"1",
+							"2",
+							"3",
+							"4",
+							"5",
+							"6",
+							"7",
+							"8",
+							"9",
+							"10",
+							"11",
+							"12",
+							"13",
+							"14",
+							"15",
+							"16",
+							"17",
+							"18",
+							"19",
+							"20",
+							"21",
+							"22",
+							"23",
+							"24",
+							"25",
+							"26",
+							"27",
+							"28",
+							"29",
+							"30",
+							"31"
+						}));
+						cmbOTDDay.setToolTipText(bundle.getString("SetEditor.cmbOTDDay.toolTipText"));
+						panel2.add(cmbOTDDay, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- jLabel13 ----
-					jLabel13.setText(bundle.getString("SetEditor.jLabel13.text"));
+						//---- jLabel9 ----
+						jLabel9.setText(bundle.getString("SetEditor.jLabel9.text"));
+						panel2.add(jLabel9, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- txtOTDYearEnd ----
-					txtOTDYearEnd.setToolTipText(bundle.getString("SetEditor.txtOTDYearEnd.toolTipText"));
+						//---- yearOTDStart ----
+						yearOTDStart.setToolTipText(bundle.getString("SetEditor.yearOTDStart.toolTipText"));
+						yearOTDStart.setMinimum(1900);
+						yearOTDStart.setStartYear(1900);
+						yearOTDStart.addPropertyChangeListener(new PropertyChangeListener() {
+							@Override
+							public void propertyChange(PropertyChangeEvent e) {
+								yearFromPropertyChange();
+							}
+						});
+						panel2.add(yearOTDStart, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					//---- cbxCurrentYear ----
-					cbxCurrentYear.setText(bundle.getString("SetEditor.cbxCurrentYear.text"));
-					cbxCurrentYear.setToolTipText(bundle.getString("SetEditor.cbxCurrentYear.toolTipText"));
-					cbxCurrentYear.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							cbxCurrentYearActionPerformed(e);
-						}
-					});
+						//---- jLabel13 ----
+						jLabel13.setText(bundle.getString("SetEditor.jLabel13.text"));
+						panel2.add(jLabel13, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+							new Insets(0, 0, 5, 5), 0, 0));
 
-					GroupLayout pnlDatesLayout = new GroupLayout(pnlDates);
-					pnlDates.setLayout(pnlDatesLayout);
-					pnlDatesLayout.setHorizontalGroup(
-						pnlDatesLayout.createParallelGroup()
-							.addGroup(pnlDatesLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(pnlDatesLayout.createParallelGroup()
-									.addGroup(pnlDatesLayout.createSequentialGroup()
-										.addGroup(pnlDatesLayout.createParallelGroup()
-											.addComponent(cbxDateUploaded)
-											.addComponent(cbxDateTaken))
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(pnlDatesLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-											.addComponent(txtDateTakenAfter, GroupLayout.Alignment.TRAILING)
-											.addComponent(txtDateUploadedAfter, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-										.addGroup(pnlDatesLayout.createParallelGroup()
-											.addGroup(pnlDatesLayout.createSequentialGroup()
-												.addGap(2, 2, 2)
-												.addComponent(jLabel4)
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-											.addGroup(GroupLayout.Alignment.TRAILING, pnlDatesLayout.createSequentialGroup()
-												.addGap(4, 4, 4)
-												.addComponent(jLabel3)
-												.addGap(8, 8, 8)))
-										.addGroup(pnlDatesLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-											.addComponent(txtDateUploadedBefore)
-											.addComponent(txtDateTakenBefore, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
-									.addGroup(pnlDatesLayout.createSequentialGroup()
-										.addComponent(cbxOnThisDay)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(cmbOTDMonth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(cmbOTDDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jLabel9)
-										.addGap(1, 1, 1)
-										.addComponent(txtOTDYearStart, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-										.addGap(6, 6, 6)
-										.addComponent(jLabel13)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(pnlDatesLayout.createParallelGroup()
-											.addComponent(cbxCurrentYear)
-											.addComponent(txtOTDYearEnd, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))))
-								.addContainerGap(59, Short.MAX_VALUE))
-					);
-					pnlDatesLayout.setVerticalGroup(
-						pnlDatesLayout.createParallelGroup()
-							.addGroup(pnlDatesLayout.createSequentialGroup()
-								.addGroup(pnlDatesLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cbxDateTaken)
-									.addComponent(jLabel3)
-									.addComponent(txtDateTakenAfter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(txtDateTakenBefore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(pnlDatesLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cbxDateUploaded)
-									.addComponent(txtDateUploadedAfter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(txtDateUploadedBefore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(jLabel4))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(pnlDatesLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cbxOnThisDay)
-									.addComponent(cmbOTDMonth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(cmbOTDDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(jLabel9)
-									.addComponent(txtOTDYearStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(jLabel13)
-									.addComponent(txtOTDYearEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(cbxCurrentYear))
-					);
+						//---- yearOTDEnd ----
+						yearOTDEnd.setToolTipText(bundle.getString("SetEditor.yearOTDEnd.toolTipText"));
+						yearOTDEnd.setMinimum(1900);
+						panel2.add(yearOTDEnd, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+							new Insets(0, 0, 5, 5), 0, 0));
+
+						//---- cbxCurrentYear ----
+						cbxCurrentYear.setText(bundle.getString("SetEditor.cbxCurrentYear.text"));
+						cbxCurrentYear.setToolTipText(bundle.getString("SetEditor.cbxCurrentYear.toolTipText"));
+						cbxCurrentYear.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cbxCurrentYearActionPerformed();
+							}
+						});
+						panel2.add(cbxCurrentYear, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0,
+							GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+							new Insets(0, 0, 0, 5), 0, 0));
+					}
+					pnlDates.add(panel2);
 				}
+				basicPanel.add(pnlDates);
 
 				//======== pnlOther ========
 				{
 					pnlOther.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlOther.border")));
+					pnlOther.setLayout(new GridBagLayout());
+					((GridBagLayout)pnlOther.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+					((GridBagLayout)pnlOther.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
+					((GridBagLayout)pnlOther.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlOther.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 					//---- jLabel1 ----
 					jLabel1.setText(bundle.getString("SetEditor.jLabel1.text"));
+					pnlOther.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbSortBy ----
 					cmbSortBy.setToolTipText(bundle.getString("SetEditor.cmbSortBy.toolTipText"));
 					cmbSortBy.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							cmbSortByActionPerformed(e);
+							cmbSortByActionPerformed();
 						}
 					});
 					cmbSortBy.setModel(new DefaultComboBoxModel<>(this.sortModelArray));
+					pnlOther.add(cmbSortBy, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//======== jScrollPane3 ========
 					{
@@ -678,18 +728,33 @@ public class SetEditor extends javax.swing.JDialog {
 						}
 						jScrollPane3.setViewportView(txtTweet);
 					}
+					pnlOther.add(jScrollPane3, new GridBagConstraints(1, 1, 1, 4, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- jLabel2 ----
 					jLabel2.setText(bundle.getString("SetEditor.jLabel2.text"));
+					pnlOther.add(jLabel2, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- jLabel5 ----
 					jLabel5.setText(bundle.getString("SetEditor.jLabel5.text"));
+					pnlOther.add(jLabel5, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- jLabel6 ----
 					jLabel6.setText(bundle.getString("SetEditor.jLabel6.text"));
+					pnlOther.add(jLabel6, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- jLabel7 ----
 					jLabel7.setText(bundle.getString("SetEditor.jLabel7.text"));
+					pnlOther.add(jLabel7, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- radioTweetNone ----
 					radioTweetNone.setSelected(true);
@@ -701,6 +766,9 @@ public class SetEditor extends javax.swing.JDialog {
 							radioTweetNoneActionPerformed(e);
 						}
 					});
+					pnlOther.add(radioTweetNone, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- radioTweetUpdated ----
 					radioTweetUpdated.setText(bundle.getString("SetEditor.radioTweetUpdated.text"));
@@ -708,9 +776,12 @@ public class SetEditor extends javax.swing.JDialog {
 					radioTweetUpdated.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							radioTweetCreatedOrUpdatedActionPerformed(e);
+							radioTweetCreatedOrUpdatedActionPerformed();
 						}
 					});
+					pnlOther.add(radioTweetUpdated, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- radioTweetCreated ----
 					radioTweetCreated.setText(bundle.getString("SetEditor.radioTweetCreated.text"));
@@ -718,91 +789,14 @@ public class SetEditor extends javax.swing.JDialog {
 					radioTweetCreated.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							radioTweetCreatedOrUpdatedActionPerformed(e);
+							radioTweetCreatedOrUpdatedActionPerformed();
 						}
 					});
-
-					GroupLayout pnlOtherLayout = new GroupLayout(pnlOther);
-					pnlOther.setLayout(pnlOtherLayout);
-					pnlOtherLayout.setHorizontalGroup(
-						pnlOtherLayout.createParallelGroup()
-							.addGroup(pnlOtherLayout.createSequentialGroup()
-								.addGroup(pnlOtherLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-									.addGroup(pnlOtherLayout.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(pnlOtherLayout.createParallelGroup()
-											.addComponent(radioTweetNone)
-											.addComponent(radioTweetUpdated)
-											.addComponent(radioTweetCreated))
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jScrollPane3))
-									.addGroup(pnlOtherLayout.createSequentialGroup()
-										.addGap(78, 78, 78)
-										.addComponent(jLabel1)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(cmbSortBy, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addGroup(pnlOtherLayout.createParallelGroup()
-									.addComponent(jLabel2)
-									.addComponent(jLabel5)
-									.addComponent(jLabel6)
-									.addComponent(jLabel7))
-								.addContainerGap(43, Short.MAX_VALUE))
-					);
-					pnlOtherLayout.setVerticalGroup(
-						pnlOtherLayout.createParallelGroup()
-							.addGroup(pnlOtherLayout.createSequentialGroup()
-								.addGroup(pnlOtherLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cmbSortBy, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(jLabel1))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(pnlOtherLayout.createParallelGroup()
-									.addGroup(pnlOtherLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-										.addGroup(GroupLayout.Alignment.LEADING, pnlOtherLayout.createSequentialGroup()
-											.addComponent(jLabel2)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addComponent(jLabel5)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addComponent(jLabel6)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(jLabel7))
-										.addComponent(jScrollPane3, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-									.addGroup(pnlOtherLayout.createSequentialGroup()
-										.addComponent(radioTweetNone)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(radioTweetUpdated)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(radioTweetCreated)))
-								.addContainerGap())
-					);
+					pnlOther.add(radioTweetCreated, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
 				}
-
-				GroupLayout basicPanelLayout = new GroupLayout(basicPanel);
-				basicPanel.setLayout(basicPanelLayout);
-				basicPanelLayout.setHorizontalGroup(
-					basicPanelLayout.createParallelGroup()
-						.addGroup(basicPanelLayout.createSequentialGroup()
-							.addComponent(pnlOther, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(GroupLayout.Alignment.TRAILING, basicPanelLayout.createSequentialGroup()
-							.addGroup(basicPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(pnlDates, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(pnlTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(pnlTags, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addGap(12, 12, 12))
-				);
-				basicPanelLayout.setVerticalGroup(
-					basicPanelLayout.createParallelGroup()
-						.addGroup(basicPanelLayout.createSequentialGroup()
-							.addComponent(pnlTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(6, 6, 6)
-							.addComponent(pnlTags, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(pnlDates, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(pnlOther, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-				);
+				basicPanel.add(pnlOther);
 			}
 			jTabbedPane1.addTab(bundle.getString("SetEditor.basicPanel.tab.title"), basicPanel);
 
@@ -810,10 +804,22 @@ public class SetEditor extends javax.swing.JDialog {
 			//======== advancedPanel ========
 			{
 				advancedPanel.setVerifyInputWhenFocusTarget(false);
+				advancedPanel.setLayout(new VerticalLayout(5));
 
 				//======== jPanel4 ========
 				{
 					jPanel4.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel4.border")));
+					jPanel4.setLayout(new GridBagLayout());
+					((GridBagLayout)jPanel4.getLayout()).columnWidths = new int[] {0, 0, 0};
+					((GridBagLayout)jPanel4.getLayout()).rowHeights = new int[] {0, 0, 0};
+					((GridBagLayout)jPanel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+					((GridBagLayout)jPanel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+					//---- jLabel8 ----
+					jLabel8.setText(bundle.getString("SetEditor.jLabel8.text"));
+					jPanel4.add(jLabel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbPrivacy ----
 					cmbPrivacy.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -825,12 +831,15 @@ public class SetEditor extends javax.swing.JDialog {
 						"Private"
 					}));
 					cmbPrivacy.setToolTipText(bundle.getString("SetEditor.cmbPrivacy.toolTipText"));
-
-					//---- jLabel8 ----
-					jLabel8.setText(bundle.getString("SetEditor.jLabel8.text"));
+					jPanel4.add(cmbPrivacy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- lblSafeSearch ----
 					lblSafeSearch.setText(bundle.getString("SetEditor.lblSafeSearch.text"));
+					jPanel4.add(lblSafeSearch, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- cmbSafeSearch ----
 					cmbSafeSearch.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -839,41 +848,26 @@ public class SetEditor extends javax.swing.JDialog {
 						"Restricted"
 					}));
 					cmbSafeSearch.setToolTipText(bundle.getString("SetEditor.cmbSafeSearch.toolTipText"));
-
-					GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-					jPanel4.setLayout(jPanel4Layout);
-					jPanel4Layout.setHorizontalGroup(
-						jPanel4Layout.createParallelGroup()
-							.addGroup(jPanel4Layout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-									.addComponent(lblSafeSearch)
-									.addComponent(jLabel8))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-									.addComponent(cmbSafeSearch)
-									.addComponent(cmbPrivacy, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-								.addContainerGap(357, Short.MAX_VALUE))
-					);
-					jPanel4Layout.setVerticalGroup(
-						jPanel4Layout.createParallelGroup()
-							.addGroup(jPanel4Layout.createSequentialGroup()
-								.addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cmbPrivacy, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(jLabel8))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(lblSafeSearch)
-									.addComponent(cmbSafeSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					);
+					jPanel4.add(cmbSafeSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 0), 0, 0));
 				}
+				advancedPanel.add(jPanel4);
 
 				//======== jPanel5 ========
 				{
 					jPanel5.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel5.border")));
+					jPanel5.setLayout(new GridBagLayout());
+					((GridBagLayout)jPanel5.getLayout()).columnWidths = new int[] {0, 0, 0};
+					((GridBagLayout)jPanel5.getLayout()).rowHeights = new int[] {0, 0, 0};
+					((GridBagLayout)jPanel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+					((GridBagLayout)jPanel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
 					//---- jLabel10 ----
 					jLabel10.setText(bundle.getString("SetEditor.jLabel10.text"));
+					jPanel5.add(jLabel10, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbContentType ----
 					cmbContentType.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -886,9 +880,15 @@ public class SetEditor extends javax.swing.JDialog {
 						"All"
 					}));
 					cmbContentType.setToolTipText(bundle.getString("SetEditor.cmbContentType.toolTipText"));
+					jPanel5.add(cmbContentType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- jLabel11 ----
 					jLabel11.setText(bundle.getString("SetEditor.jLabel11.text"));
+					jPanel5.add(jLabel11, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- cmbMediaType ----
 					cmbMediaType.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -897,41 +897,26 @@ public class SetEditor extends javax.swing.JDialog {
 						"Video"
 					}));
 					cmbMediaType.setToolTipText(bundle.getString("SetEditor.cmbMediaType.toolTipText"));
-
-					GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
-					jPanel5.setLayout(jPanel5Layout);
-					jPanel5Layout.setHorizontalGroup(
-						jPanel5Layout.createParallelGroup()
-							.addGroup(jPanel5Layout.createSequentialGroup()
-								.addGap(44, 44, 44)
-								.addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-									.addComponent(jLabel11)
-									.addComponent(jLabel10))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-									.addComponent(cmbMediaType)
-									.addComponent(cmbContentType))
-								.addContainerGap(372, Short.MAX_VALUE))
-					);
-					jPanel5Layout.setVerticalGroup(
-						jPanel5Layout.createParallelGroup()
-							.addGroup(jPanel5Layout.createSequentialGroup()
-								.addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(jLabel10)
-									.addComponent(cmbContentType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(jLabel11)
-									.addComponent(cmbMediaType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					);
+					jPanel5.add(cmbMediaType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 0), 0, 0));
 				}
+				advancedPanel.add(jPanel5);
 
 				//======== jPanel6 ========
 				{
 					jPanel6.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel6.border")));
+					jPanel6.setLayout(new GridBagLayout());
+					((GridBagLayout)jPanel6.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+					((GridBagLayout)jPanel6.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+					((GridBagLayout)jPanel6.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)jPanel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 					//---- jLabel12 ----
 					jLabel12.setText(bundle.getString("SetEditor.jLabel12.text"));
+					jPanel6.add(jLabel12, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
 
 					//---- cmbGeotag ----
 					cmbGeotag.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -940,18 +925,30 @@ public class SetEditor extends javax.swing.JDialog {
 						"Include only photos without geotag data"
 					}));
 					cmbGeotag.setToolTipText(bundle.getString("SetEditor.cmbGeotag.toolTipText"));
+					jPanel6.add(cmbGeotag, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- cbxInGallery ----
 					cbxInGallery.setText(bundle.getString("SetEditor.cbxInGallery.text"));
 					cbxInGallery.setToolTipText(bundle.getString("SetEditor.cbxInGallery.toolTipText"));
+					jPanel6.add(cbxInGallery, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- cbxInCommons ----
 					cbxInCommons.setText(bundle.getString("SetEditor.cbxInCommons.text"));
 					cbxInCommons.setToolTipText(bundle.getString("SetEditor.cbxInCommons.toolTipText"));
+					jPanel6.add(cbxInCommons, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- cbxInGetty ----
 					cbxInGetty.setText(bundle.getString("SetEditor.cbxInGetty.text"));
 					cbxInGetty.setToolTipText(bundle.getString("SetEditor.cbxInGetty.toolTipText"));
+					jPanel6.add(cbxInGetty, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 0), 0, 0));
 
 					//---- cbxLimitSize ----
 					cbxLimitSize.setText(bundle.getString("SetEditor.cbxLimitSize.text"));
@@ -962,67 +959,17 @@ public class SetEditor extends javax.swing.JDialog {
 							cbxLimitSizeActionPerformed(e);
 						}
 					});
+					jPanel6.add(cbxLimitSize, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- txtSetSize ----
 					txtSetSize.setToolTipText(bundle.getString("SetEditor.txtSetSize.toolTipText"));
-
-					GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
-					jPanel6.setLayout(jPanel6Layout);
-					jPanel6Layout.setHorizontalGroup(
-						jPanel6Layout.createParallelGroup()
-							.addGroup(jPanel6Layout.createSequentialGroup()
-								.addGap(53, 53, 53)
-								.addComponent(jLabel12)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(jPanel6Layout.createParallelGroup()
-									.addGroup(jPanel6Layout.createSequentialGroup()
-										.addComponent(cbxLimitSize)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(txtSetSize, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
-									.addComponent(cbxInCommons)
-									.addComponent(cbxInGallery)
-									.addComponent(cmbGeotag, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE)
-									.addComponent(cbxInGetty))
-								.addContainerGap(117, Short.MAX_VALUE))
-					);
-					jPanel6Layout.setVerticalGroup(
-						jPanel6Layout.createParallelGroup()
-							.addGroup(jPanel6Layout.createSequentialGroup()
-								.addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cmbGeotag, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(jLabel12))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addComponent(cbxInGallery)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(cbxInCommons)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(cbxInGetty)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(cbxLimitSize)
-									.addComponent(txtSetSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(20, 20, 20))
-					);
+					jPanel6.add(txtSetSize, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
 				}
-
-				GroupLayout advancedPanelLayout = new GroupLayout(advancedPanel);
-				advancedPanel.setLayout(advancedPanelLayout);
-				advancedPanelLayout.setHorizontalGroup(
-					advancedPanelLayout.createParallelGroup()
-						.addComponent(jPanel4, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				);
-				advancedPanelLayout.setVerticalGroup(
-					advancedPanelLayout.createParallelGroup()
-						.addGroup(advancedPanelLayout.createSequentialGroup()
-							.addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							.addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(302, Short.MAX_VALUE))
-				);
+				advancedPanel.add(jPanel6);
 			}
 			jTabbedPane1.addTab(bundle.getString("SetEditor.advancedPanel.tab.title"), advancedPanel);
 
@@ -1061,7 +1008,7 @@ public class SetEditor extends javax.swing.JDialog {
 			btnSaveAndRefresh.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnSaveAndRefreshActionPerformed(e);
+					btnSaveAndRefreshActionPerformed();
 				}
 			});
 			buttonPanel.add(btnSaveAndRefresh);
@@ -1144,7 +1091,7 @@ public class SetEditor extends javax.swing.JDialog {
 			} catch (Exception e) {
 				logger.error("Error saving set parameters to database.", e);
 				JOptionPane.showMessageDialog(this,
-						resourceBundle.getString("SetEditor.saveError.message") + e.getMessage(),
+						resourceBundle.getString("SetEditor.saveError.message") + "\n" + e.getMessage(),
 						resourceBundle.getString("SetEditor.saveError.title"),
 						JOptionPane.ERROR_MESSAGE);
 			}
@@ -1172,29 +1119,13 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	/**
-	 * Respond to clicks on the "Manage" checkbox.
-	 * <p/>
-	 * <p>This calls a method that enables and disables components as needed.</p>
-	 *
-	 * @param evt
-	 */
 	private void cbxManageActionPerformed(java.awt.event.ActionEvent evt) {
 		this.addManagedByTextToDescription();
 		this.setEnableStates();
 	}
 
 
-	/**
-	 * Respond to clicks on the "Tweet" checkbox.
-	 * <p/>
-	 * <p>If the user selects the checkbox, verify that they are authorized to
-	 * use Twitter. If not, offer to take them to the Preferences where they
-	 * can authorize.</p>
-	 *
-	 * @param evt
-	 */
-	private void btnSaveAndRefreshActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnSaveAndRefreshActionPerformed() {
 		if (this.doValidation()) {
 			if (this.editorMode == EditorMode.CREATE) {
 				this.ssPhotoset.setPrimaryPhotoIcon(new ImageIcon(this.getClass().getClassLoader().getResource("images/empty_set_icon.png")));
@@ -1266,21 +1197,24 @@ public class SetEditor extends javax.swing.JDialog {
 		this.setEnableStates();
 	}
 
-	private void cmbOTDMonthActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cmbOTDMonthActionPerformed() {
 		this.updateDayOfMonthComboBox();
 	}
 
-	private void cbxCurrentYearActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cbxCurrentYearActionPerformed() {
 		if (this.cbxCurrentYear.isSelected()) {
-			this.txtOTDYearEnd.setEnabled(false);
-			this.txtOTDYearEnd.setText(Integer.toString(SSUtils.getCurrentYear()));
+			this.yearOTDEnd.setYear(SSUtils.getCurrentYear());
+			this.yearOTDEnd.setEnabled(false);
+//			this.txtOTDYearEnd.setEnabled(false);
+//			this.txtOTDYearEnd.setText(Integer.toString(SSUtils.getCurrentYear()));
 		} else {
-			this.txtOTDYearEnd.setEnabled(true);
+			this.yearOTDEnd.setEnabled(true);
+//			this.txtOTDYearEnd.setEnabled(true);
 		}
 	}
 
 
-	private void cmbSortByActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cmbSortByActionPerformed() {
 		// check for sort mode used when an On This Day set is created.
 		// warn the user about sort mode selection
 		if (this.cbxOnThisDay.isSelected()) {
@@ -1323,7 +1257,7 @@ public class SetEditor extends javax.swing.JDialog {
 		// IT AN EMPTY STRING
 		title = this.txtTitle.getText();
 		if (title == null || title.trim().isEmpty()) {
-			sb.append(resourceBundle.getString("SetEditor.validation.title"));
+			sb.append(resourceBundle.getString("SetEditor.validation.title")).append('\n');
 			ok = false;
 		}
 
@@ -1350,13 +1284,15 @@ public class SetEditor extends javax.swing.JDialog {
 		// IF THE DATE TAKEN CHECKBOX IS SELECTED, DATES MUST BE VALID
 		// YYYY-MM-DD FORMAT, AND BEFORE MUST BE EARLIER THAN AFTER
 		if (this.cbxDateTaken.isSelected()) {
-			takenMin = SSUtils.parseYYYYMMDDHHmmss(this.txtDateTakenAfter.getText() + " 00:00:00");
-			takenMax = SSUtils.parseYYYYMMDDHHmmss(this.txtDateTakenBefore.getText() + " 23:59:59");
+//			takenMin = SSUtils.parseYYYYMMDDHHmmss(this.txtDateTakenAfter.getText() + " 00:00:00");
+//			takenMax = SSUtils.parseYYYYMMDDHHmmss(this.txtDateTakenBefore.getText() + " 23:59:59");
+			takenMin = this.dateTakenAfter.getDate();
+			takenMax = this.dateTakenBefore.getDate();
 			if (takenMin == null || takenMax == null) {
-				sb.append(resourceBundle.getString("SetEditor.validation.dateTaken"));
+				sb.append(resourceBundle.getString("SetEditor.validation.dateTaken")).append('\n');
 				ok = false;
 			} else if (takenMax.before(takenMin)) {
-				sb.append(resourceBundle.getString("SetEditor.validation.dateTakenValues"));
+				sb.append(resourceBundle.getString("SetEditor.validation.dateTakenValues")).append('\n');
 				ok = false;
 			}
 		}
@@ -1365,13 +1301,15 @@ public class SetEditor extends javax.swing.JDialog {
 		// IF THE DATE UPLOADED CHECKBOX IS SELECTED, DATES MUST BE VALID
 		// YYYY-MM-DD FORMAT
 		if (this.cbxDateUploaded.isSelected()) {
-			uploadedMin = SSUtils.parseYYYYMMDDHHmmss(this.txtDateUploadedAfter.getText() + " 00:00:00");
-			uploadedMax = SSUtils.parseYYYYMMDDHHmmss(this.txtDateUploadedBefore.getText() + " 23:59:59");
+//			uploadedMin = SSUtils.parseYYYYMMDDHHmmss(this.txtDateUploadedAfter.getText() + " 00:00:00");
+//			uploadedMax = SSUtils.parseYYYYMMDDHHmmss(this.txtDateUploadedBefore.getText() + " 23:59:59");
+			uploadedMin = this.dateUploadedAfter.getDate();
+			uploadedMax = this.dateUploadedBefore.getDate();
 			if (uploadedMin == null || uploadedMax == null) {
-				sb.append(resourceBundle.getString("SetEditor.validation.dateUploaded"));
+				sb.append(resourceBundle.getString("SetEditor.validation.dateUploaded")).append('\n');
 				ok = false;
 			} else if (uploadedMax.before(uploadedMin)) {
-				sb.append(resourceBundle.getString("SetEditor.validation.dateUploadedValues"));
+				sb.append(resourceBundle.getString("SetEditor.validation.dateUploadedValues")).append('\n');
 				ok = false;
 			}
 		}
@@ -1385,7 +1323,7 @@ public class SetEditor extends javax.swing.JDialog {
 					throw new Exception();
 				}
 			} catch (Exception e) {
-				sb.append(resourceBundle.getString("SetEditor.validation.setSize"));
+				sb.append(resourceBundle.getString("SetEditor.validation.setSize")).append('\n');
 				ok = false;
 			}
 		}
@@ -1394,13 +1332,14 @@ public class SetEditor extends javax.swing.JDialog {
 			int yearStart = 0;
 			int yearEnd = 0;
 			try {
-				yearStart = Integer.parseInt(this.txtOTDYearStart.getText());
+				yearStart = this.yearOTDStart.getYear();
+//				yearStart = Integer.parseInt(this.txtOTDYearStart.getText());
 				if (yearStart < 1900) {
 					throw new Exception();
 				}
 				this.ssPhotoset.setOnThisDayYearStart(yearStart);
 			} catch (Exception e) {
-				sb.append(resourceBundle.getString("SetEditor.validation.onThisDayStartYear"));
+				sb.append(resourceBundle.getString("SetEditor.validation.onThisDayStartYear")).append('\n');
 				ok = false;
 			}
 			try {
@@ -1408,19 +1347,20 @@ public class SetEditor extends javax.swing.JDialog {
 					this.ssPhotoset.setOnThisDayYearEnd(0);
 					yearEnd = SSUtils.getCurrentYear();    // to make the start > end check valid
 				} else {
-					yearEnd = Integer.parseInt(this.txtOTDYearEnd.getText());
+					yearEnd = this.yearOTDEnd.getYear();
+//					yearEnd = Integer.parseInt(this.txtOTDYearEnd.getText());
 					if (yearEnd > SSUtils.getCurrentYear()) {
 						throw new Exception();
 					}
 					this.ssPhotoset.setOnThisDayYearEnd(yearEnd);
 				}
 			} catch (Exception e) {
-				sb.append(resourceBundle.getString("SetEditor.validation.onThisDayEndYear"));
+				sb.append(resourceBundle.getString("SetEditor.validation.onThisDayEndYear")).append('\n');
 				ok = false;
 			}
 
 			if (yearStart > yearEnd) {
-				sb.append(resourceBundle.getString("SetEditor.validation.onThisDayValues"));
+				sb.append(resourceBundle.getString("SetEditor.validation.onThisDayValues")).append('\n');
 				ok = false;
 			}
 		}
@@ -1492,7 +1432,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 		} else {
 			JOptionPane.showMessageDialog(this,
-					resourceBundle.getString("SetEditor.validation.error.message") + sb.toString(),
+					resourceBundle.getString("SetEditor.validation.error.message") + "\n" +  sb.toString(),
 					resourceBundle.getString("SetEditor.validation.error.title"),
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -1514,11 +1454,15 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cmbTags.setEnabled(this.cbxManage.isSelected());
 		this.txtTags.setEnabled(this.cbxManage.isSelected());
 		this.cbxDateTaken.setEnabled(this.cbxManage.isSelected());
-		this.txtDateTakenAfter.setEnabled(this.cbxManage.isSelected());
-		this.txtDateTakenBefore.setEnabled(this.cbxManage.isSelected());
+		this.dateTakenAfter.setEnabled(this.cbxManage.isSelected());
+		this.dateTakenBefore.setEnabled(this.cbxManage.isSelected());
+//		this.txtDateTakenAfter.setEnabled(this.cbxManage.isSelected());
+//		this.txtDateTakenBefore.setEnabled(this.cbxManage.isSelected());
 		this.cbxDateUploaded.setEnabled(this.cbxManage.isSelected());
-		this.txtDateUploadedAfter.setEnabled(this.cbxManage.isSelected());
-		this.txtDateUploadedBefore.setEnabled(this.cbxManage.isSelected());
+		this.dateUploadedAfter.setEnabled(this.cbxManage.isSelected());
+		this.dateUploadedBefore.setEnabled(this.cbxManage.isSelected());
+//		this.txtDateUploadedAfter.setEnabled(this.cbxManage.isSelected());
+//		this.txtDateUploadedBefore.setEnabled(this.cbxManage.isSelected());
 		this.cmbSortBy.setEnabled(this.cbxManage.isSelected());
 		this.radioTweetCreated.setEnabled(this.cbxManage.isSelected());
 		this.radioTweetNone.setEnabled(this.cbxManage.isSelected());
@@ -1528,11 +1472,15 @@ public class SetEditor extends javax.swing.JDialog {
 
 		// now set things that may change if is managed
 		if (this.cbxManage.isSelected()) {
-			this.txtDateTakenAfter.setEnabled(this.cbxDateTaken.isSelected());
-			this.txtDateTakenBefore.setEnabled(this.cbxDateTaken.isSelected());
+			this.dateTakenAfter.setEnabled(this.cbxDateTaken.isSelected());
+			this.dateTakenBefore.setEnabled(this.cbxDateTaken.isSelected());
+//			this.txtDateTakenAfter.setEnabled(this.cbxDateTaken.isSelected());
+//			this.txtDateTakenBefore.setEnabled(this.cbxDateTaken.isSelected());
 
-			this.txtDateUploadedAfter.setEnabled(this.cbxDateUploaded.isSelected());
-			this.txtDateUploadedBefore.setEnabled(this.cbxDateUploaded.isSelected());
+			this.dateUploadedAfter.setEnabled(this.cbxDateUploaded.isSelected());
+			this.dateUploadedBefore.setEnabled(this.cbxDateUploaded.isSelected());
+//			this.txtDateUploadedAfter.setEnabled(this.cbxDateUploaded.isSelected());
+//			this.txtDateUploadedBefore.setEnabled(this.cbxDateUploaded.isSelected());
 
 			this.txtTweet.setEnabled(this.radioTweetCreated.isSelected() ||
 					this.radioTweetUpdated.isSelected());
@@ -1543,9 +1491,23 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cbxOnThisDay.setEnabled(this.cbxManage.isSelected());
 		this.cmbOTDDay.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
 		this.cmbOTDMonth.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
-		this.txtOTDYearEnd.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected() && (!this.cbxCurrentYear.isSelected()));
-		this.txtOTDYearStart.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
+//		this.txtOTDYearEnd.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected() && (!this.cbxCurrentYear.isSelected()));
+		this.yearOTDEnd.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected() && (!this.cbxCurrentYear.isSelected()));
+		this.yearOTDStart.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
+//		this.txtOTDYearStart.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
 		this.cbxCurrentYear.setEnabled(this.cbxManage.isSelected() && this.cbxOnThisDay.isSelected());
+
+		// ADVANCED TAB
+		this.cmbPrivacy.setEnabled(this.cbxManage.isSelected());
+		this.cmbSafeSearch.setEnabled(this.cbxManage.isSelected());
+		this.cmbContentType.setEnabled(this.cbxManage.isSelected());
+		this.cmbMediaType.setEnabled(this.cbxManage.isSelected());
+		this.cmbGeotag.setEnabled(this.cbxManage.isSelected());
+		this.cbxInGallery.setEnabled(this.cbxManage.isSelected());
+		this.cbxInGetty.setEnabled(this.cbxManage.isSelected());
+		this.cbxInCommons.setEnabled(this.cbxManage.isSelected());
+		this.cbxLimitSize.setEnabled(this.cbxManage.isSelected());
+		this.txtSetSize.setEnabled(this.cbxManage.isSelected());
 	}
 
 
@@ -1583,31 +1545,35 @@ public class SetEditor extends javax.swing.JDialog {
 	private JPanel basicPanel;
 	private JPanel pnlTitle;
 	private JLabel lblIcon;
+	private JLabel lblMessage;
 	private JCheckBox cbxManage;
 	private JCheckBox cbxLock;
+	private JLabel label1;
 	private JTextField txtTitle;
+	private JLabel label2;
 	private JScrollPane jScrollPane1;
 	private JTextArea txtDescription;
-	private JLabel lblMessage;
 	private JPanel pnlTags;
 	private JTextField txtTags;
 	private JComboBox<String> cmbTags;
 	private JPanel pnlDates;
+	private JPanel panel1;
 	private JCheckBox cbxDateTaken;
-	private JTextField txtDateTakenAfter;
+	private JDateChooser dateTakenAfter;
 	private JLabel jLabel3;
-	private JTextField txtDateTakenBefore;
+	private JDateChooser dateTakenBefore;
 	private JCheckBox cbxDateUploaded;
-	private JTextField txtDateUploadedAfter;
+	private JDateChooser dateUploadedAfter;
 	private JLabel jLabel4;
-	private JTextField txtDateUploadedBefore;
+	private JDateChooser dateUploadedBefore;
+	private JPanel panel2;
 	private JCheckBox cbxOnThisDay;
 	private JComboBox cmbOTDMonth;
 	private JComboBox<String> cmbOTDDay;
 	private JLabel jLabel9;
-	private JTextField txtOTDYearStart;
+	private JYearChooser yearOTDStart;
 	private JLabel jLabel13;
-	private JTextField txtOTDYearEnd;
+	private JYearChooser yearOTDEnd;
 	private JCheckBox cbxCurrentYear;
 	private JPanel pnlOther;
 	private JLabel jLabel1;
@@ -1623,8 +1589,8 @@ public class SetEditor extends javax.swing.JDialog {
 	private JRadioButton radioTweetCreated;
 	private JPanel advancedPanel;
 	private JPanel jPanel4;
-	private JComboBox<String> cmbPrivacy;
 	private JLabel jLabel8;
+	private JComboBox<String> cmbPrivacy;
 	private JLabel lblSafeSearch;
 	private JComboBox<String> cmbSafeSearch;
 	private JPanel jPanel5;
