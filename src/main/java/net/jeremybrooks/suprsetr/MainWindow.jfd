@@ -64,6 +64,12 @@ new FormModel {
 					"verticalTextPosition": 3
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshAllActionPerformed", false ) )
 				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnBrowser"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/internet-web-browser16.png" )
+					"toolTipText": new FormMessage( null, "MainWindow.btnBrowser.toolTipText" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBrowserActionPerformed", false ) )
+				} )
 				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
 					name: "jSeparator2"
 				} )
@@ -105,6 +111,7 @@ new FormModel {
 						name: "mnuBrowser"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/web16.png" )
 						"text": new FormMessage( null, "MainWindow.mnuBrowser.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 79, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuBrowserActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
@@ -136,30 +143,35 @@ new FormModel {
 						name: "mnuCreateSet"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
 						"text": new FormMessage( null, "MainWindow.mnuCreateSet.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 78, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCreateSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuEditSet"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
 						"text": new FormMessage( null, "MainWindow.mnuEditSet.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 69, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuEditSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuDeleteSet"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
 						"text": new FormMessage( null, "MainWindow.mnuDeleteSet.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 68, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuDeleteSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuRefreshSet"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
 						"text": new FormMessage( null, "MainWindow.mnuRefreshSet.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 82, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRefreshSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuRefreshAll"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refreshall16.png" )
 						"text": new FormMessage( null, "MainWindow.mnuRefreshAll.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 82, 4421, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRefreshAllActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
@@ -186,6 +198,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuLogWindow"
 						"text": new FormMessage( null, "MainWindow.mnuLogWindow.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 76, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", false ) )
 					} )
 				} )

@@ -53,6 +53,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -65,6 +66,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -127,6 +129,10 @@ public class MainWindow extends javax.swing.JFrame {
 	/**
 	 * Creates new form MainWindow
 	 */
+	private void btnBrowserActionPerformed() {
+		this.doOpenInBrowserAction();
+	}
+
 	public MainWindow() {
 		initComponents();
 
@@ -210,6 +216,7 @@ public class MainWindow extends javax.swing.JFrame {
 		btnDeleteSet = new JButton();
 		btnRefreshSet = new JButton();
 		btnRefreshAll = new JButton();
+		btnBrowser = new JButton();
 		jLabel1 = new JLabel();
 		txtFilter = new JTextField();
 		jScrollPane1 = new JScrollPane();
@@ -237,6 +244,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuBrowser ----
 				mnuBrowser.setIcon(new ImageIcon(getClass().getResource("/images/web16.png")));
 				mnuBrowser.setText(bundle.getString("MainWindow.mnuBrowser.text"));
+				mnuBrowser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 				mnuBrowser.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -288,6 +296,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuCreateSet ----
 				mnuCreateSet.setIcon(new ImageIcon(getClass().getResource("/images/add16.png")));
 				mnuCreateSet.setText(bundle.getString("MainWindow.mnuCreateSet.text"));
+				mnuCreateSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 				mnuCreateSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -299,6 +308,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuEditSet ----
 				mnuEditSet.setIcon(new ImageIcon(getClass().getResource("/images/edit16.png")));
 				mnuEditSet.setText(bundle.getString("MainWindow.mnuEditSet.text"));
+				mnuEditSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 				mnuEditSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -310,6 +320,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuDeleteSet ----
 				mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/delete16.png")));
 				mnuDeleteSet.setText(bundle.getString("MainWindow.mnuDeleteSet.text"));
+				mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 				mnuDeleteSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -321,6 +332,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuRefreshSet ----
 				mnuRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/refresh16.png")));
 				mnuRefreshSet.setText(bundle.getString("MainWindow.mnuRefreshSet.text"));
+				mnuRefreshSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 				mnuRefreshSet.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -332,6 +344,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuRefreshAll ----
 				mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/refreshall16.png")));
 				mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
+				mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
 				mnuRefreshAll.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -385,6 +398,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 				//---- mnuLogWindow ----
 				mnuLogWindow.setText(bundle.getString("MainWindow.mnuLogWindow.text"));
+				mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 				mnuLogWindow.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -570,6 +584,17 @@ public class MainWindow extends javax.swing.JFrame {
 				}
 			});
 			jToolBar1.add(btnRefreshAll);
+
+			//---- btnBrowser ----
+			btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/internet-web-browser16.png")));
+			btnBrowser.setToolTipText(bundle.getString("MainWindow.btnBrowser.toolTipText"));
+			btnBrowser.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					btnBrowserActionPerformed();
+				}
+			});
+			jToolBar1.add(btnBrowser);
 			jToolBar1.addSeparator();
 
 			//---- jLabel1 ----
@@ -605,12 +630,10 @@ public class MainWindow extends javax.swing.JFrame {
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
-
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					jList1MouseReleased(e);
 				}
-
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					jList1MouseClicked(e);
@@ -1422,6 +1445,7 @@ public class MainWindow extends javax.swing.JFrame {
 	private JButton btnDeleteSet;
 	private JButton btnRefreshSet;
 	private JButton btnRefreshAll;
+	private JButton btnBrowser;
 	private JLabel jLabel1;
 	private JTextField txtFilter;
 	private JScrollPane jScrollPane1;

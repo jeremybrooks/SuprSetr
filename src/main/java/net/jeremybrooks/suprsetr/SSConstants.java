@@ -50,7 +50,8 @@ public class SSConstants {
 	"Date Posted Ascending",
 	"No Particular Order",
 	"Photo Title Descending",
-	"Photo Title Ascending"
+	"Photo Title Ascending",
+			"Random"
     };
 
     public static final String LOOKUP_KEY_DATABASE_VERSION = "DATABASE_VERSION";

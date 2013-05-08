@@ -18,7 +18,6 @@
  */
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.JDialog;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -115,7 +114,7 @@ public class SetEditor extends javax.swing.JDialog {
 	 */
 	private Logger logger = Logger.getLogger(SetEditor.class);
 
-	private String[] sortModelArray = new String[9];
+	private String[] sortModelArray = new String[10];
 
 	/**
 	 * Cancelable properties.
@@ -142,7 +141,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 		this.ssPhotoset = ssPhotoset;
 		this.editorMode = editorMode;
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 10; i++) {
 			sortModelArray[i] = resourceBundle.getString("SetEditor.sortModel." + i);
 		}
 
@@ -1286,9 +1285,10 @@ public class SetEditor extends javax.swing.JDialog {
 		// warn the user about sort mode selection
 		if (this.cbxOnThisDay.isSelected()) {
 			switch (this.cmbSortBy.getSelectedIndex()) {
-				case 2:                    // Date Taken Descending
-				case 3:                    // Date Taken Ascending
-				case 6:                    // No Particular Order
+				case 2:		// Date Taken Descending
+				case 3:		// Date Taken Ascending
+				case 6:		// No Particular Order
+				case 9:		// Random
 					// These sorting modes are handled correctly.
 					break;
 

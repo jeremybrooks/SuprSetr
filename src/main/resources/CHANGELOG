@@ -6,7 +6,10 @@ Version ?
  * Localized all strings
  * Tweet box in the Set Editor now wraps words, and is limited to 140 characters
  * Set information shows count of videos in set, if there are any
-
+ * Restricted searches (private, family, friends & family) is working
+ * Added a toolbar button to open set in browser
+ * Added keyboard shortcuts for common functions, including Refresh All (as suggested by Flickr user "that guy named Rob")
+ * Added random sort order option (as suggested by Flickr user "that guy named Rob")
 
 Version 1.0.0
  * Added a missing tool tip (thanks M. Moore)

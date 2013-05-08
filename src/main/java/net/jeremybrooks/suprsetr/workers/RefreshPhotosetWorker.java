@@ -37,6 +37,7 @@ import org.apache.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -205,11 +206,13 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
 				if (matches > 0) {
 
-					// sort by title, if necessary
+					// sort by title or random, if necessary
 					if (ssPhotoset.getSortOrder() == 7) {
 						SSUtils.sortPhotoListByTitleDescending(searchResults.getPhotos());
 					} else if (ssPhotoset.getSortOrder() == 8) {
 						SSUtils.sortPhotoListByTitleAscending(searchResults.getPhotos());
+					} else if (ssPhotoset.getSortOrder() == 9) {
+						Collections.shuffle(searchResults.getPhotos());
 					}
 
 
