@@ -89,9 +89,10 @@ public class Main {
 
 		// SET VERSION
 		try {
-			Properties appProps = new Properties();
-			appProps.load(Main.class.getClassLoader().getResourceAsStream("net/jeremybrooks/suprsetr/VERSION"));
-			Main.VERSION = appProps.getProperty("app.version");
+			Main.VERSION = Main.class.getPackage().getImplementationVersion();
+//			Properties appProps = new Properties();
+//			appProps.load(Main.class.getClassLoader().getResourceAsStream("net/jeremybrooks/suprsetr/VERSION"));
+//			Main.VERSION = appProps.getProperty("app.version");
 
 			privateProperties = new Properties();
 			privateProperties.load(Main.class.getClassLoader().getResourceAsStream("net/jeremybrooks/suprsetr/private.properties"));
