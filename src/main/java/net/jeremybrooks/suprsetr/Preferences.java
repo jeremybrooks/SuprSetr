@@ -20,9 +20,6 @@
 package net.jeremybrooks.suprsetr;
 
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JDialog;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -32,6 +29,7 @@ import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import net.whirljack.common.util.NetUtil;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -47,8 +45,13 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -73,19 +76,14 @@ public class Preferences extends javax.swing.JDialog {
 	public static final int OPTIONS_PANEL = 0;
 
 	/**
-	 * Constant defining the Flickr tab panel.
+	 * Constant defining the Authorizations tab panel.
 	 */
-	public static final int FLICKR_PANEL = 1;
-
-	/**
-	 * Constant defining the Twitter tab panel.
-	 */
-	public static final int TWITTER_PANEL = 2;
+	public static final int AUTH_PANEL = 1;
 
 	/**
 	 * Constant defining the Proxy tab panel.
 	 */
-	public static final int PROXY_PANEL = 3;
+	public static final int PROXY_PANEL = 2;
 
 	/**
 	 * Flag indicating if something has changed requiring list refresh.
@@ -260,13 +258,14 @@ public class Preferences extends javax.swing.JDialog {
 		lblRetain = new JLabel();
 		cmbLogIndex = new JComboBox<>();
 		lblNote = new JLabel();
+		pnlAuthorizations = new JPanel();
 		pnlFlickr = new JPanel();
 		lblFlickrStatus = new JLabel();
 		btnFlickr = new JButton();
 		pnlTwitter = new JPanel();
 		lblTwitterStatus = new JLabel();
-		btnTwitter = new JButton();
 		lblMessage = new JLabel();
+		btnTwitter = new JButton();
 		pnlProxy = new JPanel();
 		cbxProxy = new JCheckBox();
 		lblHost = new JLabel();
@@ -433,7 +432,7 @@ public class Preferences extends javax.swing.JDialog {
 												.addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 										.addComponent(lblNote))))
-							.addContainerGap(14, Short.MAX_VALUE))
+							.addContainerGap(19, Short.MAX_VALUE))
 				);
 				jPanel1Layout.setVerticalGroup(
 					jPanel1Layout.createParallelGroup()
@@ -462,7 +461,7 @@ public class Preferences extends javax.swing.JDialog {
 							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(lblRetain)
 								.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
 							.addComponent(lblNote)
 							.addContainerGap())
 				);
@@ -470,94 +469,82 @@ public class Preferences extends javax.swing.JDialog {
 			jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
 
 
-			//======== pnlFlickr ========
+			//======== pnlAuthorizations ========
 			{
+				pnlAuthorizations.setLayout(new VerticalLayout(5));
 
-				//---- lblFlickrStatus ----
-				lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
+				//======== pnlFlickr ========
+				{
+					pnlFlickr.setBorder(new TitledBorder(bundle.getString("Preferences.pnlFlickr.border")));
+					pnlFlickr.setLayout(new GridBagLayout());
+					((GridBagLayout)pnlFlickr.getLayout()).columnWidths = new int[] {0, 0};
+					((GridBagLayout)pnlFlickr.getLayout()).rowHeights = new int[] {0, 0, 0};
+					((GridBagLayout)pnlFlickr.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+					((GridBagLayout)pnlFlickr.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-				//---- btnFlickr ----
-				btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
-				btnFlickr.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						btnFlickrActionPerformed(e);
-					}
-				});
+					//---- lblFlickrStatus ----
+					lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
+					pnlFlickr.add(lblFlickrStatus, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
 
-				GroupLayout pnlFlickrLayout = new GroupLayout(pnlFlickr);
-				pnlFlickr.setLayout(pnlFlickrLayout);
-				pnlFlickrLayout.setHorizontalGroup(
-					pnlFlickrLayout.createParallelGroup()
-						.addGroup(pnlFlickrLayout.createSequentialGroup()
-							.addGroup(pnlFlickrLayout.createParallelGroup()
-								.addGroup(pnlFlickrLayout.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(lblFlickrStatus))
-								.addComponent(btnFlickr))
-							.addContainerGap(460, Short.MAX_VALUE))
-				);
-				pnlFlickrLayout.setVerticalGroup(
-					pnlFlickrLayout.createParallelGroup()
-						.addGroup(pnlFlickrLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblFlickrStatus)
-							.addGap(18, 18, 18)
-							.addComponent(btnFlickr)
-							.addContainerGap(259, Short.MAX_VALUE))
-				);
+					//---- btnFlickr ----
+					btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
+					btnFlickr.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							btnFlickrActionPerformed(e);
+						}
+					});
+					pnlFlickr.add(btnFlickr, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 0), 0, 0));
+				}
+				pnlAuthorizations.add(pnlFlickr);
+
+				//======== pnlTwitter ========
+				{
+					pnlTwitter.setBorder(new TitledBorder(bundle.getString("Preferences.pnlTwitter.border")));
+					pnlTwitter.setLayout(new GridBagLayout());
+					((GridBagLayout)pnlTwitter.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+					((GridBagLayout)pnlTwitter.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+					((GridBagLayout)pnlTwitter.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlTwitter.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+
+					//---- lblTwitterStatus ----
+					lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
+					pnlTwitter.add(lblTwitterStatus, new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
+					pnlTwitter.add(lblMessage, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 5), 0, 0));
+
+					//---- btnTwitter ----
+					btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
+					btnTwitter.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							btnTwitterActionPerformed(e);
+						}
+					});
+					pnlTwitter.add(btnTwitter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
+				}
+				pnlAuthorizations.add(pnlTwitter);
 			}
-			jTabbedPane1.addTab(bundle.getString("Preferences.pnlFlickr.tab.title"), pnlFlickr);
-
-
-			//======== pnlTwitter ========
-			{
-
-				//---- lblTwitterStatus ----
-				lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
-
-				//---- btnTwitter ----
-				btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
-				btnTwitter.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						btnTwitterActionPerformed(e);
-					}
-				});
-
-				GroupLayout pnlTwitterLayout = new GroupLayout(pnlTwitter);
-				pnlTwitter.setLayout(pnlTwitterLayout);
-				pnlTwitterLayout.setHorizontalGroup(
-					pnlTwitterLayout.createParallelGroup()
-						.addGroup(pnlTwitterLayout.createSequentialGroup()
-							.addGroup(pnlTwitterLayout.createParallelGroup()
-								.addGroup(pnlTwitterLayout.createSequentialGroup()
-									.addGap(20, 20, 20)
-									.addComponent(lblTwitterStatus, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE))
-								.addComponent(btnTwitter)
-								.addGroup(GroupLayout.Alignment.TRAILING, pnlTwitterLayout.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)))
-							.addContainerGap())
-				);
-				pnlTwitterLayout.setVerticalGroup(
-					pnlTwitterLayout.createParallelGroup()
-						.addGroup(pnlTwitterLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblTwitterStatus)
-							.addGap(18, 18, 18)
-							.addComponent(btnTwitter)
-							.addGap(34, 34, 34)
-							.addComponent(lblMessage)
-							.addContainerGap(225, Short.MAX_VALUE))
-				);
-			}
-			jTabbedPane1.addTab(bundle.getString("Preferences.pnlTwitter.tab.title"), pnlTwitter);
+			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAuthorizations.tab.title"), pnlAuthorizations);
 
 
 			//======== pnlProxy ========
 			{
 				pnlProxy.setBorder(new TitledBorder(bundle.getString("Preferences.pnlProxy.border")));
+				pnlProxy.setLayout(new GridBagLayout());
+				((GridBagLayout)pnlProxy.getLayout()).columnWidths = new int[] {0, 0, 0};
+				((GridBagLayout)pnlProxy.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+				((GridBagLayout)pnlProxy.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+				((GridBagLayout)pnlProxy.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 				//---- cbxProxy ----
 				cbxProxy.setText(bundle.getString("Preferences.cbxProxy.text"));
@@ -567,79 +554,50 @@ public class Preferences extends javax.swing.JDialog {
 						cbxProxyActionPerformed(e);
 					}
 				});
+				pnlProxy.add(cbxProxy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+					GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+					new Insets(0, 0, 5, 0), 0, 0));
 
 				//---- lblHost ----
 				lblHost.setText(bundle.getString("Preferences.lblHost.text"));
+				pnlProxy.add(lblHost, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+					new Insets(0, 0, 5, 5), 0, 0));
 
 				//---- lblPort ----
 				lblPort.setText(bundle.getString("Preferences.lblPort.text"));
+				pnlProxy.add(lblPort, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+					new Insets(0, 0, 5, 5), 0, 0));
 
 				//---- lblUsername ----
 				lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
+				pnlProxy.add(lblUsername, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+					new Insets(0, 0, 5, 5), 0, 0));
 
 				//---- lblPassword ----
 				lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
-
-				GroupLayout pnlProxyLayout = new GroupLayout(pnlProxy);
-				pnlProxy.setLayout(pnlProxyLayout);
-				pnlProxyLayout.setHorizontalGroup(
-					pnlProxyLayout.createParallelGroup()
-						.addGroup(pnlProxyLayout.createSequentialGroup()
-							.addGroup(pnlProxyLayout.createParallelGroup()
-								.addGroup(pnlProxyLayout.createSequentialGroup()
-									.addGap(23, 23, 23)
-									.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-										.addComponent(lblPassword)
-										.addComponent(lblPort)
-										.addComponent(lblHost)))
-								.addGroup(pnlProxyLayout.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(lblUsername)))
-							.addGroup(pnlProxyLayout.createParallelGroup()
-								.addGroup(pnlProxyLayout.createSequentialGroup()
-									.addGap(7, 7, 7)
-									.addComponent(txtProxyPass, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE))
-								.addGroup(pnlProxyLayout.createSequentialGroup()
-									.addGap(6, 6, 6)
-									.addGroup(pnlProxyLayout.createParallelGroup()
-										.addComponent(txtProxyPort, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtProxyUser, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))))
-							.addContainerGap(259, Short.MAX_VALUE))
-						.addGroup(pnlProxyLayout.createSequentialGroup()
-							.addGap(92, 92, 92)
-							.addGroup(pnlProxyLayout.createParallelGroup()
-								.addGroup(pnlProxyLayout.createSequentialGroup()
-									.addComponent(cbxProxy)
-									.addContainerGap())
-								.addComponent(txtProxyHost, GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)))
-				);
-				pnlProxyLayout.setVerticalGroup(
-					pnlProxyLayout.createParallelGroup()
-						.addGroup(pnlProxyLayout.createSequentialGroup()
-							.addComponent(cbxProxy)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(txtProxyHost, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblHost))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(txtProxyPort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblPort))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(txtProxyUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblUsername))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(pnlProxyLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(txtProxyPass, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblPassword))
-							.addContainerGap(140, Short.MAX_VALUE))
-				);
+				pnlProxy.add(lblPassword, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+					new Insets(0, 0, 0, 5), 0, 0));
+				pnlProxy.add(txtProxyHost, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 5, 0), 0, 0));
+				pnlProxy.add(txtProxyPort, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 5, 0), 0, 0));
+				pnlProxy.add(txtProxyUser, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 5, 0), 0, 0));
+				pnlProxy.add(txtProxyPass, new GridBagConstraints(1, 4, 1, 1, 1.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 0, 0), 0, 0));
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
 
 		}
-		contentPane.add(jTabbedPane1, BorderLayout.CENTER);
+		contentPane.add(jTabbedPane1, BorderLayout.NORTH);
 
 		//======== panel1 ========
 		{
@@ -656,7 +614,7 @@ public class Preferences extends javax.swing.JDialog {
 			panel1.add(btnOK);
 		}
 		contentPane.add(panel1, BorderLayout.SOUTH);
-		setSize(590, 425);
+		setSize(595, 450);
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -842,13 +800,14 @@ public class Preferences extends javax.swing.JDialog {
 	private JLabel lblRetain;
 	private JComboBox<String> cmbLogIndex;
 	private JLabel lblNote;
+	private JPanel pnlAuthorizations;
 	private JPanel pnlFlickr;
 	private JLabel lblFlickrStatus;
 	private JButton btnFlickr;
 	private JPanel pnlTwitter;
 	private JLabel lblTwitterStatus;
-	private JButton btnTwitter;
 	private JLabel lblMessage;
+	private JButton btnTwitter;
 	private JPanel pnlProxy;
 	private JCheckBox cbxProxy;
 	private JLabel lblHost;

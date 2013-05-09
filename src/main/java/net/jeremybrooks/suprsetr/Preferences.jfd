@@ -19,8 +19,8 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, par l {seq l {comp lblFavrPrefix:::p::p, space :::p, comp cmbFavr:::p::p}, seq l {comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}}}, comp cbxDetailLog::l:p::p, seq l {space :p:8:p, par l {seq l {par l {comp lblLogFile::l:p::p, comp lblRetain::l:p::p}, space :::p, par l {comp cmbLogSize:::p::p, comp cmbLogIndex::l:p::p}}, comp lblNote::l:p::p}}}, space ::14:x}}"
-					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :::p, par b {comp lblFavrPrefix::b:p::p, comp cmbFavr::b:p::p}, space s:::p, comp cbxDetailLog:::p::p, space :::p, par b {comp lblLogFile::b:p::p, comp cmbLogSize::b:p::p}, space :::p, par b {comp lblRetain::b:p::p, comp cmbLogIndex::b:p::p}, space ::38:x, comp lblNote:::p::p, space :::p}}"
+					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, par l {seq l {comp lblFavrPrefix:::p::p, space :::p, comp cmbFavr:::p::p}, seq l {comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}}}, comp cbxDetailLog::l:p::p, seq l {space :p:8:p, par l {seq l {par l {comp lblLogFile::l:p::p, comp lblRetain::l:p::p}, space :::p, par l {comp cmbLogSize:::p::p, comp cmbLogIndex::l:p::p}}, comp lblNote::l:p::p}}}, space ::19:x}}"
+					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :::p, par b {comp lblFavrPrefix::b:p::p, comp cmbFavr::b:p::p}, space s:::p, comp cbxDetailLog:::p::p, space :::p, par b {comp lblLogFile::b:p::p, comp cmbLogSize::b:p::p}, space :::p, par b {comp lblRetain::b:p::p, comp cmbLogIndex::b:p::p}, space ::53:x, comp lblNote:::p::p, space :::p}}"
 				} ) {
 					name: "jPanel1"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
@@ -114,46 +114,78 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.jPanel1.tab.title" )
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :::p, comp lblFlickrStatus:::p::p}, comp btnFlickr::l:p::p}, space ::460:x}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp lblFlickrStatus:::p::p, space s:::p, comp btnFlickr:::p::p, space ::259:x}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
+					"gap": 5
 				} ) {
-					name: "pnlFlickr"
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblFlickrStatus"
-						"text": new FormMessage( null, "Preferences.lblFlickrStatus.text" )
+					name: "pnlAuthorizations"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "left:0:1.0"
+						"$rowSpecs": "0, 0"
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "pnlFlickr"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=Preferences.pnlFlickr.border" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblFlickrStatus"
+							"text": new FormMessage( null, "Preferences.lblFlickrStatus.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"weightx": 1.0
+							"hAlign": 5
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnFlickr"
+							"text": new FormMessage( null, "Preferences.btnFlickr.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFlickrActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 4
+						} )
 					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "btnFlickr"
-						"text": new FormMessage( null, "Preferences.btnFlickr.text" )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFlickrActionPerformed", true ) )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0, 0"
+						"$rowSpecs": "0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "pnlTwitter"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=Preferences.pnlTwitter.border" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblTwitterStatus"
+							"text": new FormMessage( null, "Preferences.lblTwitterStatus.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 5
+							"weightx": 1.0
+							"gridwidth": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblMessage"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnTwitter"
+							"text": new FormMessage( null, "Preferences.btnTwitter.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnTwitterActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 4
+							"gridx": 1
+						} )
 					} )
 				}, new FormLayoutConstraints( null ) {
-					"title": new FormMessage( null, "Preferences.pnlFlickr.tab.title" )
+					"title": new FormMessage( null, "Preferences.pnlAuthorizations.tab.title" )
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq l {space :p:20:p, comp lblTwitterStatus::::541:x}, comp btnTwitter::l:p::p, seq t {space :::p, comp lblMessage:::p:361:p}}, space :::p}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp lblTwitterStatus:::p::p, space s:::p, comp btnTwitter:::p::p, space :p:34:p, comp lblMessage:::p::p, space ::225:x}}"
-				} ) {
-					name: "pnlTwitter"
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblTwitterStatus"
-						"text": new FormMessage( null, "Preferences.lblTwitterStatus.text" )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "btnTwitter"
-						"text": new FormMessage( null, "Preferences.btnTwitter.text" )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnTwitterActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblMessage"
-					} )
-				}, new FormLayoutConstraints( null ) {
-					"title": new FormMessage( null, "Preferences.pnlTwitter.tab.title" )
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:23:p, par t {comp lblPassword::t:p::p, comp lblPort::t:p::p, comp lblHost::t:p::p}}, seq l {space :::p, comp lblUsername:::p::p}}, par l {seq l {space :p:7:p, comp txtProxyPass:::p:203:p:1}, seq l {space :p:6:p, par l {comp txtProxyPort::l:p:92:p, comp txtProxyUser::l:p:177:p:1}}}, space ::259:x}, seq l {space :p:92:p, par l {seq l {comp cbxProxy:::p::p, space :::p}, comp txtProxyHost::l::463:x}}}"
-					"$verticalGroup": "par l {seq {comp cbxProxy:::p::p, space :::p, par b {comp txtProxyHost::b:p::p, comp lblHost::b:p::p}, space :p::p, par b {comp txtProxyPort::b:p::p, comp lblPort::b:p::p}, space :::p, par b {comp txtProxyUser::b:p::p, comp lblUsername::b:p::p}, space :::p, par b {comp txtProxyPass::b:p::p, comp lblPassword::b:p::p}, space ::140:x}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0, 0"
+					"$rowSpecs": "0, 0, 0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
 				} ) {
 					name: "pnlProxy"
 					"border": new javax.swing.border.TitledBorder( "i18nKey=Preferences.pnlProxy.border" )
@@ -161,40 +193,72 @@ new FormModel {
 						name: "cbxProxy"
 						"text": new FormMessage( null, "Preferences.cbxProxy.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxProxyActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"hAlign": 2
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblHost"
 						"text": new FormMessage( null, "Preferences.lblHost.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+						"hAlign": 4
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblPort"
 						"text": new FormMessage( null, "Preferences.lblPort.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+						"hAlign": 4
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblUsername"
 						"text": new FormMessage( null, "Preferences.lblUsername.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 3
+						"hAlign": 4
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblPassword"
 						"text": new FormMessage( null, "Preferences.lblPassword.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 4
+						"hAlign": 4
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "txtProxyHost"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 1
+						"hAlign": 5
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "txtProxyPort"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 2
+						"hAlign": 5
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "txtProxyUser"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 3
+						"hAlign": 5
 					} )
 					add( new FormComponent( "javax.swing.JPasswordField" ) {
 						name: "txtProxyPass"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 4
+						"hAlign": 5
+						"weightx": 1.0
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.pnlProxy.tab.title" )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
-				"value": "Center"
+				"value": "North"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 				"alignment": 2
@@ -209,7 +273,7 @@ new FormModel {
 				"value": "South"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 590, 425 )
+			"size": new java.awt.Dimension( 595, 450 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}
