@@ -1153,7 +1153,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 			if (confirm == JOptionPane.YES_OPTION) {
 				Preferences prefs = new Preferences(MainWindow.getMainWindow(), true);
-				prefs.setTabIndex(Preferences.TWITTER_PANEL);
+				prefs.setTabIndex(Preferences.AUTH_PANEL);
 				prefs.setVisible(true);
 			}
 		}
