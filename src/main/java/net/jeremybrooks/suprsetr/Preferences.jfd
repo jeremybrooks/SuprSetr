@@ -257,6 +257,22 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.pnlProxy.tab.title" )
 				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+					name: "pnlAutoRefresh"
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxAutoRefresh"
+						"text": new FormMessage( null, "Preferences.cbxAutoRefresh.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAutoRefreshActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JSpinner" ) {
+						name: "timeSpinner"
+						auxiliary() {
+							"JavaCodeGenerator.postInitCode": "timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));\ntimeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, \"HH:mm\"));"
+						}
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "Preferences.pnlAutoRefresh.tab.title" )
+				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"
 			} )

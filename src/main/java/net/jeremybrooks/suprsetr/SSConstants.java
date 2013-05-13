@@ -84,7 +84,10 @@ public class SSConstants {
     public static final String LOOKUP_KEY_DETAIL_LOG="DETAIL_LOG";
 
     public static final String LOOKUP_KEY_LOG_WINDOW_BOUNDS = "LOG_WINDOW_BOUNDS";
-    
+
+	public static final String LOOKUP_KEY_AUTO_REFRESH = "AUTO_REFRESH";
+	public static final String LOOKUP_KEY_AUTO_REFRESH_TIME = "AUTO_REFRESH_TIME";
+
     public static final String DEFAULT_TWEET_TEMPLATE =
 	    "There are %c new photos in my Flickr photoset %u (%t).";
 

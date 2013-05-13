@@ -40,9 +40,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import javax.swing.SpinnerDateModel;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
@@ -56,6 +58,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -89,6 +94,9 @@ public class Preferences extends javax.swing.JDialog {
 	 * Flag indicating if something has changed requiring list refresh.
 	 */
 	private boolean refreshList = false;
+
+	private SimpleDateFormat autoRefreshFormat = new SimpleDateFormat("HH:mm");
+	private Date autoRefreshDate = new Date();
 
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.preferences");
@@ -159,6 +167,10 @@ public class Preferences extends javax.swing.JDialog {
 				}
 			}
 
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH, DAOHelper.booleanToString(this.cbxAutoRefresh.isSelected()));
+			String time = autoRefreshFormat.format((Date)timeSpinner.getValue());
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME, time);
+
 			this.setVisible(false);
 			this.dispose();
 		} else {
@@ -174,10 +186,24 @@ public class Preferences extends javax.swing.JDialog {
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_VIA, DAOHelper.booleanToString(this.cbxAddVia.isSelected()));
 	}
 
+	private void cbxAutoRefreshActionPerformed() {
+		this.timeSpinner.setEnabled(cbxAutoRefresh.isSelected());
+	}
+
 
 
 	public Preferences(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
+
+		String time = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME);
+		if (time != null) {
+			try {
+				autoRefreshDate = autoRefreshFormat.parse(time);
+			} catch (Exception e) {
+				logger.warn("Failed to parse time " + time + "; using current time.");
+			}
+		}
+
 		initComponents();
 
 		// After window is init'ed, lookup values in DB and set accordingly
@@ -229,6 +255,9 @@ public class Preferences extends javax.swing.JDialog {
 
 		this.cbxAddManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_MANAGED)));
 		this.refreshList = false;
+
+		this.cbxAutoRefresh.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH)));
+		this.timeSpinner.setEnabled(this.cbxAutoRefresh.isSelected());
 	}
 
 
@@ -276,6 +305,9 @@ public class Preferences extends javax.swing.JDialog {
 		txtProxyPort = new JTextField();
 		txtProxyUser = new JTextField();
 		txtProxyPass = new JPasswordField();
+		pnlAutoRefresh = new JPanel();
+		cbxAutoRefresh = new JCheckBox();
+		timeSpinner = new JSpinner();
 		panel1 = new JPanel();
 		btnOK = new JButton();
 
@@ -596,6 +628,28 @@ public class Preferences extends javax.swing.JDialog {
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
 
+
+			//======== pnlAutoRefresh ========
+			{
+				pnlAutoRefresh.setLayout(new FlowLayout());
+
+				//---- cbxAutoRefresh ----
+				cbxAutoRefresh.setText(bundle.getString("Preferences.cbxAutoRefresh.text"));
+				cbxAutoRefresh.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cbxAutoRefreshActionPerformed();
+					}
+				});
+				pnlAutoRefresh.add(cbxAutoRefresh);
+
+				//---- timeSpinner ----
+				timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));
+				timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+				pnlAutoRefresh.add(timeSpinner);
+			}
+			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAutoRefresh.tab.title"), pnlAutoRefresh);
+
 		}
 		contentPane.add(jTabbedPane1, BorderLayout.NORTH);
 
@@ -771,6 +825,8 @@ public class Preferences extends javax.swing.JDialog {
 			}
 
 		});
+
+
 	}
 
 
@@ -818,6 +874,9 @@ public class Preferences extends javax.swing.JDialog {
 	private JTextField txtProxyPort;
 	private JTextField txtProxyUser;
 	private JPasswordField txtProxyPass;
+	private JPanel pnlAutoRefresh;
+	private JCheckBox cbxAutoRefresh;
+	private JSpinner timeSpinner;
 	private JPanel panel1;
 	private JButton btnOK;
 	// End of variables declaration//GEN-END:variables
