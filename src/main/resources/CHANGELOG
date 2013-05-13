@@ -1,4 +1,5 @@
 Version ?
+ * Automatically refresh sets at a specified time
  * Added a FavrTagr mode to add tags for only 10, 25, 50, and 100 faves (Hawk Mode!)
  * Fixed bug where FavrTagr preference was saved, but not displayed correctly
  * Target Java 1.7+
@@ -10,6 +11,7 @@ Version ?
  * Added a toolbar button to open set in browser
  * Added keyboard shortcuts for common functions, including Refresh All (as suggested by Flickr user "that guy named Rob")
  * Added random sort order option (as suggested by Flickr user "that guy named Rob")
+ * Provide a pop up calendar to select dates (as suggested by Andrew Lighten)
 
 Version 1.0.0
  * Added a missing tool tip (thanks M. Moore)

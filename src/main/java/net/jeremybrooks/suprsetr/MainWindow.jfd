@@ -102,6 +102,12 @@ new FormModel {
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblStatus"
+				"text": new FormMessage( null, "MainWindow.lblStatus.text" )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "South"
+			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "jMenuBar1"
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {

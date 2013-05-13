@@ -79,10 +79,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -123,6 +125,8 @@ public class MainWindow extends javax.swing.JFrame {
 	 */
 	private Timer filterTimer = null;
 
+	private java.util.Timer autoRefreshTimer = null;
+
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
 
@@ -135,6 +139,8 @@ public class MainWindow extends javax.swing.JFrame {
 
 	public MainWindow() {
 		initComponents();
+
+		this.updateStatusBar();
 
 		this.mnuHideUnmanaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED)));
 		this.mnuCaseSensitive.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE)));
@@ -221,6 +227,7 @@ public class MainWindow extends javax.swing.JFrame {
 		txtFilter = new JTextField();
 		jScrollPane1 = new JScrollPane();
 		jList1 = new JList();
+		lblStatus = new JLabel();
 		mnuPopup = new JPopupMenu();
 		mnuPopupCreate = new JMenuItem();
 		mnuPopupEdit = new JMenuItem();
@@ -644,6 +651,10 @@ public class MainWindow extends javax.swing.JFrame {
 			jScrollPane1.setViewportView(jList1);
 		}
 		contentPane.add(jScrollPane1, BorderLayout.CENTER);
+
+		//---- lblStatus ----
+		lblStatus.setText(bundle.getString("MainWindow.lblStatus.text"));
+		contentPane.add(lblStatus, BorderLayout.SOUTH);
 		setSize(488, 522);
 		setLocationRelativeTo(null);
 
@@ -1248,6 +1259,9 @@ public class MainWindow extends javax.swing.JFrame {
 		return theWindow;
 	}
 
+	public void updateStatusBar() {
+		SwingUtilities.invokeLater(new UpdateStatusBar());
+	}
 
 	public void scrollToPhotoset(String id) {
 		for (int i = 0; i < this.listModel.size(); i++) {
@@ -1450,6 +1464,7 @@ public class MainWindow extends javax.swing.JFrame {
 	private JTextField txtFilter;
 	private JScrollPane jScrollPane1;
 	private JList jList1;
+	private JLabel lblStatus;
 	private JPopupMenu mnuPopup;
 	private JMenuItem mnuPopupCreate;
 	private JMenuItem mnuPopupEdit;
@@ -1560,6 +1575,56 @@ public class MainWindow extends javax.swing.JFrame {
 			index = masterList.indexOf(photoset);
 			if (index != -1) {
 				masterList.set(index, photoset);
+			}
+		}
+	}
+
+	class UpdateStatusBar implements Runnable {
+		@Override
+		public void run() {
+			if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH))) {
+				lblStatus.setText(resourceBundle.getString("MainWindow.lblStatus.text.enabled") +
+						" (" +
+						LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME) +
+						")");
+
+				if (autoRefreshTimer != null) {
+					autoRefreshTimer.cancel();
+				}
+				autoRefreshTimer = new java.util.Timer("AutoRefreshTimer", true);
+				autoRefreshTimer.schedule(new AutoRefreshTimerTask(),1000, 30000);
+				logger.info("Auto-refresh timer scheduled.");
+
+			} else {
+				lblStatus.setText(resourceBundle.getString("MainWindow.lblStatus.text"));
+				if (autoRefreshTimer != null) {
+					autoRefreshTimer.cancel();
+					autoRefreshTimer = null;
+					logger.info("Auto-refresh timer canceled.");
+				}
+			}
+		}
+	}
+
+	class AutoRefreshTimerTask extends TimerTask {
+		private String time = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME);
+		private SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+		@Override
+		public void run() {
+			String currentTime = format.format(new Date());
+			if (time.equals(currentTime) && !getGlassPane().isVisible()) {
+				logger.info("Auto-refresh triggered.");
+				LogWindow.addLogMessage(resourceBundle.getString("MainWindow.log.message.autorefresh") + " " + new Date());
+				SSPhotoset ssPhotoset;
+				List<SSPhotoset> list = new ArrayList<>();
+				// Put all managed sets in the list
+				for (int i = 0; i < listModel.getSize(); i++) {
+					ssPhotoset = (SSPhotoset) listModel.getElementAt(i);
+					if (ssPhotoset.isManaged()) {
+						list.add(ssPhotoset);
+					}
+				}
+				executeRefreshSetWorker(list);
 			}
 		}
 	}

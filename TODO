@@ -19,11 +19,7 @@ java.lang.ArrayIndexOutOfBoundsException: 22 > 12
 
 
 Post 1.0
-
- * Add sorting options for list view
- * Timed refresh; or run in background with command line options.
  * Flickr Collection support (missing from the API. bummer.)
- * ENH: Handle different date formats, or provide a pop up calendar to select dates (Andrew Lighten)
  * Support multiple accounts
 
 

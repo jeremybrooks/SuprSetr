@@ -170,6 +170,7 @@ public class Preferences extends javax.swing.JDialog {
 			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH, DAOHelper.booleanToString(this.cbxAutoRefresh.isSelected()));
 			String time = autoRefreshFormat.format((Date)timeSpinner.getValue());
 			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME, time);
+			MainWindow.getMainWindow().updateStatusBar();
 
 			this.setVisible(false);
 			this.dispose();
