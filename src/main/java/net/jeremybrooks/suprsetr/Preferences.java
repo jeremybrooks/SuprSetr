@@ -26,8 +26,8 @@ import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
+import net.jeremybrooks.suprsetr.utils.NetUtil;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
-import net.whirljack.common.util.NetUtil;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
@@ -326,6 +326,7 @@ public class Preferences extends javax.swing.JDialog {
 
 		//======== jTabbedPane1 ========
 		{
+			jTabbedPane1.setToolTipText(bundle.getString("Preferences.jTabbedPane1.toolTipText"));
 
 			//======== jPanel1 ========
 			{
@@ -623,6 +624,9 @@ public class Preferences extends javax.swing.JDialog {
 				pnlProxy.add(txtProxyUser, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
+
+				//---- txtProxyPass ----
+				txtProxyPass.setToolTipText(bundle.getString("Preferences.txtProxyPass.toolTipText"));
 				pnlProxy.add(txtProxyPass, new GridBagConstraints(1, 4, 1, 1, 1.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 0, 0), 0, 0));

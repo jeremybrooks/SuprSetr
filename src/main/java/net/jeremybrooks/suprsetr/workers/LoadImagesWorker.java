@@ -25,7 +25,7 @@ import net.jeremybrooks.jinx.dto.Photo;
 import net.jeremybrooks.jinx.dto.Photos;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
-import net.whirljack.common.ObjectCache;
+import net.jeremybrooks.suprsetr.utils.ObjectCache;
 import org.apache.log4j.Logger;
 
 import javax.swing.ImageIcon;

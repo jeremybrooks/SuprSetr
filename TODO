@@ -1,4 +1,28 @@
-get rid of whirljackcommon as a dependency
+Add option to exit app after autorefresh completes
+
+Handle this:
+java.io.IOException: Server returned HTTP response code: 504 for URL: http://api.flickr.com/services/rest/?api_key=19d053092dbf2c0965bf6c9786c93248&auth_token=72157624687776280-e1e671c2a0fccdf6&content_type=7&media=all&method=flickr.photos.search&per_page=500&safe_search=1&sort=interestingness-desc&tag_mode=any&tags=sunrise%2Csunset&user_id=85853333%40N00&api_sig=b782f6fd759854a25fa4e1aa851c1b5d
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1625)
+	at net.jeremybrooks.jinx.HTTPRequestPoster.sendGetRequest(HTTPRequestPoster.java:56)
+	at net.jeremybrooks.jinx.Jinx.callFlickr(Jinx.java:266)
+	at net.jeremybrooks.jinx.Jinx.callFlickr(Jinx.java:217)
+	at net.jeremybrooks.jinx.api.PhotosApi.search(PhotosApi.java:193)
+	at net.jeremybrooks.jinx.api.PhotosApi.search(PhotosApi.java:78)
+	at net.jeremybrooks.suprsetr.flickr.PhotoHelper.getPhotos(PhotoHelper.java:140)
+	at net.jeremybrooks.suprsetr.flickr.PhotoHelper.getPhotos(PhotoHelper.java:94)
+	at net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker.updatePhotoset(RefreshPhotosetWorker.java:195)
+	at net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker.doInBackground(RefreshPhotosetWorker.java:105)
+	at net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker.doInBackground(RefreshPhotosetWorker.java:56)
+	at javax.swing.SwingWorker$1.call(SwingWorker.java:296)
+	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:166)
+	at javax.swing.SwingWorker.run(SwingWorker.java:335)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:722)
+
+
+center blocker panel using bounds(?) so that it takes into account the scroll bar
 
 When the list is filtered, and a new set is added that matches the filter,
 it is not visible.

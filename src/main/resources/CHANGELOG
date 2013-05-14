@@ -4,7 +4,7 @@ Version ?
  * Fixed bug where FavrTagr preference was saved, but not displayed correctly
  * Target Java 1.7+
  * Download missing set icons when loading sets from Flickr
- * Localized all strings
+ * Localized all strings. Now just need some translators.
  * Tweet box in the Set Editor now wraps words, and is limited to 140 characters
  * Set information shows count of videos in set, if there are any
  * Restricted searches (private, family, friends & family) is working

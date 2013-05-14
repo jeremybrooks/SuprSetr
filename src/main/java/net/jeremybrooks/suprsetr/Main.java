@@ -24,7 +24,7 @@ import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.tutorial.Tutorial;
-import net.whirljack.common.util.NetUtil;
+import net.jeremybrooks.suprsetr.utils.NetUtil;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -32,6 +32,8 @@ import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.sql.Connection;
 import java.util.Properties;
 

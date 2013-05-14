@@ -24,6 +24,8 @@ import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.tutorial.Tutorial;
+import net.jeremybrooks.suprsetr.utils.FilenameContainsFilter;
+import net.jeremybrooks.suprsetr.utils.IOUtil;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.workers.AddPhotosetWorker;
 import net.jeremybrooks.suprsetr.workers.DatabaseBackupWorker;
@@ -34,8 +36,6 @@ import net.jeremybrooks.suprsetr.workers.FavrTagrWorker;
 import net.jeremybrooks.suprsetr.workers.FilterSetListWorker;
 import net.jeremybrooks.suprsetr.workers.LoadFlickrSetsWorker;
 import net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker;
-import net.whirljack.common.util.FilenameContainsFilter;
-import net.whirljack.common.util.IOUtil;
 import org.apache.log4j.Logger;
 
 import javax.swing.DefaultListModel;

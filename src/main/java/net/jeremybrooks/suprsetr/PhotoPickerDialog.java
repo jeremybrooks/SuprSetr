@@ -19,8 +19,8 @@
 package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.jinx.dto.Photo;
+import net.jeremybrooks.suprsetr.utils.ObjectCache;
 import net.jeremybrooks.suprsetr.workers.LoadImagesWorker;
-import net.whirljack.common.ObjectCache;
 import org.apache.log4j.Logger;
 
 import javax.swing.ImageIcon;
