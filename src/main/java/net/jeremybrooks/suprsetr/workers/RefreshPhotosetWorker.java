@@ -65,6 +65,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 	 */
 	private BlockerPanel blocker;
 
+	private boolean exitWhenDone = false;
 
 	/**
 	 * The list of photosets.
@@ -84,9 +85,10 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 	 * @param blocker      the blocker.
 	 * @param photosetList list of photosets to refresh.
 	 */
-	public RefreshPhotosetWorker(BlockerPanel blocker, List<SSPhotoset> photosetList) {
+	public RefreshPhotosetWorker(BlockerPanel blocker, List<SSPhotoset> photosetList, boolean exitWhenDone) {
 		this.blocker = blocker;
 		this.photosetList = photosetList;
+		this.exitWhenDone = exitWhenDone;
 	}
 
 
@@ -339,5 +341,10 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 					JOptionPane.WARNING_MESSAGE);
 		}
 		blocker.unBlock();
+
+		if (this.exitWhenDone) {
+			logger.info("Refresh is done, exiting.");
+			System.exit(0);
+		}
 	}
 }

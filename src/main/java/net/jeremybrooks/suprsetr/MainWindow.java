@@ -798,7 +798,7 @@ public class MainWindow extends javax.swing.JFrame {
 		// send the list to the worker
 		// if the list is empty, nothing will happen, so there's no need
 		// to check here
-		this.executeRefreshSetWorker(list);
+		this.executeRefreshSetWorker(list, false);
 	}
 
 
@@ -1492,11 +1492,11 @@ public class MainWindow extends javax.swing.JFrame {
 		blocker.block("");
 		List<SSPhotoset> list = new ArrayList<>();
 		list.add(ssPhotoset);
-		new RefreshPhotosetWorker(blocker, list).execute();
+		new RefreshPhotosetWorker(blocker, list, false).execute();
 	}
 
 
-	public void executeRefreshSetWorker(List<SSPhotoset> list) {
+	public void executeRefreshSetWorker(List<SSPhotoset> list, boolean exitWhenDone) {
 		BlockerPanel blocker = new BlockerPanel(this,
 				resourceBundle.getString("MainWindow.blocker.refreshing1") +
 				" " +
@@ -1505,7 +1505,7 @@ public class MainWindow extends javax.swing.JFrame {
 				resourceBundle.getString("MainWindow.blocker.refreshing2"));
 		setGlassPane(blocker);
 		blocker.block("");
-		new RefreshPhotosetWorker(blocker, list).execute();
+		new RefreshPhotosetWorker(blocker, list, exitWhenDone).execute();
 	}
 
 
@@ -1613,6 +1613,7 @@ public class MainWindow extends javax.swing.JFrame {
 		public void run() {
 			String currentTime = format.format(new Date());
 			if (time.equals(currentTime) && !getGlassPane().isVisible()) {
+				boolean exitWhenDone = DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER));
 				logger.info("Auto-refresh triggered.");
 				LogWindow.addLogMessage(resourceBundle.getString("MainWindow.log.message.autorefresh") + " " + new Date());
 				SSPhotoset ssPhotoset;
@@ -1624,7 +1625,7 @@ public class MainWindow extends javax.swing.JFrame {
 						list.add(ssPhotoset);
 					}
 				}
-				executeRefreshSetWorker(list);
+				executeRefreshSetWorker(list, exitWhenDone);
 			}
 		}
 	}

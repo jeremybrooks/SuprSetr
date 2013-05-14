@@ -259,18 +259,41 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.pnlProxy.tab.title" )
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0, 0"
+					"$rowSpecs": "0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
+				} ) {
 					name: "pnlAutoRefresh"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxAutoRefresh"
 						"text": new FormMessage( null, "Preferences.cbxAutoRefresh.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAutoRefreshActionPerformed", false ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxExitAfter"
+						"text": new FormMessage( null, "Preferences.cbxExitAfter.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label1"
+						"text": new FormMessage( null, "Preferences.label1.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+						"hAlign": 4
 					} )
 					add( new FormComponent( "javax.swing.JSpinner" ) {
 						name: "timeSpinner"
 						auxiliary() {
 							"JavaCodeGenerator.postInitCode": "timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));\ntimeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, \"HH:mm\"));"
 						}
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 2
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.pnlAutoRefresh.tab.title" )

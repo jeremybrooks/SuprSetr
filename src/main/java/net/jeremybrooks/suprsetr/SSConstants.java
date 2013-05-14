@@ -87,6 +87,7 @@ public class SSConstants {
 
 	public static final String LOOKUP_KEY_AUTO_REFRESH = "AUTO_REFRESH";
 	public static final String LOOKUP_KEY_AUTO_REFRESH_TIME = "AUTO_REFRESH_TIME";
+	public static final String LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER = "AUTO_REFRESH_EXIT_AFTER";
 
     public static final String DEFAULT_TWEET_TEMPLATE =
 	    "There are %c new photos in my Flickr photoset %u (%t).";

@@ -168,6 +168,7 @@ public class Preferences extends javax.swing.JDialog {
 			}
 
 			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH, DAOHelper.booleanToString(this.cbxAutoRefresh.isSelected()));
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER, DAOHelper.booleanToString(this.cbxExitAfter.isSelected()));
 			String time = autoRefreshFormat.format((Date)timeSpinner.getValue());
 			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME, time);
 			MainWindow.getMainWindow().updateStatusBar();
@@ -189,6 +190,7 @@ public class Preferences extends javax.swing.JDialog {
 
 	private void cbxAutoRefreshActionPerformed() {
 		this.timeSpinner.setEnabled(cbxAutoRefresh.isSelected());
+		this.cbxExitAfter.setEnabled(cbxAutoRefresh.isSelected());
 	}
 
 
@@ -258,7 +260,9 @@ public class Preferences extends javax.swing.JDialog {
 		this.refreshList = false;
 
 		this.cbxAutoRefresh.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH)));
+		this.cbxExitAfter.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER)));
 		this.timeSpinner.setEnabled(this.cbxAutoRefresh.isSelected());
+		this.cbxExitAfter.setEnabled(this.cbxAutoRefresh.isSelected());
 	}
 
 
@@ -308,6 +312,8 @@ public class Preferences extends javax.swing.JDialog {
 		txtProxyPass = new JPasswordField();
 		pnlAutoRefresh = new JPanel();
 		cbxAutoRefresh = new JCheckBox();
+		cbxExitAfter = new JCheckBox();
+		label1 = new JLabel();
 		timeSpinner = new JSpinner();
 		panel1 = new JPanel();
 		btnOK = new JButton();
@@ -636,7 +642,11 @@ public class Preferences extends javax.swing.JDialog {
 
 			//======== pnlAutoRefresh ========
 			{
-				pnlAutoRefresh.setLayout(new FlowLayout());
+				pnlAutoRefresh.setLayout(new GridBagLayout());
+				((GridBagLayout)pnlAutoRefresh.getLayout()).columnWidths = new int[] {0, 0, 0};
+				((GridBagLayout)pnlAutoRefresh.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+				((GridBagLayout)pnlAutoRefresh.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+				((GridBagLayout)pnlAutoRefresh.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
 				//---- cbxAutoRefresh ----
 				cbxAutoRefresh.setText(bundle.getString("Preferences.cbxAutoRefresh.text"));
@@ -646,12 +656,28 @@ public class Preferences extends javax.swing.JDialog {
 						cbxAutoRefreshActionPerformed();
 					}
 				});
-				pnlAutoRefresh.add(cbxAutoRefresh);
+				pnlAutoRefresh.add(cbxAutoRefresh, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 5, 5), 0, 0));
+
+				//---- cbxExitAfter ----
+				cbxExitAfter.setText(bundle.getString("Preferences.cbxExitAfter.text"));
+				pnlAutoRefresh.add(cbxExitAfter, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 5, 5), 0, 0));
+
+				//---- label1 ----
+				label1.setText(bundle.getString("Preferences.label1.text"));
+				pnlAutoRefresh.add(label1, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+					new Insets(0, 0, 0, 5), 0, 0));
 
 				//---- timeSpinner ----
 				timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));
 				timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
-				pnlAutoRefresh.add(timeSpinner);
+				pnlAutoRefresh.add(timeSpinner, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 0, 0), 0, 0));
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAutoRefresh.tab.title"), pnlAutoRefresh);
 
@@ -881,6 +907,8 @@ public class Preferences extends javax.swing.JDialog {
 	private JPasswordField txtProxyPass;
 	private JPanel pnlAutoRefresh;
 	private JCheckBox cbxAutoRefresh;
+	private JCheckBox cbxExitAfter;
+	private JLabel label1;
 	private JSpinner timeSpinner;
 	private JPanel panel1;
 	private JButton btnOK;
