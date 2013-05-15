@@ -1059,8 +1059,7 @@ public class SetEditor extends javax.swing.JDialog {
 			try {
 				PhotosetDAO.updatePhotoset(this.ssPhotoset);
 				SimpleCache.getInstance().invalidate(this.ssPhotoset.getId());
-				MainWindow.getMainWindow().updatePhotosetInList(this.ssPhotoset);
-				MainWindow.getMainWindow().doFilter(this.ssPhotoset.getId());
+				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), this.ssPhotoset.getId());
 				this.setVisible(false);
 				this.dispose();
 			} catch (Exception e) {
