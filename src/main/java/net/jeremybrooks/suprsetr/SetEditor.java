@@ -1059,6 +1059,8 @@ public class SetEditor extends javax.swing.JDialog {
 			try {
 				PhotosetDAO.updatePhotoset(this.ssPhotoset);
 				SimpleCache.getInstance().invalidate(this.ssPhotoset.getId());
+				MainWindow.getMainWindow().updatePhotosetInList(this.ssPhotoset);
+				MainWindow.getMainWindow().doFilter(this.ssPhotoset.getId());
 				this.setVisible(false);
 				this.dispose();
 			} catch (Exception e) {
@@ -1068,6 +1070,21 @@ public class SetEditor extends javax.swing.JDialog {
 						resourceBundle.getString("SetEditor.saveError.title"),
 						JOptionPane.ERROR_MESSAGE);
 			}
+		}
+	}
+
+
+	private void btnSaveAndRefreshActionPerformed() {
+		if (this.doValidation()) {
+			if (this.editorMode == EditorMode.CREATE) {
+				this.ssPhotoset.setPrimaryPhotoIcon(new ImageIcon(this.getClass().getClassLoader().getResource("images/empty_set_icon.png")));
+				MainWindow.getMainWindow().executeAddSetWorker(this.ssPhotoset);
+			} else {
+				MainWindow.getMainWindow().executeRefreshSetWorker(this.ssPhotoset);
+			}
+
+			this.setVisible(false);
+			this.dispose();
 		}
 	}
 
@@ -1093,21 +1110,6 @@ public class SetEditor extends javax.swing.JDialog {
 	private void cbxManageActionPerformed() {
 		this.addManagedByTextToDescription();
 		this.setEnableStates();
-	}
-
-
-	private void btnSaveAndRefreshActionPerformed() {
-		if (this.doValidation()) {
-			if (this.editorMode == EditorMode.CREATE) {
-				this.ssPhotoset.setPrimaryPhotoIcon(new ImageIcon(this.getClass().getClassLoader().getResource("images/empty_set_icon.png")));
-				MainWindow.getMainWindow().executeAddSetWorker(this.ssPhotoset);
-			} else {
-				MainWindow.getMainWindow().executeRefreshSetWorker(this.ssPhotoset);
-			}
-
-			this.setVisible(false);
-			this.dispose();
-		}
 	}
 
 	private void lblIconMouseClicked(java.awt.event.MouseEvent evt) {
