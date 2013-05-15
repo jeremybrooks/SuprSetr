@@ -7,28 +7,32 @@ new FormModel {
 	"i18n.keyPrefix": "AboutDialog"
 	contentType: "form/swing"
 	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+		}
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": new FormMessage( null, "AboutDialog.this.title" )
 			"$sizePolicy": 1
 			"$locationPolicy": 1
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {comp jLabel1:::p:400:p, space ::128:x}}"
-				"$verticalGroup": "par l {seq l {comp jLabel1:::p::p, space :::x}}"
-			} ) {
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "jPanel1"
 				"background": sfield java.awt.Color white
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "jLabel1"
-					"horizontalAlignment": 11
+					"horizontalAlignment": 0
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/Splash.png" )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
 				} )
-			}, new FormLayoutConstraints( class java.lang.String ) {
-				"value": "North"
-			} )
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "lblVersion"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "lblVersion"
+					"foreground": new java.awt.Color( 65, 136, 125, 255 )
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "South"
+				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"
 			} )
@@ -45,7 +49,7 @@ new FormModel {
 							name: "txtCredits"
 							"contentType": "text/html"
 							"editable": false
-							"text": "<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"http://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"http://jeremybrooks.net/jinx/\">jinx</a></li>\n<li><a href=\"http://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"http://code.google.com/p/bitlyj/\">bitlyj</a></li>\n<li>A bunch of <a href=\"http://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n"
+							"text": "<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"http://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"http://jeremybrooks.net/jinx/\">jinx</a></li>\n<li><a href=\"http://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"http://code.google.com/p/bitlyj/\">bitlyj</a></li>\n<li><a href=\"http://www.toedter.com/en/jcalendar/\">jcalendar</a></li>\n<li><a href=\"https://swingx.java.net\">SwingLabs components</a></li>\n<li><a href=\"https://db.apache.org/derby/\">Apache Derby</a></li>\n<li>A bunch of <a href=\"http://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n"
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {

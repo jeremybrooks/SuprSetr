@@ -32,8 +32,6 @@ import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 import java.sql.Connection;
 import java.util.Properties;
 
@@ -82,7 +80,8 @@ public class Main {
 	public static void main(String[] args) {
 
 		// If running on a Mac, set up the event handler
-		if (System.getProperty("mrj.version") != null) {
+		if (System.getProperty("os.name").contains("OS X")) {
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
 			new OSXSetup();
 		}
 

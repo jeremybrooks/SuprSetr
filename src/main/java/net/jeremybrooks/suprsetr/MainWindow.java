@@ -156,7 +156,7 @@ public class MainWindow extends javax.swing.JFrame {
 		}
 
 		// remove some menus that live in other places on a Mac
-		if (System.getProperty("mrj.version") != null) {
+		if (System.getProperty("os.name").contains("OS X")) {
 			this.mnuFile.remove(this.mnuQuit);
 			this.mnuEdit.remove(this.mnuPreferences);
 			this.mnuHelp.remove(this.mnuAbout);

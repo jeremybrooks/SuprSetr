@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.JDialog;
 import org.apache.log4j.Logger;
 
 import javax.swing.GroupLayout;
@@ -50,6 +51,8 @@ public class AboutDialog extends javax.swing.JDialog {
 	 */
 	private Logger logger = Logger.getLogger(AboutDialog.class);
 
+	private 		ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.about");
+
 
 	/**
 	 * Creates new form AboutDialog
@@ -58,6 +61,7 @@ public class AboutDialog extends javax.swing.JDialog {
 		super(parent, modal);
 		initComponents();
 
+		lblVersion.setText(resourceBundle.getString("AboutDialog.version") + " " + AboutDialog.class.getPackage().getImplementationVersion());
 		String line;
 		StringBuilder sb = new StringBuilder();
 		try (BufferedReader in = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/CHANGELOG")))) {
@@ -84,7 +88,7 @@ public class AboutDialog extends javax.swing.JDialog {
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
-		ResourceBundle bundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.about");
+		ResourceBundle bundle = this.resourceBundle;
 		jPanel1 = new JPanel();
 		jLabel1 = new JLabel();
 		lblVersion = new JLabel();
@@ -108,28 +112,19 @@ public class AboutDialog extends javax.swing.JDialog {
 		//======== jPanel1 ========
 		{
 			jPanel1.setBackground(Color.white);
+			jPanel1.setLayout(new BorderLayout());
 
 			//---- jLabel1 ----
-			jLabel1.setHorizontalAlignment(SwingConstants.TRAILING);
+			jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabel1.setIcon(new ImageIcon(getClass().getResource("/images/Splash.png")));
+			jPanel1.add(jLabel1, BorderLayout.CENTER);
 
-			GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-			jPanel1.setLayout(jPanel1Layout);
-			jPanel1Layout.setHorizontalGroup(
-				jPanel1Layout.createParallelGroup()
-					.addGroup(jPanel1Layout.createSequentialGroup()
-						.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(128, Short.MAX_VALUE))
-			);
-			jPanel1Layout.setVerticalGroup(
-				jPanel1Layout.createParallelGroup()
-					.addGroup(jPanel1Layout.createSequentialGroup()
-						.addComponent(jLabel1)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-			);
+			//---- lblVersion ----
+			lblVersion.setForeground(new Color(65, 136, 125));
+			lblVersion.setHorizontalAlignment(SwingConstants.CENTER);
+			jPanel1.add(lblVersion, BorderLayout.SOUTH);
 		}
-		contentPane.add(jPanel1, BorderLayout.NORTH);
-		contentPane.add(lblVersion, BorderLayout.CENTER);
+		contentPane.add(jPanel1, BorderLayout.CENTER);
 
 		//======== jTabbedPane1 ========
 		{
@@ -143,7 +138,7 @@ public class AboutDialog extends javax.swing.JDialog {
 					//---- txtCredits ----
 					txtCredits.setContentType("text/html");
 					txtCredits.setEditable(false);
-					txtCredits.setText("<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"http://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"http://jeremybrooks.net/jinx/\">jinx</a></li>\n<li><a href=\"http://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"http://code.google.com/p/bitlyj/\">bitlyj</a></li>\n<li>A bunch of <a href=\"http://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n");
+					txtCredits.setText("<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"http://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"http://jeremybrooks.net/jinx/\">jinx</a></li>\n<li><a href=\"http://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"http://code.google.com/p/bitlyj/\">bitlyj</a></li>\n<li><a href=\"http://www.toedter.com/en/jcalendar/\">jcalendar</a></li>\n<li><a href=\"https://swingx.java.net\">SwingLabs components</a></li>\n<li><a href=\"https://db.apache.org/derby/\">Apache Derby</a></li>\n<li>A bunch of <a href=\"http://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n");
 					jScrollPane1.setViewportView(txtCredits);
 				}
 
