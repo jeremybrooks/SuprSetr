@@ -18,7 +18,6 @@
  */
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.JDialog;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
