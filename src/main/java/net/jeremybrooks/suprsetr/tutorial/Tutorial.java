@@ -19,6 +19,11 @@
 
 package net.jeremybrooks.suprsetr.tutorial;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
 
 import javax.swing.GroupLayout;
@@ -105,6 +110,7 @@ public class Tutorial extends javax.swing.JDialog {
 		ResourceBundle bundle = this.resourceBundle;
 		jScrollPane1 = new JScrollPane();
 		jEditorPane1 = new JEditorPane();
+		panel1 = new JPanel();
 		btnBack = new JButton();
 		btnNext = new JButton();
 
@@ -117,57 +123,47 @@ public class Tutorial extends javax.swing.JDialog {
 			}
 		});
 		Container contentPane = getContentPane();
+		contentPane.setLayout(new BorderLayout());
 
 		//======== jScrollPane1 ========
 		{
+			jScrollPane1.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 			//---- jEditorPane1 ----
 			jEditorPane1.setContentType("text/html");
 			jEditorPane1.setEditable(false);
 			jScrollPane1.setViewportView(jEditorPane1);
 		}
+		contentPane.add(jScrollPane1, BorderLayout.CENTER);
 
-		//---- btnBack ----
-		btnBack.setIcon(new ImageIcon(getClass().getResource("/images/back16.png")));
-		btnBack.setText(bundle.getString("Tutorial.btnBack.text"));
-		btnBack.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnBackActionPerformed();
-			}
-		});
+		//======== panel1 ========
+		{
+			panel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-		//---- btnNext ----
-		btnNext.setIcon(new ImageIcon(getClass().getResource("/images/next16.png")));
-		btnNext.setText(bundle.getString("Tutorial.btnNext.text"));
-		btnNext.setHorizontalTextPosition(SwingConstants.LEFT);
-		btnNext.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnNextActionPerformed();
-			}
-		});
+			//---- btnBack ----
+			btnBack.setIcon(new ImageIcon(getClass().getResource("/images/back16.png")));
+			btnBack.setText(bundle.getString("Tutorial.btnBack.text"));
+			btnBack.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					btnBackActionPerformed();
+				}
+			});
+			panel1.add(btnBack);
 
-		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
-		contentPane.setLayout(contentPaneLayout);
-		contentPaneLayout.setHorizontalGroup(
-			contentPaneLayout.createParallelGroup()
-				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-					.addContainerGap(496, Short.MAX_VALUE)
-					.addComponent(btnBack)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-					.addComponent(btnNext))
-				.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
-		);
-		contentPaneLayout.setVerticalGroup(
-			contentPaneLayout.createParallelGroup()
-				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-					.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(btnNext)
-						.addComponent(btnBack)))
-		);
+			//---- btnNext ----
+			btnNext.setIcon(new ImageIcon(getClass().getResource("/images/next16.png")));
+			btnNext.setText(bundle.getString("Tutorial.btnNext.text"));
+			btnNext.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnNext.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					btnNextActionPerformed();
+				}
+			});
+			panel1.add(btnNext);
+		}
+		contentPane.add(panel1, BorderLayout.SOUTH);
 		setSize(631, 341);
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
@@ -268,6 +264,7 @@ public class Tutorial extends javax.swing.JDialog {
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private JScrollPane jScrollPane1;
 	private JEditorPane jEditorPane1;
+	private JPanel panel1;
 	private JButton btnBack;
 	private JButton btnNext;
 	// End of variables declaration//GEN-END:variables
