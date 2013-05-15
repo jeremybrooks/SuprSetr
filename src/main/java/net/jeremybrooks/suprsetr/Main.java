@@ -224,6 +224,9 @@ public class Main {
 		if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE) == null) {
 			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_CASE_SENSITIVE, DAOHelper.booleanToString(false));
 		}
+		if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM) == null) {
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM, DAOHelper.booleanToString(true));
+		}
 
 
 		Jinx.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));
@@ -234,14 +237,17 @@ public class Main {
 
 		// Set up proxy
 		if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_USE_PROXY))) {
-			String host = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST);
-			String port = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT);
-			final String user = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER);
-			final String pass = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS);
-
-			logger.info("Using proxy " + host + ":" + port);
-
-			NetUtil.enableProxy(host, port, user, pass.toCharArray());
+			if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM))) {
+				logger.info("Using system proxy settings");
+				NetUtil.enableSystemProxy();
+			} else {
+				String host = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST);
+				String port = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT);
+				final String user = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER);
+				final String pass = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS);
+				logger.info("Using proxy " + host + ":" + port);
+				NetUtil.enableProxy(host, port, user, pass.toCharArray());
+			}
 		}
 
 

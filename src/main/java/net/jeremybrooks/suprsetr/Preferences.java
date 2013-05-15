@@ -31,6 +31,7 @@ import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -40,6 +41,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -142,11 +144,15 @@ public class Preferences extends javax.swing.JDialog {
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PORT, port);
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USER, user);
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PASS, pass);
+				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM, DAOHelper.booleanToString(rbtnSystem.isSelected()));
 
-
-				logger.info("Using proxy " + host + ":" + port);
-
-				NetUtil.enableProxy(host, port, user, pass.toCharArray());
+				if (rbtnSystem.isSelected()) {
+					logger.info("Using system proxy settings");
+					NetUtil.enableSystemProxy();
+				} else {
+					logger.info("Using proxy " + host + ":" + port);
+					NetUtil.enableProxy(host, port, user, pass.toCharArray());
+				}
 
 			} else {
 				// Save proxy setting and clear system properties
@@ -192,6 +198,15 @@ public class Preferences extends javax.swing.JDialog {
 		this.timeSpinner.setEnabled(cbxAutoRefresh.isSelected());
 		this.cbxExitAfter.setEnabled(cbxAutoRefresh.isSelected());
 	}
+
+	private void rbtnSystemActionPerformed() {
+		setProxyComponentStates();
+	}
+
+	private void rbtnCustomActionPerformed() {
+		setProxyComponentStates();
+	}
+
 
 
 
@@ -250,11 +265,13 @@ public class Preferences extends javax.swing.JDialog {
 		this.updateStatus();
 
 		this.cbxProxy.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_USE_PROXY)));
+		this.rbtnSystem.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM)));
+		this.rbtnCustom.setSelected(!DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM)));
 		this.txtProxyHost.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST));
 		this.txtProxyPort.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT));
 		this.txtProxyUser.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER));
 		this.txtProxyPass.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS));
-		this.cbxProxyActionPerformed(null);
+		this.setProxyComponentStates();
 
 		this.cbxAddManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_MANAGED)));
 		this.refreshList = false;
@@ -302,13 +319,16 @@ public class Preferences extends javax.swing.JDialog {
 		btnTwitter = new JButton();
 		pnlProxy = new JPanel();
 		cbxProxy = new JCheckBox();
+		rbtnSystem = new JRadioButton();
+		rbtnCustom = new JRadioButton();
+		panel2 = new JPanel();
 		lblHost = new JLabel();
-		lblPort = new JLabel();
-		lblUsername = new JLabel();
-		lblPassword = new JLabel();
 		txtProxyHost = new JTextField();
+		lblPort = new JLabel();
 		txtProxyPort = new JTextField();
+		lblUsername = new JLabel();
 		txtProxyUser = new JTextField();
+		lblPassword = new JLabel();
 		txtProxyPass = new JPasswordField();
 		pnlAutoRefresh = new JPanel();
 		cbxAutoRefresh = new JCheckBox();
@@ -582,9 +602,9 @@ public class Preferences extends javax.swing.JDialog {
 				pnlProxy.setBorder(new TitledBorder(bundle.getString("Preferences.pnlProxy.border")));
 				pnlProxy.setLayout(new GridBagLayout());
 				((GridBagLayout)pnlProxy.getLayout()).columnWidths = new int[] {0, 0, 0};
-				((GridBagLayout)pnlProxy.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+				((GridBagLayout)pnlProxy.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
 				((GridBagLayout)pnlProxy.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-				((GridBagLayout)pnlProxy.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+				((GridBagLayout)pnlProxy.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 				//---- cbxProxy ----
 				cbxProxy.setText(bundle.getString("Preferences.cbxProxy.text"));
@@ -598,42 +618,78 @@ public class Preferences extends javax.swing.JDialog {
 					GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
 					new Insets(0, 0, 5, 0), 0, 0));
 
-				//---- lblHost ----
-				lblHost.setText(bundle.getString("Preferences.lblHost.text"));
-				pnlProxy.add(lblHost, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-					new Insets(0, 0, 5, 5), 0, 0));
-
-				//---- lblPort ----
-				lblPort.setText(bundle.getString("Preferences.lblPort.text"));
-				pnlProxy.add(lblPort, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-					new Insets(0, 0, 5, 5), 0, 0));
-
-				//---- lblUsername ----
-				lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
-				pnlProxy.add(lblUsername, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-					new Insets(0, 0, 5, 5), 0, 0));
-
-				//---- lblPassword ----
-				lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
-				pnlProxy.add(lblPassword, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-					new Insets(0, 0, 0, 5), 0, 0));
-				pnlProxy.add(txtProxyHost, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 0), 0, 0));
-				pnlProxy.add(txtProxyPort, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 0), 0, 0));
-				pnlProxy.add(txtProxyUser, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+				//---- rbtnSystem ----
+				rbtnSystem.setText(bundle.getString("Preferences.rbtnSystem.text"));
+				rbtnSystem.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						rbtnSystemActionPerformed();
+					}
+				});
+				pnlProxy.add(rbtnSystem, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
 
-				//---- txtProxyPass ----
-				txtProxyPass.setToolTipText(bundle.getString("Preferences.txtProxyPass.toolTipText"));
-				pnlProxy.add(txtProxyPass, new GridBagConstraints(1, 4, 1, 1, 1.0, 0.0,
+				//---- rbtnCustom ----
+				rbtnCustom.setText(bundle.getString("Preferences.rbtnCustom.text"));
+				rbtnCustom.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						rbtnCustomActionPerformed();
+					}
+				});
+				pnlProxy.add(rbtnCustom, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 5, 0), 0, 0));
+
+				//======== panel2 ========
+				{
+					panel2.setLayout(new GridBagLayout());
+					((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0};
+					((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+					((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+					((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+					//---- lblHost ----
+					lblHost.setText(bundle.getString("Preferences.lblHost.text"));
+					panel2.add(lblHost, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
+					panel2.add(txtProxyHost, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
+
+					//---- lblPort ----
+					lblPort.setText(bundle.getString("Preferences.lblPort.text"));
+					panel2.add(lblPort, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
+					panel2.add(txtProxyPort, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
+
+					//---- lblUsername ----
+					lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
+					panel2.add(lblUsername, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 5, 5), 0, 0));
+					panel2.add(txtProxyUser, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 5, 0), 0, 0));
+
+					//---- lblPassword ----
+					lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
+					panel2.add(lblPassword, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+						new Insets(0, 0, 0, 5), 0, 0));
+
+					//---- txtProxyPass ----
+					txtProxyPass.setToolTipText(bundle.getString("Preferences.txtProxyPass.toolTipText"));
+					panel2.add(txtProxyPass, new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
+				}
+				pnlProxy.add(panel2, new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 0, 0), 0, 0));
 			}
@@ -701,6 +757,11 @@ public class Preferences extends javax.swing.JDialog {
 		contentPane.add(panel1, BorderLayout.SOUTH);
 		setSize(595, 450);
 		setLocationRelativeTo(null);
+
+		//---- buttonGroup1 ----
+		ButtonGroup buttonGroup1 = new ButtonGroup();
+		buttonGroup1.add(rbtnSystem);
+		buttonGroup1.add(rbtnCustom);
 	}// </editor-fold>//GEN-END:initComponents
 
 
@@ -796,12 +857,17 @@ public class Preferences extends javax.swing.JDialog {
 	 * @param evt
 	 */
 	private void cbxProxyActionPerformed(java.awt.event.ActionEvent evt) {
-		this.txtProxyHost.setEnabled(this.cbxProxy.isSelected());
-		this.txtProxyPass.setEnabled(this.cbxProxy.isSelected());
-		this.txtProxyPort.setEnabled(this.cbxProxy.isSelected());
-		this.txtProxyUser.setEnabled(this.cbxProxy.isSelected());
+		setProxyComponentStates();
 	}
 
+	private void setProxyComponentStates() {
+		this.rbtnSystem.setEnabled(this.cbxProxy.isSelected());
+		this.rbtnCustom.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyHost.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
+		this.txtProxyPass.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
+		this.txtProxyPort.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
+		this.txtProxyUser.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
+	}
 
 	/**
 	 * @param evt
@@ -897,13 +963,16 @@ public class Preferences extends javax.swing.JDialog {
 	private JButton btnTwitter;
 	private JPanel pnlProxy;
 	private JCheckBox cbxProxy;
+	private JRadioButton rbtnSystem;
+	private JRadioButton rbtnCustom;
+	private JPanel panel2;
 	private JLabel lblHost;
-	private JLabel lblPort;
-	private JLabel lblUsername;
-	private JLabel lblPassword;
 	private JTextField txtProxyHost;
+	private JLabel lblPort;
 	private JTextField txtProxyPort;
+	private JLabel lblUsername;
 	private JTextField txtProxyUser;
+	private JLabel lblPassword;
 	private JPasswordField txtProxyPass;
 	private JPanel pnlAutoRefresh;
 	private JCheckBox cbxAutoRefresh;

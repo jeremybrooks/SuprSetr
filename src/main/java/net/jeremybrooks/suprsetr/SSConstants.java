@@ -76,6 +76,7 @@ public class SSConstants {
     public static final String LOOKUP_KEY_PROXY_PORT="PROXY_PORT";
     public static final String LOOKUP_KEY_PROXY_USER="PROXY_USERNAME";
     public static final String LOOKUP_KEY_PROXY_PASS="PROXY_PASSWORD";
+	public static final String LOOKUP_KEY_PROXY_USE_SYSTEM="PROXY_USE_SYSTEM";
 
     public static final String LOOKUP_KEY_HIDE_UNMANAGED="HIDE_UNMANAGED_SETS";
 

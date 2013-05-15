@@ -182,7 +182,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "0, 0"
-					"$rowSpecs": "0, 0, 0, 0, 0"
+					"$rowSpecs": "0, 0, 0, 0"
 					"$hGap": 5
 					"$vGap": 5
 					"$alignTop": true
@@ -198,62 +198,92 @@ new FormModel {
 						"gridx": 1
 						"hAlign": 2
 					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblHost"
-						"text": new FormMessage( null, "Preferences.lblHost.text" )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 1
-						"hAlign": 4
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblPort"
-						"text": new FormMessage( null, "Preferences.lblPort.text" )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 2
-						"hAlign": 4
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblUsername"
-						"text": new FormMessage( null, "Preferences.lblUsername.text" )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 3
-						"hAlign": 4
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblPassword"
-						"text": new FormMessage( null, "Preferences.lblPassword.text" )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 4
-						"hAlign": 4
-					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "txtProxyHost"
+					add( new FormComponent( "javax.swing.JRadioButton" ) {
+						name: "rbtnSystem"
+						"text": new FormMessage( null, "Preferences.rbtnSystem.text" )
+						"$buttonGroup": new FormReference( "buttonGroup1" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "rbtnSystemActionPerformed", false ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
 						"gridy": 1
-						"hAlign": 5
 					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "txtProxyPort"
+					add( new FormComponent( "javax.swing.JRadioButton" ) {
+						name: "rbtnCustom"
+						"text": new FormMessage( null, "Preferences.rbtnCustom.text" )
+						"$buttonGroup": new FormReference( "buttonGroup1" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "rbtnCustomActionPerformed", false ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
 						"gridy": 2
-						"hAlign": 5
 					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "txtProxyUser"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "panel2"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblHost"
+							"text": new FormMessage( null, "Preferences.lblHost.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 4
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtProxyHost"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"hAlign": 5
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblPort"
+							"text": new FormMessage( null, "Preferences.lblPort.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 4
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtProxyPort"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"hAlign": 5
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblUsername"
+							"text": new FormMessage( null, "Preferences.lblUsername.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+							"hAlign": 4
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtProxyUser"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+							"hAlign": 5
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblPassword"
+							"text": new FormMessage( null, "Preferences.lblPassword.text" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+							"hAlign": 4
+						} )
+						add( new FormComponent( "javax.swing.JPasswordField" ) {
+							name: "txtProxyPass"
+							"toolTipText": new FormMessage( null, "Preferences.txtProxyPass.toolTipText" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 3
+							"hAlign": 5
+							"weightx": 1.0
+						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
 						"gridy": 3
-						"hAlign": 5
-					} )
-					add( new FormComponent( "javax.swing.JPasswordField" ) {
-						name: "txtProxyPass"
-						"toolTipText": new FormMessage( null, "Preferences.txtProxyPass.toolTipText" )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 1
-						"gridy": 4
-						"hAlign": 5
 						"weightx": 1.0
 					} )
 				}, new FormLayoutConstraints( null ) {
@@ -316,6 +346,11 @@ new FormModel {
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 595, 450 )
 			"location": new java.awt.Point( 0, 0 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroup1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 460 )
 		} )
 	}
 }
