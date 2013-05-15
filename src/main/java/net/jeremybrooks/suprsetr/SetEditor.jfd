@@ -56,7 +56,7 @@ new FormModel {
 							name: "cbxManage"
 							"text": new FormMessage( null, "SetEditor.cbxManage.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxManage.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxManageActionPerformed", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxManageActionPerformed", false ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"gridy": 1
@@ -86,7 +86,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "txtTitle"
 							"toolTipText": new FormMessage( null, "SetEditor.txtTitle.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.KeyListener", "keyReleased", "txtTitleKeyReleased", true ) )
+							addEvent( new FormEvent( "java.awt.event.KeyListener", "keyReleased", "txtTitleKeyReleased", false ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
 							"gridy": 3
@@ -162,7 +162,7 @@ new FormModel {
 								name: "cbxDateTaken"
 								"text": new FormMessage( null, "SetEditor.cbxDateTaken.text" )
 								"toolTipText": new FormMessage( null, "SetEditor.cbxDateTaken.toolTipText" )
-								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateTakenActionPerformed", true ) )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateTakenActionPerformed", false ) )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 							add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
 								name: "dateTakenAfter"
@@ -189,7 +189,7 @@ new FormModel {
 								name: "cbxDateUploaded"
 								"text": new FormMessage( null, "SetEditor.cbxDateUploaded.text" )
 								"toolTipText": new FormMessage( null, "SetEditor.cbxDateUploaded.toolTipText" )
-								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateUploadedActionPerformed", true ) )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDateUploadedActionPerformed", false ) )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 1
 							} )
@@ -229,7 +229,7 @@ new FormModel {
 								name: "cbxOnThisDay"
 								"text": new FormMessage( null, "SetEditor.cbxOnThisDay.text" )
 								"toolTipText": new FormMessage( null, "SetEditor.cbxOnThisDay.toolTipText" )
-								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxOnThisDayActionPerformed", true ) )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxOnThisDayActionPerformed", false ) )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 							add( new FormComponent( "javax.swing.JComboBox" ) {
 								name: "cmbOTDMonth"
@@ -401,7 +401,7 @@ new FormModel {
 							"selected": true
 							"text": new FormMessage( null, "SetEditor.radioTweetNone.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetNone.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetNoneActionPerformed", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetNoneActionPerformed", false ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 1
 						} )
@@ -583,7 +583,7 @@ new FormModel {
 							name: "cbxLimitSize"
 							"text": new FormMessage( null, "SetEditor.cbxLimitSize.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.cbxLimitSize.toolTipText" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxLimitSizeActionPerformed", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxLimitSizeActionPerformed", false ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"gridy": 4
@@ -612,13 +612,13 @@ new FormModel {
 					name: "btnSave"
 					"text": new FormMessage( null, "SetEditor.btnSave.text" )
 					"toolTipText": new FormMessage( null, "SetEditor.btnSave.toolTipText" )
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSaveActionPerformed", true ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSaveActionPerformed", false ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnCancel"
 					"text": new FormMessage( null, "SetEditor.btnCancel.text" )
 					"toolTipText": new FormMessage( null, "SetEditor.btnCancel.toolTipText" )
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnCancelActionPerformed", true ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnCancelActionPerformed", false ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnSaveAndRefresh"

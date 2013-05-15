@@ -18,6 +18,7 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.JDialog;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
@@ -127,33 +128,15 @@ public class SetEditor extends javax.swing.JDialog {
 	private String[] typeModelArray = new String[3];
 	private String[] geotagModelArray = new String[3];
 
-	/**
-	 * Cancelable properties.
-	 */
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.seteditor");
+
+	// Cancelable properties.
 	// These can be changed from the PhotoPicker, so we need to remember this
 	// state when the window is first displayed in order to revert any changes
 	// if the user clicks Cancel
 	private ImageIcon originalPrimaryIcon;
 	private String originalPrimaryId;
 	private boolean originalLockSelected;
-
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.seteditor");
-
-
-	private void dateTakenAfterPropertyChange() {
-		dateTakenBefore.setMinSelectableDate(dateTakenAfter.getDate());
-	}
-
-	private void dateUploadedAfterPropertyChange() {
-		dateUploadedBefore.setMinSelectableDate(dateTakenAfter.getDate());
-	}
-
-	private void yearFromPropertyChange() {
-		if (this.yearOTDStart.getYear() < this.yearOTDEnd.getYear()) {
-			this.yearOTDStart.setYear(this.yearOTDEnd.getYear());
-		}
-		this.yearOTDStart.setMinimum(this.yearOTDEnd.getYear());
-	}
 
 
 	public SetEditor(JFrame parent, EditorMode editorMode, SSPhotoset ssPhotoset) {
@@ -402,7 +385,7 @@ public class SetEditor extends javax.swing.JDialog {
 					cbxManage.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							cbxManageActionPerformed(e);
+							cbxManageActionPerformed();
 						}
 					});
 					pnlTitle.add(cbxManage, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
@@ -427,7 +410,7 @@ public class SetEditor extends javax.swing.JDialog {
 					txtTitle.addKeyListener(new KeyAdapter() {
 						@Override
 						public void keyReleased(KeyEvent e) {
-							txtTitleKeyReleased(e);
+							txtTitleKeyReleased();
 						}
 					});
 					pnlTitle.add(txtTitle, new GridBagConstraints(2, 3, 1, 1, 1.0, 0.0,
@@ -503,7 +486,7 @@ public class SetEditor extends javax.swing.JDialog {
 						cbxDateTaken.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								cbxDateTakenActionPerformed(e);
+								cbxDateTakenActionPerformed();
 							}
 						});
 						panel1.add(cbxDateTaken, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
@@ -540,7 +523,7 @@ public class SetEditor extends javax.swing.JDialog {
 						cbxDateUploaded.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								cbxDateUploadedActionPerformed(e);
+								cbxDateUploadedActionPerformed();
 							}
 						});
 						panel1.add(cbxDateUploaded, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
@@ -587,7 +570,7 @@ public class SetEditor extends javax.swing.JDialog {
 						cbxOnThisDay.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								cbxOnThisDayActionPerformed(e);
+								cbxOnThisDayActionPerformed();
 							}
 						});
 						panel2.add(cbxOnThisDay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
@@ -773,7 +756,7 @@ public class SetEditor extends javax.swing.JDialog {
 					radioTweetNone.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							radioTweetNoneActionPerformed(e);
+							radioTweetNoneActionPerformed();
 						}
 					});
 					pnlOther.add(radioTweetNone, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
@@ -939,7 +922,7 @@ public class SetEditor extends javax.swing.JDialog {
 					cbxLimitSize.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							cbxLimitSizeActionPerformed(e);
+							cbxLimitSizeActionPerformed();
 						}
 					});
 					jPanel6.add(cbxLimitSize, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
@@ -969,7 +952,7 @@ public class SetEditor extends javax.swing.JDialog {
 			btnSave.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnSaveActionPerformed(e);
+					btnSaveActionPerformed();
 				}
 			});
 			buttonPanel.add(btnSave);
@@ -980,7 +963,7 @@ public class SetEditor extends javax.swing.JDialog {
 			btnCancel.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					btnCancelActionPerformed(e);
+					btnCancelActionPerformed();
 				}
 			});
 			buttonPanel.add(btnCancel);
@@ -1008,14 +991,28 @@ public class SetEditor extends javax.swing.JDialog {
 	}// </editor-fold>//GEN-END:initComponents
 
 
-	/**
+	private void dateTakenAfterPropertyChange() {
+		dateTakenBefore.setMinSelectableDate(dateTakenAfter.getDate());
+	}
+
+	private void dateUploadedAfterPropertyChange() {
+		dateUploadedBefore.setMinSelectableDate(dateTakenAfter.getDate());
+	}
+
+	private void yearFromPropertyChange() {
+		if (this.yearOTDStart.getYear() < this.yearOTDEnd.getYear()) {
+			this.yearOTDStart.setYear(this.yearOTDEnd.getYear());
+		}
+		this.yearOTDStart.setMinimum(this.yearOTDEnd.getYear());
+	}
+
+
+	/*
 	 * Responds to clicks on the "date taken" checkbox.
 	 * <p>The text input boxes for date taken min/max should be enabled and disabled
 	 * as the user checks and unchecks the box.</p>
-	 *
-	 * @param evt the event
 	 */
-	private void cbxDateTakenActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cbxDateTakenActionPerformed() {
 		if (this.cbxDateTaken.isSelected()) {
 			this.cbxOnThisDay.setSelected(false);
 		}
@@ -1023,14 +1020,12 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	/**
+	/*
 	 * Responds to clicks on the "date uploaded" checkbox.
 	 * <p>The text input boxes for date uploaded min/max should be enabled and disabled
 	 * as the user checks and unchecks the box.</p>
-	 *
-	 * @param evt the event
 	 */
-	private void cbxDateUploadedActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cbxDateUploadedActionPerformed() {
 		if (this.cbxDateUploaded.isSelected()) {
 			this.cbxOnThisDay.setSelected(false);
 		}
@@ -1038,14 +1033,12 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	/**
+	/*
 	 * Respond to clicks on the cancel button.
 	 * <p/>
 	 * <p>The window will be closed.</p>
-	 *
-	 * @param evt
 	 */
-	private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnCancelActionPerformed() {
 		// make sure any icon changes are undone
 		this.lblIcon.setIcon(this.originalPrimaryIcon);
 		this.ssPhotoset.setPrimary(this.originalPrimaryId);
@@ -1057,14 +1050,12 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	/**
+	/*
 	 * Respond to clicks on the save button.
 	 * <p>Perform validation on the user entries. If everything is OK, save
 	 * the record. Otherwise, tell the user what is wrong and let them fix it.</p>
-	 *
-	 * @param evt
 	 */
-	private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnSaveActionPerformed() {
 		if (this.doValidation()) {
 			try {
 				PhotosetDAO.updatePhotoset(this.ssPhotoset);
@@ -1082,14 +1073,12 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	/**
+	/*
 	 * Verify entry of title text.
 	 * <p>If the user tries to enter a title that is already taken by another
 	 * set, make the text red.</p>
-	 *
-	 * @param evt
 	 */
-	private void txtTitleKeyReleased(java.awt.event.KeyEvent evt) {
+	private void txtTitleKeyReleased() {
 		if (editorMode == EditorMode.CREATE) {
 			if (MainWindow.getMainWindow().setTitleExists(this.txtTitle.getText())) {
 				this.btnSave.setEnabled(false);
@@ -1102,7 +1091,7 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	private void cbxManageActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cbxManageActionPerformed() {
 		this.addManagedByTextToDescription();
 		this.setEnableStates();
 	}
@@ -1160,15 +1149,15 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 
-	private void radioTweetNoneActionPerformed(java.awt.event.ActionEvent evt) {
+	private void radioTweetNoneActionPerformed() {
 		this.txtTweet.setEnabled(false);
 	}
 
-	private void cbxLimitSizeActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cbxLimitSizeActionPerformed() {
 		this.txtSetSize.setEnabled(cbxLimitSize.isSelected());
 	}
 
-	private void cbxOnThisDayActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cbxOnThisDayActionPerformed() {
 		if (this.cbxOnThisDay.isSelected()) {
 			this.cbxDateTaken.setSelected(false);
 			this.cbxDateUploaded.setSelected(false);
@@ -1188,11 +1177,8 @@ public class SetEditor extends javax.swing.JDialog {
 		if (this.cbxCurrentYear.isSelected()) {
 			this.yearOTDEnd.setYear(SSUtils.getCurrentYear());
 			this.yearOTDEnd.setEnabled(false);
-//			this.txtOTDYearEnd.setEnabled(false);
-//			this.txtOTDYearEnd.setText(Integer.toString(SSUtils.getCurrentYear()));
 		} else {
 			this.yearOTDEnd.setEnabled(true);
-//			this.txtOTDYearEnd.setEnabled(true);
 		}
 	}
 
