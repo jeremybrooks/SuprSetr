@@ -274,7 +274,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 				LogWindow.addLogMessage(resourceBundle.getString("RefreshPhotosetWorker.log.error1") +
 						" '" + ssPhotoset.getTitle() + "', " +
 						resourceBundle.getString("RefreshPhotosetWorker.log.error2") +
-						" " + e.getMessage() + ". " +
+						" '" + e.getMessage() + "'. " +
 						resourceBundle.getString("RefreshPhotosetWorker.log.error3") +
 						".");
 				ssPhotoset.setErrorFlag(true);
@@ -282,7 +282,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 		}
 
 		try {
-			if (ssPhotoset.isManaged()) {
+			if (ssPhotoset.isManaged() && (searchResults != null)) {	// null search results means something failed above, so don't bother with saving to db
 				blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.saving"));
 
 				// UPDATE OUR DATA STRUCTURE TO REFLECT THE NEW PHOTOSET ON FLICKR
