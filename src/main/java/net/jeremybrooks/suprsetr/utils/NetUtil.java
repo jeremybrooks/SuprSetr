@@ -27,22 +27,25 @@ import java.net.PasswordAuthentication;
  */
 public class NetUtil {
 
-	public static void enableProxy(String host, String port, final String username, final char[] password)
-	  {
-	    System.setProperty("http.proxyHost", host);
-	    System.setProperty("http.proxyPort", port);
+	public static void enableSystemProxy() {
+		System.setProperty("java.net.useSystemProxies", "true");
+	}
 
-	    if ((username != null) && (!username.isEmpty()))
-	      Authenticator.setDefault(new Authenticator() {
-			  protected PasswordAuthentication getPasswordAuthentication() {
-				  return new PasswordAuthentication(username, password);
-			  }
-		  });
-	  }
+	public static void enableProxy(String host, String port, final String username, final char[] password) {
+		System.setProperty("http.proxyHost", host);
+		System.setProperty("http.proxyPort", port);
 
-	  public static void clearProxy()
-	  {
-	    System.clearProperty("http.proxyHost");
-	    System.clearProperty("http.proxyPort");
-	  }
+		if ((username != null) && (!username.isEmpty()))
+			Authenticator.setDefault(new Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			});
+	}
+
+	public static void clearProxy() {
+		System.clearProperty("http.proxyHost");
+		System.clearProperty("http.proxyPort");
+		System.clearProperty("java.net.useSystemProxies");
+	}
 }
