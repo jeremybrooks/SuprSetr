@@ -1429,6 +1429,7 @@ public class SetEditor extends javax.swing.JDialog {
 		this.txtTweet.setEnabled(this.cbxManage.isSelected());
 		this.cbxLock.setEnabled(this.cbxManage.isSelected());
 
+
 		// now set things that may change if is managed
 		if (this.cbxManage.isSelected()) {
 			this.dateTakenAfter.setEnabled(this.cbxDateTaken.isSelected());
@@ -1460,7 +1461,8 @@ public class SetEditor extends javax.swing.JDialog {
 		this.cbxInGetty.setEnabled(this.cbxManage.isSelected());
 		this.cbxInCommons.setEnabled(this.cbxManage.isSelected());
 		this.cbxLimitSize.setEnabled(this.cbxManage.isSelected());
-		this.txtSetSize.setEnabled(this.cbxManage.isSelected());
+
+		this.txtSetSize.setEnabled(this.cbxLimitSize.isSelected());
 	}
 
 
