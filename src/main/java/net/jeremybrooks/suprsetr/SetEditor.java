@@ -18,6 +18,7 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.JDialog;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
@@ -792,7 +793,6 @@ public class SetEditor extends javax.swing.JDialog {
 			}
 			jTabbedPane1.addTab(bundle.getString("SetEditor.basicPanel.tab.title"), basicPanel);
 
-
 			//======== advancedPanel ========
 			{
 				advancedPanel.setVerifyInputWhenFocusTarget(false);
@@ -937,7 +937,6 @@ public class SetEditor extends javax.swing.JDialog {
 				advancedPanel.add(jPanel6);
 			}
 			jTabbedPane1.addTab(bundle.getString("SetEditor.advancedPanel.tab.title"), advancedPanel);
-
 		}
 		contentPane.add(jTabbedPane1, BorderLayout.CENTER);
 

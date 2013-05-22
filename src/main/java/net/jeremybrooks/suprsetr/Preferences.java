@@ -20,6 +20,7 @@
 package net.jeremybrooks.suprsetr;
 
 
+import javax.swing.JDialog;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -205,6 +206,15 @@ public class Preferences extends javax.swing.JDialog {
 
 	private void rbtnCustomActionPerformed() {
 		setProxyComponentStates();
+	}
+
+	private void button1ActionPerformed() {
+		logger.info("Testing twitter");
+		try {
+			TwitterHelper.updateStatus("Test tweet");
+		} catch (Exception e) {
+			logger.error("error", e);
+		}
 	}
 
 
@@ -528,7 +538,6 @@ public class Preferences extends javax.swing.JDialog {
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
 
-
 			//======== pnlAuthorizations ========
 			{
 				pnlAuthorizations.setLayout(new VerticalLayout(5));
@@ -566,19 +575,19 @@ public class Preferences extends javax.swing.JDialog {
 				{
 					pnlTwitter.setBorder(new TitledBorder(bundle.getString("Preferences.pnlTwitter.border")));
 					pnlTwitter.setLayout(new GridBagLayout());
-					((GridBagLayout)pnlTwitter.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-					((GridBagLayout)pnlTwitter.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-					((GridBagLayout)pnlTwitter.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-					((GridBagLayout)pnlTwitter.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlTwitter.getLayout()).columnWidths = new int[] {0, 0, 0};
+					((GridBagLayout)pnlTwitter.getLayout()).rowHeights = new int[] {0, 0, 0};
+					((GridBagLayout)pnlTwitter.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlTwitter.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
 					//---- lblTwitterStatus ----
 					lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
 					pnlTwitter.add(lblTwitterStatus, new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 5), 0, 0));
+						new Insets(0, 0, 5, 0), 0, 0));
 					pnlTwitter.add(lblMessage, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 5), 0, 0));
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- btnTwitter ----
 					btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
@@ -590,12 +599,11 @@ public class Preferences extends javax.swing.JDialog {
 					});
 					pnlTwitter.add(btnTwitter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 5, 5), 0, 0));
+						new Insets(0, 0, 0, 0), 0, 0));
 				}
 				pnlAuthorizations.add(pnlTwitter);
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAuthorizations.tab.title"), pnlAuthorizations);
-
 
 			//======== pnlProxy ========
 			{
@@ -695,7 +703,6 @@ public class Preferences extends javax.swing.JDialog {
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
 
-
 			//======== pnlAutoRefresh ========
 			{
 				pnlAutoRefresh.setLayout(new GridBagLayout());
@@ -736,7 +743,6 @@ public class Preferences extends javax.swing.JDialog {
 					new Insets(0, 0, 0, 0), 0, 0));
 			}
 			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAutoRefresh.tab.title"), pnlAutoRefresh);
-
 		}
 		contentPane.add(jTabbedPane1, BorderLayout.NORTH);
 

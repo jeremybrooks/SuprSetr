@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.0.0.54" Java: "1.6.0_45" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -144,8 +144,8 @@ new FormModel {
 						} )
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "0, 0, 0"
-						"$rowSpecs": "0, 0, 0"
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0"
 						"$hGap": 5
 						"$vGap": 5
 						"$alignTop": true

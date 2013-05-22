@@ -50,6 +50,9 @@ public class TwitterHelper {
 	 */
 	private static Logger logger = Logger.getLogger(TwitterHelper.class);
 
+	private static TwitterFactory twitterFactory = new TwitterFactory();
+	private static Twitter twitter;
+
 	/**
 	 * Authenticates the user.
 	 * <p/>
@@ -61,70 +64,28 @@ public class TwitterHelper {
 	 */
 	public static void authenticate() throws Exception {
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.misc");
-		// The factory instance is re-useable and thread safe.
-		Twitter twitter = TwitterFactory.getSingleton();
+		twitter = TwitterFactory.getSingleton();
 		twitter.setOAuthConsumer(Main.getPrivateProperty("TWITTER_CONSUMER_KEY"), Main.getPrivateProperty("TWITTER_CONSUMER_SECRET"));
-		RequestToken requestToken = twitter.getOAuthRequestToken();
-		AccessToken accessToken;
-//		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//		    while (null == accessToken) {
-		String url = requestToken.getAuthenticationURL();
-		java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-//		BrowserLauncher.openURL(url);
-//				BrowserLauncher.openURL(requestToken.getAuthorizationURL());
+		try {
+			RequestToken requestToken = twitter.getOAuthRequestToken();
+			AccessToken accessToken;
+			String url = requestToken.getAuthenticationURL();
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
 
-		String pin = JOptionPane.showInputDialog(null,
-				resourceBundle.getString("TwitterHelper.dialog.pin.message"),
-				resourceBundle.getString("TwitterHelper.dialog.pin.title"),
-				JOptionPane.INFORMATION_MESSAGE);
-		accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-
-
-//		      System.out.println("Open the following URL and grant access to your account:");
-//		      System.out.println(requestToken.getAuthorizationURL());
-//		      System.out.print("Enter the PIN(if aviailable) or just hit enter.[PIN]:");
-//		      String pin = br.readLine();
-//		      try{
-//		         if(pin.length() > 0){
-//		           accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-//		         }else{
-//		           accessToken = twitter.getOAuthAccessToken();
-//		         }
-//		      } catch (TwitterException te) {
-//		        if(401 == te.getStatusCode()){
-//		          System.out.println("Unable to get the access token.");
-//		        }else{
-//		          te.printStackTrace();
-//		        }
-//		      }
-//		    }
-		//persist to the accessToken for future reference.
-//		    storeAccessToken(twitter.verifyCredentials().getId() , accessToken);
-//		    Status status = twitter.updateStatus(args[0]);
-//		    System.out.println("Successfully updated the status to [" + status.getText() + "].");
-//	Twitter twitter = new Twitter();
-//	twitter.setOAuthConsumer(Main.getPrivateProperty("TWITTER_CONSUMER_KEY"), Main.getPrivateProperty("TWITTER_CONSUMER_SECRET"));
-//	RequestToken requestToken = twitter.getOAuthRequestToken();
-//	AccessToken accessToken = null;
-//
-//
-//	BrowserLauncher.openURL(requestToken.getAuthorizationURL());
-//
-//	// Open input dialog for user to enter PIN from Twitter
-//	String pin = JOptionPane.showInputDialog(null,
-//		"After authorizing Twitter, enter the PIN here:",
-//		"PIN",
-//		JOptionPane.INFORMATION_MESSAGE);
-//
-//	accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-
-
-		// Save the access token
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_USERID, Long.toString(twitter.verifyCredentials().getId()));
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_USERNAME, twitter.verifyCredentials().getName());
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_TOKEN, accessToken.getToken());
-		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_TOKEN_SECRET, accessToken.getTokenSecret());
-
+			String pin = JOptionPane.showInputDialog(null,
+					resourceBundle.getString("TwitterHelper.dialog.pin.message"),
+					resourceBundle.getString("TwitterHelper.dialog.pin.title"),
+					JOptionPane.INFORMATION_MESSAGE);
+			accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+			// Save the access token
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_USERID, Long.toString(accessToken.getUserId()));
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_USERNAME, twitter.verifyCredentials().getName());
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_TOKEN, accessToken.getToken());
+			LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_TOKEN_SECRET, accessToken.getTokenSecret());
+		} catch (Exception e) {
+			twitter = null;
+			throw e;
+		}
 	}
 
 
@@ -138,18 +99,8 @@ public class TwitterHelper {
 	 */
 	public static void updateStatus(String tweet) throws Exception {
 		if (TwitterHelper.isAuthorized()) {
-			Twitter twitter = TwitterFactory.getSingleton();
 			Status status = twitter.updateStatus(tweet);
-//		    System.out.println("Successfully updated the status to [" + status.getText() + "].");
-//	    String token = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN);
-//	    String tokenSecret = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN_SECRET);
-
-// TODO
-//	    Twitter twitter = new Twitter();
-//	    twitter.setOAuthConsumer(Main.getPrivateProperty("TWITTER_CONSUMER_KEY"), Main.getPrivateProperty("TWITTER_CONSUMER_SECRET"));
-//	    twitter.setOAuthAccessToken(token, tokenSecret);
-
-//	    twitter.updateStatus(tweet);
+			logger.info("Updated status to [" + status.getText() + "]");
 		}
 	}
 
@@ -162,11 +113,13 @@ public class TwitterHelper {
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_USERNAME, null);
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_TOKEN, null);
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TWITTER_TOKEN_SECRET, null);
+		twitter = null;
 	}
 
 
 	/**
 	 * Determine if the user has been authorized.
+	 * If the user is authorized, ensure that the Twitter object exists and has the required OAuth token.
 	 *
 	 * @return true if the user is authorized, false otherwise.
 	 */
@@ -177,6 +130,14 @@ public class TwitterHelper {
 
 		if (token == null || token.isEmpty()) {
 			authorized = false;
+		} else {
+			if (twitter == null) {
+				AccessToken accessToken = new AccessToken(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN),
+						LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN_SECRET));
+				twitter = twitterFactory.getInstance();
+				twitter.setOAuthConsumer(Main.getPrivateProperty("TWITTER_CONSUMER_KEY"), Main.getPrivateProperty("TWITTER_CONSUMER_SECRET"));
+				twitter.setOAuthAccessToken(accessToken);
+			}
 		}
 
 		return authorized;
