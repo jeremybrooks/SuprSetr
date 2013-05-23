@@ -18,7 +18,6 @@
  */
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.JDialog;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
@@ -164,6 +163,9 @@ public class SetEditor extends javax.swing.JDialog {
 		}
 
 		initComponents();
+
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
+
 
 		// TODO
 		// These search parameters do not work correctly

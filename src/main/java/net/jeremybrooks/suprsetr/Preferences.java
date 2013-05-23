@@ -20,7 +20,6 @@
 package net.jeremybrooks.suprsetr;
 
 
-import javax.swing.JDialog;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -35,6 +34,7 @@ import org.jdesktop.swingx.VerticalLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -233,6 +233,8 @@ public class Preferences extends javax.swing.JDialog {
 		}
 
 		initComponents();
+
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 
 		// After window is init'ed, lookup values in DB and set accordingly
 		this.cbxAddVia.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA)));

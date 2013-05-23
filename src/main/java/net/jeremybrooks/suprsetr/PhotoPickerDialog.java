@@ -120,6 +120,8 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 		this.photos = new ArrayList<>();
 		this.cache = new ObjectCache(new File(Main.configDir, "image_cache"));
 		initComponents();
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
+
 		this.jTable1.setModel(new PhotoPickerTableModel());
 		// center on the parent
 		setBounds((parent.getWidth() - 422) / 2 + parent.getX(), (parent.getHeight() - 490) / 2 + parent.getY(), 422, 490);

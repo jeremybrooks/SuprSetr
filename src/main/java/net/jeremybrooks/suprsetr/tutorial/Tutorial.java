@@ -19,23 +19,20 @@
 
 package net.jeremybrooks.suprsetr.tutorial;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
 
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -93,6 +90,8 @@ public class Tutorial extends javax.swing.JDialog {
 		tutorialContentFilename = resourceBundle.getString("Tutorial.content.file.name");
 
 		initComponents();
+
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 
 		this.btnBack.setVisible(false);
 		this.loadPage();

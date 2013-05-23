@@ -18,6 +18,7 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 
@@ -79,6 +80,7 @@ public class LogWindow extends javax.swing.JFrame {
 
 		//======== this ========
 		setTitle(bundle.getString("LogWindow.this.title"));
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

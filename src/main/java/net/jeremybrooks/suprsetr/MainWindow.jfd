@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.0.0.54" Java: "1.6.0_45" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -16,6 +16,7 @@ new FormModel {
 			"title": new FormMessage( null, "MainWindow.this.title" )
 			"$sizePolicy": 1
 			"$locationPolicy": 1
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/s16.png" )
 			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
 				name: "jToolBar1"
 				"rollover": true

@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.JDialog;
 import org.apache.log4j.Logger;
 
 import javax.swing.GroupLayout;
@@ -60,6 +59,8 @@ public class AboutDialog extends javax.swing.JDialog {
 	public AboutDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
+
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 
 		lblVersion.setText(resourceBundle.getString("AboutDialog.version") + " " + AboutDialog.class.getPackage().getImplementationVersion());
 		String line;
@@ -155,7 +156,6 @@ public class AboutDialog extends javax.swing.JDialog {
 			}
 			jTabbedPane1.addTab(bundle.getString("AboutDialog.pnlCredits.tab.title"), pnlCredits);
 
-
 			//======== pnlLicense ========
 			{
 
@@ -185,7 +185,6 @@ public class AboutDialog extends javax.swing.JDialog {
 			}
 			jTabbedPane1.addTab(bundle.getString("AboutDialog.pnlLicense.tab.title"), pnlLicense);
 
-
 			//======== pnlChangelog ========
 			{
 
@@ -213,7 +212,6 @@ public class AboutDialog extends javax.swing.JDialog {
 				);
 			}
 			jTabbedPane1.addTab(bundle.getString("AboutDialog.pnlChangelog.tab.title"), pnlChangelog);
-
 		}
 		contentPane.add(jTabbedPane1, BorderLayout.PAGE_END);
 		setSize(530, 570);

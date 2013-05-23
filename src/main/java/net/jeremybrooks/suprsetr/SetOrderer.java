@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -90,6 +91,9 @@ public class SetOrderer extends javax.swing.JDialog {
 		}
 
 		initComponents();
+
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
+
 		ReorderListener reorderListener = new ReorderListener(this.jList1);
 		this.jList1.addMouseListener(reorderListener);
 		this.jList1.addMouseMotionListener(reorderListener);

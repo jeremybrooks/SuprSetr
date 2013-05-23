@@ -238,6 +238,7 @@ public class MainWindow extends javax.swing.JFrame {
 		//======== this ========
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle(bundle.getString("MainWindow.this.title"));
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
@@ -634,16 +635,16 @@ public class MainWindow extends javax.swing.JFrame {
 			jList1.setCellRenderer(null);
 			jList1.addMouseListener(new MouseAdapter() {
 				@Override
+				public void mouseClicked(MouseEvent e) {
+					jList1MouseClicked(e);
+				}
+				@Override
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					jList1MouseReleased(e);
-				}
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					jList1MouseClicked(e);
 				}
 			});
 			this.jList1.setModel(this.listModel);

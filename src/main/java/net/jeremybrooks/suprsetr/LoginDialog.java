@@ -22,6 +22,7 @@ package net.jeremybrooks.suprsetr;
 import net.jeremybrooks.suprsetr.workers.FlickrAuthenticatorWorker;
 import org.apache.log4j.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -62,6 +63,7 @@ public class LoginDialog extends javax.swing.JDialog {
 	public LoginDialog(Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
+		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 	}
 
 
