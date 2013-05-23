@@ -352,7 +352,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuRefreshAll ----
 				mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/refreshall16.png")));
 				mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-				mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
+				mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
 				mnuRefreshAll.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -638,10 +638,12 @@ public class MainWindow extends javax.swing.JFrame {
 				public void mouseClicked(MouseEvent e) {
 					jList1MouseClicked(e);
 				}
+
 				@Override
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
+
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					jList1MouseReleased(e);
@@ -725,7 +727,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 			{ // compute preferred size
 				Dimension preferredSize = new Dimension();
-				for(int i = 0; i < mnuPopup.getComponentCount(); i++) {
+				for (int i = 0; i < mnuPopup.getComponentCount(); i++) {
 					Rectangle bounds = mnuPopup.getComponent(i).getBounds();
 					preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
 					preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -760,12 +762,15 @@ public class MainWindow extends javax.swing.JFrame {
 	private void mnuDeleteSetActionPerformed() {
 		this.doDeleteSetAction();
 	}
+
 	private void mnuRefreshSetActionPerformed() {
 		this.doRefreshSetAction();
 	}
+
 	private void mnuBrowserActionPerformed() {
 		this.doOpenInBrowserAction();
 	}
+
 	private void mnuRefreshAllActionPerformed() {
 		SSPhotoset ssPhotoset;
 		List<SSPhotoset> list = new ArrayList<>();
@@ -851,6 +856,7 @@ public class MainWindow extends javax.swing.JFrame {
 			}
 		}
 	}
+
 	private void doRefreshSetAction() {
 		int index = jList1.getSelectedIndex();
 		int confirm = JOptionPane.YES_OPTION;
@@ -883,6 +889,7 @@ public class MainWindow extends javax.swing.JFrame {
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
+
 	private void doOpenInBrowserAction() {
 		int index = jList1.getSelectedIndex();
 		if (index != -1) {
@@ -892,7 +899,7 @@ public class MainWindow extends javax.swing.JFrame {
 			} catch (Exception e) {
 				logger.error("COULD NOT LAUNCH URL " + ssPhotoset.getUrl() + " IN BROWSER.", e);
 				JOptionPane.showMessageDialog(this,
-					resourceBundle.getString("MainWindow.dialog.browserError.message"),
+						resourceBundle.getString("MainWindow.dialog.browserError.message"),
 						resourceBundle.getString("MainWindow.dialog.browserError.title"),
 						JOptionPane.ERROR_MESSAGE);
 			}
@@ -903,25 +910,30 @@ public class MainWindow extends javax.swing.JFrame {
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
+
 	private void mnuPreferencesActionPerformed() {
 		new Preferences(this, true).setVisible(true);
 	}
+
 	private void mnuLogsActionPerformed() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(resourceBundle.getString("MainWindow.ziplogs.dialog.title.text"));
 		jfc.setDialogType(JFileChooser.OPEN_DIALOG);
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-		String filename = "suprsetr_logs-"
-				+ FlickrHelper.getInstance().getUsername() + "-"
-				+ new java.util.Date() + ".zip";
-		filename = filename.replaceAll(" ", "_");
-
 		if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			String filename = "suprsetr_logs-"
+					+ FlickrHelper.getInstance().getUsername() + "-"
+					+ new java.util.Date() + ".zip";
+			filename = filename.replaceAll(" ", "_");
+			File zipFile = new File(jfc.getSelectedFile(), filename);
+			ZipOutputStream out = null;
 			File[] source = Main.configDir.listFiles(new FilenameContainsFilter("suprsetr.log"));
 			logger.info("Adding " + source.length + " files to zip.");
 			byte[] buf = new byte[1024];
-			try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(jfc.getSelectedFile(), filename)))) {
+			try {
+				zipFile.createNewFile();
+				out = new ZipOutputStream(new FileOutputStream(zipFile));
 				for (File logFile : source) {
 					logger.info("Adding file " + logFile.getAbsolutePath() + " to archive.");
 					FileInputStream in = new FileInputStream(logFile);
@@ -948,24 +960,33 @@ public class MainWindow extends javax.swing.JFrame {
 						resourceBundle.getString("MainWindow.dialog.zipfile.error.message"),
 						resourceBundle.getString("MainWindow.dialog.zipfile.error.title"),
 						JOptionPane.INFORMATION_MESSAGE);
+			} finally {
+				IOUtil.close(out);
 			}
 		}
+
 	}
+
 	private void btnAddSetActionPerformed() {
 		this.mnuCreateSetActionPerformed();
 	}
+
 	private void btnEditSetActionPerformed() {
 		this.mnuEditSetActionPerformed();
 	}
+
 	private void btnDeleteSetActionPerformed() {
 		this.mnuDeleteSetActionPerformed();
 	}
+
 	private void btnRefreshSetActionPerformed() {
 		this.mnuRefreshSetActionPerformed();
 	}
+
 	private void mnuAboutActionPerformed() {
 		new AboutDialog(this, true).setVisible(true);
 	}
+
 	private void mnuFavrActionPerformed() {
 		int confirm = JOptionPane.showConfirmDialog(this,
 				resourceBundle.getString("MainWindow.dialog.runfavrtagr.message"),
@@ -979,18 +1000,23 @@ public class MainWindow extends javax.swing.JFrame {
 			new FavrTagrWorker(blocker).execute();
 		}
 	}
+
 	private void mnuPopupCreateActionPerformed() {
 		this.doCreateSetAction();
 	}
+
 	private void mnuPopupEditActionPerformed() {
 		this.doEditSetAction();
 	}
+
 	private void mnuPopupDeleteActionPerformed() {
 		this.doDeleteSetAction();
 	}
+
 	private void mnuPopupRefreshActionPerformed() {
 		this.doRefreshSetAction();
 	}
+
 	private void mnuPopupOpenActionPerformed() {
 		this.doOpenInBrowserAction();
 	}
@@ -1016,6 +1042,7 @@ public class MainWindow extends javax.swing.JFrame {
 	private void mnuSetOrderActionPerformed() {
 		new SetOrderer(this, true).setVisible(true);
 	}
+
 	private void mnuSSHelpActionPerformed() {
 		int option =
 				JOptionPane.showConfirmDialog(this,
@@ -1036,6 +1063,7 @@ public class MainWindow extends javax.swing.JFrame {
 			}
 		}
 	}
+
 	private void mnuHideUnmanagedActionPerformed() {
 		boolean hide = this.mnuHideUnmanaged.isSelected();
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED, DAOHelper.booleanToString(hide));
@@ -1045,9 +1073,11 @@ public class MainWindow extends javax.swing.JFrame {
 		setGlassPane(blocker);
 		new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
 	}
+
 	private void mnuTutorialActionPerformed() {
 		new Tutorial(this, true).setVisible(true);
 	}
+
 	private void mnuLogWindowActionPerformed() {
 		this.logWindow.setVisible(!this.logWindow.isVisible());
 	}
@@ -1059,6 +1089,7 @@ public class MainWindow extends javax.swing.JFrame {
 			this.mnuLogWindow.setText(resourceBundle.getString("MainWindow.mnuLogWindow.text"));
 		}
 	}
+
 	private void mnuBackupActionPerformed() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -1072,6 +1103,7 @@ public class MainWindow extends javax.swing.JFrame {
 			new DatabaseBackupWorker(blocker, jfc.getSelectedFile()).execute();
 		}
 	}
+
 	private void mnuRestoreActionPerformed() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(resourceBundle.getString("MainWindow.restore.dialog.title.text"));
@@ -1186,9 +1218,11 @@ public class MainWindow extends javax.swing.JFrame {
 	private void txtFilterFocusGained() {
 		this.txtFilter.setCaretPosition(this.txtFilter.getText().length());
 	}
+
 	private void mnuCheckUpdatesActionPerformed() {
 		new Thread(new VersionChecker(true, false)).start();
 	}
+
 	/*
 	 * Check for popup trigger.
 	 *
@@ -1309,7 +1343,7 @@ public class MainWindow extends javax.swing.JFrame {
 	 * entire list needs to be refreshed, as it can take time if the user has a
 	 * lot of sets.
 	 *
-	 * @param masterList the master list.
+	 * @param masterList        the master list.
 	 * @param visiblePhotosetId id of the photoset that should be visible.
 	 */
 	public void setMasterList(List<SSPhotoset> masterList, String visiblePhotosetId) {
@@ -1348,7 +1382,7 @@ public class MainWindow extends javax.swing.JFrame {
 	 * selection.
 	 *
 	 * @param masterList the master list.
-	 * @param photoset photoset to insert in list model.
+	 * @param photoset   photoset to insert in list model.
 	 */
 	public void insertPhotosetInListModel(List<SSPhotoset> masterList, SSPhotoset photoset) {
 		int index = masterList.indexOf(photoset);
@@ -1394,7 +1428,7 @@ public class MainWindow extends javax.swing.JFrame {
 				+ " :: " +
 				resourceBundle.getString("MainWindow.this.title.showing") + " " + this.listModel.size() +
 				" " + resourceBundle.getString("MainWindow.this.title.of") + " " +
-				+ this.masterList.size() + " " +
+				+this.masterList.size() + " " +
 				resourceBundle.getString("MainWindow.this.title.sets"));
 	}
 
@@ -1500,10 +1534,10 @@ public class MainWindow extends javax.swing.JFrame {
 	public void executeRefreshSetWorker(List<SSPhotoset> list, boolean exitWhenDone) {
 		BlockerPanel blocker = new BlockerPanel(this,
 				resourceBundle.getString("MainWindow.blocker.refreshing1") +
-				" " +
-				list.size() +
-				" " +
-				resourceBundle.getString("MainWindow.blocker.refreshing2"));
+						" " +
+						list.size() +
+						" " +
+						resourceBundle.getString("MainWindow.blocker.refreshing2"));
 		setGlassPane(blocker);
 		blocker.block("");
 		new RefreshPhotosetWorker(blocker, list, exitWhenDone).execute();
@@ -1546,10 +1580,12 @@ public class MainWindow extends javax.swing.JFrame {
 	class AddToListModel implements Runnable {
 		private SSPhotoset photoset;
 		private int index;
+
 		AddToListModel(int index, SSPhotoset photoset) {
 			this.index = index;
 			this.photoset = photoset;
 		}
+
 		@Override
 		public void run() {
 			if (getFilter() == null) {
@@ -1564,9 +1600,11 @@ public class MainWindow extends javax.swing.JFrame {
 
 	class UpdatePhotosetInListModel implements Runnable {
 		private SSPhotoset photoset;
+
 		UpdatePhotosetInListModel(SSPhotoset photoset) {
 			this.photoset = photoset;
 		}
+
 		@Override
 		public void run() {
 			int index = listModel.indexOf(photoset);
@@ -1593,7 +1631,7 @@ public class MainWindow extends javax.swing.JFrame {
 					autoRefreshTimer.cancel();
 				}
 				autoRefreshTimer = new java.util.Timer("AutoRefreshTimer", true);
-				autoRefreshTimer.schedule(new AutoRefreshTimerTask(),1000, 30000);
+				autoRefreshTimer.schedule(new AutoRefreshTimerTask(), 1000, 30000);
 				logger.info("Auto-refresh timer scheduled.");
 
 			} else {
@@ -1610,6 +1648,7 @@ public class MainWindow extends javax.swing.JFrame {
 	class AutoRefreshTimerTask extends TimerTask {
 		private String time = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME);
 		private SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+
 		@Override
 		public void run() {
 			String currentTime = format.format(new Date());
