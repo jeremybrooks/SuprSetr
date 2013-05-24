@@ -29,11 +29,13 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import javax.swing.JOptionPane;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 /**
  * Application entry point.
@@ -70,6 +72,8 @@ public class Main {
 	 */
 	private static Properties privateProperties;
 
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.misc");
+
 
 	/**
 	 * Main.
@@ -78,6 +82,15 @@ public class Main {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
+
+		// test for Desktop API support
+		if (! Desktop.isDesktopSupported()) {
+			JOptionPane.showMessageDialog(null,
+					resourceBundle.getString("Main.dialog.nodesktop.message"),
+					resourceBundle.getString("Main.dialog.nodesktop.title"),
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(2);
+		}
 
 		// If running on a Mac, set up the event handler
 		if (System.getProperty("os.name").contains("Mac")) {
@@ -91,10 +104,6 @@ public class Main {
 		// SET VERSION
 		try {
 			Main.VERSION = Main.class.getPackage().getImplementationVersion();
-//			Properties appProps = new Properties();
-//			appProps.load(Main.class.getClassLoader().getResourceAsStream("net/jeremybrooks/suprsetr/VERSION"));
-//			Main.VERSION = appProps.getProperty("app.version");
-
 			privateProperties = new Properties();
 			privateProperties.load(Main.class.getClassLoader().getResourceAsStream("net/jeremybrooks/suprsetr/private.properties"));
 		} catch (Exception e) {
@@ -106,8 +115,8 @@ public class Main {
 		if (!Main.configDir.exists()) {
 			if(!Main.configDir.mkdirs()) {
 				JOptionPane.showMessageDialog(null,
-						"Could not create configuration directory.",
-						"mkdir Failed",
+						resourceBundle.getString("Main.dialog.error.noconfig.message"),
+						resourceBundle.getString("Main.dialog.error.noconfig.title"),
 						JOptionPane.ERROR_MESSAGE);
 				System.exit(1);
 			}
@@ -153,10 +162,8 @@ public class Main {
 			} catch (Exception e) {
 				logger.error("Database connection failed.", e);
 				JOptionPane.showMessageDialog(null,
-						"Could not connect to the embedded database.\n" +
-								"Is another instance of SuprSetr running?\n" +
-								"This program will now exit.",
-						"Database Error",
+						resourceBundle.getString("Main.dialog.error.dbconn.message"),
+						resourceBundle.getString("Main.dialog.error.dbconn.title"),
 						JOptionPane.ERROR_MESSAGE);
 				System.exit(1);
 			}
@@ -167,9 +174,8 @@ public class Main {
 			} catch (Exception e) {
 				logger.error("Could not create/upgrade database.", e);
 				JOptionPane.showMessageDialog(null,
-						"There was an error setting up the database.\n" +
-								"This program will now exit.",
-						"Database Error",
+						resourceBundle.getString("Main.dialog.error.db.message"),
+						resourceBundle.getString("Main.dialog.error.db.title"),
 						JOptionPane.ERROR_MESSAGE);
 
 				System.exit(1);
@@ -186,12 +192,8 @@ public class Main {
 				logger.error("COULD NOT UPGRADE SCHEMA.", e);
 
 				JOptionPane.showMessageDialog(null,
-						"There was an error while attempting to upgrade\n" +
-								"the database schema. SuprSetr cannot run without\n" +
-								"an up-to-date database schema.\n" +
-								"Please contact developers for support at\n" +
-								"http://www.jeremybrooks.net/suprsetr",
-						"Database Schema Error",
+						resourceBundle.getString("Main.dialog.error.dbschema.message"),
+						resourceBundle.getString("Main.dialog.error.dbschema.title"),
 						JOptionPane.ERROR_MESSAGE);
 				System.exit(1);
 			}
@@ -272,13 +274,10 @@ public class Main {
 		} catch (Throwable t) {
 			System.out.println("A fatal error has occurred.");
 			t.printStackTrace();
-			logger.fatal("A fatal error has occurred.");
+			logger.fatal("A fatal error has occurred.", t);
 			JOptionPane.showMessageDialog(null,
-					"An unrecoverable error has occurred.\n" +
-							t.getMessage() + "\n" +
-							"Please send the logs to suprsetr@jeremybrooks.net\n\n" +
-							"This program will now exit.",
-					"Unrecoverable Error",
+					resourceBundle.getString("Main.dialog.error.message"),
+					resourceBundle.getString("Main.dialog.error.title"),
 					JOptionPane.ERROR_MESSAGE);
 			System.exit(2);
 		}
