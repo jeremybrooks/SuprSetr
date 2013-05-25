@@ -1,4 +1,6 @@
 log/*.log
+*.log
+*.iml
 tmp/*
 tmp/**/*
 *.swp
@@ -12,3 +14,4 @@ deploy
 web
 nbproject/private/profiler/*.hprof
 src/main/resources/net/jeremybrooks/suprsetr/private.properties
+
