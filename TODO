@@ -1,23 +1,4 @@
-When list shows only managed sets, and you uncheck "manage this set" and save the
-change without refreshing, the set should be removed from the list model.
 
-Update tutorial for new features
-
-
-center blocker panel using bounds(?) so that it takes into account the scroll bar
-
-
-
-Post 1.0
+Future maybe
  * Flickr Collection support (missing from the API. bummer.)
  * Support multiple accounts
-
-
-
-
-MIGHT BE FIXED: TEST THESE
-==========================
-BUG: If you select “Hide unmanaged sets” when you’ve got no managed sets the
-screen is blank, which is correct.However, if you then close down and reopen
-SuprSetr this error message is displayed:
-"Error trying to update the list" (Andrew Lighten)
