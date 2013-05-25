@@ -1,17 +1,25 @@
-Version ?
+Version 2.0.0
+ * Requires Java 1.7+
  * Automatically refresh sets at a specified time
  * Added a FavrTagr mode to add tags for only 10, 25, 50, and 100 faves (Hawk Mode!)
  * Fixed bug where FavrTagr preference was saved, but not displayed correctly
- * Target Java 1.7+
  * Download missing set icons when loading sets from Flickr
- * Localized all strings. Now just need some translators.
+ * Localized all strings - now just need some translators
  * Tweet box in the Set Editor now wraps words, and is limited to 140 characters
  * Set information shows count of videos in set, if there are any
  * Restricted searches (private, family, friends & family) is working
  * Added a toolbar button to open set in browser
+ * Issues with display of sets after changing managed/unmanaged state fixed
+ * Changes to layout of most windows
+ * Better error handling for many error cases
  * Added keyboard shortcuts for common functions, including Refresh All (as suggested by Flickr user "that guy named Rob")
  * Added random sort order option (as suggested by Flickr user "that guy named Rob")
  * Provide a pop up calendar to select dates (as suggested by Andrew Lighten)
+ * Fixed error message when there were no managed sets, and unmanaged sets were hidden (as reported by Andrew Lighten)
+ * If the OS supports it, display a custom icon in the title bar of each SuprSetr window
+ * Use install4j to build installers
+ * Optionally include an appropriate JRE for OS X and Windows installers
+ * Check for Desktop API support at startup
 
 Version 1.0.0
  * Added a missing tool tip (thanks M. Moore)
