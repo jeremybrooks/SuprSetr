@@ -418,6 +418,12 @@ public class DAOHelper {
 				break;
 
 			case 6:
+				logger.info("Attempting to upgrade schema to version 7.");
+				DAOHelper.upgradeToVersion7();
+				logger.info("Upgrade to schema version 7: success.");
+				break;
+
+			case 7:
 				// DB is already up to date; nothing to do
 				break;
 
@@ -595,6 +601,32 @@ public class DAOHelper {
 
 		} catch (Exception e) {
 			logger.error("COULD NOT UPGRADE SCHEMA TO VERSION 6!");
+			throw e;
+		} finally {
+			DAOHelper.close(conn, s);
+		}
+	}
+
+	/*
+	 * Schema version 7 supports machine tag searches.
+	 */
+	private static void upgradeToVersion7() throws Exception {
+		Connection conn = null;
+		Statement s = null;
+		try {
+			conn = DAOHelper.getConnection();
+			s = conn.createStatement();
+
+			s.execute("ALTER TABLE PHOTOSET ADD COLUMN MACHINE_TAGS VARCHAR(2000)");
+			logger.info("Added column MACHINE_TAGS to PHOTOSET table.");
+
+			s.execute("ALTER TABLE PHOTOSET ADD COLUMN MACHINE_TAG_MATCH_MODE VARCHAR(8)");
+			logger.info("Added column MACHINE_TAG_MATCH_MODE to PHOTOSET table.");
+
+			// no errors, so update the version
+			LookupDAO.setDatabaseVersion(7);
+		} catch (Exception e) {
+			logger.error("COULD NOT UPGRADE SCHEMA TO VERSION 7!", e);
 			throw e;
 		} finally {
 			DAOHelper.close(conn, s);

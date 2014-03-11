@@ -352,7 +352,7 @@ public class MainWindow extends javax.swing.JFrame {
 				//---- mnuRefreshAll ----
 				mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/refreshall16.png")));
 				mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-				mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
+				mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
 				mnuRefreshAll.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -638,12 +638,10 @@ public class MainWindow extends javax.swing.JFrame {
 				public void mouseClicked(MouseEvent e) {
 					jList1MouseClicked(e);
 				}
-
 				@Override
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
-
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					jList1MouseReleased(e);
@@ -727,7 +725,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 			{ // compute preferred size
 				Dimension preferredSize = new Dimension();
-				for (int i = 0; i < mnuPopup.getComponentCount(); i++) {
+				for(int i = 0; i < mnuPopup.getComponentCount(); i++) {
 					Rectangle bounds = mnuPopup.getComponent(i).getBounds();
 					preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
 					preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
