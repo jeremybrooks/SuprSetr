@@ -19,13 +19,14 @@
 
 package net.jeremybrooks.suprsetr.flickr;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.dto.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.SSPhotoset;
 import net.jeremybrooks.suprsetr.dto.SSSearch;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 
@@ -122,6 +123,14 @@ public class SearchHelper {
 	} else if (ssPhotoset.getTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ANY)) {
 	    sp.setTagMode(JinxConstants.TAG_MODE_ANY);
 	    sp.setTags(ssPhotoset.getTags());
+	}
+
+	if (ssPhotoset.getMachineTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ALL)) {
+		sp.setMachineTagMode(JinxConstants.TAG_MODE_ALL);
+		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
+	} else if (ssPhotoset.getMachineTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ANY)) {
+		sp.setMachineTagMode(JinxConstants.TAG_MODE_ANY);
+		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
 	}
 
 	if (ssPhotoset.isMatchTakenDates()) {
