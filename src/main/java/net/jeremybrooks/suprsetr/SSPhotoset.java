@@ -42,6 +42,8 @@ public class SSPhotoset extends Photoset {
 
 	private String tagMatchMode;
 	private List<String> tags;
+	private String machineTagMatchMode;
+	private List<String> machineTags;
 	private Date minUploadDate;
 	private Date maxUploadDate;
 	private Date minTakenDate;
@@ -341,8 +343,25 @@ public class SSPhotoset extends Photoset {
 		return sb.toString();
 	}
 
+	public String getMachineTagsAsString() {
+		StringBuilder sb = new StringBuilder();
+		if (this.machineTags == null || this.machineTags.isEmpty()) {
+			// do nothing
+		} else {
+			for (String s : this.getMachineTags()) {
+				sb.append(s).append(", ");
+			}
+
+			if (sb.length() >= 2) {
+				sb.delete(sb.length() - 2, sb.length());
+			}
+		}
+
+		return sb.toString();
+	}
+
 	public void setTags(String tags) {
-		this.tags = new ArrayList<String>();
+		this.tags = new ArrayList<>();
 		if (tags != null) {
 			StringTokenizer tok = new StringTokenizer(tags, ",");
 			while (tok.hasMoreTokens()) {
@@ -350,6 +369,15 @@ public class SSPhotoset extends Photoset {
 			}
 		}
 	}
+	public void setMachineTags(String tags) {
+			this.machineTags = new ArrayList<>();
+			if (tags != null) {
+				StringTokenizer tok = new StringTokenizer(tags, ",");
+				while (tok.hasMoreTokens()) {
+					this.machineTags.add(tok.nextToken().trim());
+				}
+			}
+		}
 
 
 	/**
@@ -371,6 +399,8 @@ public class SSPhotoset extends Photoset {
 		sb.append(" | URL:").append(getUrl());
 		sb.append(" | TAGS:").append(getTagsAsString());
 		sb.append(" | TAG MATCH MODE:").append(tagMatchMode);
+		sb.append(" | MACHINE TAGS:").append(getMachineTagsAsString());
+		sb.append(" | MACHINE TAG MATCH MODE:").append(getMachineTagMatchMode());
 		sb.append(" | PRIMARY PHOTO ID:").append(getPrimary());
 		sb.append(" | PRIMARY PHOTO ICON:").append(primaryPhotoIcon);
 		sb.append(" | MATCH TAKEN DATES:").append(matchTakenDates);
@@ -770,6 +800,18 @@ public class SSPhotoset extends Photoset {
 	 */
 	public void setOnThisDayYearEnd(int onThisDayYearEnd) {
 		this.onThisDayYearEnd = onThisDayYearEnd;
+	}
+
+	public String getMachineTagMatchMode() {
+		return machineTagMatchMode;
+	}
+
+	public void setMachineTagMatchMode(String machineTagMatchMode) {
+		this.machineTagMatchMode = machineTagMatchMode;
+	}
+
+	public List<String> getMachineTags() {
+		return machineTags;
 	}
 
 }
