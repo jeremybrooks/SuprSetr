@@ -25,29 +25,12 @@ want that feature.
 
 
 *** DEVELOPERS ***
-This is a NetBeans project. The files you need should be in the git repository.
-If you are going to make changes to the forms, please use the NetBeans form
+This was developed with IntelliJ and the JFormDesigner plugin - http://www.formdev.com
+If you are going to make changes to the forms, please use the JFormDesigner form
 builder tool to do it so that the source code it generates will not get messed
 up. Thanks!
 
-It is recommended that you install SuprSetr on your machine and copy the
-required libraries from the lib directory of the SuprSetr installation. This
-will ensure that you have the versions that SuprSetr has been tested with.
-
-If you want to download the libraries, you will need these:
-
-Jinx - http://jeremybrooks.net/jinx/
-Twitter4J - http://twitter4j.org/en/index.html
-bitlyj - http://code.google.com/p/bitlyj/
-commons-beanutils - http://commons.apache.org/beanutils/
-commson-collections - http://commons.apache.org/collections/
-commons-lang - http://commons.apache.org/lang/
-commons-logging - http://commons.apache.org/logging/
-log4j - http://logging.apache.org/log4j/1.2/
-derby - http://db.apache.org/derby/
-Whirljack-common - copy from SuprSetr installation
-AbsoluteLayout.jar - included with NetBeans
-swing-layout - included with NetBeans
-
+Dependencies are handled by Maven. Any reasonably up-to-date IDE should be able
+to import the project and manage the dependencies for you.
 
 
