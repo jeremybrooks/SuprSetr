@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.0.0.54" Java: "1.6.0_45" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.0.0.87" Java: "1.6.0_29" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -98,7 +98,6 @@ new FormModel {
 					}
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "jList1MousePressed", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseReleased", "jList1MouseReleased", true ) )
-					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "jList1MouseClicked", true ) )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"

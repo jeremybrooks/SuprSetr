@@ -18,6 +18,7 @@
  */
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.JFrame;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -635,10 +636,6 @@ public class MainWindow extends javax.swing.JFrame {
 			jList1.setCellRenderer(null);
 			jList1.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
-					jList1MouseClicked(e);
-				}
-				@Override
 				public void mousePressed(MouseEvent e) {
 					jList1MousePressed(e);
 				}
@@ -810,6 +807,8 @@ public class MainWindow extends javax.swing.JFrame {
 		SSPhotoset ssp = new SSPhotoset();
 		ssp.setTagMatchMode(SSConstants.TAG_MATCH_MODE_NONE);
 		ssp.setTags("");
+		ssp.setMachineTagMatchMode(SSConstants.TAG_MATCH_MODE_NONE);
+		ssp.setMachineTags("");
 		ssp.setTweetTemplate(SSConstants.DEFAULT_TWEET_TEMPLATE);
 
 		(new SetEditor(this, EditorMode.CREATE, ssp)).setVisible(true);
