@@ -179,6 +179,18 @@ public class TwitterHelper {
 		template = template.replace("%c", Integer.toString(count));
 		template = template.replace("%C", Integer.toString(total));
 
+		// calculate length. URL's are wrapped with t.co URL's which are 22 characters
+		int tweetLength = template.trim().length();
+		if (template.contains("%u")) {
+			tweetLength += 20;
+		}
+		// Add "via suprsetr" if user allows it and tweet is short enough
+		if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA))) {
+			if (tweetLength + SSConstants.VIA_TWEET.length() <= 140) {
+				template += SSConstants.VIA_TWEET;
+			}
+		}
+
 		// Now shorten the URL
 		if (url != null) {
 			try {
@@ -192,23 +204,39 @@ public class TwitterHelper {
 			}
 		}
 
-		// get rid of any whitespace at ends, since we now are going to do some
-		// operations that care about the length of the string
-		template = template.trim();
-
-		// Add "via suprsetr" if user allows it and tweet is short enough
-		if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA))) {
-			if (template.length() + SSConstants.VIA_TWEET.length() <= 140) {
-				template += SSConstants.VIA_TWEET;
-			}
-		}
-
-		if (template.length() > 140) {
+		if (tweetLength > 140) {
 			logger.info("Tweet is " + template.length() +
 					" characters, truncating to 140. (" + template + ")");
 			template = template.substring(0, 140);
 		}
 
 		return template;
+	}
+
+	public static int calculateTweetLength(String template, String title, int count, int total) {
+		if (template == null || template.isEmpty()) {
+			return 0;
+		}
+		if (title == null) {
+			title = "";
+		}
+
+		// First, replace the title and counts in the template
+		template = template.replace("%t", title);
+		template = template.replace("%c", Integer.toString(count));
+		template = template.replace("%C", Integer.toString(total));
+
+		// calculate length. URL's are wrapped with t.co URL's which are 22 characters
+		int tweetLength = template.trim().length();
+		if (template.contains("%u")) {
+			tweetLength += 20;
+		}
+		// Add "via suprsetr" if user allows it and tweet is short enough
+		if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA))) {
+			if (tweetLength + SSConstants.VIA_TWEET.length() <= 140) {
+				tweetLength += SSConstants.VIA_TWEET.length();
+			}
+		}
+		return tweetLength;
 	}
 }
