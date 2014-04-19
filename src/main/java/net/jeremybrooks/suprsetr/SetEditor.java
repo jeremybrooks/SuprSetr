@@ -72,6 +72,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DateFormatSymbols;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 
 /**
@@ -87,7 +88,9 @@ public class SetEditor extends javax.swing.JDialog {
 	 */
 	public static enum EditorMode {
 		CREATE, EDIT
-	};
+	}
+
+	;
 
 	/**
 	 * The combo box model for 29 days.
@@ -137,6 +140,20 @@ public class SetEditor extends javax.swing.JDialog {
 	private String originalPrimaryId;
 	private boolean originalLockSelected;
 
+
+	private void btnTagsHelpActionPerformed() {
+		String message = resourceBundle.getString("SetEditor.tagsHelp.message");
+		String title = resourceBundle.getString("SetEditor.tagsHelp.title");
+		JOptionPane.showMessageDialog(this,
+				message, title, JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private void btnMachineTagsHelpActionPerformed() {
+		String message = resourceBundle.getString("SetEditor.machineTagsHelp.message");
+		String title = resourceBundle.getString("SetEditor.machineTagsHelp.title");
+		JOptionPane.showMessageDialog(this,
+				message, title, JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	public SetEditor(JFrame parent, EditorMode editorMode, SSPhotoset ssPhotoset) {
 		super(parent, true);
@@ -205,6 +222,16 @@ public class SetEditor extends javax.swing.JDialog {
 			this.cmbTags.setSelectedIndex(1);
 		}
 		this.txtTags.setText(ssPhotoset.getTagsAsString());
+
+		tagMode = ssPhotoset.getMachineTagMatchMode();
+		if (tagMode != null) {
+			if (tagMode.equals(SSConstants.TAG_MATCH_MODE_ALL)) {
+				this.cmbMachineTags.setSelectedIndex(0);
+			} else {
+				this.cmbMachineTags.setSelectedIndex(1);
+			}
+		}
+		this.txtMachineTags.setText(ssPhotoset.getMachineTagsAsString());
 
 		this.cbxDateTaken.setSelected(ssPhotoset.isMatchTakenDates());
 		this.dateTakenAfter.setDate(ssPhotoset.getMinTakenDate());
@@ -285,6 +312,11 @@ public class SetEditor extends javax.swing.JDialog {
 		pnlTags = new JPanel();
 		txtTags = new JTextField();
 		cmbTags = new JComboBox<>();
+		btnTagsHelp = new JButton();
+		pnlMachineTags = new JPanel();
+		cmbMachineTags = new JComboBox<>();
+		txtMachineTags = new JTextField();
+		btnMachineTagsHelp = new JButton();
 		pnlDates = new JPanel();
 		panel1 = new JPanel();
 		cbxDateTaken = new JCheckBox();
@@ -446,16 +478,16 @@ public class SetEditor extends javax.swing.JDialog {
 				{
 					pnlTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTags.border")));
 					pnlTags.setLayout(new GridBagLayout());
-					((GridBagLayout)pnlTags.getLayout()).columnWidths = new int[] {0, 0, 0};
+					((GridBagLayout)pnlTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
 					((GridBagLayout)pnlTags.getLayout()).rowHeights = new int[] {0, 0};
-					((GridBagLayout)pnlTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 					((GridBagLayout)pnlTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
 					//---- txtTags ----
 					txtTags.setToolTipText(bundle.getString("SetEditor.txtTags.toolTipText"));
 					pnlTags.add(txtTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 0, 0), 0, 0));
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- cmbTags ----
 					cmbTags.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -466,8 +498,55 @@ public class SetEditor extends javax.swing.JDialog {
 					pnlTags.add(cmbTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 						new Insets(0, 0, 0, 5), 0, 0));
+
+					//---- btnTagsHelp ----
+					btnTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+					btnTagsHelp.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							btnTagsHelpActionPerformed();
+						}
+					});
+					pnlTags.add(btnTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
 				}
 				basicPanel.add(pnlTags);
+
+				//======== pnlMachineTags ========
+				{
+					pnlMachineTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlMachineTags.border")));
+					pnlMachineTags.setLayout(new GridBagLayout());
+					((GridBagLayout)pnlMachineTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+					((GridBagLayout)pnlMachineTags.getLayout()).rowHeights = new int[] {0, 0};
+					((GridBagLayout)pnlMachineTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlMachineTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+
+					//---- cmbMachineTags ----
+					cmbMachineTags.setModel(new DefaultComboBoxModel<>(new String[] {
+						"All",
+						"Any"
+					}));
+					pnlMachineTags.add(cmbMachineTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 5), 0, 0));
+					pnlMachineTags.add(txtMachineTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 5), 0, 0));
+
+					//---- btnMachineTagsHelp ----
+					btnMachineTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+					btnMachineTagsHelp.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							btnMachineTagsHelpActionPerformed();
+						}
+					});
+					pnlMachineTags.add(btnMachineTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
+				}
+				basicPanel.add(pnlMachineTags);
 
 				//======== pnlDates ========
 				{
@@ -686,9 +765,9 @@ public class SetEditor extends javax.swing.JDialog {
 					pnlOther.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlOther.border")));
 					pnlOther.setLayout(new GridBagLayout());
 					((GridBagLayout)pnlOther.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-					((GridBagLayout)pnlOther.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
+					((GridBagLayout)pnlOther.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
 					((GridBagLayout)pnlOther.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-					((GridBagLayout)pnlOther.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+					((GridBagLayout)pnlOther.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 					//---- jLabel1 ----
 					jLabel1.setText(bundle.getString("SetEditor.jLabel1.text"));
@@ -725,7 +804,7 @@ public class SetEditor extends javax.swing.JDialog {
 					}
 					pnlOther.add(jScrollPane3, new GridBagConstraints(1, 1, 1, 4, 1.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 5), 0, 0));
+						new Insets(0, 0, 0, 5), 0, 0));
 
 					//---- jLabel2 ----
 					jLabel2.setText(bundle.getString("SetEditor.jLabel2.text"));
@@ -749,7 +828,7 @@ public class SetEditor extends javax.swing.JDialog {
 					jLabel7.setText(bundle.getString("SetEditor.jLabel7.text"));
 					pnlOther.add(jLabel7, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 0), 0, 0));
+						new Insets(0, 0, 0, 0), 0, 0));
 
 					//---- radioTweetNone ----
 					radioTweetNone.setSelected(true);
@@ -771,7 +850,7 @@ public class SetEditor extends javax.swing.JDialog {
 					radioTweetUpdated.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							radioTweetCreatedOrUpdatedActionPerformed();
+							radioTweetCreatedOrUpdatedActionPerformed(e);
 						}
 					});
 					pnlOther.add(radioTweetUpdated, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
@@ -784,7 +863,7 @@ public class SetEditor extends javax.swing.JDialog {
 					radioTweetCreated.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							radioTweetCreatedOrUpdatedActionPerformed();
+							radioTweetCreatedOrUpdatedActionPerformed(e);
 						}
 					});
 					pnlOther.add(radioTweetCreated, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
@@ -980,7 +1059,7 @@ public class SetEditor extends javax.swing.JDialog {
 			buttonPanel.add(btnSaveAndRefresh);
 		}
 		contentPane.add(buttonPanel, BorderLayout.PAGE_END);
-		setSize(795, 819);
+		setSize(795, 800);
 		setLocationRelativeTo(null);
 
 		//---- btnGrpTweet ----
@@ -1000,10 +1079,10 @@ public class SetEditor extends javax.swing.JDialog {
 	}
 
 	private void yearFromPropertyChange() {
-		if (this.yearOTDStart.getYear() < this.yearOTDEnd.getYear()) {
+		if (this.yearOTDStart.getYear() > this.yearOTDEnd.getYear()) {
 			this.yearOTDStart.setYear(this.yearOTDEnd.getYear());
 		}
-		this.yearOTDStart.setMinimum(this.yearOTDEnd.getYear());
+		this.yearOTDEnd.setMinimum(this.yearOTDStart.getYear());
 	}
 
 
@@ -1131,9 +1210,13 @@ public class SetEditor extends javax.swing.JDialog {
 		}
 	}
 
-	private void radioTweetCreatedOrUpdatedActionPerformed() {
+	private void radioTweetCreatedOrUpdatedActionPerformed(ActionEvent e) {
 		this.txtTweet.setEnabled(true);
-		this.txtTweet.setText(SSConstants.DEFAULT_TWEET_TEMPLATE);
+		if (e.getSource() == this.radioTweetCreated) {
+			this.txtTweet.setText(SSConstants.DEFAULT_TWEET_CREATE_TEMPLATE);
+		} else {
+			this.txtTweet.setText(SSConstants.DEFAULT_TWEET_TEMPLATE);
+		}
 		if (!TwitterHelper.isAuthorized()) {
 			int confirm = JOptionPane.showConfirmDialog(this,
 					resourceBundle.getString("SetEditor.authTwitter.message"),
@@ -1189,10 +1272,10 @@ public class SetEditor extends javax.swing.JDialog {
 		// warn the user about sort mode selection
 		if (this.cbxOnThisDay.isSelected()) {
 			switch (this.cmbSortBy.getSelectedIndex()) {
-				case 2:		// Date Taken Descending
-				case 3:		// Date Taken Ascending
-				case 6:		// No Particular Order
-				case 9:		// Random
+				case 2:        // Date Taken Descending
+				case 3:        // Date Taken Ascending
+				case 6:        // No Particular Order
+				case 9:        // Random
 					// These sorting modes are handled correctly.
 					break;
 
@@ -1212,7 +1295,9 @@ public class SetEditor extends javax.swing.JDialog {
 		String title;
 		String description;
 		String tagMode;
+		String machineTagMode;
 		String tags;
+		String machineTags;
 		Date takenMin = null;
 		Date takenMax = null;
 		Date uploadedMin = null;
@@ -1249,6 +1334,29 @@ public class SetEditor extends javax.swing.JDialog {
 				tagMode = SSConstants.TAG_MATCH_MODE_ANY;
 			}
 		}
+		// IF ANY MACHINE TAGS ENTERED, SET THE MATCH MODE, OTHERWISE SET MATCH MODE TO NONE
+		machineTags = this.txtMachineTags.getText();
+		if (machineTags == null || machineTags.trim().isEmpty()) {
+			machineTagMode = SSConstants.TAG_MATCH_MODE_NONE;
+		} else {
+			int count = new StringTokenizer(machineTags, ",").countTokens();
+			if (cmbMachineTags.getSelectedIndex() == 0) {
+				// limited to 16 for "all"
+				if (count > 16) {
+					sb.append(resourceBundle.getString("SetEditor.validation.machineTags16"));
+					ok = false;
+				}
+				machineTagMode = SSConstants.TAG_MATCH_MODE_ALL;
+			} else {
+				// limited to 8 for "any"
+				if (count > 8) {
+				sb.append(resourceBundle.getString("SetEditor.validation.machineTags8"));
+				ok = false;
+			}
+				machineTagMode = SSConstants.TAG_MATCH_MODE_ANY;
+			}
+		}
+
 
 		// DATE TAKEN:
 		// IF THE DATE TAKEN CHECKBOX IS SELECTED, DATES MUST BE VALID
@@ -1329,6 +1437,19 @@ public class SetEditor extends javax.swing.JDialog {
 			}
 		}
 
+		// CHECK TWEET LENGTH
+		int tweetLength = TwitterHelper.calculateTweetLength(this.txtTweet.getText(), this.txtTitle.getText(), 1234, 1234);
+		if (tweetLength > 140) {
+			int result = JOptionPane.showConfirmDialog(this,
+					resourceBundle.getString("SetEditor.validation.tweetTooLong.message"),
+					resourceBundle.getString("SetEditor.validation.tweetTooLong.title"),
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE);
+			if (result == JOptionPane.NO_OPTION) {
+				sb.append(String.format(resourceBundle.getString("SetEditor.validation.tweetTooLong.error"), tweetLength));
+				ok = false;
+			}
+		}
 
 		if (ok) {
 			// do we have to change the title/description on Flickr?
@@ -1356,7 +1477,8 @@ public class SetEditor extends javax.swing.JDialog {
 			this.ssPhotoset.setDescription(description.trim());
 			this.ssPhotoset.setTagMatchMode(tagMode);
 			this.ssPhotoset.setTags(this.txtTags.getText());
-
+			this.ssPhotoset.setMachineTagMatchMode(machineTagMode);
+			this.ssPhotoset.setMachineTags(this.txtMachineTags.getText());
 			this.ssPhotoset.setMatchTakenDates(this.cbxDateTaken.isSelected());
 			this.ssPhotoset.setMinTakenDate(takenMin);
 			this.ssPhotoset.setMaxTakenDate(takenMax);
@@ -1396,7 +1518,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 		} else {
 			JOptionPane.showMessageDialog(this,
-					resourceBundle.getString("SetEditor.validation.error.message") + "\n" +  sb.toString(),
+					resourceBundle.getString("SetEditor.validation.error.message") + "\n" + sb.toString(),
 					resourceBundle.getString("SetEditor.validation.error.title"),
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -1512,6 +1634,11 @@ public class SetEditor extends javax.swing.JDialog {
 	private JPanel pnlTags;
 	private JTextField txtTags;
 	private JComboBox<String> cmbTags;
+	private JButton btnTagsHelp;
+	private JPanel pnlMachineTags;
+	private JComboBox<String> cmbMachineTags;
+	private JTextField txtMachineTags;
+	private JButton btnMachineTagsHelp;
 	private JPanel pnlDates;
 	private JPanel panel1;
 	private JCheckBox cbxDateTaken;
