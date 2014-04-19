@@ -54,13 +54,14 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE, "
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY,"
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT) "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT,"
+		+ " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE) "
 	    + "VALUES ("
 	    + "?, ?, ?, ?, ?, ?, ?,"
 	    + "?, ?, ?, ?, ?, ?, ?,"
 	    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 	    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
-	    + "?, ?, ?, ?, ?, ?)";
+	    + "?, ?, ?, ?, ?, ?, ?, ?)";
 
     /** SQL to get the photoset id's. */
     private static final String SQL_GET_PHOTOSET_IDS =
@@ -88,7 +89,8 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
+		+ " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY UPPER(TITLE)";
 
@@ -106,7 +108,8 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
+		+ " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY TITLE";
 
@@ -124,7 +127,8 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
+		+ " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY MANAGED DESC, UPPER(TITLE)";
 
@@ -142,7 +146,8 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
+		+ " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE "
 	    + "FROM PHOTOSET "
 	    + "ORDER BY MANAGED DESC, TITLE";
 
@@ -160,7 +165,8 @@ public class PhotosetDAO {
 	    + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
 	    + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
 	    + " LIMIT_SIZE, SIZE_LIMIT, "
-	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT "
+	    + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
+		+ " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE "
 	    + "FROM PHOTOSET "
 	    + "WHERE ID = ?";
 
@@ -205,8 +211,10 @@ public class PhotosetDAO {
 	    + " OTD_MONTH = ?, "
 	    + " OTD_DAY = ?, "
 	    + " OTD_YEAR_START = ?, "
-	    + " OTD_YEAR_END = ?," +
-				" VIDEO_COUNT = ? "
+	    + " OTD_YEAR_END = ?,"
+		+ " VIDEO_COUNT = ?, "
+		+ " MACHINE_TAGS = ?, "
+		+ " MACHINE_TAG_MATCH_MODE = ? "
 	    + "WHERE ID = ?";
 
     /** SQL to update the metadata for a photoset. */
@@ -332,6 +340,9 @@ public class PhotosetDAO {
 	    ps.setInt(40, p.getOnThisDayYearEnd());
 
 		ps.setInt(41, p.getVideos());
+
+		ps.setString(42, p.getMachineTagsAsString());
+		ps.setString(43, p.getMachineTagMatchMode());
 
 	    count = ps.executeUpdate();
 
@@ -618,8 +629,11 @@ public class PhotosetDAO {
 
 		ps.setInt(40, ssPhotoset.getVideos());
 
+		ps.setString(41, ssPhotoset.getMachineTagsAsString());
+		ps.setString(42, ssPhotoset.getMachineTagMatchMode());
+
 	    // where....
-	    ps.setString(41, ssPhotoset.getId());
+	    ps.setString(43, ssPhotoset.getId());
 
 	    logger.info("Updating record for photoset " + ssPhotoset.getId()
 		    + " [" + ssPhotoset.getTitle() + "]");
@@ -730,6 +744,8 @@ public class PhotosetDAO {
 	ssp.setPrimaryPhotoIcon(DAOHelper.bytesToIcon(rs.getBytes("PRIMARY_PHOTO_ICON")));
 	ssp.setTagMatchMode(rs.getString("TAG_MATCH_MODE"));
 	ssp.setTags(rs.getString("TAGS"));
+	ssp.setMachineTagMatchMode(rs.getString("MACHINE_TAG_MATCH_MODE"));
+	ssp.setMachineTags(rs.getString("MACHINE_TAGS"));
 	ssp.setMinUploadDate(rs.getTimestamp("MIN_UPLOAD_DATE"));
 	ssp.setMaxUploadDate(rs.getTimestamp("MAX_UPLOAD_DATE"));
 	ssp.setMinTakenDate(rs.getTimestamp("MIN_TAKEN_DATE"));
