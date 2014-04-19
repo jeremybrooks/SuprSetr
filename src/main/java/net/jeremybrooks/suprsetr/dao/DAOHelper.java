@@ -621,6 +621,7 @@ public class DAOHelper {
 			logger.info("Added column MACHINE_TAGS to PHOTOSET table.");
 
 			s.execute("ALTER TABLE PHOTOSET ADD COLUMN MACHINE_TAG_MATCH_MODE VARCHAR(8)");
+			s.execute("UPDATE PHOTOSET SET MACHINE_TAG_MATCH_MODE = '" + SSConstants.TAG_MATCH_MODE_NONE + "'");
 			logger.info("Added column MACHINE_TAG_MATCH_MODE to PHOTOSET table.");
 
 			// no errors, so update the version
