@@ -1,3 +1,9 @@
+Version 2.1.0
+ * Added support for Machine Tags
+ * Better calculation of tweet length
+ * Warning if estimated tweet length is > 140 characters
+ * Various bugfixes
+
 Version 2.0.0
  * Requires Java 1.7+
  * Automatically refresh sets at a specified time
