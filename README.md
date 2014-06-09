@@ -26,10 +26,13 @@ want that feature.
 
 # ROADMAP
  * 3.0.0
+
 	use Jinx libaray 0.6.0 so API endpoints will all be https
+
 	Full text searches
 
  * 3.1.0
+
  	Support multiple accounts
 
 
