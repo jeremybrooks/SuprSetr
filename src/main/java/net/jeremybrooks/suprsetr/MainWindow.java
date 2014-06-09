@@ -18,7 +18,6 @@
  */
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.JFrame;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -924,6 +923,7 @@ public class MainWindow extends javax.swing.JFrame {
 					+ new java.util.Date() + ".zip";
 			filename = filename.replaceAll(" ", "_");
 			File zipFile = new File(jfc.getSelectedFile(), filename);
+			logger.info("Creating archive " + zipFile.getAbsolutePath());
 			ZipOutputStream out = null;
 			File[] source = Main.configDir.listFiles(new FilenameContainsFilter("suprsetr.log"));
 			logger.info("Adding " + source.length + " files to zip.");

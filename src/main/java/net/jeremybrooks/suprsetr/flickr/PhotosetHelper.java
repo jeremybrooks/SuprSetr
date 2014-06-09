@@ -18,9 +18,6 @@
  */
 package net.jeremybrooks.suprsetr.flickr;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.ImageIcon;
 import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.JinxException;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
@@ -29,8 +26,11 @@ import net.jeremybrooks.jinx.dto.Photos;
 import net.jeremybrooks.jinx.dto.Photoset;
 import net.jeremybrooks.jinx.dto.PhotosetInfo;
 import net.jeremybrooks.suprsetr.SSPhotoset;
-
 import org.apache.log4j.Logger;
+
+import javax.swing.ImageIcon;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -330,7 +330,7 @@ public class PhotosetHelper {
     /**
      * Reorder photosets.
      *
-     * @param photosetIds
+     * @param photosetIdList
      * @throws Exception
      */
     public void orderSets(List<String> photosetIdList) throws Exception {
@@ -366,7 +366,7 @@ public class PhotosetHelper {
      *
      * @param photosetId the photoset to change.
      * @param photoId the ID of the primary photo.
-     * @param photoIds photos that the set should contain.
+     * @param photoList photos that the set should contain.
      * @throws Exception if there are any errors
      */
     public void editPhotos(String photosetId, String photoId, List<Photo> photoList) throws Exception {
