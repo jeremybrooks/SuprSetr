@@ -1,4 +1,6 @@
-SuprSetr - advanced set management for Flickr
+# SuprSetr
+## advanced set management for Flickr
+
 
 When you start SuprSetr, it will connect to Flickr and get a list of all your
 sets. Data about these sets will be stored in a local database, and updated
@@ -24,7 +26,8 @@ want that feature.
 
 
 
-*** DEVELOPERS ***
+# DEVELOPERS
+
 This was developed with IntelliJ and the JFormDesigner plugin - http://www.formdev.com
 If you are going to make changes to the forms, please use the JFormDesigner form
 builder tool to do it so that the source code it generates will not get messed
