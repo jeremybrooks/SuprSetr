@@ -20,10 +20,11 @@ package net.jeremybrooks.suprsetr;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
-import net.jeremybrooks.jinx.api.PhotosetsApi;
+import net.jeremybrooks.jinx.response.Response;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
@@ -1138,8 +1139,8 @@ public class SetEditor extends javax.swing.JDialog {
 		if (this.doValidation()) {
 			try {
 				PhotosetDAO.updatePhotoset(this.ssPhotoset);
-				SimpleCache.getInstance().invalidate(this.ssPhotoset.getId());
-				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), this.ssPhotoset.getId());
+				SimpleCache.getInstance().invalidate(this.ssPhotoset.getPhotosetId());
+				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), this.ssPhotoset.getPhotosetId());
 				this.setVisible(false);
 				this.dispose();
 			} catch (Exception e) {
@@ -1461,9 +1462,12 @@ public class SetEditor extends javax.swing.JDialog {
 							!d.equals(this.ssPhotoset.getDescription())) &&
 							this.editorMode == EditorMode.EDIT) {
 				try {
-					PhotosetsApi.getInstance().editMeta(this.ssPhotoset.getId(), t, d);
-					LogWindow.addLogMessage(resourceBundle.getString("SetEditor.validation.titleUpdated") +
-							this.ssPhotoset.getTitle() + "'.");
+//					PhotosetsApi.getInstance().editMeta(this.ssPhotoset.getId(), t, d);
+					Response response = JinxFactory.getInstance().getPhotosetsApi().editMeta(this.ssPhotoset.getPhotosetId(), t, d);
+					if (response.getCode() != 0) {
+						throw new Exception("Error setting metadata. Code " + response.getCode() + ":" + response.getMessage());
+					}
+					LogWindow.addLogMessage(resourceBundle.getString("SetEditor.validation.titleUpdated") + this.ssPhotoset.getTitle() + "'.");
 				} catch (Exception e) {
 					logger.error("Error setting metadata.", e);
 					JOptionPane.showMessageDialog(this,

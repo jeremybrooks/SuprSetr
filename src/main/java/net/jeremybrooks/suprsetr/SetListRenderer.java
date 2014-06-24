@@ -68,7 +68,7 @@ public class SetListRenderer implements ListCellRenderer {
 		} else {
 			def = (SSPhotoset) value;
 
-			cell = this.cache.getFromCache(def.getId());
+			cell = this.cache.getFromCache(def.getPhotosetId());
 			if (cell == null) {
 				cell = new SetListCell();
 				cell.setCacheValid(false);
@@ -120,7 +120,7 @@ public class SetListRenderer implements ListCellRenderer {
 				cell.setWarnIcon(def.isErrorFlag());
 
 				cell.setCacheValid(true);
-				this.cache.putInCache(def.getId(), cell);
+				this.cache.putInCache(def.getPhotosetId(), cell);
 			}
 		}
 		cell.setSelected(isSelected);

@@ -18,8 +18,8 @@
  */
 package net.jeremybrooks.suprsetr.utils;
 
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import org.apache.log4j.Logger;

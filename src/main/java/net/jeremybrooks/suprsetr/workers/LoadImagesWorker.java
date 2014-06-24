@@ -20,10 +20,10 @@
 package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.jinx.JinxConstants;
-import net.jeremybrooks.jinx.api.PhotosetsApi;
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.Photos;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photosets.PhotosetPhotos;
 import net.jeremybrooks.suprsetr.BlockerPanel;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import net.jeremybrooks.suprsetr.utils.ObjectCache;
 import org.apache.log4j.Logger;
@@ -109,25 +109,28 @@ public class LoadImagesWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected Void doInBackground() {
-		Photos p;
+		PhotosetPhotos p;
 		int count = 1;
 		int total;
 		this.thePhotos.clear();
 		try {
 			// Now get the first 25 photos and populate the model
-			p = PhotosetsApi.getInstance().getPhotos(photosetId, null, null, 25, page, JinxConstants.MEDIA_ALL, true);
-			total = p.getPhotos().size();
-
-			for (Photo photo : p.getPhotos()) {
-				if (this.cache.get(photo.getId()) == null) {
-					blocker.updateMessage(resourceBundle.getString("LoadImagesWorker.blocker.loading") +
-							" " + (count++) + "/" + total + " ("
-							+ photo.getTitle() + ")");
-					ImageIcon image = PhotoHelper.getInstance().getIconForPhoto(photo.getId());
-					this.cache.put(photo.getId(), image);
+//			p = PhotosetsApi.getInstance().getPhotos(photosetId, null, null, 25, page, JinxConstants.MEDIA_ALL, true);
+			p = JinxFactory.getInstance().getPhotosetsApi().getPhotos(photosetId, null, null, 25, page, JinxConstants.MediaType.all);
+			List<Photo> photoList = p.getPhotoList();
+			if (photoList != null) {
+				total = photoList.size();
+				for (Photo photo : photoList) {
+					if (this.cache.get(photo.getPhotoId()) == null) {
+						blocker.updateMessage(resourceBundle.getString("LoadImagesWorker.blocker.loading") +
+								" " + (count++) + "/" + total + " ("
+								+ photo.getTitle() + ")");
+						ImageIcon image = PhotoHelper.getInstance().getIconForPhoto(photo.getPhotoId());
+						this.cache.put(photo.getPhotoId(), image);
+					}
+					this.thePhotos.add(photo);
+					this.parent.repaint();
 				}
-				this.thePhotos.add(photo);
-				this.parent.repaint();
 			}
 		} catch (Exception e) {
 			logger.error("ERROR LOADING IMAGE(S).", e);

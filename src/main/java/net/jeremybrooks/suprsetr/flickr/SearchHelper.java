@@ -20,10 +20,9 @@
 package net.jeremybrooks.suprsetr.flickr;
 
 import net.jeremybrooks.jinx.JinxConstants;
-import net.jeremybrooks.jinx.dto.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.SSPhotoset;
-import net.jeremybrooks.suprsetr.dto.SSSearch;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -66,12 +65,12 @@ public class SearchHelper {
 
 
     /*
-	Interestingness Descending
-	Interestingness Ascending
-	Date Taken Descending
-	Date Taken Ascending
-	Date Posted Descending
-	Date Posted Ascending
+	0-Interestingness Descending
+	1-Interestingness Ascending
+	2-Date Taken Descending
+	3-Date Taken Ascending
+	4-Date Posted Descending
+	5-Date Posted Ascending
      */
 
     /**
@@ -83,54 +82,56 @@ public class SearchHelper {
      * @throws Exception if there are any errors.
      */
     public SearchParameters getSearchParameters(SSPhotoset ssPhotoset) throws Exception {
-	SSSearch sp = new SSSearch();
+	SearchParameters sp = new SearchParameters();
 
 	sp.setUserId(FlickrHelper.getInstance().getNSID());
 
 	switch (ssPhotoset.getSortOrder()) {
 	    case 0:
-		sp.setSort(JinxConstants.SORT_INTERESTINGNESS_DESC);
+		sp.setSort(JinxConstants.SortOrder.interestingness_desc);
 		break;
 
 	    case 1:
-		sp.setSort(JinxConstants.SORT_INTERESTINGNESS_ASC);
+		sp.setSort(JinxConstants.SortOrder.interestingness_asc);
 		break;
 
 	    case 2:
-		sp.setSort(JinxConstants.SORT_DATE_TAKEN_DESC);
+		sp.setSort(JinxConstants.SortOrder.date_taken_desc);
 		break;
 
 	    case 3:
-		sp.setSort(JinxConstants.SORT_DATE_TAKEN_ASC);
+		sp.setSort(JinxConstants.SortOrder.date_taken_asc);
 		break;
 
 	    case 4:
-		sp.setSort(JinxConstants.SORT_DATE_POSTED_DESC);
+		sp.setSort(JinxConstants.SortOrder.date_posted_desc);
 		break;
 
 	    case 5:
-		sp.setSort(JinxConstants.SORT_DATE_POSTED_ASC);
+		sp.setSort(JinxConstants.SortOrder.date_posted_asc);
 		break;
 
 	    default:
-		sp.setSort(JinxConstants.SORT_INTERESTINGNESS_DESC);
+		sp.setSort(JinxConstants.SortOrder.interestingness_desc);
 		break;
 	}
 	if (ssPhotoset.getTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ALL)) {
-	    sp.setTagMode(JinxConstants.TAG_MODE_ALL);
-	    sp.setTags(ssPhotoset.getTags());
+	    sp.setTagMode(JinxConstants.TagMode.all);
+				sp.setTags(ssPhotoset.getTags());
 
 	} else if (ssPhotoset.getTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ANY)) {
-	    sp.setTagMode(JinxConstants.TAG_MODE_ANY);
-	    sp.setTags(ssPhotoset.getTags());
+	    sp.setTagMode(JinxConstants.TagMode.any);
+				sp.setTags(ssPhotoset.getTags());
 	}
 
 	if (ssPhotoset.getMachineTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ALL)) {
-		sp.setMachineTagMode(JinxConstants.TAG_MODE_ALL);
-		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
+		sp.setMachineTagMode(JinxConstants.TagMode.all);
+		sp.setMachineTags(ssPhotoset.getMachineTags());
+//		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
 	} else if (ssPhotoset.getMachineTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ANY)) {
-		sp.setMachineTagMode(JinxConstants.TAG_MODE_ANY);
-		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
+		sp.setMachineTagMode(JinxConstants.TagMode.any);
+		sp.setMachineTags(ssPhotoset.getMachineTags());
+//		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
 	}
 
 	if (ssPhotoset.isMatchTakenDates()) {
@@ -151,23 +152,23 @@ public class SearchHelper {
 		// do not set parameter; all results will be returned
 		break;
 	    case 1:
-		sp.setPrivacyFilter(JinxConstants.PRIVACY_PUBLIC);
+		sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyPublic);
 		break;
 
 	    case 2:
-		sp.setPrivacyFilter(JinxConstants.PRIVACY_FRIENDS);
+		sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFriends);
 		break;
 
 	    case 3:
-		sp.setPrivacyFilter(JinxConstants.PRIVACY_FAMILY);
+		sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFamily);
 		break;
 
 	    case 4:
-		sp.setPrivacyFilter(JinxConstants.PRIVACY_FRIENDS_FAMILY);
+		sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFriendsAndFamily);
 		break;
 
 	    case 5:
-		sp.setPrivacyFilter(JinxConstants.PRIVACY_PRIVATE);
+		sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyPrivate);
 		break;
 
 	    default:
@@ -179,16 +180,20 @@ public class SearchHelper {
 	    // order is safe, moderate, restricted
 	    // default safe
 	    case 0:
-		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_SAFE);
+			sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
+//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_SAFE);
 		break;
 	    case 1:
-		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_MODERATE);
+			sp.setSafetyLevel(JinxConstants.SafetyLevel.moderate);
+//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_MODERATE);
 		break;
 	    case 2:
-		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_RESTRICTED);
+			sp.setSafetyLevel(JinxConstants.SafetyLevel.restricted);
+//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_RESTRICTED);
 		break;
 	    default:
-		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_SAFE);
+			sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
+//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_SAFE);
 		break;
 	}
 
@@ -197,28 +202,28 @@ public class SearchHelper {
 	    // screenshots/other, photos/other, all
 	    // default all
 	    case 0:
-		sp.setContentType(JinxConstants.CONTENT_PHOTOS);
+		sp.setContentType(JinxConstants.ContentType.photo);
 		break;
 	    case 1:
-		sp.setContentType(JinxConstants.CONTENT_SCREENSHOTS);
+		sp.setContentType(JinxConstants.ContentType.screenshot);
 		break;
 	    case 2:
-		sp.setContentType(JinxConstants.CONTENT_OTHER);
+		sp.setContentType(JinxConstants.ContentType.other);
 		break;
 	    case 3:
-		sp.setContentType(JinxConstants.CONTENT_PHOTOS_SCREENSHOTS);
+		sp.setContentType(JinxConstants.ContentType.photos_and_screenshots);
 		break;
 	    case 4:
-		sp.setContentType(JinxConstants.CONTENT_SCREENSHOTS_OTHER);
+		sp.setContentType(JinxConstants.ContentType.screenshots_and_other);
 		break;
 	    case 5:
-		sp.setContentType(JinxConstants.CONTENT_PHOTOS_OTHER);
+		sp.setContentType(JinxConstants.ContentType.photos_and_other);
 		break;
 	    case 6:
-		sp.setContentType(JinxConstants.CONTENT_ALL);
+		sp.setContentType(JinxConstants.ContentType.all);
 		break;
 	    default:
-		sp.setContentType(JinxConstants.CONTENT_ALL);
+		sp.setContentType(JinxConstants.ContentType.all);
 		break;
 	}
 
@@ -226,16 +231,16 @@ public class SearchHelper {
 	    // order is all, photos, video
 	    // default all
 	    case 0:
-		sp.setMedia(JinxConstants.MEDIA_ALL);
+			sp.setMediaType(JinxConstants.MediaType.all);
 		break;
 	    case 1:
-		sp.setMedia(JinxConstants.MEDIA_PHOTOS);
+			sp.setMediaType(JinxConstants.MediaType.photos);
 		break;
 	    case 2:
-		sp.setMedia(JinxConstants.MEDIA_VIDEOS);
+			sp.setMediaType(JinxConstants.MediaType.videos);
 		break;
 	    default:
-		sp.setMedia(JinxConstants.MEDIA_ALL);
+			sp.setMediaType(JinxConstants.MediaType.all);
 		break;
 	}
 
@@ -246,10 +251,10 @@ public class SearchHelper {
 		// ignore
 		break;
 	    case 1:
-		sp.setHasGeo(JinxConstants.HAS_GEOTAG);
+			sp.setHasGeo(true);
 		break;
 	    case 2:
-		sp.setHasGeo(JinxConstants.HAS_NO_GEOTAG);
+			sp.setHasGeo(false);
 		break;
 	    default:
 		// ignore
@@ -258,13 +263,13 @@ public class SearchHelper {
 
 	// only set these if needed
 	if (ssPhotoset.isInCommons()) {
-	    sp.setIsCommons(true);
+		sp.setCommons(true);
 	}
 	if (ssPhotoset.isInGallery()) {
 	    sp.setInGallery(true);
 	}
 	if(ssPhotoset.isInGetty()) {
-	    sp.setIsGetty(true);
+		sp.setGetty(true);
 	}
 
 

@@ -20,11 +20,13 @@ package net.jeremybrooks.suprsetr.flickr;
 
 import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.JinxException;
-import net.jeremybrooks.jinx.api.PhotosetsApi;
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.Photos;
-import net.jeremybrooks.jinx.dto.Photoset;
-import net.jeremybrooks.jinx.dto.PhotosetInfo;
+import net.jeremybrooks.jinx.response.Response;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.Photos;
+import net.jeremybrooks.jinx.response.photosets.Photoset;
+import net.jeremybrooks.jinx.response.photosets.PhotosetInfo;
+import net.jeremybrooks.jinx.response.photosets.PhotosetList;
+import net.jeremybrooks.jinx.response.photosets.PhotosetPhotos;
 import net.jeremybrooks.suprsetr.SSPhotoset;
 import org.apache.log4j.Logger;
 
@@ -81,6 +83,9 @@ public class PhotosetHelper {
      *         does not have any photosets.
      * @throws Exception if there are any errors.
      */
+	public PhotosetList getPhotosets(String nsid) throws Exception {
+		return JinxFactory.getInstance().getPhotosetsApi().getList(nsid, 0, 0, null);
+	}
 //    public List<Photoset> getPhotosetList(String nsid) throws Exception {
 //
 //	net.jeremybrooks.jinx.dto.Photosets ps = PhotosetsApi.getInstance().getList(nsid);
@@ -127,7 +132,7 @@ public class PhotosetHelper {
      * @return the new photoset.
      * @throws Exception if there are any errors.
      */
-    public Photoset createPhotoset(String title, String description, String primaryPhotoId) throws Exception {
+    public PhotosetInfo createPhotoset(String title, String description, String primaryPhotoId) throws Exception {
 	if (title == null || title.isEmpty()) {
 	    throw new Exception("TITLE CANNOT BE NULL OR EMPTY.");
 	}
@@ -139,8 +144,8 @@ public class PhotosetHelper {
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //
 //	return pi.create(title, description, primaryPhotoId);
-
-	return PhotosetsApi.getInstance().create(title, description, primaryPhotoId);
+	return JinxFactory.getInstance().getPhotosetsApi().create(title, description, primaryPhotoId);
+//	return PhotosetsApi.getInstance().create(title, description, primaryPhotoId);
     }
 
 
@@ -155,7 +160,11 @@ public class PhotosetHelper {
 //	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //	pi.addPhoto(photosetId, photoId);
-	PhotosetsApi.getInstance().addPhoto(photosetId, photoId);
+		Response response = JinxFactory.getInstance().getPhotosetsApi().addPhoto(photosetId, photoId);
+		if (response.getCode() != 0) {
+			throw new Exception("Unable to add photo. Code " + response.getCode() + ":" + response.getMessage());
+		}
+//	PhotosetsApi.getInstance().addPhoto(photosetId, photoId);
     }
 
 
@@ -170,8 +179,8 @@ public class PhotosetHelper {
 //	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //	return pi.getInfo(photosetId);
-
-	return PhotosetsApi.getInstance().getInfo(photosetId);
+		return JinxFactory.getInstance().getPhotosetsApi().getInfo(photosetId);
+//	return PhotosetsApi.getInstance().getInfo(photosetId);
     }
 
 
@@ -189,7 +198,11 @@ public class PhotosetHelper {
 //	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //	pi.delete(ssPhotoset.getId());
-	PhotosetsApi.getInstance().delete(ssPhotoset.getId());
+//	PhotosetsApi.getInstance().delete(ssPhotoset.getId());
+		Response response = JinxFactory.getInstance().getPhotosetsApi().delete(ssPhotoset.getPhotosetId());
+		if (response.getCode() != 0) {
+			throw new Exception("Error deleting photoset. Code " + response.getCode() + ":" + response.getMessage());
+		}
     }
 
 
@@ -213,41 +226,42 @@ public class PhotosetHelper {
 
 	try {
 //	    pi.addPhoto(ssPhotoset.getId(), photo.getId());
-	    PhotosetsApi.getInstance().addPhoto(ssPhotoset.getId(), photo.getId());
-	    logger.info("Photo " + photo.getTitle() + " added to set " + ssPhotoset.getTitle());
+//	    PhotosetsApi.getInstance().addPhoto(ssPhotoset.getId(), photo.getId());
+		Response response = JinxFactory.getInstance().getPhotosetsApi().addPhoto(ssPhotoset.getPhotosetId(), photo.getPhotoId());
+		if (response.getCode() == 0) {
+			logger.info("Photo " + photo.getTitle() + " added to set " + ssPhotoset.getTitle());
+		} else if (response.getCode() == 3) {
+			logger.info("Photo " + photo.getTitle() + " already in set, not added.");
+		}
 	} catch (JinxException fe) {
-	    if (fe.getErrorCode() == 3) {
-		logger.info("Photo " + photo.getTitle() + " already in set, not added.");
-	    } else {
 		logger.warn("Unexpected flickr error", fe);
-	    }
 	} catch (Exception e) {
 	    logger.error("Unexpected error.", e);
 	}
     }
 
 
-    /**
-     * Remove the specified photo from the photoset.
-     *
-     * @param ssPhotoset the photoset to remove the photo from.
-     * @param photo the photo to be removed
-     * @throws Exception if there are any errors, or if either parameter is null.
-     */
-    public void removePhoto(SSPhotoset ssPhotoset, Photo photo) throws Exception {
-	if (ssPhotoset == null) {
-	    throw new Exception("removePhoto: PARAMETER CANNOT BE NULL.");
-	}
-	if (photo == null) {
-	    throw new Exception("removePhoto: PHOTO CANNOT BE NULL.");
-	}
-
-//	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
-//	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
-//	pi.removePhoto(ssPhotoset.getId(), photo.getId());
-
-	logger.info("Photo " + photo.getTitle() + " removed from set " + ssPhotoset.getId());
-    }
+//    /**
+//     * Remove the specified photo from the photoset.
+//     *
+//     * @param ssPhotoset the photoset to remove the photo from.
+//     * @param photo the photo to be removed
+//     * @throws Exception if there are any errors, or if either parameter is null.
+//     */
+//    public void removePhoto(SSPhotoset ssPhotoset, Photo photo) throws Exception {
+//	if (ssPhotoset == null) {
+//	    throw new Exception("removePhoto: PARAMETER CANNOT BE NULL.");
+//	}
+//	if (photo == null) {
+//	    throw new Exception("removePhoto: PHOTO CANNOT BE NULL.");
+//	}
+//
+////	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
+////	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
+////	pi.removePhoto(ssPhotoset.getId(), photo.getId());
+//
+//	logger.info("Photo " + photo.getTitle() + " removed from set " + ssPhotoset.getPhotosetId());
+//    }
 
 
     /**
@@ -274,24 +288,30 @@ public class PhotosetHelper {
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 
 	try {
+		PhotosetPhotos pp;
 	    do {
-		pList = PhotosetsApi.getInstance().getPhotos(ssPhotoset.getId(), null, JinxConstants.PRIVACY_PRIVATE, 500, page, JinxConstants.MEDIA_PHOTOS, true);
+			pp = JinxFactory.getInstance().getPhotosetsApi().getPhotos(ssPhotoset.getPhotosetId(), null, JinxConstants.PrivacyFilter.privacyPrivate, 500, page, JinxConstants.MediaType.photos);
+//		pList = PhotosetsApi.getInstance().getPhotos(ssPhotoset.getId(), null, JinxConstants.PRIVACY_PRIVATE, 500, page, JinxConstants.MEDIA_PHOTOS, true);
 //		pList = pi.getPhotos(ssPhotoset.getId(), 500, page);
-		count += pList.getPhotos().size();
+			count += pp.getPhotoList().size();
+//		count += pList.getPhotos().size();
 		logger.info("Found " + count + " on " + page + " page(s)");
-		for (Photo p : pList.getPhotos()) {
-		    list.add(p.getId());
-		}
+//		for (Photo p : pList.getPhotos()) {
+//		    list.add(p.getId());
+//		}
+			for (Photo p : pp.getPhotoList()) {
+				list.add(p.getPhotoId());
+			}
 
 		page++;
-	    } while (pList.getPhotos().size() == 500);
+	    } while (pp.getPhotoList().size() == 500);
 
 	} catch (Exception e) {
 	    // ignore "set not found" errors when we already have found some
 	    // stuff in the set, since this seems to happen when the end of the
 	    // set is reached
 	    if (e instanceof JinxException) {
-		if (((JinxException) e).getErrorCode() == 1) {
+		if (((JinxException) e).getFlickrErrorCode() == 1) {
 		    if (list.isEmpty()) {
 			throw e;
 		    }
@@ -322,8 +342,13 @@ public class PhotosetHelper {
 //	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //	pi.removePhoto(ssPhotoset.getId(), photoId);
-	PhotosetsApi.getInstance().removePhoto(ssPhotoset.getId(), photoId);
-	logger.info("Photo " + photoId + " removed from set " + ssPhotoset.getId());
+//	PhotosetsApi.getInstance().removePhoto(ssPhotoset.getId(), photoId);
+		Response response = JinxFactory.getInstance().getPhotosetsApi().removePhoto(ssPhotoset.getPhotosetId(), photoId);
+		if (response.getCode() == 0) {
+			logger.info("Photo " + photoId + " removed from set " + ssPhotoset.getPhotosetId());
+		}  else {
+			throw new Exception("Error removing photo. Code " + response.getCode() + ":" + response.getMessage());
+		}
     }
 
 
@@ -339,7 +364,11 @@ public class PhotosetHelper {
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //	pi.orderSets(photosetIds);
 
-	PhotosetsApi.getInstance().orderSets(photosetIdList);
+//	PhotosetsApi.getInstance().orderSets(photosetIdList);
+		Response response = JinxFactory.getInstance().getPhotosetsApi().orderSets(photosetIdList);
+		if (response.getCode() != 0) {
+			throw new Exception ("There was an error while ordering sets. Code " + response.getCode() + ":" + response.getMessage());
+		}
     }
 
 
@@ -354,7 +383,12 @@ public class PhotosetHelper {
 //	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
 //	pi.editMeta(ssPhotoset.getId(), ssPhotoset.getTitle(), ssPhotoset.getDescription());
 
-	PhotosetsApi.getInstance().editMeta(ssPhotoset.getId(), ssPhotoset.getTitle(), ssPhotoset.getDescription());
+//	PhotosetsApi.getInstance().editMeta(ssPhotoset.getId(), ssPhotoset.getTitle(), ssPhotoset.getDescription());
+		Response response = JinxFactory.getInstance().getPhotosetsApi().editMeta(ssPhotoset.getPhotosetId(),
+				ssPhotoset.getTitle(), ssPhotoset.getDescription());
+		if (response.getCode() != 0) {
+					throw new Exception ("There was an error while editing set. Code " + response.getCode() + ":" + response.getMessage());
+				}
     }
 
 
@@ -379,10 +413,14 @@ public class PhotosetHelper {
 
 	List<String> idList = new ArrayList<String>();
 	for (Photo p : photoList) {
-	    idList.add(p.getId());
+	    idList.add(p.getPhotoId());
 	}
 
-	PhotosetsApi.getInstance().editPhotos(photosetId, photoId, idList);
+//	PhotosetsApi.getInstance().editPhotos(photosetId, photoId, idList);
+		Response response = JinxFactory.getInstance().getPhotosetsApi().editPhotos(photosetId, photoId, idList);
+		if (response.getCode() != 0) {
+			throw new Exception("Error editing photos. Code " + response.getCode() + ":" + response.getMessage());
+		}
     }
 
 }

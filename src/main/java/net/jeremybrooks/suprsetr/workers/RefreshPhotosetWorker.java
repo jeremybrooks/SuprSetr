@@ -19,9 +19,8 @@
 package net.jeremybrooks.suprsetr.workers;
 
 
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.Photos;
-import net.jeremybrooks.jinx.dto.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
@@ -37,6 +36,7 @@ import org.apache.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +103,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 		if (this.photosetList != null) {
 			for (SSPhotoset set : this.photosetList) {
 				try {
-					MainWindow.getMainWindow().scrollToPhotoset(set.getId());
+					MainWindow.getMainWindow().scrollToPhotoset(set.getPhotosetId());
 					this.updatePhotoset(set);
 					MainWindow.getMainWindow().updatePhotosetInList(set);
 				} catch (Exception e) {
@@ -126,7 +126,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 	private void updatePhotoset(SSPhotoset ssPhotoset) throws Exception {
 		int oldCount = ssPhotoset.getPhotos();
 		int matches;
-		Photos searchResults = null;
+		List<Photo> searchResults = null;
 		SearchParameters params;
 		String newPrimaryPhotoId = null;
 		String currentPrimaryId;
@@ -141,12 +141,12 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 		if (ssPhotoset.isManaged()) {
 			blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.searching"));
 			try {
-
 				// get the search results
 				logger.info(ssPhotoset.toString());
 
 				if (ssPhotoset.isOnThisDay()) {
-					Photos tempResults;
+					searchResults = new ArrayList<>();
+					List<Photo> tempResults;
 					int endYear = ssPhotoset.getOnThisDayYearEnd();
 					if (endYear == 0) {
 						endYear = SSUtils.getCurrentYear();
@@ -160,15 +160,16 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 									+ ssPhotoset.getOnThisDayDay() + "/"
 									+ year + "....");
 							tempResults = PhotoHelper.getInstance().getPhotos(params);
-							logger.info("Got " + tempResults.getTotal() + " results.");
-							if (searchResults == null) {
-								searchResults = tempResults;
-							} else {
-								searchResults.setTotal(searchResults.getTotal() + tempResults.getTotal());
-								List<Photo> list = searchResults.getPhotos();
-								list.addAll(tempResults.getPhotos());
-								searchResults.setPhotos(list);
-							}
+							logger.info("Got " + tempResults.size() + " results.");
+							searchResults.addAll(tempResults);
+//							if (searchResults == null) {
+//								searchResults = tempResults;
+//							} else {
+//								searchResults.setTotal(searchResults.getTotal() + tempResults.getTotal());
+//								List<Photo> list = searchResults.getPhotos();
+//								list.addAll(tempResults.getPhotos());
+//								searchResults.setPhotos(list);
+//							}
 						}
 					} else {
 						for (int year = ssPhotoset.getOnThisDayYearStart(); year <= endYear; year++) {
@@ -178,15 +179,16 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 									+ ssPhotoset.getOnThisDayDay() + "/"
 									+ year + "....");
 							tempResults = PhotoHelper.getInstance().getPhotos(params);
-							logger.info("Got " + tempResults.getTotal() + " results.");
-							if (searchResults == null) {
-								searchResults = tempResults;
-							} else {
-								searchResults.setTotal(searchResults.getTotal() + tempResults.getTotal());
-								List<Photo> list = searchResults.getPhotos();
-								list.addAll(tempResults.getPhotos());
-								searchResults.setPhotos(list);
-							}
+							logger.info("Got " + tempResults.size() + " results.");
+							searchResults.addAll(tempResults);
+//							if (searchResults == null) {
+//								searchResults = tempResults;
+//							} else {
+//								searchResults.setTotal(searchResults.getTotal() + tempResults.getTotal());
+//								List<Photo> list = searchResults.getPhotos();
+//								list.addAll(tempResults.getPhotos());
+//								searchResults.setPhotos(list);
+//							}
 						}
 					}
 				} else {
@@ -198,11 +200,12 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 					}
 				}
 
-				if (searchResults == null) {
-					matches = 0;
-				} else {
-					matches = searchResults.getPhotos().size();
-				}
+				matches = searchResults == null ? 0 : searchResults.size();
+//				if (searchResults == null) {
+//					matches = 0;
+//				} else {
+//					matches = searchResults.size();
+//				}
 
 				logger.info("Got " + matches + " search results.");
 
@@ -210,11 +213,11 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
 					// sort by title or random, if necessary
 					if (ssPhotoset.getSortOrder() == 7) {
-						SSUtils.sortPhotoListByTitleDescending(searchResults.getPhotos());
+						SSUtils.sortPhotoListByTitleDescending(searchResults);
 					} else if (ssPhotoset.getSortOrder() == 8) {
-						SSUtils.sortPhotoListByTitleAscending(searchResults.getPhotos());
+						SSUtils.sortPhotoListByTitleAscending(searchResults);
 					} else if (ssPhotoset.getSortOrder() == 9) {
-						Collections.shuffle(searchResults.getPhotos());
+						Collections.shuffle(searchResults);
 					}
 
 
@@ -224,8 +227,8 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
 						// if the current primary photo is in the search results,
 						// use it
-						for (Photo p : searchResults.getPhotos()) {
-							if (p.getId().equals(currentPrimaryId)) {
+						for (Photo p : searchResults) {
+							if (p.getPhotoId().equals(currentPrimaryId)) {
 								newPrimaryPhotoId = currentPrimaryId;
 								logger.info("Search results contain the current primary photo, so not changing it.");
 								break;
@@ -237,9 +240,9 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 					// photo in the search results, and set the data structure
 					// to reflect the change
 					if (newPrimaryPhotoId == null) {
-						Photo p = searchResults.getPhotos().get(0);
+						Photo p = searchResults.get(0);
 						logger.info("Using photo " + p.getTitle() + " as new primary photo.");
-						newPrimaryPhotoId = p.getId();
+						newPrimaryPhotoId = p.getPhotoId();
 						ssPhotoset.setPrimary(newPrimaryPhotoId);
 						ssPhotoset.setPrimaryPhotoIcon(PhotoHelper.getInstance().getIconForPhoto(newPrimaryPhotoId));
 					}
@@ -247,14 +250,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
 					blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.applying"));
 					// ADD PHOTOS TO THE SET
-					PhotosetHelper.getInstance().editPhotos(ssPhotoset.getId(), newPrimaryPhotoId, searchResults.getPhotos());
+					PhotosetHelper.getInstance().editPhotos(ssPhotoset.getPhotosetId(), newPrimaryPhotoId, searchResults);
 
 					time = System.currentTimeMillis() - time;
 
 					StringBuilder sb = new StringBuilder(resourceBundle.getString("RefreshPhotosetWorker.log.refresh1"));
 					sb.append(" '").append(ssPhotoset.getTitle());
 					sb.append("'. ").append(resourceBundle.getString("RefreshPhotosetWorker.log.refresh2")).append(" ").append(oldCount);
-					sb.append(" ").append(resourceBundle.getString("RefreshPhotosetWorker.log.refresh3")).append(" ").append(searchResults.getTotal());
+					sb.append(" ").append(resourceBundle.getString("RefreshPhotosetWorker.log.refresh3")).append(" ").append(searchResults.size());
 					sb.append(" ").append(resourceBundle.getString("RefreshPhotosetWorker.log.refresh4")).append(" ");
 					sb.append(time).append("ms");
 
@@ -287,14 +290,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
 				// UPDATE OUR DATA STRUCTURE TO REFLECT THE NEW PHOTOSET ON FLICKR
 				ssPhotoset.setLastRefreshDate(new Date());
-				ssPhotoset.setPhotos(searchResults.getPhotos().size());
+				ssPhotoset.setPhotos(searchResults.size());
 
 				ssPhotoset.setSyncTimestamp(System.currentTimeMillis());
 			} //- end if is managed
 
 			// mark the list cell as invalid, so anything that has changed
 			// will get updated when the list is repainted
-			SimpleCache.getInstance().invalidate(ssPhotoset.getId());
+			SimpleCache.getInstance().invalidate(ssPhotoset.getPhotosetId());
 
 			PhotosetDAO.updatePhotoset(ssPhotoset);
 
@@ -331,7 +334,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 	protected void done() {
 		try {
 			String id;
-			id = this.photosetList.get(0).getId();
+			id = this.photosetList.get(0).getPhotosetId();
 			MainWindow.getMainWindow().doFilter(id);
 		} catch (Exception e) {
 			logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);

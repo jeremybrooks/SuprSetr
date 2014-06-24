@@ -19,11 +19,9 @@
 
 package net.jeremybrooks.suprsetr.workers;
 
-//import com.aetrion.flickr.photosets.Photoset;
 
-import net.jeremybrooks.jinx.api.PhotosetsApi;
-import net.jeremybrooks.jinx.dto.Photoset;
-import net.jeremybrooks.jinx.dto.Photosets;
+import net.jeremybrooks.jinx.response.photosets.Photoset;
+import net.jeremybrooks.jinx.response.photosets.PhotosetList;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.SSPhotoset;
 import net.jeremybrooks.suprsetr.SetOrderer;
@@ -99,12 +97,13 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
 	protected List<SetOrdererDTO> doInBackground() {
 		blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.getting"));
 		String nsid = FlickrHelper.getInstance().getNSID();
-		Photosets photosets;
+		PhotosetList photosetList;
 		List<SetOrdererDTO> dtoList = new ArrayList<>();
 
 		try {
-			photosets = PhotosetsApi.getInstance().getList(nsid, true);
-			for (Photoset p : photosets.getPhotosetList()) {
+			photosetList = PhotosetHelper.getInstance().getPhotosets(nsid);
+//			photosetList = PhotosetsApi.getInstance().getList(nsid, true);
+			for (Photoset p : photosetList.getPhotosetList()) {
 				blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.processing") + " \"" + p.getTitle() + "\"");
 
 				// populate a DTO
@@ -112,11 +111,11 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
 				sod.setDescription(p.getDescription());
 				sod.setPhotoCount(p.getPhotos());
 				sod.setVideoCount(p.getVideos());
-				sod.setId(p.getId());
+				sod.setId(p.getPhotosetId());
 				sod.setTitle(p.getTitle());
 
 				// get the icon from the database if possible
-				SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getId());
+				SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
 
 				if (ssp == null) {
 					// This means the set was created manually on Flickr after

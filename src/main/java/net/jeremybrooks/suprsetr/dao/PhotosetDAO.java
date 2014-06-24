@@ -265,10 +265,10 @@ public class PhotosetDAO {
 	try {
 	    conn = DAOHelper.getConnection();
 	    ps = conn.prepareStatement(SQL_INSERT_PHOTOSET);
-	    ps.setString(1, p.getId());
+	    ps.setString(1, p.getPhotosetId());
 	    ps.setString(2, p.getTitle());
 	    ps.setString(3, p.getDescription());
-	    ps.setString(4, p.getFarm());
+	    ps.setString(4, Integer.toString(p.getFarm()));
 	    ps.setString(5, p.getServer());
 	    ps.setInt(6, p.getPhotos());
 	    ps.setString(7, p.getPrimary());
@@ -525,7 +525,7 @@ public class PhotosetDAO {
 	    ps.setString(1, photoset.getTitle());
 	    ps.setString(2, photoset.getDescription());
 	    ps.setInt(3, photoset.getPhotos());
-	    ps.setString(4, photoset.getId());
+	    ps.setString(4, photoset.getPhotosetId());
 
 	    count = ps.executeUpdate();
 
@@ -564,7 +564,7 @@ public class PhotosetDAO {
 	    ps = conn.prepareStatement(SQL_UPDATE_PHOTOSET);
 	    ps.setString(1, ssPhotoset.getTitle());
 	    ps.setString(2, ssPhotoset.getDescription());
-	    ps.setString(3, ssPhotoset.getFarm());
+	    ps.setString(3, Integer.toString(ssPhotoset.getFarm()));
 	    ps.setString(4, ssPhotoset.getServer());
 	    ps.setInt(5, ssPhotoset.getPhotos());
 	    ps.setString(6, ssPhotoset.getPrimary());
@@ -633,9 +633,9 @@ public class PhotosetDAO {
 		ps.setString(42, ssPhotoset.getMachineTagMatchMode());
 
 	    // where....
-	    ps.setString(43, ssPhotoset.getId());
+	    ps.setString(43, ssPhotoset.getPhotosetId());
 
-	    logger.info("Updating record for photoset " + ssPhotoset.getId()
+	    logger.info("Updating record for photoset " + ssPhotoset.getPhotosetId()
 		    + " [" + ssPhotoset.getTitle() + "]");
 
 	    count = ps.executeUpdate();
@@ -672,7 +672,7 @@ public class PhotosetDAO {
 	    conn = DAOHelper.getConnection();
 	    ps = conn.prepareStatement(SQL_UPDATE_ICON_FOR_PHOTOSET);
 	    ps.setBytes(1, DAOHelper.iconToBytes(photoset.getPrimaryPhotoIcon()));
-	    ps.setString(2, photoset.getId());
+	    ps.setString(2, photoset.getPhotosetId());
 
 	    count = ps.executeUpdate();
 
@@ -707,14 +707,14 @@ public class PhotosetDAO {
 	try {
 	    conn = DAOHelper.getConnection();
 	    ps = conn.prepareStatement(SQL_DELETE_PHOTOSET);
-	    ps.setString(1, ssPhotoset.getId());
+	    ps.setString(1, ssPhotoset.getPhotosetId());
 
-	    logger.info("Deleting photoset " + ssPhotoset.getId() + "["
+	    logger.info("Deleting photoset " + ssPhotoset.getPhotosetId() + "["
 		    + ssPhotoset.getTitle() + "]");
 	    count = ps.executeUpdate();
 
 	} catch (Exception e) {
-	    logger.error("delete(" + ssPhotoset.getId() + "): ERROR WHILE DELETING RECORD.", e);
+	    logger.error("delete(" + ssPhotoset.getPhotosetId() + "): ERROR WHILE DELETING RECORD.", e);
 	    throw e;
 	} finally {
 	    DAOHelper.close(conn, ps);
@@ -732,10 +732,10 @@ public class PhotosetDAO {
 
 	ssp = new SSPhotoset();
 
-	ssp.setId(rs.getString("ID"));
+	ssp.setPhotosetId(rs.getString("ID"));
 	ssp.setTitle(rs.getString("TITLE"));
 	ssp.setDescription(rs.getString("DESCRIPTION"));
-	ssp.setFarm(rs.getString("FARM"));
+	ssp.setFarm(Integer.parseInt(rs.getString("FARM")));
 	ssp.setServer(rs.getString("SERVER"));
 	ssp.setPhotos(rs.getInt("PHOTO_COUNT"));
 	ssp.setPrimary(rs.getString("PRIMARY_PHOTO_ID"));

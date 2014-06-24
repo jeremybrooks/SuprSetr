@@ -19,7 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
-import net.jeremybrooks.jinx.dto.Photoset;
+import net.jeremybrooks.jinx.response.photosets.Photoset;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 
 import javax.swing.ImageIcon;
@@ -38,8 +38,25 @@ import java.util.StringTokenizer;
  *
  * @author jeremyb
  */
-public class SSPhotoset extends Photoset {
+public class SSPhotoset {
 
+	/*
+	 * These come from Flickr
+	 */
+	private String photosetId;
+	private String title;
+	private String description;
+	private String url;
+	private int photos;
+	private int videos;
+	private int farm;
+	private String server;
+	private String secret;
+	private String primary;
+
+	/*
+	 * These are related to SuprSetr
+	 */
 	private String tagMatchMode;
 	private List<String> tags;
 	private String machineTagMatchMode;
@@ -94,10 +111,10 @@ public class SSPhotoset extends Photoset {
 		if ((this.getDescription() == null) ? (p.getDescription() != null) : !this.getDescription().equals(p.getDescription())) {
 			return false;
 		}
-		if ((this.getFarm() == null) ? (p.getFarm() != null) : !this.getFarm().equals(p.getFarm())) {
-			return false;
-		}
-		if ((this.getId() == null) ? (p.getId() != null) : !this.getId().equals(p.getId())) {
+//		if ((this.getFarm() == null) ? (p.getFarm() != null) : !this.getFarm().equals(p.getFarm())) {
+//			return false;
+//		}
+		if ((this.getPhotosetId() == null) ? (p.getPhotosetId() != null) : !this.getPhotosetId().equals(p.getPhotosetId())) {
 			return false;
 		}
 		if (this.getPhotos() != p.getPhotos()) {
@@ -122,16 +139,28 @@ public class SSPhotoset extends Photoset {
 	}
 
 	public void setPhotosetData(Photoset p) {
-		super.setDescription(p.getDescription());
-		super.setFarm(p.getFarm());
-		super.setId(p.getId());
-		super.setPhotos(p.getPhotos());
-		super.setPrimary(p.getPrimary());
-		super.setSecret(p.getSecret());
-		super.setServer(p.getServer());
-		super.setTitle(p.getTitle());
-		super.setUrl(p.getUrl());
-
+		photosetId = p.getPhotosetId();
+		description = p.getDescription();
+		if (p.getFarm() == null) {
+			farm = 0;
+		} else {
+			farm = p.getFarm();
+		}
+		if (p.getPhotos() == null) {
+			photos = 0;
+		} else {
+			photos = p.getPhotos();
+		}
+		if (p.getVideos() == null) {
+			videos = 0;
+		} else {
+			videos = p.getVideos();
+		}
+		primary = p.getPrimary();
+		secret = p.getSecret();
+		server = p.getServer();
+		title = p.getTitle();
+		url = p.getUrl();
 	}
 
 	/**
@@ -389,7 +418,7 @@ public class SSPhotoset extends Photoset {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("SSPhotoset [");
 
-		sb.append("ID:").append(getId());
+		sb.append("PHOTOSET ID:").append(getPhotosetId());
 		sb.append(" | TITLE:").append(getTitle());
 		sb.append(" | DESCRIPTION:").append(getDescription());
 		sb.append(" | FARM:").append(getFarm());
@@ -532,7 +561,7 @@ public class SSPhotoset extends Photoset {
 			return false;
 		}
 		final SSPhotoset other = (SSPhotoset) obj;
-		if ((super.getId() == null) ? (other.getId() != null) : !super.getId().equals(other.getId())) {
+		if ((this.getPhotosetId() == null) ? (other.getPhotosetId() != null) : !this.getPhotosetId().equals(other.getPhotosetId())) {
 			return false;
 		}
 		return true;
@@ -542,7 +571,7 @@ public class SSPhotoset extends Photoset {
 	@Override
 	public int hashCode() {
 		int hash = 3;
-		hash = 79 * hash + (super.getId() != null ? super.getId().hashCode() : 0);
+		hash = 79 * hash + (this.getPhotosetId() != null ? this.getPhotosetId().hashCode() : 0);
 		return hash;
 	}
 
@@ -814,4 +843,84 @@ public class SSPhotoset extends Photoset {
 		return machineTags;
 	}
 
+	public String getPhotosetId() {
+		return photosetId;
+	}
+
+	public void setPhotosetId(String photosetId) {
+		this.photosetId = photosetId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public int getPhotos() {
+			return photos;
+		}
+
+		public void setPhotos(int photos) {
+			this.photos = photos;
+		}
+
+	public int getVideos() {
+			return videos;
+		}
+
+		public void setVideos(int videos) {
+			this.videos = videos;
+		}
+
+
+	public int getFarm() {
+		return farm;
+	}
+
+	public void setFarm(int farm) {
+		this.farm = farm;
+	}
+
+	public String getServer() {
+		return server;
+	}
+
+	public void setServer(String server) {
+		this.server = server;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
+
+	public String getPrimary() {
+		return primary;
+	}
+
+	public void setPrimary(String primary) {
+		this.primary = primary;
+	}
 }

@@ -21,15 +21,15 @@ package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.JinxException;
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.Photos;
-import net.jeremybrooks.jinx.dto.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import org.apache.log4j.Logger;
 
@@ -38,6 +38,7 @@ import javax.swing.SwingWorker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -113,7 +114,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected Void doInBackground() {
-		Photos photos;
+		List<Photo> photoList;
 		List<String> newFaves;
 		int processed = 0;
 		int total;
@@ -128,13 +129,13 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 			//    Return tags as well
 			SearchParameters params = new SearchParameters();
 			params.setUserId(FlickrHelper.getInstance().getNSID());
-			params.setMedia(JinxConstants.MEDIA_ALL);
+			params.setMediaType(JinxConstants.MediaType.all);
 			params.setMinUploadDate(new Date(0));
 			params.setMaxUploadDate(new Date(System.currentTimeMillis() + 86400000));
-			params.setExtras(JinxConstants.EXTRAS_TAGS);
-			photos = PhotoHelper.getInstance().getPhotos(params);
+			params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.tags));
+			photoList = PhotoHelper.getInstance().getPhotos(params);
 
-			total = photos.getTotal();
+			total = photoList.size();
 
 			logger.info("Got " + total + " photos.");
 
@@ -143,7 +144,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 			blocker.setTitle(resourceBundle.getString("FavrTagrWorker.blocker.title.status") + " " + processed + "/" + total);
 
 			// iterate through all photos
-			for (Photo p : photos.getPhotos()) {
+			for (Photo p : photoList) {
 				int faves = PhotoHelper.getInstance().getFavoriteCount(p);
 				// tags look like this:
 				// street usa abstract bike bicycle boston lights bokeh commuter massachusets
@@ -158,14 +159,14 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 					if (existingTags.size() >= 75) {
 						this.hasErrors = true;
 						StringBuilder sb = new StringBuilder(resourceBundle.getString("FavrTagrWorker.message.toomanytags1"));
-						sb.append(" ").append(p.getId()).append(" <").append(p.getUrl()).append("> ");
+						sb.append(" ").append(p.getPhotoId()).append(" <").append(JinxFactory.getInstance().buildUrlForPhoto(p)).append("> ");
 						sb.append(resourceBundle.getString("FavrTagrWorker.message.toomanytags2"));
 						LogWindow.addLogMessage(sb.toString());
 					} else if (existingTags.size() + newFaves.size() > 75) {
 						// remove elements from the beginning of the list as needed
 						int del = (existingTags.size() + newFaves.size()) - 75;
 						newFaves.subList(0, del).clear();
-						LogWindow.addLogMessage(resourceBundle.getString("message.photo") + " " + p.getId() +
+						LogWindow.addLogMessage(resourceBundle.getString("message.photo") + " " + p.getPhotoId() +
 								" " + resourceBundle.getString("FavrTagrWorker.message.toomanytags3"));
 					}
 
@@ -174,13 +175,13 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 						try {
 							PhotoHelper.getInstance().addTags(p, newFaves.toArray(new String[newFaves.size()]));
 							LogWindow.addLogMessage(resourceBundle.getString("message.Photo") +
-									" " + p.getId() + "  " + resourceBundle.getString("FavrTagrWorker.message.taggedwith") + " " + newFaves);
+									" " + p.getPhotoId() + "  " + resourceBundle.getString("FavrTagrWorker.message.taggedwith") + " " + newFaves);
 							blocker.updateMessage(resourceBundle.getString("FavrTagrWorker.blocker.tagged") +
 									" '" + p.getTitle() +
 									resourceBundle.getString("FavrTagrWorker.blocker.lookingmore"));
 							this.count++;
 						} catch (JinxException je) {
-							if (je.getErrorCode() == 2) {
+							if (je.getFlickrErrorCode() == 2) {
 								// Too many tags, so display a message in the log window,
 								// and set a flag
 								// This should not happen unless Flickr changes
@@ -188,7 +189,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 								// of tags before attempting to add more.
 								this.hasErrors = true;
 								StringBuilder sb = new StringBuilder(resourceBundle.getString("FavrTagrWorker.message.toomanytags1"));
-								sb.append(" ").append(p.getId()).append(" <").append(p.getUrl()).append("> ");
+								sb.append(" ").append(p.getPhotoId()).append(" <").append(JinxFactory.getInstance().buildUrlForPhoto(p)).append("> ");
 								sb.append(resourceBundle.getString("FavrTagrWorker.message.toomanytags2"));
 								LogWindow.addLogMessage(sb.toString());
 							}

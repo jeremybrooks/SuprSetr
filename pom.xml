@@ -58,7 +58,7 @@
         <dependency>
             <groupId>net.jeremybrooks</groupId>
             <artifactId>jinx</artifactId>
-            <version>0.6.0</version>
+            <version>0.6.8</version>
         </dependency>
         <dependency>
             <groupId>com.rosaloves</groupId>

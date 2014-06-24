@@ -20,11 +20,10 @@
 package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.jinx.JinxConstants;
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.PhotoInfo;
-import net.jeremybrooks.jinx.dto.Photos;
-import net.jeremybrooks.jinx.dto.SearchParameters;
-import net.jeremybrooks.jinx.dto.Tag;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.PhotoInfo;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.Tag;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
@@ -35,6 +34,8 @@ import org.apache.log4j.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import java.util.Date;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -90,7 +91,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 	 */
 	@Override
 	protected Void doInBackground() {
-		Photos photos;
+		List<Photo> photos;
 		int processed = 0;
 		int total;
 
@@ -104,13 +105,14 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 			//    Return tags as well
 			SearchParameters params = new SearchParameters();
 			params.setUserId(FlickrHelper.getInstance().getNSID());
-			params.setMedia(JinxConstants.MEDIA_ALL);
+			params.setMediaType(JinxConstants.MediaType.all);
 			params.setMinUploadDate(new Date(0));
 			params.setMaxUploadDate(new Date(System.currentTimeMillis() + 86400000));
-			params.setExtras(JinxConstants.EXTRAS_TAGS);
+			params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.tags));
+//			params.setExtras(JinxConstants.EXTRAS_TAGS);
 			photos = PhotoHelper.getInstance().getPhotos(params);
 
-			total = photos.getTotal();
+			total = photos.size();
 
 			logger.info("Got " + total + " photos.");
 
@@ -119,22 +121,22 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 			blocker.setTitle(resourceBundle.getString("FavDeleteWorker.blocker.title.status") + " " + processed + "/" + total);
 
 			// iterate through all photos
-			for (Photo p : photos.getPhotos()) {
+			for (Photo p : photos) {
 				// if it looks like we might have some fav tags, get the photo info
 				if (p.getTags().contains("fav")) {
 					PhotoInfo pi = PhotoHelper.getInstance().getPhotoInfo(p);
 					// Look for "favxx" tags, and delete them.
-					for (Tag tag : pi.getTagList()) {
+					for (Tag tag : pi.getTags()) {
 						if (tag.getRaw().startsWith("fav")) {
 							try {
 								if (Integer.parseInt(tag.getRaw().substring(3)) > 0) {
-									logger.info("Removing tag " + tag.toString() + " from photo " + p.getId());
-									PhotoHelper.getInstance().removeTag(tag.getId());
+									logger.info("Removing tag " + tag.toString() + " from photo " + p.getPhotoId());
+									PhotoHelper.getInstance().removeTag(tag.getTagId());
 									this.count++;
 									LogWindow.addLogMessage(resourceBundle.getString("FavDeleteWorker.log.removed") +
-											" " + tag.getText() + " " +
+											" " + tag.getTag() + " " +
 											resourceBundle.getString("FavDeleteWorker.log.fromphoto") +
-											" " + p.getId());
+											" " + p.getPhotoId());
 								}
 							} catch (Exception e) {
 								// ignore

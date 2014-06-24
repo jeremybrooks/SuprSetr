@@ -19,9 +19,8 @@
 
 package net.jeremybrooks.suprsetr.workers;
 
-import net.jeremybrooks.jinx.api.PhotosetsApi;
-import net.jeremybrooks.jinx.dto.Photoset;
-import net.jeremybrooks.jinx.dto.Photosets;
+import net.jeremybrooks.jinx.response.photosets.Photoset;
+import net.jeremybrooks.jinx.response.photosets.PhotosetList;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.MainWindow;
 import net.jeremybrooks.suprsetr.SSConstants;
@@ -84,17 +83,18 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 	protected Void doInBackground() {
 		blocker.updateMessage(resourceBundle.getString("LoadFlickrSetsWorker.blocker.gettingphotosets"));
 		String nsid = FlickrHelper.getInstance().getNSID();
-		Photosets photosets;
+		PhotosetList photosetList;
 
 		long sync = System.currentTimeMillis();
 
 		try {
-			photosets = PhotosetsApi.getInstance().getList(nsid, true);
-			for (Photoset p : photosets.getPhotosetList()) {
+			photosetList = PhotosetHelper.getInstance().getPhotosets(nsid);
+//			photosets = PhotosetsApi.getInstance().getList(nsid, true);
+			for (Photoset p : photosetList.getPhotosetList()) {
 				blocker.updateMessage(resourceBundle.getString("LoadFlickrSetsWorker.blocker.processing") +
 						" \"" + p.getTitle() + "\"");
 
-				SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getId());
+				SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
 
 				if (ssp == null) {
 					// NEW SET, ADD TO DATABASE
@@ -102,7 +102,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					// set fields inherited from Photoset
 					ssp.setDescription(p.getDescription());
 					ssp.setFarm(p.getFarm());
-					ssp.setId(p.getId());
+					ssp.setPhotosetId(p.getPhotosetId());
 					ssp.setPhotos(p.getPhotos());
 					ssp.setVideos(p.getVideos());
 					ssp.setPrimary(p.getPrimary());
@@ -115,7 +115,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					sb.append("http://www.flickr.com/photos/");
 					sb.append(nsid);
 					sb.append("/sets/");
-					sb.append(p.getId());
+					sb.append(p.getPhotosetId());
 					sb.append("/");
 					ssp.setUrl(sb.toString());
 

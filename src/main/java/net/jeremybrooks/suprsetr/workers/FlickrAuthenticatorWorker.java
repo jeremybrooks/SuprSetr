@@ -91,14 +91,18 @@ public class FlickrAuthenticatorWorker extends SwingWorker<Void, Void> {
 
 			blocker.updateMessage(resourceBundle.getString("FlickrAuthWorker.blocker.waiting"));
 
-			JOptionPane.showMessageDialog(this.parent,
+			String verificationCode = JOptionPane.showInputDialog(this.parent,
 					resourceBundle.getString("FlickrAuthWorker.dialog.open.message"),
 					resourceBundle.getString("FlickrAuthWorker.dialog.open.title"),
 					JOptionPane.INFORMATION_MESSAGE);
+//			JOptionPane.showMessageDialog(this.parent,
+//					resourceBundle.getString("FlickrAuthWorker.dialog.open.message"),
+//					resourceBundle.getString("FlickrAuthWorker.dialog.open.title"),
+//					JOptionPane.INFORMATION_MESSAGE);
 
 			blocker.updateMessage(resourceBundle.getString("FlickrAuthWorker.blocker.completing"));
 
-			FlickrHelper.getInstance().completeAuthentication();
+			FlickrHelper.getInstance().completeAuthentication(verificationCode	);
 
 			logger.info("Authentication success.");
 

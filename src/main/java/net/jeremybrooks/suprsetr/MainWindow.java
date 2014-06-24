@@ -1235,7 +1235,6 @@ public class MainWindow extends javax.swing.JFrame {
 
 	public void doAuth() {
 		while (!FlickrHelper.getInstance().authorize()) {
-			// Display the modal login dialog
 			(new LoginDialog(this, true)).setVisible(true);
 		}
 		logger.info("Authentication OK");
@@ -1298,7 +1297,7 @@ public class MainWindow extends javax.swing.JFrame {
 	public void scrollToPhotoset(String id) {
 		for (int i = 0; i < this.listModel.size(); i++) {
 			SSPhotoset set = (SSPhotoset) this.listModel.elementAt(i);
-			if (id.equals(set.getId())) {
+			if (id.equals(set.getPhotosetId())) {
 				this.makeIndexVisibleAndSelected(i);
 				break;
 			}
@@ -1393,8 +1392,8 @@ public class MainWindow extends javax.swing.JFrame {
 					try {
 						SwingUtilities.invokeLater(new AddToListModel(index, photoset));
 					} catch (Exception e) {
-						LogWindow.addLogMessage(resourceBundle.getString("MainWindow.log.addtolistmodel.error") + " " + photoset.getId());
-						logger.warn("Error while executing AddToListModel for photoset " + photoset.getId());
+						LogWindow.addLogMessage(resourceBundle.getString("MainWindow.log.addtolistmodel.error") + " " + photoset.getPhotosetId());
+						logger.warn("Error while executing AddToListModel for photoset " + photoset.getPhotosetId());
 					}
 				}
 			}
@@ -1414,8 +1413,8 @@ public class MainWindow extends javax.swing.JFrame {
 		try {
 			SwingUtilities.invokeLater(new UpdatePhotosetInListModel(photoset));
 		} catch (Exception e) {
-			LogWindow.addLogMessage(resourceBundle.getString("MainWindow.log.updatephotoset.error") + " " + photoset.getId());
-			logger.warn("Error while executing UpdatePhotosetInListModel for photoset " + photoset.getId());
+			LogWindow.addLogMessage(resourceBundle.getString("MainWindow.log.updatephotoset.error") + " " + photoset.getPhotosetId());
+			logger.warn("Error while executing UpdatePhotosetInListModel for photoset " + photoset.getPhotosetId());
 		}
 	}
 
@@ -1587,9 +1586,9 @@ public class MainWindow extends javax.swing.JFrame {
 		public void run() {
 			if (getFilter() == null) {
 				listModel.add(index, photoset);
-				scrollToPhotoset(photoset.getId());
+				scrollToPhotoset(photoset.getPhotosetId());
 			} else {
-				doFilter(photoset.getId());
+				doFilter(photoset.getPhotosetId());
 			}
 		}
 	}

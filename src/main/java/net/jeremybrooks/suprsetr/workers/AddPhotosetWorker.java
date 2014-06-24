@@ -18,10 +18,10 @@
  */
 package net.jeremybrooks.suprsetr.workers;
 
-import net.jeremybrooks.jinx.dto.Photo;
-import net.jeremybrooks.jinx.dto.Photos;
-import net.jeremybrooks.jinx.dto.Photoset;
-import net.jeremybrooks.jinx.dto.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
+import net.jeremybrooks.jinx.response.photosets.Photoset;
+import net.jeremybrooks.jinx.response.photosets.PhotosetInfo;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
@@ -94,7 +94,8 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 		int matches = 0;
 		Photoset newSet = null;
 		Photo firstPhoto = null;
-		Photos photos = null;
+		List<Photo> photos = null;
+		int total = 0;
 
 		// TO CREATE A SET, WE NEED PHOTOS
 		// SO GET SEARCH RESULTS FOR THE PARAMETERS
@@ -106,7 +107,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 			//SearchParameters params = SearchHelper.getInstance().getSearchParameters(this.ssPhotoset);
 			//photos = PhotoHelper.getInstance().getPhotos(params);
 			if (ssPhotoset.isOnThisDay()) {
-				Photos tempResults;
+				List<Photo> tempResults;
 				int endYear = ssPhotoset.getOnThisDayYearEnd();
 				if (endYear == 0) {
 					endYear = SSUtils.getCurrentYear();
@@ -120,15 +121,17 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 								+ ssPhotoset.getOnThisDayDay() + "/"
 								+ year + "....");
 						tempResults = PhotoHelper.getInstance().getPhotos(params);
-						logger.info("Got " + tempResults.getTotal() + " results.");
+						logger.info("Got " + tempResults.size() + " results.");
 
 						if (photos == null) {
 							photos = tempResults;
 						} else {
-							photos.setTotal(photos.getTotal() + tempResults.getTotal());
-							List<Photo> list = photos.getPhotos();
-							list.addAll(tempResults.getPhotos());
-							photos.setPhotos(list);
+							total += tempResults.size();
+//							photos.setTotal(photos.getTotal() + tempResults.getTotal());
+//							List<Photo> list = photos.getPhotos();
+//							list.addAll(tempResults.getPhotos());
+//							photos.setPhotos(list);
+							photos.addAll(tempResults);
 						}
 					}
 				} else {
@@ -140,14 +143,16 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 								+ ssPhotoset.getOnThisDayDay() + "/"
 								+ year + "....");
 						tempResults = PhotoHelper.getInstance().getPhotos(params);
-						logger.info("Got " + tempResults.getTotal() + " results.");
+						logger.info("Got " + tempResults.size() + " results.");
 						if (photos == null) {
 							photos = tempResults;
 						} else {
-							photos.setTotal(photos.getTotal() + tempResults.getTotal());
-							List<Photo> list = photos.getPhotos();
-							list.addAll(tempResults.getPhotos());
-							photos.setPhotos(list);
+							total += tempResults.size();
+							photos.addAll(tempResults);
+//							photos.setTotal(photos.getTotal() + tempResults.getTotal());
+//							List<Photo> list = photos.getPhotos();
+//							list.addAll(tempResults.getPhotos());
+//							photos.setPhotos(list);
 						}
 					}
 				}
@@ -163,7 +168,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 			if (photos == null) {
 				matches = 0;
 			} else {
-				matches = photos.getPhotos().size();
+				matches = photos.size();
 			}
 
 			if (matches > 0) {
@@ -171,23 +176,24 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 
 				// sort by title or random, if necessary
 				if (ssPhotoset.getSortOrder() == 7) {
-					SSUtils.sortPhotoListByTitleDescending(photos.getPhotos());
+					SSUtils.sortPhotoListByTitleDescending(photos);
 				} else if (ssPhotoset.getSortOrder() == 8) {
-					SSUtils.sortPhotoListByTitleAscending(photos.getPhotos());
+					SSUtils.sortPhotoListByTitleAscending(photos);
 				} else if (ssPhotoset.getSortOrder() == 9) {
-					Collections.shuffle(photos.getPhotos());
+					Collections.shuffle(photos);
 				}
 
-				firstPhoto = photos.getPhotos().get(0);
+				firstPhoto = photos.get(0);
 
 
 				blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.creating"));
 				// CREATE THE SET
-				newSet = PhotosetHelper.getInstance().createPhotoset(this.ssPhotoset.getTitle(), this.ssPhotoset.getDescription(), firstPhoto.getId());
+				PhotosetInfo info = PhotosetHelper.getInstance().createPhotoset(this.ssPhotoset.getTitle(), this.ssPhotoset.getDescription(), firstPhoto.getPhotoId());
+				newSet = info.getPhotoset();
 
 				blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.applying"));
 				// ADD PHOTOS TO THE SET
-				PhotosetHelper.getInstance().editPhotos(newSet.getId(), firstPhoto.getId(), photos.getPhotos());
+				PhotosetHelper.getInstance().editPhotos(newSet.getPhotosetId(), firstPhoto.getPhotoId(), photos);
 
 				LogWindow.addLogMessage(resourceBundle.getString("AddPhotosetWorker.logmessage.added") +
 						" '" +
@@ -195,7 +201,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 						"' " +
 						resourceBundle.getString("AddPhotosetWorker.logmessage.with") +
 						" " +
-						photos.getPhotos().size() +
+						photos.size() +
 						" " +
 						resourceBundle.getString("AddPhotosetWorker.logmessage.photos"));
 			} else {
@@ -221,10 +227,10 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 			try {
 				blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.saving"));
 				this.ssPhotoset.setFarm(newSet.getFarm());
-				this.ssPhotoset.setId(newSet.getId());
+				this.ssPhotoset.setPhotosetId(newSet.getPhotosetId());
 				this.ssPhotoset.setLastRefreshDate(new Date());
-				this.ssPhotoset.setPhotos(photos.getPhotos().size());
-				this.ssPhotoset.setPrimaryPhotoIcon(PhotoHelper.getInstance().getIconForPhoto(firstPhoto.getId()));
+				this.ssPhotoset.setPhotos(photos.size());
+				this.ssPhotoset.setPrimaryPhotoIcon(PhotoHelper.getInstance().getIconForPhoto(firstPhoto.getPhotoId()));
 				this.ssPhotoset.setSecret(newSet.getSecret());
 				this.ssPhotoset.setServer(newSet.getServer());
 				this.ssPhotoset.setSyncTimestamp(System.currentTimeMillis());

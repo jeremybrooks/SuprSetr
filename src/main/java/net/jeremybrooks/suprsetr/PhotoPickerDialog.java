@@ -18,7 +18,7 @@
  */
 package net.jeremybrooks.suprsetr;
 
-import net.jeremybrooks.jinx.dto.Photo;
+import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.suprsetr.utils.ObjectCache;
 import net.jeremybrooks.suprsetr.workers.LoadImagesWorker;
 import org.apache.log4j.Logger;
@@ -301,7 +301,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 		int index = (5 * this.jTable1.getSelectedRow()) + this.jTable1.getSelectedColumn();
 
 		if (index < this.photos.size()) {
-			String id = this.photos.get(index).getId();
+			String id = this.photos.get(index).getPhotoId();
 			try {
 				if (this.parent instanceof SetEditor) {
 					((SetEditor) this.parent).setPrimaryPhotoImage(id, (ImageIcon) this.cache.get(id));
@@ -345,7 +345,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("PhotoPickerDialog.blocker.title"));
 		setGlassPane(blocker);
 		blocker.block(resourceBundle.getString("PhotoPickerDialog.blocker.loading") + photoset.getTitle() + "'");
-		new LoadImagesWorker(blocker, photoset.getId(), this.page, this.cache, this.photos, this).execute();
+		new LoadImagesWorker(blocker, photoset.getPhotosetId(), this.page, this.cache, this.photos, this).execute();
 	}
 
 
@@ -419,7 +419,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 				if (index < photos.size()) {
 					try {
 						Photo thePhoto = photos.get(index);
-						result = (ImageIcon) cache.get(thePhoto.getId());
+						result = (ImageIcon) cache.get(thePhoto.getPhotoId());
 						if (result == null) {
 							logger.warn("Photo should have been in cache, but was not. Something is wrong somewhere.");
 						}
