@@ -152,7 +152,15 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					ssp.setSecret(p.getSecret());
 					ssp.setServer(p.getServer());
 					ssp.setSyncTimestamp(sync);
-					ssp.setUrl(p.getUrl());
+
+                    // build the URL -- it is not correct in the getUrl() call
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("http://www.flickr.com/photos/");
+                    sb.append(nsid);
+                    sb.append("/sets/");
+                    sb.append(p.getPhotosetId());
+                    sb.append("/");
+                    ssp.setUrl(sb.toString());
 
 					// SAVE THE UPDATED SET TO THE DATABASE
 					PhotosetDAO.updatePhotoset(ssp);
