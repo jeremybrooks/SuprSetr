@@ -20,43 +20,20 @@
 package net.jeremybrooks.suprsetr;
 
 
-import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.NetUtil;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
-import javax.swing.SpinnerDateModel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -887,10 +864,9 @@ public class Preferences extends javax.swing.JDialog {
 	private void cbxDetailLogActionPerformed(java.awt.event.ActionEvent evt) {
 		LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_DETAIL_LOG, DAOHelper.booleanToString(this.cbxDetailLog.isSelected()));
 		if (this.cbxDetailLog.isSelected()) {
-			// Turn on detailed logging
-			JinxLogger.setLogger(new MyJinxLogger());
+            JinxFactory.getInstance().setLogger(new MyJinxLogger());
 		} else {
-			JinxLogger.setLogger(null);
+            JinxFactory.getInstance().setLogger(null);
 		}
 	}
 

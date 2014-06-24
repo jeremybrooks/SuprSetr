@@ -24,6 +24,8 @@ import net.jeremybrooks.jinx.OAuthAccessToken;
 import net.jeremybrooks.jinx.api.OAuthApi;
 import net.jeremybrooks.jinx.api.PhotosApi;
 import net.jeremybrooks.jinx.api.PhotosetsApi;
+import net.jeremybrooks.jinx.logger.JinxLogger;
+import net.jeremybrooks.jinx.logger.LogInterface;
 import net.jeremybrooks.jinx.response.photos.Photo;
 import org.apache.log4j.Logger;
 
@@ -58,6 +60,12 @@ public class JinxFactory {
 	public void setAccessToken(OAuthAccessToken token) {
 		jinx.setoAuthAccessToken(token);
 	}
+
+
+    public void setLogger(LogInterface jinxLogger) {
+        JinxLogger.setLogger(jinxLogger);
+        jinx.setVerboseLogging(jinxLogger != null);
+    }
 
 	public OAuthApi getoAuthApi() {
 		if (oAuthApi == null) {

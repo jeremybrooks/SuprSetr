@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr;
 
-import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.JinxFactory;
@@ -153,7 +152,6 @@ public class Main {
         // Set the default database directory
         System.setProperty("derby.system.home", configDir.getAbsolutePath());
 
-
         if (new File(configDir, "SuprSetrDB").exists()) {
             // DB exists, so make sure we can connect to it
             try {
@@ -234,7 +232,7 @@ public class Main {
 //		Jinx.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));
         // Turn on Jinx logging if needed
         if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG))) {
-            JinxLogger.setLogger(new MyJinxLogger());
+            JinxFactory.getInstance().setLogger(new MyJinxLogger());
         }
 
         // Set up proxy
