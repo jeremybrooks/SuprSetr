@@ -124,7 +124,7 @@ public class FlickrHelper {
 			OutputStream out = null;
 			try {
 				logger.info("Converting legacy auth token to oauth token.");
-				new FileInputStream(tokenFile);
+				in = new FileInputStream(tokenFile);
 				OAuthApi oauth = JinxFactory.getInstance().getoAuthApi();
 				oAuthAccessToken = oauth.getAccessToken(in);
 				JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
