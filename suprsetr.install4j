@@ -617,7 +617,6 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
   </mediaSets>
   <buildIds buildAll="false">
     <mediaSet refId="73" />
-    <mediaSet refId="83" />
   </buildIds>
   <buildOptions verbose="false" faster="false" disableSigning="false" debug="false" />
 </install4j>

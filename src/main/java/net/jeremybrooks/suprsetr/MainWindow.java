@@ -919,9 +919,10 @@ public class MainWindow extends javax.swing.JFrame {
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddTHHmmss");
 			String filename = "suprsetr_logs-"
 					+ FlickrHelper.getInstance().getUsername() + "-"
-					+ new java.util.Date() + ".zip";
+                    + sdf.format(new Date()) + ".zip";
 			filename = filename.replaceAll(" ", "_");
 			File zipFile = new File(jfc.getSelectedFile(), filename);
 			logger.info("Creating archive " + zipFile.getAbsolutePath());
