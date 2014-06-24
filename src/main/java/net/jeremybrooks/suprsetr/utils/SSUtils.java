@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package net.jeremybrooks.suprsetr.utils;
 
 import net.jeremybrooks.jinx.response.photos.Photo;
