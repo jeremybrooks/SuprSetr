@@ -616,6 +616,8 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
     </unixInstaller>
   </mediaSets>
   <buildIds buildAll="false">
+    <mediaSet refId="74" />
+    <mediaSet refId="24" />
     <mediaSet refId="73" />
   </buildIds>
   <buildOptions verbose="false" faster="false" disableSigning="false" debug="false" />

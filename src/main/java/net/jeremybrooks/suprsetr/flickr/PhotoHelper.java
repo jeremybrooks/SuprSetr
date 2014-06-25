@@ -147,7 +147,7 @@ public class PhotoHelper {
 //	    results = PhotosApi.getInstance().search(params);
 
 			// Remove photos that have tags matching the "-" matches
-			removeNegativeMatches(results, params);
+//			removeNegativeMatches(results, params);
 
 			// The first search results object becomes the object that is
 			// returned. The "photos" parameter of the returned object will be
@@ -182,8 +182,7 @@ public class PhotoHelper {
 		return photoList;
 	}
 
-	private void removeNegativeMatches(Photos results, SearchParameters params) {
-		//TODO
+//	private void removeNegativeMatches(Photos results, SearchParameters params) {
 //		List<Photo> removeMe = new ArrayList<Photo>();
 //
 //		if (params instanceof SSSearch) {
@@ -205,7 +204,7 @@ public class PhotoHelper {
 //			results.getPhotos().remove(p);
 //			logger.info("Removed '" + p.getTitle() + "' from search results.");
 //		}
-	}
+//	}
 
 
 	/**

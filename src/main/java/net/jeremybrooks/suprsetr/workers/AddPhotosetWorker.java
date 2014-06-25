@@ -96,7 +96,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 		Photoset newSet = null;
 		Photo firstPhoto = null;
 		List<Photo> photos = null;
-		int total = 0;
+//		int total = 0;
 
 		// TO CREATE A SET, WE NEED PHOTOS
 		// SO GET SEARCH RESULTS FOR THE PARAMETERS
@@ -127,7 +127,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 						if (photos == null) {
 							photos = tempResults;
 						} else {
-							total += tempResults.size();
+//							total += tempResults.size();
 //							photos.setTotal(photos.getTotal() + tempResults.getTotal());
 //							List<Photo> list = photos.getPhotos();
 //							list.addAll(tempResults.getPhotos());
@@ -148,7 +148,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 						if (photos == null) {
 							photos = tempResults;
 						} else {
-							total += tempResults.size();
+//							total += tempResults.size();
 							photos.addAll(tempResults);
 //							photos.setTotal(photos.getTotal() + tempResults.getTotal());
 //							List<Photo> list = photos.getPhotos();
@@ -226,9 +226,12 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 
 		if (matches > 0) {
 			try {
+                if (newSet == null) {
+                    throw new Exception("New set was null; cannot add.");
+                }
 				blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.saving"));
-				this.ssPhotoset.setFarm(newSet.getFarm());
-				this.ssPhotoset.setPhotosetId(newSet.getPhotosetId());
+                this.ssPhotoset.setFarm(newSet.getFarm() == null ? 0 : newSet.getFarm());
+                this.ssPhotoset.setPhotosetId(newSet.getPhotosetId());
 				this.ssPhotoset.setLastRefreshDate(new Date());
 				this.ssPhotoset.setPhotos(photos.size());
 				this.ssPhotoset.setPrimaryPhotoIcon(PhotoHelper.getInstance().getIconForPhoto(firstPhoto.getPhotoId()));
