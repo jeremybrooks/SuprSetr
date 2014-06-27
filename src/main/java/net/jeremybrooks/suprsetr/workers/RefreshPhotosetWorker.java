@@ -22,11 +22,13 @@ package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
+import net.jeremybrooks.jinx.response.photosets.PhotosetInfo;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
 import net.jeremybrooks.suprsetr.SSPhotoset;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import net.jeremybrooks.suprsetr.flickr.PhotosetHelper;
 import net.jeremybrooks.suprsetr.flickr.SearchHelper;
@@ -35,8 +37,7 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.log4j.Logger;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -289,10 +290,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 			if (ssPhotoset.isManaged() && (searchResults != null)) {	// null search results means something failed above, so don't bother with saving to db
 				blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.saving"));
 
+                // Lookup photoset info to get some data that needs to be saved
+                PhotosetInfo photosetInfo = JinxFactory.getInstance().getPhotosetsApi().getInfo(ssPhotoset.getPhotosetId());
+                Integer photoCount = photosetInfo.getPhotoset().getCountPhotos();
+                Integer videoCount = photosetInfo.getPhotoset().getCountVideos();
 				// UPDATE OUR DATA STRUCTURE TO REFLECT THE NEW PHOTOSET ON FLICKR
 				ssPhotoset.setLastRefreshDate(new Date());
-				ssPhotoset.setPhotos(searchResults.size());
-
+				ssPhotoset.setPhotos(photoCount == null ? 0 : photoCount);
+                ssPhotoset.setVideos(videoCount == null ? 0 : videoCount);
 				ssPhotoset.setSyncTimestamp(System.currentTimeMillis());
 			} //- end if is managed
 
