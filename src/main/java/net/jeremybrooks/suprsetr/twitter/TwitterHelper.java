@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr.twitter;
 
-import com.rosaloves.bitlyj.Url;
 import net.jeremybrooks.suprsetr.Main;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
@@ -31,11 +30,8 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.util.ResourceBundle;
-
-import static com.rosaloves.bitlyj.Bitly.as;
-import static com.rosaloves.bitlyj.Bitly.shorten;
 
 
 /**
@@ -191,18 +187,10 @@ public class TwitterHelper {
 			}
 		}
 
-		// Now shorten the URL
-		if (url != null) {
-			try {
-
-				Url bitlyUrl = as(Main.getPrivateProperty("BITLY_USERNAME"),
-						Main.getPrivateProperty("BITLY_API_KEY")).call(shorten(url));
-
-				template = template.replace("%u", bitlyUrl.getShortUrl());
-			} catch (Exception e) {
-				logger.warn("ERROR WHILE SHORTENING URL.", e);
-			}
-		}
+        // Replace URL; we let Twitter do the shortening for us
+        if (url != null) {
+            template = template.replace("%u", url);
+        }
 
 		if (tweetLength > 140) {
 			logger.info("Tweet is " + template.length() +

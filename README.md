@@ -1,7 +1,6 @@
 # SuprSetr
 ## advanced set management for Flickr
 
-
 When you start SuprSetr, it will connect to Flickr and get a list of all your
 sets. Data about these sets will be stored in a local database, and updated
 every time you launch SuprSetr. This process takes a little while the first
@@ -28,7 +27,6 @@ This is a beta release of SuprSetr that will work with the new https Flickr API 
 It probably has bugs. But don't worry, I'll fix them when they are found.
 
 ## Known Issues
- * Sets filtered by video display incorrect counts after a refresh, but are correct when SS restarts.
  
 ## Testing
 Things that have been tested and seem to work. Parenthesis indicate the operating
@@ -56,6 +54,7 @@ system that it has been tested on (Mac, Linux, Windows)
  * Help message (M)
  * Authorize Twitter (M)
  * Tweet when created (M)
+ * Tweet when updated (M)
 
 Things that still need some testing and may not work
 
@@ -63,7 +62,6 @@ Things that still need some testing and may not work
  * Lots of combinations of set criteria
  * FavrTagr
  * Proxy settings
- * Tweet when updated
 
 
 # ROADMAP
@@ -71,12 +69,10 @@ Things that still need some testing and may not work
 
 	use new Jinx library so API endpoints will all be https
 
-
  * 3.1.0
 
  	Support multiple accounts
 	Full text searches
-
 
 # DEVELOPERS
 
