@@ -19,15 +19,16 @@
 
 package net.jeremybrooks.suprsetr;
 
-import java.awt.Rectangle;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
+
 
 /**
  * Shutdown hook.
- *
+ * <p/>
  * <p>Everything in the run method will be executed just before the JVM
  * shuts down.</p>
  *
@@ -35,7 +36,9 @@ import org.apache.log4j.Logger;
  */
 public class Reaper implements Runnable {
 
-    /** Logging. */
+    /**
+     * Logging.
+     */
     private Logger logger = Logger.getLogger(Reaper.class);
 
 
@@ -45,29 +48,30 @@ public class Reaper implements Runnable {
     @Override
     public void run() {
 
-	// save window position
-	Rectangle rect = MainWindow.getMainWindow().getBounds();
+        // save window position if possible
+        if (MainWindow.getMainWindow() != null) {
+            Rectangle rect = MainWindow.getMainWindow().getBounds();
 
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_X, Integer.toString(rect.x));
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_Y, Integer.toString(rect.y));
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_WIDTH, Integer.toString(rect.width));
-	LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HEIGHT, Integer.toString(rect.height));
+            LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_X, Integer.toString(rect.x));
+            LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_Y, Integer.toString(rect.y));
+            LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_WIDTH, Integer.toString(rect.width));
+            LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HEIGHT, Integer.toString(rect.height));
+        }
+        logger.info("Compressing database tables...");
+        try {
+            DAOHelper.compressTables();
+        } catch (Exception e) {
+            logger.error("ERROR COMPRESSING DATABASE TABLES.", e);
+        } finally {
+            try {
+                DAOHelper.shutdown();
+            } catch (Exception e) {
+                // ignore; this is expected
+            }
+        }
+        logger.info("Database has been shut down");
 
-	logger.info("Compressing database tables...");
-	try {
-	    DAOHelper.compressTables();
-	} catch (Exception e) {
-	    logger.error("ERROR COMPRESSING DATABASE TABLES.", e);
-	} finally {
-	    try {
-		DAOHelper.shutdown();
-	    } catch (Exception e) {
-		// ignore; this is expected
-	    }
-	}
-	logger.info("Database has been shut down");
-
-	logger.info("SuprSetr exiting. Goodbye.");
+        logger.info("SuprSetr exiting. Goodbye.");
     }
 
 }
