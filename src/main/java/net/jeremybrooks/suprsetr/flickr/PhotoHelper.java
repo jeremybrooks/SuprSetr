@@ -160,7 +160,7 @@ public class PhotoHelper {
 //		photos = results;
 //	    }
 
-			count += results.getPhotoList().size();
+            count += results.getPhotoList().size();
 			logger.info("Found " + count + " on " + page + " page(s)");
 			photoList.addAll(results.getPhotoList());
 			page++;
