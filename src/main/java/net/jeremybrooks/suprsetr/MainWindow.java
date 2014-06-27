@@ -919,7 +919,7 @@ public class MainWindow extends javax.swing.JFrame {
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddTHHmmss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
 			String filename = "suprsetr_logs-"
 					+ FlickrHelper.getInstance().getUsername() + "-"
                     + sdf.format(new Date()) + ".zip";
