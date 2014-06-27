@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * This class performs Flickr authentication on a background thread.
+ * This class performs Flickr authorization on a background thread.
  * <p/>
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
@@ -104,10 +104,10 @@ public class FlickrAuthenticatorWorker extends SwingWorker<Void, Void> {
 
 			FlickrHelper.getInstance().completeAuthentication(verificationCode	);
 
-			logger.info("Authentication success.");
+			logger.info("Authorization success.");
 
 		} catch (Exception e) {
-			logger.error("Error while attempting to authenticate.", e);
+			logger.error("Error while attempting to authorize.", e);
 			JOptionPane.showMessageDialog(this.parent,
 					resourceBundle.getString("FlickrAuthWorker.dialog.error.message"),
 					e.getMessage(),
