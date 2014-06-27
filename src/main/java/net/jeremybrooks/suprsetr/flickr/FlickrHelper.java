@@ -130,27 +130,18 @@ public class FlickrHelper {
 				JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
 				out = new FileOutputStream(oauthTokenFile);
 				oAuthAccessToken.store(out);
-				if (this.tokenFile.delete()) {
-					logger.info("Legacy auth token converted to oauth token.");
-				} else {
-					logger.warn("Unable to delete old legacy auth token file.");
-				}
 				success = true;
 			} catch (Exception e) {
 				logger.warn("Unable to load legacy auth token from file.", e);
 			} finally {
+                if (this.tokenFile.delete()) {
+                    logger.info("Legacy auth token deleted.");
+                } else {
+                    logger.warn("Unable to delete old legacy auth token file.");
+                }
 				IOUtil.close(out);
 				IOUtil.close(in);
 			}
-//			this.token = new Token();
-//			try {
-//				this.token.load(this.tokenFile);
-//				Jinx.getInstance().setToken(this.token);
-//
-//			} catch (Exception ex) {
-//				logger.warn("Unable to load auth token from file.", ex);
-//			}
-//			success = true;
 		}
 
 		return success;
