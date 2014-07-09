@@ -20,11 +20,13 @@
 package net.jeremybrooks.suprsetr.flickr;
 
 
+import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.OAuthAccessToken;
 import net.jeremybrooks.jinx.api.OAuthApi;
 import net.jeremybrooks.suprsetr.Main;
 import net.jeremybrooks.suprsetr.utils.IOUtil;
 import org.apache.log4j.Logger;
+import org.scribe.model.Token;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,6 +72,8 @@ public class FlickrHelper {
 	private File oauthTokenFile = null;
 
 	private OAuthAccessToken oAuthAccessToken = null;
+
+    private Token tempToken = null;
 
 	/**
 	 * Private constructor. This class is a Singleton.
@@ -155,13 +159,6 @@ public class FlickrHelper {
 	 */
 	public String getUsername() {
 		return this.oAuthAccessToken == null ? null : this.oAuthAccessToken.getUsername();
-//		String username = null;
-//		try {
-//			username = this.token.getUsername();
-//		} catch (Exception e) {
-//			// ignore; will return null
-//		}
-//		return username;
 	}
 
 
@@ -172,13 +169,6 @@ public class FlickrHelper {
 	 */
 	public String getNSID() {
 		return this.oAuthAccessToken == null ? null : this.oAuthAccessToken.getNsid();
-//		String nsid = null;
-//		try {
-//			nsid = this.token.getNsid();
-//		} catch (Exception e) {
-//			// ignore; will return null
-//		}
-//		return nsid;
 	}
 
 
@@ -189,10 +179,9 @@ public class FlickrHelper {
 	 * @throws Exception if there are any errors.
 	 */
 	public URL getAuthenticationURL() throws Exception {
-		String url =  JinxFactory.getInstance().getoAuthApi().getOAuthRequestToken(null);
+        tempToken = JinxFactory.getInstance().getRequestToken();
+		String url =  JinxFactory.getInstance().getAuthenticationUrl(tempToken, JinxConstants.OAuthPermissions.write);
 		return new URL(url);
-//		this.frob = AuthApi.getInstance().getFrob(JinxConstants.PERMS_WRITE);
-//		return new URL(this.frob.getLoginUrl());
 	}
 
 
@@ -202,7 +191,7 @@ public class FlickrHelper {
 	 * @throws Exception if there are any errors.
 	 */
 	public void completeAuthentication(String verificationCode) throws Exception {
-		this.oAuthAccessToken = JinxFactory.getInstance().getoAuthApi().getOAuthAccessToken(verificationCode);
+		this.oAuthAccessToken = JinxFactory.getInstance().getAccessToken(tempToken, verificationCode);
 		JinxFactory.getInstance().setAccessToken(this.oAuthAccessToken);
 		OutputStream out = null;
 		try {
@@ -211,9 +200,6 @@ public class FlickrHelper {
 		} finally {
 			IOUtil.close(out);
 		}
-//		this.token = AuthApi.getInstance().getToken(this.frob);
-//		Jinx.getInstance().setToken(this.token);
-//		this.token.store(this.tokenFile);
 	}
 
 

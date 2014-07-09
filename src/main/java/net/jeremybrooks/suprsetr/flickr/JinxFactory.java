@@ -20,6 +20,9 @@
 package net.jeremybrooks.suprsetr.flickr;
 
 import net.jeremybrooks.jinx.Jinx;
+import net.jeremybrooks.jinx.JinxConstants;
+import net.jeremybrooks.jinx.JinxException;
+import net.jeremybrooks.jinx.JinxProxy;
 import net.jeremybrooks.jinx.OAuthAccessToken;
 import net.jeremybrooks.jinx.api.OAuthApi;
 import net.jeremybrooks.jinx.api.PhotosApi;
@@ -28,6 +31,7 @@ import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.jinx.logger.LogInterface;
 import net.jeremybrooks.jinx.response.photos.Photo;
 import org.apache.log4j.Logger;
+import org.scribe.model.Token;
 
 /**
  * @author Jeremy Brooks
@@ -57,6 +61,15 @@ public class JinxFactory {
 		logger.info("JinxFactory initiated with key and secret.");
 	}
 
+    public void setProxy(JinxProxy jinxProxy) {
+        jinx.setProxy(jinxProxy);
+        if (jinxProxy == null) {
+            logger.info("Not using proxy.");
+        } else {
+            logger.info("Using proxy " + jinxProxy.toString());
+        }
+    }
+
 	public void setAccessToken(OAuthAccessToken token) {
 		jinx.setoAuthAccessToken(token);
 	}
@@ -65,6 +78,18 @@ public class JinxFactory {
     public void setLogger(LogInterface jinxLogger) {
         JinxLogger.setLogger(jinxLogger);
         jinx.setVerboseLogging(jinxLogger != null);
+    }
+
+    public Token getRequestToken() {
+        return this.jinx.getRequestToken();
+    }
+
+    public String getAuthenticationUrl(Token requestToken, JinxConstants.OAuthPermissions oAuthPermissions) throws JinxException {
+        return this.jinx.getAuthorizationUrl(requestToken, oAuthPermissions);
+    }
+
+    public OAuthAccessToken getAccessToken(Token requestToken, String verificationCode) throws JinxException {
+        return this.jinx.getAccessToken(requestToken, verificationCode);
     }
 
 	public OAuthApi getoAuthApi() {

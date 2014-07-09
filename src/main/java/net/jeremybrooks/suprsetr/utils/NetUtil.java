@@ -19,33 +19,48 @@
 
 package net.jeremybrooks.suprsetr.utils;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
+import net.jeremybrooks.jinx.JinxProxy;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
+
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
 /**
  * @author Jeremy Brooks
  */
 public class NetUtil {
 
-	public static void enableSystemProxy() {
-		System.setProperty("java.net.useSystemProxies", "true");
-	}
+    private static JinxProxy jinxProxy;
 
 	public static void enableProxy(String host, String port, final String username, final char[] password) {
-		System.setProperty("http.proxyHost", host);
-		System.setProperty("http.proxyPort", port);
-
-		if ((username != null) && (!username.isEmpty()))
-			Authenticator.setDefault(new Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(username, password);
-				}
-			});
+        jinxProxy = new JinxProxy(host, Integer.parseInt(port), username, password);
+        JinxFactory.getInstance().setProxy(jinxProxy);
 	}
 
 	public static void clearProxy() {
-		System.clearProperty("http.proxyHost");
-		System.clearProperty("http.proxyPort");
-		System.clearProperty("java.net.useSystemProxies");
+        jinxProxy = null;
+        JinxFactory.getInstance().setProxy(null);
 	}
+
+    /**
+     * Get the network proxy.
+     *
+     * Jinx handles the proxy on its own, but other things that need the network (VersionChecker, for example)
+     * need a proxy as well.
+     *
+     * This method will return Proxy.NO_PROXY if there is no proxy configured.
+     *
+     * Callers can use the return value of this method in the openConnection method.
+     *
+     * @return instance of Proxy to use.
+     */
+    public static Proxy getProxy() {
+        if (jinxProxy == null) {
+            return Proxy.NO_PROXY;
+        } else {
+            // note: if proxy authentication is needed, it will already have been set up when the Jinx
+            //       proxy was enabled, so no need to set it up again.
+            return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(jinxProxy.getProxyHost(), jinxProxy.getProxyPort()));
+        }
+    }
 }

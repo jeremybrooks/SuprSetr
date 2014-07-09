@@ -609,7 +609,7 @@ public class DAOHelper {
 	}
 
 	/*
-	 * Schema version 7 supports machine tag searches.
+	 * Schema version 7 supports machine tag and full text searches.
 	 */
 	private static void upgradeToVersion7() throws Exception {
 		Connection conn = null;
@@ -624,6 +624,9 @@ public class DAOHelper {
 			s.execute("ALTER TABLE PHOTOSET ADD COLUMN MACHINE_TAG_MATCH_MODE VARCHAR(8)");
 			s.execute("UPDATE PHOTOSET SET MACHINE_TAG_MATCH_MODE = '" + SSConstants.TAG_MATCH_MODE_NONE + "'");
 			logger.info("Added column MACHINE_TAG_MATCH_MODE to PHOTOSET table.");
+
+            s.execute("ALTER TABLE PHOTOSET ADD COLUMN TEXT_SEARCH VARCHAR(2000)");
+            logger.info("Added column TEXT_SEARCH to PHOTOSET table.");
 
 			// no errors, so update the version
 			LookupDAO.setDatabaseVersion(7);

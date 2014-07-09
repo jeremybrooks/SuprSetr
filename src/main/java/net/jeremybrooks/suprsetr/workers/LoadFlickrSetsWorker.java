@@ -89,7 +89,6 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
 		try {
 			photosetList = PhotosetHelper.getInstance().getPhotosets(nsid);
-//			photosets = PhotosetsApi.getInstance().getList(nsid, true);
 			for (Photoset p : photosetList.getPhotosetList()) {
 				blocker.updateMessage(resourceBundle.getString("LoadFlickrSetsWorker.blocker.processing") +
 						" \"" + p.getTitle() + "\"");
@@ -134,7 +133,6 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
 
 				} else {
-
 					ssp.setFarm(p.getFarm());
 					ssp.setPhotos(p.getPhotos());
 					ssp.setVideos(p.getVideos());
@@ -164,8 +162,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
 					// SAVE THE UPDATED SET TO THE DATABASE
 					PhotosetDAO.updatePhotoset(ssp);
-
-				}
+                }
 
 			}
 

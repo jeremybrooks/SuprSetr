@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.0.0.87" Java: "1.6.0_29" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.0.0.109" Java: "1.6.0_65" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -91,6 +91,7 @@ new FormModel {
 							"gridx": 2
 							"gridy": 3
 							"weightx": 1.0
+							"insets": new java.awt.Insets( 0, 3, 0, 3 )
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label2"
@@ -183,6 +184,27 @@ new FormModel {
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnMachineTagsHelpActionPerformed", false ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0:1.0"
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "pnlText"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlText.border" )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtTextSearch"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnTextHelp"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/739-question-selected.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnTextHelpActionPerformed", false ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
 						} )
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) ) {
@@ -362,21 +384,19 @@ new FormModel {
 						} )
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "0, 0, 0"
-						"$rowSpecs": "0, 0, 0, 0, 0"
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0"
 						"$hGap": 5
 						"$vGap": 5
 						"$alignTop": true
 						"$alignLeft": true
 					} ) {
-						name: "pnlOther"
-						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlOther.border" )
+						name: "pnlSort"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlSort.border" )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel1"
 							"text": new FormMessage( null, "SetEditor.jLabel1.text" )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"hAlign": 4
-						} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "cmbSortBy"
 							"toolTipText": new FormMessage( null, "SetEditor.cmbSortBy.toolTipText" )
@@ -386,9 +406,26 @@ new FormModel {
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbSortByActionPerformed", false ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
-							"hAlign": 2
-							"weightx": 1.0
 						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "SetEditor.basicPanel.tab.title" )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
+					"gap": 5
+				} ) {
+					name: "advancedPanel"
+					"verifyInputWhenFocusTarget": false
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0, 0"
+						"$rowSpecs": "0, 0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "pnlSocial"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pnlSocial.border" )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "jScrollPane3"
 							add( new FormComponent( "javax.swing.JTextArea" ) {
@@ -402,7 +439,6 @@ new FormModel {
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
-							"gridy": 1
 							"gridheight": 4
 							"weightx": 1.0
 						} )
@@ -411,28 +447,27 @@ new FormModel {
 							"text": new FormMessage( null, "SetEditor.jLabel2.text" )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
-							"gridy": 1
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel5"
 							"text": new FormMessage( null, "SetEditor.jLabel5.text" )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
-							"gridy": 2
+							"gridy": 1
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel6"
 							"text": new FormMessage( null, "SetEditor.jLabel6.text" )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
-							"gridy": 3
+							"gridy": 2
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel7"
 							"text": new FormMessage( null, "SetEditor.jLabel7.text" )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
-							"gridy": 4
+							"gridy": 3
 						} )
 						add( new FormComponent( "javax.swing.JRadioButton" ) {
 							name: "radioTweetNone"
@@ -441,9 +476,7 @@ new FormModel {
 							"text": new FormMessage( null, "SetEditor.radioTweetNone.text" )
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetNone.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetNoneActionPerformed", false ) )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 1
-						} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 						add( new FormComponent( "javax.swing.JRadioButton" ) {
 							name: "radioTweetUpdated"
 							"$buttonGroup": new FormReference( "btnGrpTweet" )
@@ -451,7 +484,7 @@ new FormModel {
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetUpdated.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetCreatedOrUpdatedActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 2
+							"gridy": 1
 						} )
 						add( new FormComponent( "javax.swing.JRadioButton" ) {
 							name: "radioTweetCreated"
@@ -460,17 +493,9 @@ new FormModel {
 							"toolTipText": new FormMessage( null, "SetEditor.radioTweetCreated.toolTipText" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "radioTweetCreatedOrUpdatedActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 3
+							"gridy": 2
 						} )
 					} )
-				}, new FormLayoutConstraints( null ) {
-					"title": new FormMessage( null, "SetEditor.basicPanel.tab.title" )
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
-					"gap": 5
-				} ) {
-					name: "advancedPanel"
-					"verifyInputWhenFocusTarget": false
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0, 0"
 						"$rowSpecs": "0, 0"
@@ -669,7 +694,7 @@ new FormModel {
 				"value": "Last"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 795, 800 )
+			"size": new java.awt.Dimension( 795, 750 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {

@@ -22,13 +22,11 @@ package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
-import net.jeremybrooks.jinx.response.photosets.PhotosetInfo;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
 import net.jeremybrooks.suprsetr.SSPhotoset;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
-import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import net.jeremybrooks.suprsetr.flickr.PhotosetHelper;
 import net.jeremybrooks.suprsetr.flickr.SearchHelper;
@@ -126,12 +124,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 	 * @throws Exception if there are any errors.
 	 */
 	private void updatePhotoset(SSPhotoset ssPhotoset) throws Exception {
-		int oldCount = ssPhotoset.getPhotos();
+		int oldCount = ssPhotoset.getPhotos() + ssPhotoset.getVideos();
 		int matches;
 		List<Photo> searchResults = null;
 		SearchParameters params;
 		String newPrimaryPhotoId = null;
 		String currentPrimaryId;
+        int photoCount = 0;
+        int videoCount = 0;
 
 		blocker.setTitle(resourceBundle.getString("RefreshPhotosetWorker.blocker.title") + " '" + ssPhotoset.getTitle() + "'");
 
@@ -164,14 +164,6 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 							tempResults = PhotoHelper.getInstance().getPhotos(params);
 							logger.info("Got " + tempResults.size() + " results.");
 							searchResults.addAll(tempResults);
-//							if (searchResults == null) {
-//								searchResults = tempResults;
-//							} else {
-//								searchResults.setTotal(searchResults.getTotal() + tempResults.getTotal());
-//								List<Photo> list = searchResults.getPhotos();
-//								list.addAll(tempResults.getPhotos());
-//								searchResults.setPhotos(list);
-//							}
 						}
 					} else {
 						for (int year = ssPhotoset.getOnThisDayYearStart(); year <= endYear; year++) {
@@ -183,14 +175,6 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 							tempResults = PhotoHelper.getInstance().getPhotos(params);
 							logger.info("Got " + tempResults.size() + " results.");
 							searchResults.addAll(tempResults);
-//							if (searchResults == null) {
-//								searchResults = tempResults;
-//							} else {
-//								searchResults.setTotal(searchResults.getTotal() + tempResults.getTotal());
-//								List<Photo> list = searchResults.getPhotos();
-//								list.addAll(tempResults.getPhotos());
-//								searchResults.setPhotos(list);
-//							}
 						}
 					}
 				} else {
@@ -203,11 +187,6 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 				}
 
 				matches = searchResults == null ? 0 : searchResults.size();
-//				if (searchResults == null) {
-//					matches = 0;
-//				} else {
-//					matches = searchResults.size();
-//				}
 
 				logger.info("Got " + matches + " search results.");
 
@@ -254,7 +233,17 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 					// ADD PHOTOS TO THE SET
 					PhotosetHelper.getInstance().editPhotos(ssPhotoset.getPhotosetId(), newPrimaryPhotoId, searchResults);
 
-					time = System.currentTimeMillis() - time;
+                    time = System.currentTimeMillis() - time;
+
+                    // count photos and videos
+                    // counting media type avoids a call to get photoset info
+                    for (Photo p : searchResults) {
+                        if (p.getMedia().equalsIgnoreCase("video")) {
+                            videoCount++;
+                        } else {
+                            photoCount++;
+                        }
+                    }
 
 					StringBuilder sb = new StringBuilder(resourceBundle.getString("RefreshPhotosetWorker.log.refresh1"));
 					sb.append(" '").append(ssPhotoset.getTitle());
@@ -288,18 +277,15 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
 		try {
 			if (ssPhotoset.isManaged() && (searchResults != null)) {	// null search results means something failed above, so don't bother with saving to db
-				blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.saving"));
 
-                // Lookup photoset info to get some data that needs to be saved
-                PhotosetInfo photosetInfo = JinxFactory.getInstance().getPhotosetsApi().getInfo(ssPhotoset.getPhotosetId());
-                Integer photoCount = photosetInfo.getPhotoset().getCountPhotos();
-                Integer videoCount = photosetInfo.getPhotoset().getCountVideos();
+                blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.saving"));
+
 				// UPDATE OUR DATA STRUCTURE TO REFLECT THE NEW PHOTOSET ON FLICKR
 				ssPhotoset.setLastRefreshDate(new Date());
-				ssPhotoset.setPhotos(photoCount == null ? 0 : photoCount);
-                ssPhotoset.setVideos(videoCount == null ? 0 : videoCount);
+				ssPhotoset.setPhotos(photoCount);
+                ssPhotoset.setVideos(videoCount);
 				ssPhotoset.setSyncTimestamp(System.currentTimeMillis());
-			} //- end if is managed
+			}
 
 			// mark the list cell as invalid, so anything that has changed
 			// will get updated when the list is repainted
@@ -308,7 +294,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 			PhotosetDAO.updatePhotoset(ssPhotoset);
 
 			// Send tweet if user has requested it AND there are new photos in the set
-			if (ssPhotoset.isSendTweet() && oldCount != ssPhotoset.getPhotos()) {
+			if (ssPhotoset.isSendTweet() && (oldCount != (ssPhotoset.getPhotos() + ssPhotoset.getVideos()))) {
 				try {
 					String tweet = TwitterHelper.buildTweet(
 							ssPhotoset.getTweetTemplate(),

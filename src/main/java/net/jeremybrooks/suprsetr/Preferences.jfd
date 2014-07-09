@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.0.0.54" Java: "1.6.0_45" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.0.0.109" Java: "1.6.0_65" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -20,7 +20,7 @@ new FormModel {
 				name: "jTabbedPane1"
 				"toolTipText": new FormMessage( null, "Preferences.jTabbedPane1.toolTipText" )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, par l {seq l {comp lblFavrPrefix:::p::p, space :::p, comp cmbFavr:::p::p}, seq l {comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}}}, comp cbxDetailLog::l:p::p, seq l {space :p:8:p, par l {seq l {par l {comp lblLogFile::l:p::p, comp lblRetain::l:p::p}, space :::p, par l {comp cmbLogSize:::p::p, comp cmbLogIndex::l:p::p}}, comp lblNote::l:p::p}}}, space ::19:x}}"
+					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, par l {seq l {comp lblFavrPrefix:::p::p, space :::p, comp cmbFavr:::p::p}, seq l {comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}}}, comp cbxDetailLog::l:p::p, seq l {space :p:8:p, par l {seq l {par l {comp lblLogFile::l:p::p, comp lblRetain::l:p::p}, space :::p, par l {comp cmbLogSize:::p::p, comp cmbLogIndex::l:p::p}}, comp lblNote::l:p::p}}}, space ::62:x}}"
 					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :::p, par b {comp lblFavrPrefix::b:p::p, comp cmbFavr::b:p::p}, space s:::p, comp cbxDetailLog:::p::p, space :::p, par b {comp lblLogFile::b:p::p, comp cmbLogSize::b:p::p}, space :::p, par b {comp lblRetain::b:p::p, comp cmbLogIndex::b:p::p}, space ::53:x, comp lblNote:::p::p, space :::p}}"
 				} ) {
 					name: "jPanel1"
@@ -182,7 +182,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "0, 0"
-					"$rowSpecs": "0, 0, 0, 0"
+					"$rowSpecs": "0, 0"
 					"$hGap": 5
 					"$vGap": 5
 					"$alignTop": true
@@ -197,24 +197,6 @@ new FormModel {
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
 						"hAlign": 2
-					} )
-					add( new FormComponent( "javax.swing.JRadioButton" ) {
-						name: "rbtnSystem"
-						"text": new FormMessage( null, "Preferences.rbtnSystem.text" )
-						"$buttonGroup": new FormReference( "buttonGroup1" )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "rbtnSystemActionPerformed", false ) )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 1
-						"gridy": 1
-					} )
-					add( new FormComponent( "javax.swing.JRadioButton" ) {
-						name: "rbtnCustom"
-						"text": new FormMessage( null, "Preferences.rbtnCustom.text" )
-						"$buttonGroup": new FormReference( "buttonGroup1" )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "rbtnCustomActionPerformed", false ) )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 1
-						"gridy": 2
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0, 0"
@@ -283,7 +265,7 @@ new FormModel {
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
-						"gridy": 3
+						"gridy": 1
 						"weightx": 1.0
 					} )
 				}, new FormLayoutConstraints( null ) {
@@ -346,11 +328,6 @@ new FormModel {
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 595, 450 )
 			"location": new java.awt.Point( 0, 0 )
-		} )
-		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
-			name: "buttonGroup1"
-		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 0, 460 )
 		} )
 	}
 }

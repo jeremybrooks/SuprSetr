@@ -57,6 +57,7 @@ public class SSPhotoset {
 	/*
 	 * These are related to SuprSetr
 	 */
+    private String textSearch;
 	private String tagMatchMode;
 	private List<String> tags;
 	private String machineTagMatchMode;
@@ -162,6 +163,9 @@ public class SSPhotoset {
 		title = p.getTitle();
 		url = p.getUrl();
 	}
+
+    public String getTextSearch() { return textSearch; }
+    public void setTextSearch(String textSearch) { this.textSearch = textSearch; }
 
 	/**
 	 * @return the tags

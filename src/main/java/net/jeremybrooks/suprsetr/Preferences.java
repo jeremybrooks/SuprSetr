@@ -122,15 +122,10 @@ public class Preferences extends javax.swing.JDialog {
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PORT, port);
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USER, user);
 				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PASS, pass);
-				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM, DAOHelper.booleanToString(rbtnSystem.isSelected()));
+//				LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM, DAOHelper.booleanToString(rbtnSystem.isSelected()));
 
-				if (rbtnSystem.isSelected()) {
-					logger.info("Using system proxy settings");
-					NetUtil.enableSystemProxy();
-				} else {
-					logger.info("Using proxy " + host + ":" + port);
-					NetUtil.enableProxy(host, port, user, pass.toCharArray());
-				}
+                logger.info("Using proxy " + host + ":" + port);
+                NetUtil.enableProxy(host, port, user, pass.toCharArray());
 
 			} else {
 				// Save proxy setting and clear system properties
@@ -177,13 +172,13 @@ public class Preferences extends javax.swing.JDialog {
 		this.cbxExitAfter.setEnabled(cbxAutoRefresh.isSelected());
 	}
 
-	private void rbtnSystemActionPerformed() {
-		setProxyComponentStates();
-	}
+//	private void rbtnSystemActionPerformed() {
+//		setProxyComponentStates();
+//	}
 
-	private void rbtnCustomActionPerformed() {
-		setProxyComponentStates();
-	}
+//	private void rbtnCustomActionPerformed() {
+//		setProxyComponentStates();
+//	}
 
 	private void button1ActionPerformed() {
 		logger.info("Testing twitter");
@@ -254,13 +249,11 @@ public class Preferences extends javax.swing.JDialog {
 		this.updateStatus();
 
 		this.cbxProxy.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_USE_PROXY)));
-		this.rbtnSystem.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM)));
-		this.rbtnCustom.setSelected(!DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM)));
 		this.txtProxyHost.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST));
 		this.txtProxyPort.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT));
 		this.txtProxyUser.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER));
 		this.txtProxyPass.setText(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS));
-		this.setProxyComponentStates();
+//		this.setProxyComponentStates();
 
 		this.cbxAddManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_MANAGED)));
 		this.refreshList = false;
@@ -280,473 +273,442 @@ public class Preferences extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		ResourceBundle bundle = this.resourceBundle;
-		jTabbedPane1 = new JTabbedPane();
-		jPanel1 = new JPanel();
-		cbxAddVia = new JCheckBox();
-		cbxAddManaged = new JCheckBox();
-		lblRefreshPrefix = new JLabel();
-		cmbRefresh = new JComboBox<>();
-		lblRefreshSuffix = new JLabel();
-		cbxUpdate = new JCheckBox();
-		lblFavrPrefix = new JLabel();
-		cmbFavr = new JComboBox<>();
-		cbxDetailLog = new JCheckBox();
-		lblLogFile = new JLabel();
-		cmbLogSize = new JComboBox<>();
-		lblRetain = new JLabel();
-		cmbLogIndex = new JComboBox<>();
-		lblNote = new JLabel();
-		pnlAuthorizations = new JPanel();
-		pnlFlickr = new JPanel();
-		lblFlickrStatus = new JLabel();
-		btnFlickr = new JButton();
-		pnlTwitter = new JPanel();
-		lblTwitterStatus = new JLabel();
-		lblMessage = new JLabel();
-		btnTwitter = new JButton();
-		pnlProxy = new JPanel();
-		cbxProxy = new JCheckBox();
-		rbtnSystem = new JRadioButton();
-		rbtnCustom = new JRadioButton();
-		panel2 = new JPanel();
-		lblHost = new JLabel();
-		txtProxyHost = new JTextField();
-		lblPort = new JLabel();
-		txtProxyPort = new JTextField();
-		lblUsername = new JLabel();
-		txtProxyUser = new JTextField();
-		lblPassword = new JLabel();
-		txtProxyPass = new JPasswordField();
-		pnlAutoRefresh = new JPanel();
-		cbxAutoRefresh = new JCheckBox();
-		cbxExitAfter = new JCheckBox();
-		label1 = new JLabel();
-		timeSpinner = new JSpinner();
-		panel1 = new JPanel();
-		btnOK = new JButton();
+    private void initComponents() {
+        ResourceBundle bundle = this.resourceBundle;
+        jTabbedPane1 = new JTabbedPane();
+        jPanel1 = new JPanel();
+        cbxAddVia = new JCheckBox();
+        cbxAddManaged = new JCheckBox();
+        lblRefreshPrefix = new JLabel();
+        cmbRefresh = new JComboBox<>();
+        lblRefreshSuffix = new JLabel();
+        cbxUpdate = new JCheckBox();
+        lblFavrPrefix = new JLabel();
+        cmbFavr = new JComboBox<>();
+        cbxDetailLog = new JCheckBox();
+        lblLogFile = new JLabel();
+        cmbLogSize = new JComboBox<>();
+        lblRetain = new JLabel();
+        cmbLogIndex = new JComboBox<>();
+        lblNote = new JLabel();
+        pnlAuthorizations = new JPanel();
+        pnlFlickr = new JPanel();
+        lblFlickrStatus = new JLabel();
+        btnFlickr = new JButton();
+        pnlTwitter = new JPanel();
+        lblTwitterStatus = new JLabel();
+        lblMessage = new JLabel();
+        btnTwitter = new JButton();
+        pnlProxy = new JPanel();
+        cbxProxy = new JCheckBox();
+        panel2 = new JPanel();
+        lblHost = new JLabel();
+        txtProxyHost = new JTextField();
+        lblPort = new JLabel();
+        txtProxyPort = new JTextField();
+        lblUsername = new JLabel();
+        txtProxyUser = new JTextField();
+        lblPassword = new JLabel();
+        txtProxyPass = new JPasswordField();
+        pnlAutoRefresh = new JPanel();
+        cbxAutoRefresh = new JCheckBox();
+        cbxExitAfter = new JCheckBox();
+        label1 = new JLabel();
+        timeSpinner = new JSpinner();
+        panel1 = new JPanel();
+        btnOK = new JButton();
 
-		//======== this ========
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(bundle.getString("Preferences.this.title"));
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				formWindowClosed(e);
-			}
-		});
-		Container contentPane = getContentPane();
-		contentPane.setLayout(new BorderLayout());
+        //======== this ========
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(bundle.getString("Preferences.this.title"));
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                formWindowClosed(e);
+            }
+        });
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout());
 
-		//======== jTabbedPane1 ========
-		{
-			jTabbedPane1.setToolTipText(bundle.getString("Preferences.jTabbedPane1.toolTipText"));
+        //======== jTabbedPane1 ========
+        {
+            jTabbedPane1.setToolTipText(bundle.getString("Preferences.jTabbedPane1.toolTipText"));
 
-			//======== jPanel1 ========
-			{
+            //======== jPanel1 ========
+            {
 
-				//---- cbxAddVia ----
-				cbxAddVia.setText(bundle.getString("Preferences.cbxAddVia.text"));
-				cbxAddVia.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cbxAddViaActionPerformed(e);
-					}
-				});
+                //---- cbxAddVia ----
+                cbxAddVia.setText(bundle.getString("Preferences.cbxAddVia.text"));
+                cbxAddVia.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cbxAddViaActionPerformed(e);
+                    }
+                });
 
-				//---- cbxAddManaged ----
-				cbxAddManaged.setText(bundle.getString("Preferences.cbxAddManaged.text"));
-				cbxAddManaged.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cbxAddManagedActionPerformed(e);
-					}
-				});
+                //---- cbxAddManaged ----
+                cbxAddManaged.setText(bundle.getString("Preferences.cbxAddManaged.text"));
+                cbxAddManaged.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cbxAddManagedActionPerformed(e);
+                    }
+                });
 
-				//---- lblRefreshPrefix ----
-				lblRefreshPrefix.setText(bundle.getString("Preferences.lblRefreshPrefix.text"));
+                //---- lblRefreshPrefix ----
+                lblRefreshPrefix.setText(bundle.getString("Preferences.lblRefreshPrefix.text"));
 
-				//---- cmbRefresh ----
-				cmbRefresh.setModel(new DefaultComboBoxModel<>(new String[] {
-					"6",
-					"12",
-					"24",
-					"48",
-					"72"
-				}));
-				cmbRefresh.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cmbRefreshActionPerformed(e);
-					}
-				});
+                //---- cmbRefresh ----
+                cmbRefresh.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "6",
+                    "12",
+                    "24",
+                    "48",
+                    "72"
+                }));
+                cmbRefresh.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cmbRefreshActionPerformed(e);
+                    }
+                });
 
-				//---- lblRefreshSuffix ----
-				lblRefreshSuffix.setText(bundle.getString("Preferences.lblRefreshSuffix.text"));
+                //---- lblRefreshSuffix ----
+                lblRefreshSuffix.setText(bundle.getString("Preferences.lblRefreshSuffix.text"));
 
-				//---- cbxUpdate ----
-				cbxUpdate.setText(bundle.getString("Preferences.cbxUpdate.text"));
-				cbxUpdate.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cbxUpdateActionPerformed(e);
-					}
-				});
+                //---- cbxUpdate ----
+                cbxUpdate.setText(bundle.getString("Preferences.cbxUpdate.text"));
+                cbxUpdate.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cbxUpdateActionPerformed(e);
+                    }
+                });
 
-				//---- lblFavrPrefix ----
-				lblFavrPrefix.setText(bundle.getString("Preferences.lblFavrPrefix.text"));
+                //---- lblFavrPrefix ----
+                lblFavrPrefix.setText(bundle.getString("Preferences.lblFavrPrefix.text"));
 
-				//---- cmbFavr ----
-				cmbFavr.setModel(new DefaultComboBoxModel<>(new String[] {
-					"every 10 favorites",
-					"every 25 favorites",
-					"every 100 favorites",
-					"every 10 favorites up to 100, then every 100 favorites",
-					"only 10, 25, 50, and 100 favorites"
-				}));
-				cmbFavr.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cmbFavrActionPerformed(e);
-					}
-				});
+                //---- cmbFavr ----
+                cmbFavr.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "every 10 favorites",
+                    "every 25 favorites",
+                    "every 100 favorites",
+                    "every 10 favorites up to 100, then every 100 favorites",
+                    "only 10, 25, 50, and 100 favorites"
+                }));
+                cmbFavr.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cmbFavrActionPerformed(e);
+                    }
+                });
 
-				//---- cbxDetailLog ----
-				cbxDetailLog.setText(bundle.getString("Preferences.cbxDetailLog.text"));
-				cbxDetailLog.setToolTipText(bundle.getString("Preferences.cbxDetailLog.toolTipText"));
-				cbxDetailLog.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cbxDetailLogActionPerformed(e);
-					}
-				});
+                //---- cbxDetailLog ----
+                cbxDetailLog.setText(bundle.getString("Preferences.cbxDetailLog.text"));
+                cbxDetailLog.setToolTipText(bundle.getString("Preferences.cbxDetailLog.toolTipText"));
+                cbxDetailLog.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cbxDetailLogActionPerformed(e);
+                    }
+                });
 
-				//---- lblLogFile ----
-				lblLogFile.setText(bundle.getString("Preferences.lblLogFile.text"));
+                //---- lblLogFile ----
+                lblLogFile.setText(bundle.getString("Preferences.lblLogFile.text"));
 
-				//---- cmbLogSize ----
-				cmbLogSize.setModel(new DefaultComboBoxModel<>(new String[] {
-					"1MB",
-					"5MB",
-					"10MB"
-				}));
+                //---- cmbLogSize ----
+                cmbLogSize.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "1MB",
+                    "5MB",
+                    "10MB"
+                }));
 
-				//---- lblRetain ----
-				lblRetain.setText(bundle.getString("Preferences.lblRetain.text"));
+                //---- lblRetain ----
+                lblRetain.setText(bundle.getString("Preferences.lblRetain.text"));
 
-				//---- cmbLogIndex ----
-				cmbLogIndex.setModel(new DefaultComboBoxModel<>(new String[] {
-					"2",
-					"5",
-					"10"
-				}));
+                //---- cmbLogIndex ----
+                cmbLogIndex.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "2",
+                    "5",
+                    "10"
+                }));
 
-				//---- lblNote ----
-				lblNote.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
-				lblNote.setText(bundle.getString("Preferences.lblNote.text"));
+                //---- lblNote ----
+                lblNote.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
+                lblNote.setText(bundle.getString("Preferences.lblNote.text"));
 
-				GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-				jPanel1.setLayout(jPanel1Layout);
-				jPanel1Layout.setHorizontalGroup(
-					jPanel1Layout.createParallelGroup()
-						.addGroup(jPanel1Layout.createSequentialGroup()
-							.addGroup(jPanel1Layout.createParallelGroup()
-								.addComponent(cbxAddVia)
-								.addComponent(cbxUpdate)
-								.addComponent(cbxAddManaged)
-								.addGroup(jPanel1Layout.createSequentialGroup()
-									.addGap(9, 9, 9)
-									.addGroup(jPanel1Layout.createParallelGroup()
-										.addGroup(jPanel1Layout.createSequentialGroup()
-											.addComponent(lblFavrPrefix)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addComponent(cmbFavr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(jPanel1Layout.createSequentialGroup()
-											.addComponent(lblRefreshPrefix)
-											.addGap(10, 10, 10)
-											.addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-											.addComponent(lblRefreshSuffix))))
-								.addComponent(cbxDetailLog)
-								.addGroup(jPanel1Layout.createSequentialGroup()
-									.addGap(8, 8, 8)
-									.addGroup(jPanel1Layout.createParallelGroup()
-										.addGroup(jPanel1Layout.createSequentialGroup()
-											.addGroup(jPanel1Layout.createParallelGroup()
-												.addComponent(lblLogFile)
-												.addComponent(lblRetain))
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addGroup(jPanel1Layout.createParallelGroup()
-												.addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-										.addComponent(lblNote))))
-							.addContainerGap(19, Short.MAX_VALUE))
-				);
-				jPanel1Layout.setVerticalGroup(
-					jPanel1Layout.createParallelGroup()
-						.addGroup(jPanel1Layout.createSequentialGroup()
-							.addComponent(cbxAddVia)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							.addComponent(cbxAddManaged)
-							.addGap(7, 7, 7)
-							.addComponent(cbxUpdate)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(lblRefreshPrefix)
-								.addComponent(lblRefreshSuffix)
-								.addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(lblFavrPrefix)
-								.addComponent(cmbFavr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18, 18, 18)
-							.addComponent(cbxDetailLog)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(lblLogFile)
-								.addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(lblRetain)
-								.addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-							.addComponent(lblNote)
-							.addContainerGap())
-				);
-			}
-			jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
+                GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+                jPanel1.setLayout(jPanel1Layout);
+                jPanel1Layout.setHorizontalGroup(
+                    jPanel1Layout.createParallelGroup()
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup()
+                                .addComponent(cbxAddVia)
+                                .addComponent(cbxUpdate)
+                                .addComponent(cbxAddManaged)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(9, 9, 9)
+                                    .addGroup(jPanel1Layout.createParallelGroup()
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(lblFavrPrefix)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(cmbFavr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(lblRefreshPrefix)
+                                            .addGap(10, 10, 10)
+                                            .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(lblRefreshSuffix))))
+                                .addComponent(cbxDetailLog)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(8, 8, 8)
+                                    .addGroup(jPanel1Layout.createParallelGroup()
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGroup(jPanel1Layout.createParallelGroup()
+                                                .addComponent(lblLogFile)
+                                                .addComponent(lblRetain))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(jPanel1Layout.createParallelGroup()
+                                                .addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(lblNote))))
+                            .addContainerGap(62, Short.MAX_VALUE))
+                );
+                jPanel1Layout.setVerticalGroup(
+                    jPanel1Layout.createParallelGroup()
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(cbxAddVia)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cbxAddManaged)
+                            .addGap(7, 7, 7)
+                            .addComponent(cbxUpdate)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblRefreshPrefix)
+                                .addComponent(lblRefreshSuffix)
+                                .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblFavrPrefix)
+                                .addComponent(cmbFavr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addComponent(cbxDetailLog)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblLogFile)
+                                .addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblRetain)
+                                .addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                            .addComponent(lblNote)
+                            .addContainerGap())
+                );
+            }
+            jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
 
-			//======== pnlAuthorizations ========
-			{
-				pnlAuthorizations.setLayout(new VerticalLayout(5));
+            //======== pnlAuthorizations ========
+            {
+                pnlAuthorizations.setLayout(new VerticalLayout(5));
 
-				//======== pnlFlickr ========
-				{
-					pnlFlickr.setBorder(new TitledBorder(bundle.getString("Preferences.pnlFlickr.border")));
-					pnlFlickr.setLayout(new GridBagLayout());
-					((GridBagLayout)pnlFlickr.getLayout()).columnWidths = new int[] {0, 0};
-					((GridBagLayout)pnlFlickr.getLayout()).rowHeights = new int[] {0, 0, 0};
-					((GridBagLayout)pnlFlickr.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
-					((GridBagLayout)pnlFlickr.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+                //======== pnlFlickr ========
+                {
+                    pnlFlickr.setBorder(new TitledBorder(bundle.getString("Preferences.pnlFlickr.border")));
+                    pnlFlickr.setLayout(new GridBagLayout());
+                    ((GridBagLayout)pnlFlickr.getLayout()).columnWidths = new int[] {0, 0};
+                    ((GridBagLayout)pnlFlickr.getLayout()).rowHeights = new int[] {0, 0, 0};
+                    ((GridBagLayout)pnlFlickr.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                    ((GridBagLayout)pnlFlickr.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-					//---- lblFlickrStatus ----
-					lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
-					pnlFlickr.add(lblFlickrStatus, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 0, 0), 0, 0));
+                    //---- lblFlickrStatus ----
+                    lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
+                    pnlFlickr.add(lblFlickrStatus, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
-					//---- btnFlickr ----
-					btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
-					btnFlickr.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							btnFlickrActionPerformed(e);
-						}
-					});
-					pnlFlickr.add(btnFlickr, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 0, 0), 0, 0));
-				}
-				pnlAuthorizations.add(pnlFlickr);
+                    //---- btnFlickr ----
+                    btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
+                    btnFlickr.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btnFlickrActionPerformed(e);
+                        }
+                    });
+                    pnlFlickr.add(btnFlickr, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                pnlAuthorizations.add(pnlFlickr);
 
-				//======== pnlTwitter ========
-				{
-					pnlTwitter.setBorder(new TitledBorder(bundle.getString("Preferences.pnlTwitter.border")));
-					pnlTwitter.setLayout(new GridBagLayout());
-					((GridBagLayout)pnlTwitter.getLayout()).columnWidths = new int[] {0, 0, 0};
-					((GridBagLayout)pnlTwitter.getLayout()).rowHeights = new int[] {0, 0, 0};
-					((GridBagLayout)pnlTwitter.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-					((GridBagLayout)pnlTwitter.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+                //======== pnlTwitter ========
+                {
+                    pnlTwitter.setBorder(new TitledBorder(bundle.getString("Preferences.pnlTwitter.border")));
+                    pnlTwitter.setLayout(new GridBagLayout());
+                    ((GridBagLayout)pnlTwitter.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)pnlTwitter.getLayout()).rowHeights = new int[] {0, 0, 0};
+                    ((GridBagLayout)pnlTwitter.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)pnlTwitter.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-					//---- lblTwitterStatus ----
-					lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
-					pnlTwitter.add(lblTwitterStatus, new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 0), 0, 0));
-					pnlTwitter.add(lblMessage, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 0, 5), 0, 0));
+                    //---- lblTwitterStatus ----
+                    lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
+                    pnlTwitter.add(lblTwitterStatus, new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+                    pnlTwitter.add(lblMessage, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
-					//---- btnTwitter ----
-					btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
-					btnTwitter.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							btnTwitterActionPerformed(e);
-						}
-					});
-					pnlTwitter.add(btnTwitter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 0, 0), 0, 0));
-				}
-				pnlAuthorizations.add(pnlTwitter);
-			}
-			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAuthorizations.tab.title"), pnlAuthorizations);
+                    //---- btnTwitter ----
+                    btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
+                    btnTwitter.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btnTwitterActionPerformed(e);
+                        }
+                    });
+                    pnlTwitter.add(btnTwitter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                pnlAuthorizations.add(pnlTwitter);
+            }
+            jTabbedPane1.addTab(bundle.getString("Preferences.pnlAuthorizations.tab.title"), pnlAuthorizations);
 
-			//======== pnlProxy ========
-			{
-				pnlProxy.setBorder(new TitledBorder(bundle.getString("Preferences.pnlProxy.border")));
-				pnlProxy.setLayout(new GridBagLayout());
-				((GridBagLayout)pnlProxy.getLayout()).columnWidths = new int[] {0, 0, 0};
-				((GridBagLayout)pnlProxy.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-				((GridBagLayout)pnlProxy.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-				((GridBagLayout)pnlProxy.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            //======== pnlProxy ========
+            {
+                pnlProxy.setBorder(new TitledBorder(bundle.getString("Preferences.pnlProxy.border")));
+                pnlProxy.setLayout(new GridBagLayout());
+                ((GridBagLayout)pnlProxy.getLayout()).columnWidths = new int[] {0, 0, 0};
+                ((GridBagLayout)pnlProxy.getLayout()).rowHeights = new int[] {0, 0, 0};
+                ((GridBagLayout)pnlProxy.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                ((GridBagLayout)pnlProxy.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-				//---- cbxProxy ----
-				cbxProxy.setText(bundle.getString("Preferences.cbxProxy.text"));
-				cbxProxy.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cbxProxyActionPerformed(e);
-					}
-				});
-				pnlProxy.add(cbxProxy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-					GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-					new Insets(0, 0, 5, 0), 0, 0));
+                //---- cbxProxy ----
+                cbxProxy.setText(bundle.getString("Preferences.cbxProxy.text"));
+                cbxProxy.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cbxProxyActionPerformed(e);
+                    }
+                });
+                pnlProxy.add(cbxProxy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
-				//---- rbtnSystem ----
-				rbtnSystem.setText(bundle.getString("Preferences.rbtnSystem.text"));
-				rbtnSystem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						rbtnSystemActionPerformed();
-					}
-				});
-				pnlProxy.add(rbtnSystem, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 0), 0, 0));
+                //======== panel2 ========
+                {
+                    panel2.setLayout(new GridBagLayout());
+                    ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+                    ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
-				//---- rbtnCustom ----
-				rbtnCustom.setText(bundle.getString("Preferences.rbtnCustom.text"));
-				rbtnCustom.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						rbtnCustomActionPerformed();
-					}
-				});
-				pnlProxy.add(rbtnCustom, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 0), 0, 0));
+                    //---- lblHost ----
+                    lblHost.setText(bundle.getString("Preferences.lblHost.text"));
+                    panel2.add(lblHost, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+                    panel2.add(txtProxyHost, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
-				//======== panel2 ========
-				{
-					panel2.setLayout(new GridBagLayout());
-					((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0};
-					((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-					((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-					((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                    //---- lblPort ----
+                    lblPort.setText(bundle.getString("Preferences.lblPort.text"));
+                    panel2.add(lblPort, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+                    panel2.add(txtProxyPort, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
-					//---- lblHost ----
-					lblHost.setText(bundle.getString("Preferences.lblHost.text"));
-					panel2.add(lblHost, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 5, 5), 0, 0));
-					panel2.add(txtProxyHost, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 0), 0, 0));
+                    //---- lblUsername ----
+                    lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
+                    panel2.add(lblUsername, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+                    panel2.add(txtProxyUser, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
-					//---- lblPort ----
-					lblPort.setText(bundle.getString("Preferences.lblPort.text"));
-					panel2.add(lblPort, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 5, 5), 0, 0));
-					panel2.add(txtProxyPort, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 0), 0, 0));
+                    //---- lblPassword ----
+                    lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
+                    panel2.add(lblPassword, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
-					//---- lblUsername ----
-					lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
-					panel2.add(lblUsername, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 5, 5), 0, 0));
-					panel2.add(txtProxyUser, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 5, 0), 0, 0));
+                    //---- txtProxyPass ----
+                    txtProxyPass.setToolTipText(bundle.getString("Preferences.txtProxyPass.toolTipText"));
+                    panel2.add(txtProxyPass, new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                pnlProxy.add(panel2, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
+            }
+            jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
 
-					//---- lblPassword ----
-					lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
-					panel2.add(lblPassword, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-						new Insets(0, 0, 0, 5), 0, 0));
+            //======== pnlAutoRefresh ========
+            {
+                pnlAutoRefresh.setLayout(new GridBagLayout());
+                ((GridBagLayout)pnlAutoRefresh.getLayout()).columnWidths = new int[] {0, 0, 0};
+                ((GridBagLayout)pnlAutoRefresh.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                ((GridBagLayout)pnlAutoRefresh.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                ((GridBagLayout)pnlAutoRefresh.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-					//---- txtProxyPass ----
-					txtProxyPass.setToolTipText(bundle.getString("Preferences.txtProxyPass.toolTipText"));
-					panel2.add(txtProxyPass, new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-						new Insets(0, 0, 0, 0), 0, 0));
-				}
-				pnlProxy.add(panel2, new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 0, 0), 0, 0));
-			}
-			jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
+                //---- cbxAutoRefresh ----
+                cbxAutoRefresh.setText(bundle.getString("Preferences.cbxAutoRefresh.text"));
+                cbxAutoRefresh.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cbxAutoRefreshActionPerformed();
+                    }
+                });
+                pnlAutoRefresh.add(cbxAutoRefresh, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
-			//======== pnlAutoRefresh ========
-			{
-				pnlAutoRefresh.setLayout(new GridBagLayout());
-				((GridBagLayout)pnlAutoRefresh.getLayout()).columnWidths = new int[] {0, 0, 0};
-				((GridBagLayout)pnlAutoRefresh.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-				((GridBagLayout)pnlAutoRefresh.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-				((GridBagLayout)pnlAutoRefresh.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+                //---- cbxExitAfter ----
+                cbxExitAfter.setText(bundle.getString("Preferences.cbxExitAfter.text"));
+                pnlAutoRefresh.add(cbxExitAfter, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
-				//---- cbxAutoRefresh ----
-				cbxAutoRefresh.setText(bundle.getString("Preferences.cbxAutoRefresh.text"));
-				cbxAutoRefresh.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cbxAutoRefreshActionPerformed();
-					}
-				});
-				pnlAutoRefresh.add(cbxAutoRefresh, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 5), 0, 0));
+                //---- label1 ----
+                label1.setText(bundle.getString("Preferences.label1.text"));
+                pnlAutoRefresh.add(label1, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
-				//---- cbxExitAfter ----
-				cbxExitAfter.setText(bundle.getString("Preferences.cbxExitAfter.text"));
-				pnlAutoRefresh.add(cbxExitAfter, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 5), 0, 0));
+                //---- timeSpinner ----
+                timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));
+                timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+                pnlAutoRefresh.add(timeSpinner, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
+            }
+            jTabbedPane1.addTab(bundle.getString("Preferences.pnlAutoRefresh.tab.title"), pnlAutoRefresh);
+        }
+        contentPane.add(jTabbedPane1, BorderLayout.NORTH);
 
-				//---- label1 ----
-				label1.setText(bundle.getString("Preferences.label1.text"));
-				pnlAutoRefresh.add(label1, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-					new Insets(0, 0, 0, 5), 0, 0));
+        //======== panel1 ========
+        {
+            panel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-				//---- timeSpinner ----
-				timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));
-				timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
-				pnlAutoRefresh.add(timeSpinner, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 0, 0), 0, 0));
-			}
-			jTabbedPane1.addTab(bundle.getString("Preferences.pnlAutoRefresh.tab.title"), pnlAutoRefresh);
-		}
-		contentPane.add(jTabbedPane1, BorderLayout.NORTH);
-
-		//======== panel1 ========
-		{
-			panel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
-			//---- btnOK ----
-			btnOK.setText(bundle.getString("Preferences.btnOK.text"));
-			btnOK.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					btnOKActionPerformed(e);
-				}
-			});
-			panel1.add(btnOK);
-		}
-		contentPane.add(panel1, BorderLayout.SOUTH);
-		setSize(595, 450);
-		setLocationRelativeTo(null);
-
-		//---- buttonGroup1 ----
-		ButtonGroup buttonGroup1 = new ButtonGroup();
-		buttonGroup1.add(rbtnSystem);
-		buttonGroup1.add(rbtnCustom);
+            //---- btnOK ----
+            btnOK.setText(bundle.getString("Preferences.btnOK.text"));
+            btnOK.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    btnOKActionPerformed(e);
+                }
+            });
+            panel1.add(btnOK);
+        }
+        contentPane.add(panel1, BorderLayout.SOUTH);
+        setSize(595, 450);
+        setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
 
@@ -846,12 +808,10 @@ public class Preferences extends javax.swing.JDialog {
 	}
 
 	private void setProxyComponentStates() {
-		this.rbtnSystem.setEnabled(this.cbxProxy.isSelected());
-		this.rbtnCustom.setEnabled(this.cbxProxy.isSelected());
-		this.txtProxyHost.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
-		this.txtProxyPass.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
-		this.txtProxyPort.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
-		this.txtProxyUser.setEnabled(this.cbxProxy.isSelected() && this.rbtnCustom.isSelected());
+		this.txtProxyHost.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyPass.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyPort.setEnabled(this.cbxProxy.isSelected());
+		this.txtProxyUser.setEnabled(this.cbxProxy.isSelected());
 	}
 
 	/**
@@ -921,50 +881,48 @@ public class Preferences extends javax.swing.JDialog {
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private JTabbedPane jTabbedPane1;
-	private JPanel jPanel1;
-	private JCheckBox cbxAddVia;
-	private JCheckBox cbxAddManaged;
-	private JLabel lblRefreshPrefix;
-	private JComboBox<String> cmbRefresh;
-	private JLabel lblRefreshSuffix;
-	private JCheckBox cbxUpdate;
-	private JLabel lblFavrPrefix;
-	private JComboBox<String> cmbFavr;
-	private JCheckBox cbxDetailLog;
-	private JLabel lblLogFile;
-	private JComboBox<String> cmbLogSize;
-	private JLabel lblRetain;
-	private JComboBox<String> cmbLogIndex;
-	private JLabel lblNote;
-	private JPanel pnlAuthorizations;
-	private JPanel pnlFlickr;
-	private JLabel lblFlickrStatus;
-	private JButton btnFlickr;
-	private JPanel pnlTwitter;
-	private JLabel lblTwitterStatus;
-	private JLabel lblMessage;
-	private JButton btnTwitter;
-	private JPanel pnlProxy;
-	private JCheckBox cbxProxy;
-	private JRadioButton rbtnSystem;
-	private JRadioButton rbtnCustom;
-	private JPanel panel2;
-	private JLabel lblHost;
-	private JTextField txtProxyHost;
-	private JLabel lblPort;
-	private JTextField txtProxyPort;
-	private JLabel lblUsername;
-	private JTextField txtProxyUser;
-	private JLabel lblPassword;
-	private JPasswordField txtProxyPass;
-	private JPanel pnlAutoRefresh;
-	private JCheckBox cbxAutoRefresh;
-	private JCheckBox cbxExitAfter;
-	private JLabel label1;
-	private JSpinner timeSpinner;
-	private JPanel panel1;
-	private JButton btnOK;
+    private JTabbedPane jTabbedPane1;
+    private JPanel jPanel1;
+    private JCheckBox cbxAddVia;
+    private JCheckBox cbxAddManaged;
+    private JLabel lblRefreshPrefix;
+    private JComboBox<String> cmbRefresh;
+    private JLabel lblRefreshSuffix;
+    private JCheckBox cbxUpdate;
+    private JLabel lblFavrPrefix;
+    private JComboBox<String> cmbFavr;
+    private JCheckBox cbxDetailLog;
+    private JLabel lblLogFile;
+    private JComboBox<String> cmbLogSize;
+    private JLabel lblRetain;
+    private JComboBox<String> cmbLogIndex;
+    private JLabel lblNote;
+    private JPanel pnlAuthorizations;
+    private JPanel pnlFlickr;
+    private JLabel lblFlickrStatus;
+    private JButton btnFlickr;
+    private JPanel pnlTwitter;
+    private JLabel lblTwitterStatus;
+    private JLabel lblMessage;
+    private JButton btnTwitter;
+    private JPanel pnlProxy;
+    private JCheckBox cbxProxy;
+    private JPanel panel2;
+    private JLabel lblHost;
+    private JTextField txtProxyHost;
+    private JLabel lblPort;
+    private JTextField txtProxyPort;
+    private JLabel lblUsername;
+    private JTextField txtProxyUser;
+    private JLabel lblPassword;
+    private JPasswordField txtProxyPass;
+    private JPanel pnlAutoRefresh;
+    private JCheckBox cbxAutoRefresh;
+    private JCheckBox cbxExitAfter;
+    private JLabel label1;
+    private JSpinner timeSpinner;
+    private JPanel panel1;
+    private JButton btnOK;
 	// End of variables declaration//GEN-END:variables
 
 }

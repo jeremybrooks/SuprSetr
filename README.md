@@ -27,6 +27,8 @@ This is a beta release of SuprSetr that will work with the new https Flickr API 
 It probably has bugs. But don't worry, I'll fix them when they are found.
 
 ## Known Issues
+
+ * Flickr seems to limit sets to 4,500 images
  
 ## Testing
 Things that have been tested and seem to work. Parenthesis indicate the operating
@@ -55,13 +57,13 @@ system that it has been tested on (Mac, Linux, Windows)
  * Authorize Twitter (M)
  * Tweet when created (M)
  * Tweet when updated (M)
+ * Proxy settings (M)
 
 Things that still need some testing and may not work
 
  * Creating sets based on machine tags
  * Lots of combinations of set criteria
  * FavrTagr
- * Proxy settings
 
 
 # ROADMAP

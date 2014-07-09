@@ -237,17 +237,12 @@ public class Main {
 
         // Set up proxy
         if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_USE_PROXY))) {
-            if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM))) {
-                logger.info("Using system proxy settings");
-                NetUtil.enableSystemProxy();
-            } else {
                 String host = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_HOST);
                 String port = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PORT);
                 final String user = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USER);
                 final String pass = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_PASS);
                 logger.info("Using proxy " + host + ":" + port);
                 NetUtil.enableProxy(host, port, user, pass.toCharArray());
-            }
         }
 
 
