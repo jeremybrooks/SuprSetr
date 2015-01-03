@@ -23,8 +23,7 @@ import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import org.apache.log4j.Logger;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -425,6 +424,12 @@ public class DAOHelper {
 				break;
 
 			case 7:
+				logger.info("Attempting to upgrade schema to version 8.");
+				DAOHelper.upgradeToVersion8();
+				logger.info("Upgrade to schema version 8: success.");
+				break;
+
+			case 8:
 				// DB is already up to date; nothing to do
 				break;
 
@@ -625,9 +630,6 @@ public class DAOHelper {
 			s.execute("UPDATE PHOTOSET SET MACHINE_TAG_MATCH_MODE = '" + SSConstants.TAG_MATCH_MODE_NONE + "'");
 			logger.info("Added column MACHINE_TAG_MATCH_MODE to PHOTOSET table.");
 
-            s.execute("ALTER TABLE PHOTOSET ADD COLUMN TEXT_SEARCH VARCHAR(2000)");
-            logger.info("Added column TEXT_SEARCH to PHOTOSET table.");
-
 			// no errors, so update the version
 			LookupDAO.setDatabaseVersion(7);
 		} catch (Exception e) {
@@ -637,6 +639,30 @@ public class DAOHelper {
 			DAOHelper.close(conn, s);
 		}
 	}
+
+	/*
+	 * Schema version 8 supports full text search.
+	 */
+	private static void upgradeToVersion8() throws Exception {
+		Connection conn = null;
+		Statement s = null;
+		try {
+			conn = DAOHelper.getConnection();
+			s = conn.createStatement();
+
+			s.execute("ALTER TABLE PHOTOSET ADD COLUMN TEXT_SEARCH VARCHAR(2000)");
+			logger.info("Added column TEXT_SEARCH to PHOTOSET table.");
+
+			// no errors, so update the version
+			LookupDAO.setDatabaseVersion(8);
+		} catch (Exception e) {
+			logger.error("COULD NOT UPGRADE SCHEMA TO VERSION 8!", e);
+			throw e;
+		} finally {
+			DAOHelper.close(conn, s);
+		}
+	}
+
 
 	public static void compressTables() throws Exception {
 		Connection conn = null;
