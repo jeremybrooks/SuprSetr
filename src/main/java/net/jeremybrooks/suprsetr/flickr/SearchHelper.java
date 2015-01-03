@@ -138,7 +138,7 @@ public class SearchHelper {
 //		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
         }
 
-        if (ssPhotoset.getTextSearch().trim().length() > 0) {
+        if (ssPhotoset.getTextSearch() != null && ssPhotoset.getTextSearch().trim().length() > 0) {
             sp.setText(ssPhotoset.getTextSearch().trim());
         }
 
