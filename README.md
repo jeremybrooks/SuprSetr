@@ -29,6 +29,7 @@ It probably has bugs. But don't worry, I'll fix them when they are found.
 ## Known Issues
 
  * Flickr seems to limit sets to 4,500 images
+ * Picking a set image doesn't work when using proxy
  
 ## Testing
 Things that have been tested and seem to work. Parenthesis indicate the operating
@@ -70,11 +71,15 @@ Things that still need some testing and may not work
  * 3.0.0
 
 	use new Jinx library so API endpoints will all be https
+    Full text searches
+    Display view count for each set
+
 
  * 3.1.0
 
  	Support multiple accounts
-	Full text searches
+ 	Facebook integration
+ 	Other social media integration?
 
 # DEVELOPERS
 
