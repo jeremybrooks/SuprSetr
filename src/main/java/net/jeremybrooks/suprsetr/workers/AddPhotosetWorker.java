@@ -105,8 +105,6 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 			blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.searching"));
 			SearchParameters params;
 
-			//SearchParameters params = SearchHelper.getInstance().getSearchParameters(this.ssPhotoset);
-			//photos = PhotoHelper.getInstance().getPhotos(params);
 			if (ssPhotoset.isOnThisDay()) {
 				List<Photo> tempResults;
 				int endYear = ssPhotoset.getOnThisDayYearEnd();
@@ -127,11 +125,6 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 						if (photos == null) {
 							photos = tempResults;
 						} else {
-//							total += tempResults.size();
-//							photos.setTotal(photos.getTotal() + tempResults.getTotal());
-//							List<Photo> list = photos.getPhotos();
-//							list.addAll(tempResults.getPhotos());
-//							photos.setPhotos(list);
 							photos.addAll(tempResults);
 						}
 					}
@@ -148,12 +141,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 						if (photos == null) {
 							photos = tempResults;
 						} else {
-//							total += tempResults.size();
 							photos.addAll(tempResults);
-//							photos.setTotal(photos.getTotal() + tempResults.getTotal());
-//							List<Photo> list = photos.getPhotos();
-//							list.addAll(tempResults.getPhotos());
-//							photos.setPhotos(list);
 						}
 					}
 				}
@@ -229,11 +217,23 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
                 if (newSet == null) {
                     throw new Exception("New set was null; cannot add.");
                 }
+                // count photos and videos
+                // counting media type avoids a call to get photoset info
+                int videoCount = 0;
+                int photoCount = 0;
+                for (Photo p : photos) {
+                    if (p.getMedia().equalsIgnoreCase("video")) {
+                        videoCount++;
+                    } else {
+                        photoCount++;
+                    }
+                }
 				blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.saving"));
-                this.ssPhotoset.setFarm(newSet.getFarm() == null ? 0 : newSet.getFarm());
+                this.ssPhotoset.setFarm(newSet.getFarm() == null ? 0 : Integer.parseInt(newSet.getFarm()));
                 this.ssPhotoset.setPhotosetId(newSet.getPhotosetId());
 				this.ssPhotoset.setLastRefreshDate(new Date());
-				this.ssPhotoset.setPhotos(photos.size());
+				this.ssPhotoset.setPhotos(photoCount);
+                this.ssPhotoset.setVideos(videoCount);
 				this.ssPhotoset.setPrimaryPhotoIcon(PhotoHelper.getInstance().getIconForPhoto(firstPhoto.getPhotoId()));
 				this.ssPhotoset.setSecret(newSet.getSecret());
 				this.ssPhotoset.setServer(newSet.getServer());
