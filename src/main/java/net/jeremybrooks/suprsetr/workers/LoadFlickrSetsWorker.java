@@ -100,7 +100,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 					ssp = new SSPhotoset();
 					// set fields inherited from Photoset
 					ssp.setDescription(p.getDescription());
-					ssp.setFarm(p.getFarm());
+					ssp.setFarm(Integer.parseInt(p.getFarm()));
 					ssp.setPhotosetId(p.getPhotosetId());
 					ssp.setPhotos(p.getPhotos());
 					ssp.setVideos(p.getVideos());
@@ -111,7 +111,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
 					// build the URL -- it is not correct in the getUrl() call
 					StringBuilder sb = new StringBuilder();
-					sb.append("http://www.flickr.com/photos/");
+					sb.append("https://www.flickr.com/photos/");
 					sb.append(nsid);
 					sb.append("/sets/");
 					sb.append(p.getPhotosetId());
@@ -133,7 +133,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
 
 				} else {
-					ssp.setFarm(p.getFarm());
+					ssp.setFarm(Integer.parseInt(p.getFarm()));
 					ssp.setPhotos(p.getPhotos());
 					ssp.setVideos(p.getVideos());
 
@@ -153,7 +153,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
                     // build the URL -- it is not correct in the getUrl() call
                     StringBuilder sb = new StringBuilder();
-                    sb.append("http://www.flickr.com/photos/");
+                    sb.append("https://www.flickr.com/photos/");
                     sb.append(nsid);
                     sb.append("/sets/");
                     sb.append(p.getPhotosetId());
