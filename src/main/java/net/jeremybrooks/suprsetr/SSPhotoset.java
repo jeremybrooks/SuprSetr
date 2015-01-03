@@ -145,7 +145,7 @@ public class SSPhotoset {
 		if (p.getFarm() == null) {
 			farm = 0;
 		} else {
-			farm = p.getFarm();
+			farm = Integer.parseInt(p.getFarm());
 		}
 		if (p.getPhotos() == null) {
 			photos = 0;
