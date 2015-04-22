@@ -94,6 +94,16 @@ public class SetListRenderer implements ListCellRenderer {
 						sb.append(resourceBundle.getString("SetListRenderer.text.videos"));
 					}
 				}
+
+				if (def.getViewCount() != -1) {
+					sb.append(", ").append(def.getViewCount()).append(' ');
+					if (def.getViewCount() == 1) {
+						sb.append(resourceBundle.getString("SetListRenderer.text.count"));
+					} else {
+						sb.append(resourceBundle.getString("SetListRenderer.text.counts"));
+					}
+				}
+
 				sb.append(']');
 
 				cell.setTitle(sb.toString());

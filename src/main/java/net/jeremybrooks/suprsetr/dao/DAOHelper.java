@@ -653,6 +653,9 @@ public class DAOHelper {
 			s.execute("ALTER TABLE PHOTOSET ADD COLUMN TEXT_SEARCH VARCHAR(2000)");
 			logger.info("Added column TEXT_SEARCH to PHOTOSET table.");
 
+            s.execute("ALTER TABLE PHOTOSET ADD COLUMN VIEW_COUNT INTEGER");
+            logger.info("Added column VIEW_COUNT to PHOTOSET table.");
+
 			// no errors, so update the version
 			LookupDAO.setDatabaseVersion(8);
 		} catch (Exception e) {

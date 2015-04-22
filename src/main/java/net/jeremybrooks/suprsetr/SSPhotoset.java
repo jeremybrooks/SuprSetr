@@ -53,6 +53,7 @@ public class SSPhotoset {
 	private String server;
 	private String secret;
 	private String primary;
+	private int viewCount;
 
 	/*
 	 * These are related to SuprSetr
@@ -926,5 +927,13 @@ public class SSPhotoset {
 
 	public void setPrimary(String primary) {
 		this.primary = primary;
+	}
+
+	public int getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
 	}
 }

@@ -70,10 +70,10 @@ Things that still need some testing and may not work
 # ROADMAP
  * 3.0.0
 
-	use new Jinx library so API endpoints will all be https
-    Full text searches
-    Display view count for each set
-
+	use new Jinx library so API endpoints will all be https (done)
+    Full text searches (done)
+    Display view count for each set (in progress: need to figure out sorting by views...)
+	FavrTagr uses machine tags
 
  * 3.1.0
 

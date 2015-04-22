@@ -37,6 +37,7 @@ import net.jeremybrooks.suprsetr.workers.FavrTagrWorker;
 import net.jeremybrooks.suprsetr.workers.FilterSetListWorker;
 import net.jeremybrooks.suprsetr.workers.LoadFlickrSetsWorker;
 import net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker;
+import net.jeremybrooks.suprsetr.workers.UpdateViewCountWorker;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -1316,6 +1317,7 @@ public class MainWindow extends javax.swing.JFrame {
 		BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
 		setGlassPane(blocker);
 		new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), visiblePhotosetId).execute();
+        new UpdateViewCountWorker(this.masterList).execute();
 	}
 
 

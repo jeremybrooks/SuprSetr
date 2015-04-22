@@ -30,8 +30,7 @@ import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.PhotosetHelper;
 import org.apache.log4j.Logger;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -191,7 +190,11 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 	protected void done() {
 		// UPDATE THE LIST MODEL
 		try {
-			MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
+			List<SSPhotoset> list = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
+			for (SSPhotoset ssPhotoset : list) {
+				ssPhotoset.setViewCount(-1);	// indicate that the view count has not been fetched
+			}
+			MainWindow.getMainWindow().setMasterList(list, null);
 		} catch (Exception e) {
 			logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);
 			JOptionPane.showMessageDialog(null,
