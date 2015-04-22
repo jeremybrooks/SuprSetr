@@ -22,14 +22,9 @@ package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -75,61 +70,56 @@ public class SetListCell extends javax.swing.JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		ResourceBundle bundle = this.resourceBundle;
-		lblTwitter = new JLabel();
-		lblPic = new JLabel();
-		lblTitle = new JLabel();
-		lblLastUpdate = new JLabel();
-		lblManaged = new JLabel();
+    private void initComponents() {
+        ResourceBundle bundle = this.resourceBundle;
+        lblTwitter = new JLabel();
+        lblPic = new JLabel();
+        lblTitle = new JLabel();
+        lblManaged = new JLabel();
+        lblLastUpdate = new JLabel();
 
-		//======== this ========
-		setBorder(new BevelBorder(BevelBorder.RAISED));
-		setMinimumSize(new Dimension(494, 81));
-		setPreferredSize(new Dimension(0, 81));
-		setLayout(null);
+        //======== this ========
+        setBorder(new BevelBorder(BevelBorder.RAISED));
+        setMinimumSize(new Dimension(494, 81));
+        setPreferredSize(new Dimension(0, 81));
+        setLayout(new GridBagLayout());
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-		//---- lblTwitter ----
-		lblTwitter.setIcon(new ImageIcon(getClass().getResource("/images/twitter24.png")));
-		add(lblTwitter);
-		lblTwitter.setBounds(new Rectangle(new Point(40, 0), lblTwitter.getPreferredSize()));
+        //---- lblTwitter ----
+        lblTwitter.setIcon(new ImageIcon(getClass().getResource("/images/twitter24.png")));
+        add(lblTwitter, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
 
-		//---- lblPic ----
-		lblPic.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
-		add(lblPic);
-		lblPic.setBounds(2, 3, 75, 75);
+        //---- lblPic ----
+        lblPic.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
+        add(lblPic, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
-		//---- lblTitle ----
-		lblTitle.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblTitle.setText(bundle.getString("SetListCell.lblTitle.text"));
-		add(lblTitle);
-		lblTitle.setBounds(80, 5, 350, 23);
+        //---- lblTitle ----
+        lblTitle.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+        lblTitle.setText(bundle.getString("SetListCell.lblTitle.text"));
+        add(lblTitle, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
-		//---- lblLastUpdate ----
-		lblLastUpdate.setIcon(new ImageIcon(getClass().getResource("/images/accept.png")));
-		lblLastUpdate.setText(bundle.getString("SetListCell.lblLastUpdate.text"));
-		add(lblLastUpdate);
-		lblLastUpdate.setBounds(80, 55, 350, 23);
+        //---- lblManaged ----
+        lblManaged.setIcon(new ImageIcon(getClass().getResource("/images/accept.png")));
+        lblManaged.setText(bundle.getString("SetListCell.lblManaged.text"));
+        add(lblManaged, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
-		//---- lblManaged ----
-		lblManaged.setIcon(new ImageIcon(getClass().getResource("/images/accept.png")));
-		lblManaged.setText(bundle.getString("SetListCell.lblManaged.text"));
-		add(lblManaged);
-		lblManaged.setBounds(80, 30, 350, 23);
-
-		{ // compute preferred size
-			Dimension preferredSize = new Dimension();
-			for(int i = 0; i < getComponentCount(); i++) {
-				Rectangle bounds = getComponent(i).getBounds();
-				preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
-				preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
-			}
-			Insets insets = getInsets();
-			preferredSize.width += insets.right;
-			preferredSize.height += insets.bottom;
-			setMinimumSize(preferredSize);
-			setPreferredSize(preferredSize);
-		}
+        //---- lblLastUpdate ----
+        lblLastUpdate.setIcon(new ImageIcon(getClass().getResource("/images/accept.png")));
+        lblLastUpdate.setText(bundle.getString("SetListCell.lblLastUpdate.text"));
+        add(lblLastUpdate, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
 	}// </editor-fold>//GEN-END:initComponents
 
 
@@ -268,11 +258,11 @@ public class SetListCell extends javax.swing.JPanel {
 
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private JLabel lblTwitter;
-	private JLabel lblPic;
-	private JLabel lblTitle;
-	private JLabel lblLastUpdate;
-	private JLabel lblManaged;
+    private JLabel lblTwitter;
+    private JLabel lblPic;
+    private JLabel lblTitle;
+    private JLabel lblManaged;
+    private JLabel lblLastUpdate;
 	// End of variables declaration//GEN-END:variables
 
 
