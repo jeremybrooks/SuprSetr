@@ -1,5 +1,5 @@
 # SuprSetr
-## advanced set management for Flickr
+## advanced album management for Flickr
 
 When you start SuprSetr, it will connect to Flickr and get a list of all your
 sets. Data about these sets will be stored in a local database, and updated
