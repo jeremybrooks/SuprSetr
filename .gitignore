@@ -1,6 +1,7 @@
 log/*.log
 *.log
 *.iml
+*.idea
 tmp/*
 tmp/**/*
 *.swp
