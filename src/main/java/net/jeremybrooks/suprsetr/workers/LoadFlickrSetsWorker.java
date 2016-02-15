@@ -143,6 +143,12 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
             ssp.setPrimary(p.getPrimary());
             ssp.setPrimaryPhotoIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
           }
+          if (!p.getTitle().equals(ssp.getTitle())) {
+            ssp.setTitle(p.getTitle());
+          }
+          if (!p.getDescription().equals(ssp.getDescription())) {
+            ssp.setDescription(p.getDescription());
+          }
 
 
           ssp.setSecret(p.getSecret());
