@@ -1,3 +1,9 @@
+Version 3.0.0 (BETA)
+ * use latest Jinx library so API endpoints will all be https (done)
+ * Support full text searches (done)
+ * Display view count for each set (in progress: need to figure out sorting by views...)
+ * FavrTagr uses machine tags (todo)
+
 Version 2.1.0
  * Added support for Machine Tags
  * Better calculation of tweet length
