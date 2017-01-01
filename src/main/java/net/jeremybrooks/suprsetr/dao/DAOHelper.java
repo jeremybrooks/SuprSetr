@@ -657,6 +657,9 @@ public class DAOHelper {
       s.execute("ALTER TABLE PHOTOSET ADD COLUMN VIEW_COUNT INTEGER");
       logger.info("Added column VIEW_COUNT to PHOTOSET table.");
 
+      s.execute("UPDATE PHOTOSET SET VIEW_COUNT = -1");
+      logger.info("Set default values for VIEW_COUNT.");
+
       // no errors, so update the version
       LookupDAO.setDatabaseVersion(8);
     } catch (Exception e) {
