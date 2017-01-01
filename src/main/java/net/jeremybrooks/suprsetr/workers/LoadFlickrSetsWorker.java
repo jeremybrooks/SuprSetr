@@ -196,9 +196,6 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
     // UPDATE THE LIST MODEL
     try {
       List<SSPhotoset> list = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
-      for (SSPhotoset ssPhotoset : list) {
-        ssPhotoset.setViewCount(-1);  // indicate that the view count has not been fetched
-      }
       MainWindow.getMainWindow().setMasterList(list, null);
     } catch (Exception e) {
       logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);
