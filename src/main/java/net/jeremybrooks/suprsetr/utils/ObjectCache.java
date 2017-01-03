@@ -33,95 +33,95 @@ import java.io.Serializable;
  * @author Jeremy Brooks
  */
 public class ObjectCache {
-	private Logger logger = Logger.getLogger(ObjectCache.class);
-	private File cacheDir;
+  private Logger logger = Logger.getLogger(ObjectCache.class);
+  private File cacheDir;
 
-	public ObjectCache() throws IOException {
-		this("ObjectCacheDir-" + System.currentTimeMillis() + System.getProperty("java.io.tmpdir"));
-	}
+  public ObjectCache() throws IOException {
+    this("ObjectCacheDir-" + System.currentTimeMillis() + System.getProperty("java.io.tmpdir"));
+  }
 
-	public ObjectCache(String cacheDirName) throws IOException {
-		this(new File(System.getProperty("java.io.tmpdir"), cacheDirName));
-	}
+  public ObjectCache(String cacheDirName) throws IOException {
+    this(new File(System.getProperty("java.io.tmpdir"), cacheDirName));
+  }
 
-	public ObjectCache(File cacheDir) throws IOException {
-		if (cacheDir == null) {
-			throw new IOException("Cannot use a null directory.");
-		}
-		if (cacheDir.exists()) {
-			if (!cacheDir.isDirectory()) {
-				throw new IOException(cacheDir.getAbsolutePath() + " is not a directory.");
-			}
-		} else if (!cacheDir.mkdirs()) {
-			throw new IOException("Could not create directory " + cacheDir.getAbsolutePath());
-		}
+  public ObjectCache(File cacheDir) throws IOException {
+    if (cacheDir == null) {
+      throw new IOException("Cannot use a null directory.");
+    }
+    if (cacheDir.exists()) {
+      if (!cacheDir.isDirectory()) {
+        throw new IOException(cacheDir.getAbsolutePath() + " is not a directory.");
+      }
+    } else if (!cacheDir.mkdirs()) {
+      throw new IOException("Could not create directory " + cacheDir.getAbsolutePath());
+    }
 
-		this.cacheDir = cacheDir;
-		this.cacheDir.deleteOnExit();
+    this.cacheDir = cacheDir;
+    this.cacheDir.deleteOnExit();
 
-		if (this.logger.isDebugEnabled())
-			this.logger.debug("Using cache directory " + this.cacheDir.getAbsolutePath());
-	}
+    if (this.logger.isDebugEnabled())
+      this.logger.debug("Using cache directory " + this.cacheDir.getAbsolutePath());
+  }
 
-	public void put(String name, Serializable ser) throws IOException {
-		if ((name == null) || (name.isEmpty())) {
-			throw new IOException("Name cannot be null or empty.");
-		}
-		if (ser == null) {
-			throw new IOException("Cannot cache a null object.");
-		}
+  public void put(String name, Serializable ser) throws IOException {
+    if ((name == null) || (name.isEmpty())) {
+      throw new IOException("Name cannot be null or empty.");
+    }
+    if (ser == null) {
+      throw new IOException("Cannot cache a null object.");
+    }
 
-		ObjectOutputStream out = null;
-		File cacheFile = new File(this.cacheDir, name);
-		cacheFile.deleteOnExit();
-		try {
-			out = new ObjectOutputStream(new FileOutputStream(cacheFile));
-			out.writeObject(ser);
+    ObjectOutputStream out = null;
+    File cacheFile = new File(this.cacheDir, name);
+    cacheFile.deleteOnExit();
+    try {
+      out = new ObjectOutputStream(new FileOutputStream(cacheFile));
+      out.writeObject(ser);
 
-			if (this.logger.isDebugEnabled()) {
-				this.logger.debug("Cached object '" + name + "' as " + cacheFile.getAbsolutePath());
-			}
-		} finally {
-			IOUtil.flush(out);
-			IOUtil.close(out);
-		}
-	}
+      if (this.logger.isDebugEnabled()) {
+        this.logger.debug("Cached object '" + name + "' as " + cacheFile.getAbsolutePath());
+      }
+    } finally {
+      IOUtil.flush(out);
+      IOUtil.close(out);
+    }
+  }
 
-	public Object get(String name) throws IOException {
-		if ((name == null) || (name.isEmpty())) {
-			throw new IOException("Name cannot be null or empty.");
-		}
+  public Object get(String name) throws IOException {
+    if ((name == null) || (name.isEmpty())) {
+      throw new IOException("Name cannot be null or empty.");
+    }
 
-		Object obj = null;
-		ObjectInputStream in;
-		File cacheFile = new File(this.cacheDir, name);
+    Object obj = null;
+    ObjectInputStream in;
+    File cacheFile = new File(this.cacheDir, name);
 
-		if (cacheFile.exists()) {
-			in = new ObjectInputStream(new FileInputStream(cacheFile));
-			try {
-				obj = in.readObject();
-			} catch (ClassNotFoundException cnfe) {
-				throw new IOException("Unable to read the object from cache.", cnfe);
-			} finally {
-				IOUtil.close(in);
-			}
-		}
+    if (cacheFile.exists()) {
+      in = new ObjectInputStream(new FileInputStream(cacheFile));
+      try {
+        obj = in.readObject();
+      } catch (ClassNotFoundException cnfe) {
+        throw new IOException("Unable to read the object from cache.", cnfe);
+      } finally {
+        IOUtil.close(in);
+      }
+    }
 
-		return obj;
-	}
+    return obj;
+  }
 
-	public void delete(String name) {
-		if ((name == null) || (name.isEmpty())) {
-			return;
-		}
-		File cacheFile = new File(this.cacheDir, name);
+  public void delete(String name) {
+    if ((name == null) || (name.isEmpty())) {
+      return;
+    }
+    File cacheFile = new File(this.cacheDir, name);
 
-		if (cacheFile.exists()) {
-			if (cacheFile.delete()) {
-				this.logger.debug("Deleted " + cacheFile.getAbsolutePath());
-			} else {
-				this.logger.warn("Delete failed for file " + cacheFile.getAbsolutePath());
-			}
-		}
-	}
+    if (cacheFile.exists()) {
+      if (cacheFile.delete()) {
+        this.logger.debug("Deleted " + cacheFile.getAbsolutePath());
+      } else {
+        this.logger.warn("Delete failed for file " + cacheFile.getAbsolutePath());
+      }
+    }
+  }
 }

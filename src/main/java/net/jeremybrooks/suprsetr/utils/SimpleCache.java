@@ -41,72 +41,72 @@ import java.util.Map;
 public class SimpleCache {
 
 
-	/**
-	 * Maps the photoset ID to the list cell instance.
-	 */
-	private Map<String, SetListCell> cache;
+  /**
+   * Maps the photoset ID to the list cell instance.
+   */
+  private Map<String, SetListCell> cache;
 
-	/**
-	 * Reference to this class.
-	 */
-	private static SimpleCache instance = null;
-
-
-	/**
-	 * Constructor.
-	 */
-	private SimpleCache() {
-		this.cache = new HashMap<>();
-	}
+  /**
+   * Reference to this class.
+   */
+  private static SimpleCache instance = null;
 
 
-	/**
-	 * Get a reference to the only instance of this class.
-	 *
-	 * @return instance of this class.
-	 */
-	public static SimpleCache getInstance() {
-		if (instance == null) {
-			instance = new SimpleCache();
-		}
-
-		return instance;
-	}
+  /**
+   * Constructor.
+   */
+  private SimpleCache() {
+    this.cache = new HashMap<>();
+  }
 
 
-	/**
-	 * Get the cell for the specified photoset ID.
-	 *
-	 * @param id the photoset ID for the cell.
-	 * @return the instance of the cell, or null if it does not exist in cache.
-	 */
-	public SetListCell getFromCache(String id) {
-		return this.cache.get(id);
-	}
+  /**
+   * Get a reference to the only instance of this class.
+   *
+   * @return instance of this class.
+   */
+  public static SimpleCache getInstance() {
+    if (instance == null) {
+      instance = new SimpleCache();
+    }
+
+    return instance;
+  }
 
 
-	/**
-	 * Put a cell in the cache.
-	 *
-	 * @param id   the photoset ID to associate with the cell instance.
-	 * @param cell the cell to put in cache.
-	 */
-	public void putInCache(String id, SetListCell cell) {
-		this.cache.put(id, cell);
-	}
+  /**
+   * Get the cell for the specified photoset ID.
+   *
+   * @param id the photoset ID for the cell.
+   * @return the instance of the cell, or null if it does not exist in cache.
+   */
+  public SetListCell getFromCache(String id) {
+    return this.cache.get(id);
+  }
 
 
-	/**
-	 * Marks the cell associated with the ID as invalid. This will cause the
-	 * CellRenderer to update the fields on the cell. If there is no cell for
-	 * the ID, nothing happens.
-	 *
-	 * @param id the photoset ID to mark as invalid.
-	 */
-	public void invalidate(String id) {
-		if (this.cache.containsKey(id)) {
-			this.cache.get(id).setCacheValid(false);
-		}
-	}
+  /**
+   * Put a cell in the cache.
+   *
+   * @param id   the photoset ID to associate with the cell instance.
+   * @param cell the cell to put in cache.
+   */
+  public void putInCache(String id, SetListCell cell) {
+    this.cache.put(id, cell);
+  }
+
+
+  /**
+   * Marks the cell associated with the ID as invalid. This will cause the
+   * CellRenderer to update the fields on the cell. If there is no cell for
+   * the ID, nothing happens.
+   *
+   * @param id the photoset ID to mark as invalid.
+   */
+  public void invalidate(String id) {
+    if (this.cache.containsKey(id)) {
+      this.cache.get(id).setCacheValid(false);
+    }
+  }
 
 }

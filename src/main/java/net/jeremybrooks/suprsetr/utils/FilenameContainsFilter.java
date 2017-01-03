@@ -25,16 +25,16 @@ import java.io.FilenameFilter;
 /**
  * @author Jeremy Brooks
  */
-public class FilenameContainsFilter implements FilenameFilter{
+public class FilenameContainsFilter implements FilenameFilter {
 
-	private String contains;
+  private String contains;
 
-	public FilenameContainsFilter(String contains) {
-		this.contains = contains;
-	}
+  public FilenameContainsFilter(String contains) {
+    this.contains = contains;
+  }
 
-	@Override
-	public boolean accept(File dir, String name) {
-		return name.contains(this.contains);
-	}
+  @Override
+  public boolean accept(File dir, String name) {
+    return name.contains(this.contains);
+  }
 }

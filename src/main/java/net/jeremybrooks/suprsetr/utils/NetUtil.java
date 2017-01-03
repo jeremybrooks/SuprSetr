@@ -30,37 +30,37 @@ import java.net.Proxy;
  */
 public class NetUtil {
 
-    private static JinxProxy jinxProxy;
+  private static JinxProxy jinxProxy;
 
-	public static void enableProxy(String host, String port, final String username, final char[] password) {
-        jinxProxy = new JinxProxy(host, Integer.parseInt(port), username, password);
-        JinxFactory.getInstance().setProxy(jinxProxy);
-	}
+  public static void enableProxy(String host, String port, final String username, final char[] password) {
+    jinxProxy = new JinxProxy(host, Integer.parseInt(port), username, password);
+    JinxFactory.getInstance().setProxy(jinxProxy);
+  }
 
-	public static void clearProxy() {
-        jinxProxy = null;
-        JinxFactory.getInstance().setProxy(null);
-	}
+  public static void clearProxy() {
+    jinxProxy = null;
+    JinxFactory.getInstance().setProxy(null);
+  }
 
-    /**
-     * Get the network proxy.
-     *
-     * Jinx handles the proxy on its own, but other things that need the network (VersionChecker, for example)
-     * need a proxy as well.
-     *
-     * This method will return Proxy.NO_PROXY if there is no proxy configured.
-     *
-     * Callers can use the return value of this method in the openConnection method.
-     *
-     * @return instance of Proxy to use.
-     */
-    public static Proxy getProxy() {
-        if (jinxProxy == null) {
-            return Proxy.NO_PROXY;
-        } else {
-            // note: if proxy authentication is needed, it will already have been set up when the Jinx
-            //       proxy was enabled, so no need to set it up again.
-            return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(jinxProxy.getProxyHost(), jinxProxy.getProxyPort()));
-        }
+  /**
+   * Get the network proxy.
+   * <p>
+   * Jinx handles the proxy on its own, but other things that need the network (VersionChecker, for example)
+   * need a proxy as well.
+   * <p>
+   * This method will return Proxy.NO_PROXY if there is no proxy configured.
+   * <p>
+   * Callers can use the return value of this method in the openConnection method.
+   *
+   * @return instance of Proxy to use.
+   */
+  public static Proxy getProxy() {
+    if (jinxProxy == null) {
+      return Proxy.NO_PROXY;
+    } else {
+      // note: if proxy authentication is needed, it will already have been set up when the Jinx
+      //       proxy was enabled, so no need to set it up again.
+      return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(jinxProxy.getProxyHost(), jinxProxy.getProxyPort()));
     }
+  }
 }
