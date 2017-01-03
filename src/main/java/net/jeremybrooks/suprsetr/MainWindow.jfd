@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.1.0.138" Java: "1.6.0_65" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.5.1.342" Java: "1.8.0_112-release" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -206,6 +206,36 @@ new FormModel {
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 76, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", false ) )
 					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator2"
+					} )
+					add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
+						name: "mnuOrderAlpha"
+						"text": new FormMessage( null, "MainWindow.mnuOrderAlpha.text" )
+						"$buttonGroup": new FormReference( "buttonGroup1" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuOrderAlphaActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
+						name: "mnuOrderAlphaDesc"
+						"text": new FormMessage( null, "MainWindow.mnuOrderAlphaDesc.text" )
+						"$buttonGroup": new FormReference( "buttonGroup1" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuOrderAlphaDescActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
+						name: "mnuOrderHighLow"
+						"text": new FormMessage( null, "MainWindow.mnuOrderHighLow.text" )
+						"$buttonGroup": new FormReference( "buttonGroup1" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuOrderHighLowActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
+						name: "mnuOrderLowHigh"
+						"text": new FormMessage( null, "MainWindow.mnuOrderLowHigh.text" )
+						"$buttonGroup": new FormReference( "buttonGroup1" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuOrderLowHighActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator1"
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "mnuTools"
@@ -316,6 +346,11 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 532 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroup1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 653 )
 		} )
 	}
 }

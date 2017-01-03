@@ -170,14 +170,7 @@ public class SetEditor extends javax.swing.JDialog {
 		setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
 
 
-		// TODO
-		// These search parameters do not work correctly
-		// Enable when the API is fixed
-		this.cbxInCommons.setVisible(false);
-		this.cbxInGetty.setVisible(false);
-		this.lblSafeSearch.setVisible(false);
-		this.cmbSafeSearch.setVisible(false);
-
+		this.cbxInGetty.setVisible(false); // Flickr/Getty partnership no longer exists
 
 		if (this.editorMode == EditorMode.CREATE) {
 			this.btnSave.setVisible(false);
@@ -1168,7 +1161,7 @@ public class SetEditor extends javax.swing.JDialog {
 			try {
 				PhotosetDAO.updatePhotoset(this.ssPhotoset);
 				SimpleCache.getInstance().invalidate(this.ssPhotoset.getPhotosetId());
-				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), this.ssPhotoset.getPhotosetId());
+				MainWindow.getMainWindow().updateMasterList(this.ssPhotoset.getPhotosetId());
 				this.setVisible(false);
 				this.dispose();
 			} catch (Exception e) {

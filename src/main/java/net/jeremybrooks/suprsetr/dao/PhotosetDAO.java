@@ -84,10 +84,10 @@ public class PhotosetDAO {
           + "FROM PHOTOSET "
           + "ORDER BY TITLE";
 
-  /**
-   * SQL to get all photosets ordered by title.
+  /*
+   * SQL fragment to get all photosets.
    */
-  private static final String SQL_GET_ALL_PHOTOSETS_BY_TITLE =
+  private static final String SQL_FRAGMENT_SELECT_ALL_PHOTOSETS =
       "SELECT "
           + " ID, TITLE, DESCRIPTION, FARM, SERVER, "
           + " PHOTO_COUNT, PRIMARY_PHOTO_ID, SECRET, "
@@ -102,71 +102,61 @@ public class PhotosetDAO {
           + " LIMIT_SIZE, SIZE_LIMIT, "
           + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
           + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT "
-          + "FROM PHOTOSET "
+          + "FROM PHOTOSET ";
+  /**
+   * SQL to get all photosets ordered by title.
+   */
+  private static final String SQL_GET_ALL_PHOTOSETS_BY_TITLE =
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
           + "ORDER BY UPPER(TITLE)";
 
   /**
    * SQL to get all photosets ordered by title. Sort is case sensitive.
    */
   private static final String SQL_GET_ALL_PHOTOSETS_BY_TITLE_CASE_SENSITIVE =
-      "SELECT "
-          + " ID, TITLE, DESCRIPTION, FARM, SERVER, "
-          + " PHOTO_COUNT, PRIMARY_PHOTO_ID, SECRET, "
-          + " URL, PRIMARY_PHOTO_ICON, TAG_MATCH_MODE, "
-          + " TAGS, MIN_UPLOAD_DATE, MAX_UPLOAD_DATE, "
-          + " MIN_TAKEN_DATE, MAX_TAKEN_DATE, "
-          + " MATCH_UPLOAD_DATES, MATCH_TAKEN_DATES, "
-          + " LAST_REFRESH_DATE, SYNC_TIMESTAMP, MANAGED,"
-          + " SORT_ORDER, SEND_TWEET, TWEET_TEMPLATE, "
-          + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
-          + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
-          + " LIMIT_SIZE, SIZE_LIMIT, "
-          + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
-          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT "
-          + "FROM PHOTOSET "
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
           + "ORDER BY TITLE";
 
   /**
    * SQL to get all photosets ordered by managed and title.
    */
   private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_TITLE =
-      "SELECT "
-          + " ID, TITLE, DESCRIPTION, FARM, SERVER, "
-          + " PHOTO_COUNT, PRIMARY_PHOTO_ID, SECRET, "
-          + " URL, PRIMARY_PHOTO_ICON, TAG_MATCH_MODE, "
-          + " TAGS, MIN_UPLOAD_DATE, MAX_UPLOAD_DATE, "
-          + " MIN_TAKEN_DATE, MAX_TAKEN_DATE, "
-          + " MATCH_UPLOAD_DATES, MATCH_TAKEN_DATES, "
-          + " LAST_REFRESH_DATE, SYNC_TIMESTAMP, MANAGED,"
-          + " SORT_ORDER, SEND_TWEET, TWEET_TEMPLATE, "
-          + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
-          + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
-          + " LIMIT_SIZE, SIZE_LIMIT, "
-          + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
-          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT "
-          + "FROM PHOTOSET "
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
           + "ORDER BY MANAGED DESC, UPPER(TITLE)";
 
   /**
    * SQL to get all photosets ordered by managed and title. Sort is case sensitive.
    */
   private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_TITLE_CASE_SENSITIVE =
-      "SELECT "
-          + " ID, TITLE, DESCRIPTION, FARM, SERVER, "
-          + " PHOTO_COUNT, PRIMARY_PHOTO_ID, SECRET, "
-          + " URL, PRIMARY_PHOTO_ICON, TAG_MATCH_MODE, "
-          + " TAGS, MIN_UPLOAD_DATE, MAX_UPLOAD_DATE, "
-          + " MIN_TAKEN_DATE, MAX_TAKEN_DATE, "
-          + " MATCH_UPLOAD_DATES, MATCH_TAKEN_DATES, "
-          + " LAST_REFRESH_DATE, SYNC_TIMESTAMP, MANAGED,"
-          + " SORT_ORDER, SEND_TWEET, TWEET_TEMPLATE, "
-          + " LOCK_PRIMARY_PHOTO, PRIVACY, SAFE_SEARCH, CONTENT_TYPE,"
-          + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
-          + " LIMIT_SIZE, SIZE_LIMIT, "
-          + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
-          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT "
-          + "FROM PHOTOSET "
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
           + "ORDER BY MANAGED DESC, TITLE";
+  /**
+   * SQL to get all photosets ordered descending by managed and title.
+   */
+  private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_TITLE_DESC =
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
+          + "ORDER BY MANAGED DESC, UPPER(TITLE) DESC";
+
+  /**
+   * SQL to get all photosets ordered descending by managed and title. Sort is case sensitive.
+   */
+  private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_TITLE_DESC_CASE_SENSITIVE =
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
+          + "ORDER BY MANAGED DESC, TITLE DESC";
+
+  /**
+   * SQL to get all photosets ordered by managed and view count, high to low.
+   */
+  private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_VIEW_COUNT_HIGH_LOW =
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
+      + "ORDER BY MANAGED DESC, VIEW_COUNT DESC";
+
+  /**
+   * SQL to get all photosets ordered by managed and view count, low to high.
+   */
+  private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_VIEW_COUNT_LOW_HIGH =
+      SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
+      + "ORDER BY MANAGED DESC, VIEW_COUNT";
 
   /**
    * SQL to get a specific photoset by ID.
@@ -480,6 +470,22 @@ public class PhotosetDAO {
     return PhotosetDAO.getPhotosetList(sql);
   }
 
+  /**
+   * Get a list of all photosets, ordered by managed and title descending.
+   *
+   * @return list of SSPhotoset objects ordred by managed and title descending, or an
+   * empty list if there are no photosets.
+   * @throws Exception if there are any errors.
+   */
+  public static List<SSPhotoset> getPhotosetListOrderByManagedAndTitleDescending() throws Exception {
+    String sql;
+    if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE))) {
+      sql = SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_TITLE_DESC_CASE_SENSITIVE;
+    } else {
+      sql = SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_TITLE_DESC;
+    }
+    return PhotosetDAO.getPhotosetList(sql);
+  }
 
   /**
    * Get a list of all photosets, ordered by title.
@@ -496,6 +502,26 @@ public class PhotosetDAO {
       sql = SQL_GET_ALL_PHOTOSETS_BY_TITLE;
     }
     return PhotosetDAO.getPhotosetList(sql);
+  }
+
+  /**
+   * Get a list of all photosets, ordered by managed and view count (high to low).
+   *
+   * @return list of SSPhotoset objects ordered by managed and view count, or an empty list if there are no photosets.
+   * @throws Exception if there are any errors.
+   */
+  public static List<SSPhotoset> getPhotosetListOrderByManagedAndViewCountHighToLow() throws Exception {
+    return PhotosetDAO.getPhotosetList(SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_VIEW_COUNT_HIGH_LOW);
+  }
+
+  /**
+   * Get a list of all photosets, ordered by managed and view count (low to high).
+   *
+   * @return list of SSPhotoset objects ordered by managed and view count, or an empty list if there are no photosets.
+   * @throws Exception if there are any errors.
+   */
+  public static List<SSPhotoset> getPhotosetListOrderByManagedAndViewCountLowToHigh() throws Exception {
+    return PhotosetDAO.getPhotosetList(SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_VIEW_COUNT_LOW_HIGH);
   }
 
 

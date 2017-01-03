@@ -68,14 +68,12 @@ Things that still need some testing and may not work
 
 
 # ROADMAP
- * 3.0.0
-
-	use new Jinx library so API endpoints will all be https (done)
-    Full text searches (done)
-    Display view count for each set (in progress: need to figure out sorting by views...)
-	FavrTagr uses machine tags
-
  * 3.1.0
+
+	FavrTagr uses machine tags (fave:count=10 for example)
+	Better control of when FavrTagr creates tags
+
+ * ?
 
  	Support multiple accounts
  	Facebook integration

@@ -22,7 +22,6 @@ package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
-import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
@@ -31,9 +30,30 @@ import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
+import javax.swing.SpinnerDateModel;
+import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -140,7 +160,7 @@ public class Preferences extends javax.swing.JDialog {
 
 			if (this.refreshList) {
 				try {
-					MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
+					MainWindow.getMainWindow().updateMasterList(null);
 				} catch (Exception ex) {
 					logger.warn("Could not update the list.", ex);
 				}
@@ -787,7 +807,8 @@ public class Preferences extends javax.swing.JDialog {
 	private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 		if (this.refreshList) {
 			try {
-				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);
+//				MainWindow.getMainWindow().setMasterList(PhotosetDAO.getPhotosetListOrderByManagedAndTitle(), null);//
+        MainWindow.getMainWindow().updateMasterList(null);
 			} catch (Exception e) {
 				logger.warn("Could not update the list.", e);
 			}

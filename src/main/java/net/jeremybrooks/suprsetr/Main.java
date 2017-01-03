@@ -227,6 +227,9 @@ public class Main {
     if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM) == null) {
       LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USE_SYSTEM, DAOHelper.booleanToString(true));
     }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER, SSConstants.LIST_SORT_ATOZ);
+    }
 
     JinxFactory.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));
     // Turn on Jinx logging if needed

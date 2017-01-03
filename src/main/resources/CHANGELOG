@@ -1,8 +1,11 @@
-Version 3.0.0 (BETA)
- * use latest Jinx library so API endpoints will all be https (done)
- * Support full text searches (done)
- * Display view count for each set (in progress: need to figure out sorting by views...)
- * FavrTagr uses machine tags (todo)
+Version 3.0.0
+ * Use latest Jinx library so API endpoints will all be https
+ * Support full text searches
+ * View counts are shown
+ * View counts are updated when photosets are refreshed
+ * View can be ordered alphabetically or by view count
+ * Enabled Flickr Commons search
+ * Enabled Privacy options
 
 Version 2.1.0
  * Added support for Machine Tags
