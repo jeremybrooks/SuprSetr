@@ -6,6 +6,7 @@ Version 3.0.0
  * View can be ordered alphabetically or by view count
  * Enabled Flickr Commons search
  * Enabled Privacy options
+ * Require Java 1.8 or higher
 
 Version 2.1.0
  * Added support for Machine Tags
