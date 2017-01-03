@@ -149,14 +149,14 @@ public class PhotosetDAO {
    */
   private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_VIEW_COUNT_HIGH_LOW =
       SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
-      + "ORDER BY MANAGED DESC, VIEW_COUNT DESC";
+          + "ORDER BY MANAGED DESC, VIEW_COUNT DESC";
 
   /**
    * SQL to get all photosets ordered by managed and view count, low to high.
    */
   private static final String SQL_GET_ALL_PHOTOSETS_BY_MANAGED_AND_VIEW_COUNT_LOW_HIGH =
       SQL_FRAGMENT_SELECT_ALL_PHOTOSETS
-      + "ORDER BY MANAGED DESC, VIEW_COUNT";
+          + "ORDER BY MANAGED DESC, VIEW_COUNT";
 
   /**
    * SQL to get a specific photoset by ID.
