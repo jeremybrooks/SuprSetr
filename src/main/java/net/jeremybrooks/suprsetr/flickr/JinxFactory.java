@@ -38,93 +38,91 @@ import org.scribe.model.Token;
  */
 public class JinxFactory {
 
-	private static Jinx jinx;
-	private static JinxFactory instance;
-	private PhotosApi photosApi;
-	private OAuthApi oAuthApi;
-	private PhotosetsApi photosetsApi;
+  private static Jinx jinx;
+  private static JinxFactory instance;
+  private PhotosApi photosApi;
+  private OAuthApi oAuthApi;
+  private PhotosetsApi photosetsApi;
 
-	private Logger logger = Logger.getLogger(JinxFactory.class);
+  private Logger logger = Logger.getLogger(JinxFactory.class);
 
-	private JinxFactory() {
-	}
+  private JinxFactory() {
+  }
 
-	public static JinxFactory getInstance() {
-		if (instance == null) {
-			instance = new JinxFactory();
-		}
-		return instance;
-	}
-
-	public void init(String flickrKey, String flickrSecret) {
-		jinx = new Jinx(flickrKey, flickrSecret);
-		logger.info("JinxFactory initiated with key and secret.");
-	}
-
-    public void setProxy(JinxProxy jinxProxy) {
-        jinx.setProxy(jinxProxy);
-        if (jinxProxy == null) {
-            logger.info("Not using proxy.");
-        } else {
-            logger.info("Using proxy " + jinxProxy.toString());
-        }
+  public static JinxFactory getInstance() {
+    if (instance == null) {
+      instance = new JinxFactory();
     }
+    return instance;
+  }
 
-	public void setAccessToken(OAuthAccessToken token) {
-		jinx.setoAuthAccessToken(token);
-	}
+  public void init(String flickrKey, String flickrSecret) {
+    jinx = new Jinx(flickrKey, flickrSecret);
+    logger.info("JinxFactory initiated with key and secret.");
+  }
 
-
-    public void setLogger(LogInterface jinxLogger) {
-        JinxLogger.setLogger(jinxLogger);
-        jinx.setVerboseLogging(jinxLogger != null);
+  public void setProxy(JinxProxy jinxProxy) {
+    jinx.setProxy(jinxProxy);
+    if (jinxProxy == null) {
+      logger.info("Not using proxy.");
+    } else {
+      logger.info("Using proxy " + jinxProxy.toString());
     }
+  }
 
-    public Token getRequestToken() {
-        return this.jinx.getRequestToken();
+  void setAccessToken(OAuthAccessToken token) {
+    jinx.setoAuthAccessToken(token);
+  }
+
+
+  public void setLogger(LogInterface jinxLogger) {
+    JinxLogger.setLogger(jinxLogger);
+    jinx.setVerboseLogging(jinxLogger != null);
+  }
+
+  Token getRequestToken() {
+    return JinxFactory.jinx.getRequestToken();
+  }
+
+  String getAuthenticationUrl(Token requestToken, JinxConstants.OAuthPermissions oAuthPermissions) throws JinxException {
+    return JinxFactory.jinx.getAuthorizationUrl(requestToken, oAuthPermissions);
+  }
+
+  OAuthAccessToken getAccessToken(Token requestToken, String verificationCode) throws JinxException {
+    return JinxFactory.jinx.getAccessToken(requestToken, verificationCode);
+  }
+
+  OAuthApi getoAuthApi() {
+    if (oAuthApi == null) {
+      oAuthApi = new OAuthApi(jinx);
     }
+    return oAuthApi;
+  }
 
-    public String getAuthenticationUrl(Token requestToken, JinxConstants.OAuthPermissions oAuthPermissions) throws JinxException {
-        return this.jinx.getAuthorizationUrl(requestToken, oAuthPermissions);
+  PhotosApi getPhotosApi() {
+    if (photosApi == null) {
+      photosApi = new PhotosApi(jinx);
     }
+    return photosApi;
+  }
 
-    public OAuthAccessToken getAccessToken(Token requestToken, String verificationCode) throws JinxException {
-        return this.jinx.getAccessToken(requestToken, verificationCode);
+  public PhotosetsApi getPhotosetsApi() {
+    if (photosetsApi == null) {
+      photosetsApi = new PhotosetsApi(jinx);
     }
+    return photosetsApi;
+  }
 
-	public OAuthApi getoAuthApi() {
-		if (oAuthApi == null) {
-			oAuthApi = new OAuthApi(jinx);
-		}
-		return oAuthApi;
-	}
-
-	public PhotosApi getPhotosApi() {
-		if (photosApi == null) {
-			photosApi = new PhotosApi(jinx);
-		}
-		return photosApi;
-	}
-
-	public PhotosetsApi getPhotosetsApi() {
-		if (photosetsApi == null) {
-			photosetsApi = new PhotosetsApi(jinx);
-		}
-		return photosetsApi;
-	}
-
-	/**
-	 * Build the photo page URL for this photo.
-	 * <p/>
-	 * Photo URL's are in the format
-	 * http://www.flickr.com/photos/{user-id}/{photo-id}
-	 *
-	 * @param photo photo to build the URL for.
-	 * @return string representation of the photo page URL.
-	 */
-	public String buildUrlForPhoto(Photo photo) {
-		StringBuilder sb = new StringBuilder("http://www.flickr.com/photos/");
-		sb.append(jinx.getoAuthAccessToken().getNsid()).append('/').append(photo.getPhotoId());
-		return sb.toString();
-	}
+  /**
+   * Build the photo page URL for this photo.
+   * <p/>
+   * Photo URL's are in the format
+   * http://www.flickr.com/photos/{user-id}/{photo-id}
+   *
+   * @param photo photo to build the URL for.
+   * @return string representation of the photo page URL.
+   */
+  public String buildUrlForPhoto(Photo photo) {
+    return "http://www.flickr.com/photos/" + jinx.getoAuthAccessToken().getNsid() + '/' + photo.getPhotoId();
+  }
 }
