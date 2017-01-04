@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
 
 /**
  * Extends the Photoset class to add metadata needed by SuprSetr.
- * <p/>
+ *
  * <p>The data added in this class contains everything SuprSetr needs to create,
  * refresh, and display a summary of a photoset. The data in here is saved to
  * the database, and these classes can be created from that data.</p>

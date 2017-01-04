@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * Various utility methods used by SuprSetr.
- * <p/>
+ *
  * <p>These methods should be public static.</p>
  *
  * @author jeremyb
@@ -187,7 +187,7 @@ public class SSUtils {
 
   /**
    * Sort a list of photos by title in descending order.
-   * <p/>
+   *
    * <p>The sort is not case sensitive.</p>
    *
    * @param list the list of photos to sort.
@@ -199,7 +199,7 @@ public class SSUtils {
 
   /**
    * Sort a list of photos by title in ascending order.
-   * <p/>
+   *
    * <p>The sort is not case sensitive.</p>
    *
    * @param list the list of photos to sort.

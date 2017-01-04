@@ -45,7 +45,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class adds a photoset to Flickr and to the database.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during

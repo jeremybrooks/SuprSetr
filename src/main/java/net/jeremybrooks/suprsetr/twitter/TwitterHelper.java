@@ -51,7 +51,7 @@ public class TwitterHelper {
 
   /**
    * Authenticates the user.
-   * <p/>
+   *
    * <p>This method will use the OAuth method of authentication. The user's
    * browser will be opened, and they will be prompted for the PIN. The
    * authentication token data will then be saved in the database.</p>
@@ -87,7 +87,7 @@ public class TwitterHelper {
 
   /**
    * Update the user status.
-   * <p/>
+   *
    * <p>The user must be authenticated.</p>
    *
    * @param tweet the status.
@@ -142,12 +142,12 @@ public class TwitterHelper {
 
   /**
    * Build a tweet based on the template and photoset data.
-   * <p/>
+   *
    * <p>The user can define a template for their tweets. This method takes
    * that template, performs token substitution on it, adds the vanity
    * "via @SuprSetr" to the end (if there is room), and trims the tweet to
    * 140 characters.</p>
-   * <p/>
+   *
    * <p>In addition, if the URL is not null, it will be shortened using
    * bit.ly and the shortened URL will be substituted for the %u token in the
    * template.</p>

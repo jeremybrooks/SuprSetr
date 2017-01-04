@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class reordered the photosets on flickr.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -47,103 +47,106 @@ import java.util.ResourceBundle;
  */
 public class LoadImagesWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = Logger.getLogger(LoadImagesWorker.class);
+  /**
+   * Logging.
+   */
+  private Logger logger = Logger.getLogger(LoadImagesWorker.class);
 
-	/**
-	 * The blocker instance used to provide user with feedback.
-	 */
-	private BlockerPanel blocker;
+  /**
+   * The blocker instance used to provide user with feedback.
+   */
+  private BlockerPanel blocker;
 
-	/**
-	 * The photoset to get photos from.
-	 */
-	private String photosetId;
+  /**
+   * The photoset to get photos from.
+   */
+  private String photosetId;
 
-	/**
-	 * The page of photos to get.
-	 */
-	private int page;
+  /**
+   * The page of photos to get.
+   */
+  private int page;
 
-	/**
-	 * The object cache to use.
-	 */
-	private ObjectCache cache;
+  /**
+   * The object cache to use.
+   */
+  private ObjectCache cache;
 
-	/**
-	 * The photos object used by the picker.
-	 */
-	private List<Photo> thePhotos;
+  /**
+   * The photos object used by the picker.
+   */
+  private List<Photo> thePhotos;
 
-	/**
-	 * The parent frame.
-	 */
-	private JDialog parent;
+  /**
+   * The parent frame.
+   */
+  private JDialog parent;
 
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
-
-
-	/**
-	 * Create an instance of OrderSetsWorker.
-	 *
-	 * @param blocker     the blocker instance.
-	 * @param photosetId string array of photoset id's.
-	 */
-	public LoadImagesWorker(BlockerPanel blocker, String photosetId, int page,
-							ObjectCache cache, List<Photo> thePhotos, JDialog parent) {
-		this.blocker = blocker;
-		this.photosetId = photosetId;
-		this.page = page;
-		this.cache = cache;
-		this.thePhotos = thePhotos;
-		this.parent = parent;
-	}
+  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
-	/**
-	 * Execute the Flickr operation on a background thread.
-	 *
-	 * @return this method does not return any data.
-	 */
-	@Override
-	protected Void doInBackground() {
-		PhotosetPhotos p;
-		int count = 1;
-		int total;
-		this.thePhotos.clear();
-		try {
-			// Now get the first 25 photos and populate the model
-//			p = PhotosetsApi.getInstance().getPhotos(photosetId, null, null, 25, page, JinxConstants.MEDIA_ALL, true);
-			p = JinxFactory.getInstance().getPhotosetsApi().getPhotos(photosetId, null, null, 25, page, JinxConstants.MediaType.all);
-			List<Photo> photoList = p.getPhotoList();
-			if (photoList != null) {
-				total = photoList.size();
-				for (Photo photo : photoList) {
-					if (this.cache.get(photo.getPhotoId()) == null) {
-						blocker.updateMessage(resourceBundle.getString("LoadImagesWorker.blocker.loading") +
-								" " + (count++) + "/" + total + " ("
-								+ photo.getTitle() + ")");
-						ImageIcon image = PhotoHelper.getInstance().getIconForPhoto(photo.getPhotoId());
-						this.cache.put(photo.getPhotoId(), image);
-					}
-					this.thePhotos.add(photo);
-					this.parent.repaint();
-				}
-			}
-		} catch (Exception e) {
-			logger.error("ERROR LOADING IMAGE(S).", e);
-		}
-		return null;
-	}
+  /**
+   * Create an instance of OrderSetsWorker.
+   *
+   * @param blocker    the blocker instance.
+   * @param photosetId string array of photoset id's.
+   * @param page       page of photos.
+   * @param cache      the object cache.
+   * @param thePhotos  list of photos.
+   * @param parent     the parent component.
+   */
+  public LoadImagesWorker(BlockerPanel blocker, String photosetId, int page,
+                          ObjectCache cache, List<Photo> thePhotos, JDialog parent) {
+    this.blocker = blocker;
+    this.photosetId = photosetId;
+    this.page = page;
+    this.cache = cache;
+    this.thePhotos = thePhotos;
+    this.parent = parent;
+  }
 
-	/**
-	 * Finished, so update the GUI, making the first photoset the
-	 * currently selected photoset. Then remove the blocker.
-	 */
-	@Override
-	protected void done() {
-		blocker.unBlock();
-	}
+
+  /**
+   * Execute the Flickr operation on a background thread.
+   *
+   * @return this method does not return any data.
+   */
+  @Override
+  protected Void doInBackground() {
+    PhotosetPhotos p;
+    int count = 1;
+    int total;
+    this.thePhotos.clear();
+    try {
+      // Now get the first 25 photos and populate the model
+      p = JinxFactory.getInstance().getPhotosetsApi().getPhotos(photosetId, null, null, 25, page, JinxConstants.MediaType.all);
+      List<Photo> photoList = p.getPhotoList();
+      if (photoList != null) {
+        total = photoList.size();
+        for (Photo photo : photoList) {
+          if (this.cache.get(photo.getPhotoId()) == null) {
+            blocker.updateMessage(resourceBundle.getString("LoadImagesWorker.blocker.loading") +
+                " " + (count++) + "/" + total + " ("
+                + photo.getTitle() + ")");
+            ImageIcon image = PhotoHelper.getInstance().getIconForPhoto(photo.getPhotoId());
+            this.cache.put(photo.getPhotoId(), image);
+          }
+          this.thePhotos.add(photo);
+          this.parent.repaint();
+        }
+      }
+    } catch (Exception e) {
+      logger.error("ERROR LOADING IMAGE(S).", e);
+    }
+    return null;
+  }
+
+  /**
+   * Finished, so update the GUI, making the first photoset the
+   * currently selected photoset. Then remove the blocker.
+   */
+  @Override
+  protected void done() {
+    blocker.unBlock();
+  }
 }

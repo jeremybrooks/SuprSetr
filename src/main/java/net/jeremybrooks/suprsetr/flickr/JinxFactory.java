@@ -115,7 +115,7 @@ public class JinxFactory {
 
   /**
    * Build the photo page URL for this photo.
-   * <p/>
+   *
    * Photo URL's are in the format
    * http://www.flickr.com/photos/{user-id}/{photo-id}
    *

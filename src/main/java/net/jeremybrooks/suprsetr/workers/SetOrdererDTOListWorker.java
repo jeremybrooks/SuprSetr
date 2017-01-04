@@ -42,7 +42,7 @@ import java.util.ResourceBundle;
 /**
  * This class loads photosets from Flickr, then updates the SetOrderer list
  * model with the results.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -52,117 +52,118 @@ import java.util.ResourceBundle;
  */
 public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SSPhotoset> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = Logger.getLogger(SetOrdererDTOListWorker.class);
+  /**
+   * Logging.
+   */
+  private Logger logger = Logger.getLogger(SetOrdererDTOListWorker.class);
 
-	/**
-	 * The blocker used for feedback.
-	 */
-	private BlockerPanel blocker;
+  /**
+   * The blocker used for feedback.
+   */
+  private BlockerPanel blocker;
 
-	/**
-	 * The list model to update.
-	 */
-	private DefaultListModel listModel;
-
-
-	/**
-	 * The dialog.
-	 */
-	private SetOrderer dialog;
-
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
-
-	/**
-	 * Create a new instance of LoadFlickrSets.
-	 *
-	 * @param blocker the blocker.
-	 */
-	public SetOrdererDTOListWorker(BlockerPanel blocker, DefaultListModel listModel, SetOrderer dialog) {
-		this.blocker = blocker;
-		this.listModel = listModel;
-		this.dialog = dialog;
-	}
+  /**
+   * The list model to update.
+   */
+  private DefaultListModel listModel;
 
 
-	/**
-	 * Execute the Flickr operation and database operations on a background
-	 * thread.
-	 *
-	 * @return this method does not return any data.
-	 */
-	@Override
-	protected List<SetOrdererDTO> doInBackground() {
-		blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.getting"));
-		String nsid = FlickrHelper.getInstance().getNSID();
-		PhotosetList photosetList;
-		List<SetOrdererDTO> dtoList = new ArrayList<>();
+  /**
+   * The dialog.
+   */
+  private SetOrderer dialog;
 
-		try {
-			photosetList = PhotosetHelper.getInstance().getPhotosets(nsid);
-//			photosetList = PhotosetsApi.getInstance().getList(nsid, true);
-			for (Photoset p : photosetList.getPhotosetList()) {
-				blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.processing") + " \"" + p.getTitle() + "\"");
+  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
-				// populate a DTO
-				SetOrdererDTO sod = new SetOrdererDTO();
-				sod.setDescription(p.getDescription());
-				sod.setPhotoCount(p.getPhotos());
-				sod.setVideoCount(p.getVideos());
-				sod.setId(p.getPhotosetId());
-				sod.setTitle(p.getTitle());
-
-				// get the icon from the database if possible
-				SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
-
-				if (ssp == null) {
-					// This means the set was created manually on Flickr after
-					// SuprSetr was launched. So load the icon from Flickr
-					// This is slower than loading from the database, but at
-					// least we get the icon
-					sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
-				} else {
-					// Check for missing icon, setting if needed
-					if (ssp.getPrimaryPhotoIcon() == null) {
-						sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
-					} else {
-						sod.setIcon(ssp.getPrimaryPhotoIcon());
-					}
-				}
-				// add to the list
-				dtoList.add(sod);
-			}
-
-		} catch (Exception e) {
-			logger.error("ERROR GETTING PHOTOSET LIST FOR SET ORDERER.", e);
-
-			JOptionPane.showMessageDialog(null,
-					resourceBundle.getString("LoadFlickrSetsWorker.dialog.error.message") + e.getMessage(),
-					resourceBundle.getString("LoadFlickrSetsWorker.dialog.error.title"),
-					JOptionPane.ERROR_MESSAGE);
-		}
-
-		return dtoList;
-	}
+  /**
+   * Create a new instance of LoadFlickrSets.
+   *
+   * @param blocker   the blocker.
+   * @param listModel the list model.
+   * @param dialog    set orderer dialog.
+   */
+  public SetOrdererDTOListWorker(BlockerPanel blocker, DefaultListModel listModel, SetOrderer dialog) {
+    this.blocker = blocker;
+    this.listModel = listModel;
+    this.dialog = dialog;
+  }
 
 
-	/**
-	 * Finished, so update the GUI and unblock.
-	 */
-	@Override
-	protected void done() {
-		// UPDATE THE LIST MODEL
-		try {
-			List<SetOrdererDTO> list = get();
-			this.dialog.setDtoList(list);
-			for (SetOrdererDTO sod : list) {
-				this.listModel.addElement(sod);
-			}
-		} catch (Exception e) {
-			logger.warn("ERROR DURING UPDATE.", e);
-		}
-		blocker.unBlock();
-	}
+  /**
+   * Execute the Flickr operation and database operations on a background
+   * thread.
+   *
+   * @return this method does not return any data.
+   */
+  @Override
+  protected List<SetOrdererDTO> doInBackground() {
+    blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.getting"));
+    String nsid = FlickrHelper.getInstance().getNSID();
+    PhotosetList photosetList;
+    List<SetOrdererDTO> dtoList = new ArrayList<>();
+
+    try {
+      photosetList = PhotosetHelper.getInstance().getPhotosets(nsid);
+      for (Photoset p : photosetList.getPhotosetList()) {
+        blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.processing") + " \"" + p.getTitle() + "\"");
+
+        // populate a DTO
+        SetOrdererDTO sod = new SetOrdererDTO();
+        sod.setDescription(p.getDescription());
+        sod.setPhotoCount(p.getPhotos());
+        sod.setVideoCount(p.getVideos());
+        sod.setId(p.getPhotosetId());
+        sod.setTitle(p.getTitle());
+
+        // get the icon from the database if possible
+        SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
+
+        if (ssp == null) {
+          // This means the set was created manually on Flickr after
+          // SuprSetr was launched. So load the icon from Flickr
+          // This is slower than loading from the database, but at
+          // least we get the icon
+          sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
+        } else {
+          // Check for missing icon, setting if needed
+          if (ssp.getPrimaryPhotoIcon() == null) {
+            sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
+          } else {
+            sod.setIcon(ssp.getPrimaryPhotoIcon());
+          }
+        }
+        // add to the list
+        dtoList.add(sod);
+      }
+
+    } catch (Exception e) {
+      logger.error("ERROR GETTING PHOTOSET LIST FOR SET ORDERER.", e);
+
+      JOptionPane.showMessageDialog(null,
+          resourceBundle.getString("LoadFlickrSetsWorker.dialog.error.message") + e.getMessage(),
+          resourceBundle.getString("LoadFlickrSetsWorker.dialog.error.title"),
+          JOptionPane.ERROR_MESSAGE);
+    }
+
+    return dtoList;
+  }
+
+
+  /**
+   * Finished, so update the GUI and unblock.
+   */
+  @Override
+  protected void done() {
+    // UPDATE THE LIST MODEL
+    try {
+      List<SetOrdererDTO> list = get();
+      this.dialog.setDtoList(list);
+      for (SetOrdererDTO sod : list) {
+        this.listModel.addElement(sod);
+      }
+    } catch (Exception e) {
+      logger.warn("ERROR DURING UPDATE.", e);
+    }
+    blocker.unBlock();
+  }
 }

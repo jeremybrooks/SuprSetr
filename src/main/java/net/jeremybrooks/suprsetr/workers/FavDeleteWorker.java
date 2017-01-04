@@ -41,9 +41,9 @@ import java.util.ResourceBundle;
 
 /**
  * This class scans a user's photos, deleting favxx tags.
- * <p/>
+ *
  * <p>This operation can take a very long time!</p>
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -83,7 +83,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Execute the Flickr operations on a background thread.
-	 * <p/>
+	 *
 	 * <p>This method searches all the users photos, then looks at the tags. If
 	 * a tag is found that matches the "favxx" pattern, it is deleted.</p>
 	 *

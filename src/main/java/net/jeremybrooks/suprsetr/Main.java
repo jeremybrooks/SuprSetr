@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 
 /**
  * Application entry point.
- * <p/>
+ *
  * <p>This class should set things up for the rest of the application, make sure
  * necessary resources are available, and then display the main window.</p>
  *

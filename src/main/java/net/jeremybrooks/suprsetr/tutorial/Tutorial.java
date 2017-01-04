@@ -41,7 +41,7 @@ import java.util.ResourceBundle;
 
 /**
  * This is the Tutorial dialog.
- * <p/>
+ *
  * <p>It will display multiple pages of content, allowing the user to navigate
  * back and forth. When they finish, it will hide itself, and the user has the
  * option to close the window before they finish the tutorial.</p>
@@ -72,6 +72,9 @@ public class Tutorial extends javax.swing.JDialog {
 
   /**
    * Creates new form Tutorial1
+   *
+   * @param parent the parent component.
+   * @param modal  if true, dialog is modal.
    */
   public Tutorial(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
@@ -148,7 +151,7 @@ public class Tutorial extends javax.swing.JDialog {
 
   /**
    * Increment the current page, then load content.
-   * <p/>
+   * <p>
    * If we are on the last page, close the tutorial.
    */
   private void btnNextActionPerformed() {

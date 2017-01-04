@@ -80,7 +80,7 @@ public class LookupDAO {
 
   /**
    * Get the value for the specified key.
-   * <p/>
+   *
    * <p>If the key is null or empty, this method will return null. If the key
    * does not exist, this method will return null.</p>
    *
@@ -118,7 +118,7 @@ public class LookupDAO {
 
   /**
    * Set the value for a key.
-   * <p/>
+   *
    * <p>If the key is null or empty, this method will do nothing and return
    * -1. IF the value is null, an empty value will be set. This method can be
    * called to insert or update the key/value pair. It will detect if the
@@ -169,7 +169,7 @@ public class LookupDAO {
 
   /**
    * Get the current database version from the lookup table.
-   * <p/>
+   *
    * <p>If there is no version yet, this method will return zero. If there
    * are any errors, this method will return zero.</p>
    *

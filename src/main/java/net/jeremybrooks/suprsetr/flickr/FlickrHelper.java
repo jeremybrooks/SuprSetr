@@ -38,10 +38,10 @@ import java.net.URL;
 
 /**
  * This is a wrapper around the Flickr API library.
- * <p/>
+ *
  * <p>This wrapper provides access to the authentication methods, the API
  * interfaces, and metadata about the user.</p>
- * <p/>
+ *
  * <p>This class is implemented as a Singleton. Calling <code>FlickrHelper.getInstance()</code>
  * will return a reference to the instance of this class. The initialize
  * method must be called once before other methods are called.</p>
@@ -99,7 +99,7 @@ public class FlickrHelper {
 
   /**
    * Authorize the user.
-   * <p/>
+   *
    * <p>Authorization data is loaded from the token file if available. If the
    * authorization data is not available, this method returns false.</p>
    *
@@ -188,6 +188,7 @@ public class FlickrHelper {
   /**
    * Complete authentication.
    *
+   * @param verificationCode oauth verification code.
    * @throws Exception if there are any errors.
    */
   public void completeAuthentication(String verificationCode) throws Exception {

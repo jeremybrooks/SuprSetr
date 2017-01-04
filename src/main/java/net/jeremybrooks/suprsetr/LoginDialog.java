@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.*;
 import net.jeremybrooks.suprsetr.workers.FlickrAuthenticatorWorker;
 import org.apache.log4j.Logger;
 
@@ -161,7 +160,7 @@ public class LoginDialog extends javax.swing.JDialog {
 
 	/**
 	 * Do authentication.
-	 * <p/>
+	 *
 	 * <p>This method will block the GUI, then use the FlickrAuthenticator
 	 * class to do the actual work of authentication.</p>
 	 */
@@ -175,7 +174,7 @@ public class LoginDialog extends javax.swing.JDialog {
 
 	/**
 	 * Allow user to cancel the operation.
-	 * <p/>
+	 *
 	 * <p>Display a warning dialog that the program will exit if they continue.</p>
 	 */
 	private void btnCancelActionPerformed() {

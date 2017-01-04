@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class performs Flickr authorization on a background thread.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -75,7 +75,7 @@ public class FlickrAuthenticatorWorker extends SwingWorker<Void, Void> {
 	/**
 	 * Execute the Flickr operation and database operations on a background
 	 * thread.
-	 * <p/>
+	 *
 	 * <p>The user's browser will be opened to the Flickr auth page. Once the
 	 * user has authorized SuprSetr, control will return to the parent dialog.</p>
 	 *

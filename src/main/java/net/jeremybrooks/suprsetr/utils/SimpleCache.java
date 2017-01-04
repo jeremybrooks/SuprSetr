@@ -26,12 +26,12 @@ import java.util.Map;
 
 /**
  * Simple cache implementation for the SetListCell.
- * <p/>
+ *
  * The SetListCell object is complex, and takes a relatively long time to
  * create. This cache allows us to reuse instances of the SetListCell. The
  * CellRenderer will use cached instances unless the instance has been marked
  * as invalid.
- * <p/>
+ *
  * This class is implemented as a Singleton. When a photoset is possibly changed,
  * for example by a refresh, the SetListCell in the cache will be marked as
  * invalid.

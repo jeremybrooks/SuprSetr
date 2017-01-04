@@ -51,10 +51,10 @@ import java.util.ResourceBundle;
 
 /**
  * Display a dialog showing the photos in the photoset.
- * <p/>
+ *
  * When the user selects a photo and clicks Save, the selected photo will become
  * the primary photo on the SetEditor window.
- * <p/>
+ *
  * This class uses an Object Cache to save square images that have already
  * been downloaded. This will reduce traffic to Flickr and improve performance.
  * Once the cache is created, it will persist for the lifetime of the
@@ -106,7 +106,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 
 	/**
 	 * Creates a new PhotoPickerDialog.
-	 * <p/>
+	 *
 	 * The first page of photos will be loaded here.
 	 *
 	 * @param parent   parent window.
@@ -260,7 +260,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 
 	/**
 	 * Respond to "Previous" button presses.
-	 * <p/>
+	 *
 	 * <p>The button states are managed carefully so that the user cannot press
 	 * the button if there is no page to go back to.</p>
 	 *
@@ -276,7 +276,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 
 	/**
 	 * Respond to "Next" button presses.
-	 * <p/>
+	 *
 	 * <p>The button states are managed carefully so that the user cannot press
 	 * the button if there is no page to go forward to.</p>
 	 *
@@ -292,7 +292,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 
 	/**
 	 * Save the selected photo as the primary image.
-	 * <p/>
+	 *
 	 * <p>If the user has selected an empty space, or if they have not selected
 	 * any photo, this method does nothing.</p>
 	 *
@@ -329,7 +329,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 	/**
 	 * Set the enable state of previous and next buttons based on the page
 	 * we are on, and the number of pages.
-	 * <p/>
+	 *
 	 * This also sets the "Page x/y" label.
 	 */
 	private void setButtonStates() {

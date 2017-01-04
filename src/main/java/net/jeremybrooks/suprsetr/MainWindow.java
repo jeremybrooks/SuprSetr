@@ -1082,7 +1082,7 @@ public class MainWindow extends javax.swing.JFrame {
 
   /*
    * Respond to KEY_TYPED events in the filter box.
-   * <p/>
+   *
    * The list will filter when the filterTimer fires. If the user types the
    * enter key, the list will filter immediately.
    *
@@ -1102,10 +1102,10 @@ public class MainWindow extends javax.swing.JFrame {
   /**
    * This method is called by the BlockerPanel to disable keyboard input
    * while some task is running.
-   * <p/>
+   *
    * There is not a reliable way to intercept keyboard events with a GlassPane,
    * so this is used as a workaround.
-   * <p/>
+   *
    * Note that after the focus is requested, the text in the text box will
    * be selected. To remove the selection, the FOCUS_GAINED event is used
    * to know when the focus is actually gained, and we remove the selection.
@@ -1190,7 +1190,7 @@ public class MainWindow extends javax.swing.JFrame {
 
   /**
    * Determine if the window is in a blocked state.
-   * <p/>
+   *
    * This can be called to determine if SuprSetr is currently in the middle of
    * a transaction with Flickr.
    *
@@ -1246,9 +1246,9 @@ public class MainWindow extends javax.swing.JFrame {
 
   /**
    * This will replace the master list that backs the list model.
-   * <p/>
+   *
    * The list model will be refreshed by the FilterSetListWorker class.
-   * <p/>
+   *
    * If you need to add, delete, or update a single set in the list model,
    * use one of the other methods. This method should only be used when the
    * entire list needs to be refreshed, as it can take time if the user has a
@@ -1301,14 +1301,14 @@ public class MainWindow extends javax.swing.JFrame {
 
   /**
    * This method will insert a single photoset into the list model.
-   * <p/>
+   *
    * The photoset must exist in the supplied master list as well. The master
    * list will be set, and the specified photoset will be added to the
    * list model.
-   * <p/>
+   *
    * The purpose of having this method is to allow us to add a single set
    * without forcing an update of the entire list in the GUI.
-   * <p/>
+   *
    * This method must honor the filter text and the hide unmanaged sets menu
    * selection.
    *

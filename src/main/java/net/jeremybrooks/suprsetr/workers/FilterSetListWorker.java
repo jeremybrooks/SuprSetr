@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class updates the main window list on a background thread.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -41,102 +41,104 @@ import java.util.ResourceBundle;
  */
 public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
 
-	/**
-	 * The blocker used for feedback.
-	 */
-	private BlockerPanel blocker;
+  /**
+   * The blocker used for feedback.
+   */
+  private BlockerPanel blocker;
 
-	/**
-	 * The photoset list.
-	 */
-	private List<SSPhotoset> list;
+  /**
+   * The photoset list.
+   */
+  private List<SSPhotoset> list;
 
-	/**
-	 * Filter used to determine which sets to add to the list model.
-	 */
-	private String filter;
+  /**
+   * Filter used to determine which sets to add to the list model.
+   */
+  private String filter;
 
-	/**
-	 * The list model.
-	 */
-	private DefaultListModel listModel;
+  /**
+   * The list model.
+   */
+  private DefaultListModel listModel;
 
-	/**
-	 * Flag indicating if unmanaged sets should be hidden.
-	 */
-	private boolean hide;
+  /**
+   * Flag indicating if unmanaged sets should be hidden.
+   */
+  private boolean hide;
 
-	/**
-	 * Photoset to make visible after list is updated.
-	 */
-	private String visiblePhotosetId;
+  /**
+   * Photoset to make visible after list is updated.
+   */
+  private String visiblePhotosetId;
 
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
-	/**
-	 * Create a new instance of MasterListWorker.
-	 *
-	 * @param blocker   the blocker instance.
-	 * @param list      the list of photosets.
-	 * @param filter    filter used to determine which sets to add.
-	 * @param listModel the list model.
-	 */
-	public FilterSetListWorker(BlockerPanel blocker, List<SSPhotoset> list, String filter, DefaultListModel listModel, boolean hide, String visiblePhotosetId) {
-		this.blocker = blocker;
-		this.list = list;
-		this.filter = filter;
-		this.listModel = listModel;
-		this.hide = hide;
-		this.visiblePhotosetId = visiblePhotosetId;
-	}
+  /**
+   * Create a new instance of MasterListWorker.
+   *
+   * @param blocker           the blocker instance.
+   * @param list              the list of photosets.
+   * @param filter            filter used to determine which sets to add.
+   * @param listModel         the list model.
+   * @param hide              hide unmanaged sets.
+   * @param visiblePhotosetId the photoset that should be visible in the list.
+   */
+  public FilterSetListWorker(BlockerPanel blocker, List<SSPhotoset> list, String filter, DefaultListModel listModel, boolean hide, String visiblePhotosetId) {
+    this.blocker = blocker;
+    this.list = list;
+    this.filter = filter;
+    this.listModel = listModel;
+    this.hide = hide;
+    this.visiblePhotosetId = visiblePhotosetId;
+  }
 
 
-	/**
-	 * Updates the list model, adding photosets that match the filter.
-	 * <p/>
-	 * <p>The filter is NOT case sensitive.</p>
-	 *
-	 * @return this method does not return any data.
-	 */
-	@Override
-	protected Void doInBackground() {
-		blocker.block(resourceBundle.getString("FilterSetListWorker.blocker.working"));
-		int i = 1;
-		for (SSPhotoset set : this.list) {
-			if (filter == null || set.getTitle().toLowerCase().contains(filter)) {
-				if ((!hide) || (set.isManaged())) {
-					publish(set);
-				}
-			}
+  /**
+   * Updates the list model, adding photosets that match the filter.
+   *
+   * <p>The filter is NOT case sensitive.</p>
+   *
+   * @return this method does not return any data.
+   */
+  @Override
+  protected Void doInBackground() {
+    blocker.block(resourceBundle.getString("FilterSetListWorker.blocker.working"));
+    int i = 1;
+    for (SSPhotoset set : this.list) {
+      if (filter == null || set.getTitle().toLowerCase().contains(filter)) {
+        if ((!hide) || (set.isManaged())) {
+          publish(set);
+        }
+      }
 
-			if (i % 10 == 0) {
-				blocker.updateMessage(resourceBundle.getString("FilterSetListWorker.blocker.working") + " (" + i + "/" + list.size() + ")");
-			}
-			i++;
-		}
-		return null;
-	}
+      if (i % 10 == 0) {
+        blocker.updateMessage(resourceBundle.getString("FilterSetListWorker.blocker.working") + " (" + i + "/" + list.size() + ")");
+      }
+      i++;
+    }
+    return null;
+  }
 
-	@Override
-	protected void process(List<SSPhotoset> list) {
-		for (SSPhotoset set : list) {
-			this.listModel.addElement(set);
-		}
-	}
+  @Override
+  protected void process(List<SSPhotoset> list) {
+    for (SSPhotoset set : list) {
+      this.listModel.addElement(set);
+    }
+  }
 
-	/**
-	 * Finished, so unblock.
-	 */
-	@Override
-	protected void done() {
-		// if updating a specific photoset, scroll to it
-		// otherwise, scroll to the top
-		if (this.visiblePhotosetId == null) {
-			MainWindow.getMainWindow().makeIndexVisibleAndSelected(0);
-		} else {
-			MainWindow.getMainWindow().scrollToPhotoset(this.visiblePhotosetId);
-		}
-		MainWindow.getMainWindow().updateTitle();
-		blocker.unBlock();
-	}
+  /**
+   * Finished, so unblock.
+   */
+  @Override
+  protected void done() {
+    // if updating a specific photoset, scroll to it
+    // otherwise, scroll to the top
+    if (this.visiblePhotosetId == null) {
+      MainWindow.getMainWindow().makeIndexVisibleAndSelected(0);
+    } else {
+      MainWindow.getMainWindow().scrollToPhotoset(this.visiblePhotosetId);
+    }
+    MainWindow.getMainWindow().updateTitle();
+    blocker.unBlock();
+  }
 }

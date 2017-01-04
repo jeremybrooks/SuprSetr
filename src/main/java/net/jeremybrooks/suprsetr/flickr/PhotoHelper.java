@@ -38,9 +38,9 @@ import java.util.List;
 
 /**
  * This is a wrapper around the Flickr API library.
- * <p/>
+ *
  * <p>This wrapper provides access to the photo methods.</p>
- * <p/>
+ *
  * <p>This class is implemented as a Singleton. Calling <code>PhotoHelper.getInstance()</code>
  * will return a reference to the instance of this class.</p>
  *
@@ -82,12 +82,12 @@ public class PhotoHelper {
 
   /**
    * Get a list of photos matching the search parameters.
-   * <p/>
+   *
    * <p>The search will be executed, and all results will be returned. Flickr
    * returns results in pages, so this method will continue requesting the
    * next page until all results have been processed. There is no need for the
    * caller to worry about paging.</p>
-   * <p/>
+   *
    * <p>This method can take a long time to execute if the search results
    * return a large number of photos.</p>
    *
@@ -105,12 +105,12 @@ public class PhotoHelper {
   /**
    * Get a list of photos matching the search parameters, limiting the
    * number of returned results.
-   * <p/>
+   *
    * <p>The search will be executed, and all results will be returned. Flickr
    * returns results in pages, so this method will continue requesting the
    * next page until all results have been processed. There is no need for the
    * caller to worry about paging.</p>
-   * <p/>
+   *
    * <p>This method can take a long time to execute if the search results
    * return a large number of photos.</p>
    *
@@ -171,7 +171,7 @@ public class PhotoHelper {
 
   /**
    * Get the icon for the specified photo.
-   * <p/>
+   *
    * <p>This method will get the thumbnail icon from Flickr for the specified
    * photo, and return it as an ImageIcon instance.</p>
    *
@@ -199,7 +199,7 @@ public class PhotoHelper {
 
   /**
    * Get the number of people who have favorited a given photo.
-   * <p/>
+   *
    * <p>The maximum number of people returned by the Flickr getFavorites API
    * is 50, so we ask for 50 per page here. This method will contine requesting
    * the next page from flickr until all results are returned. There is no

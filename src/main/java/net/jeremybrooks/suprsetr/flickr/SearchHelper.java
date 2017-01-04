@@ -31,9 +31,9 @@ import java.util.GregorianCalendar;
 
 /**
  * This is a wrapper around the Flickr API library.
- * <p/>
+ *
  * <p>This wrapper provides access to the search methods.</p>
- * <p/>
+ *
  * <p>This class is implemented as a Singleton. Calling <code>SearchHelper.getInstance()</code>
  * will return a reference to the instance of this class.</p>
  *

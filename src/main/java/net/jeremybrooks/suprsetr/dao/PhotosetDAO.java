@@ -266,7 +266,7 @@ public class PhotosetDAO {
 
   /**
    * Insert a new record.
-   * <p/>
+   *
    * <p>If the photoset is null, this method will throw an Exception.</p>
    *
    * @param p the photoset to insert.
@@ -420,7 +420,7 @@ public class PhotosetDAO {
 
   /**
    * Get a photoset by ID.
-   * <p/>
+   *
    * <p>If the ID exists, an SSPhotoset object representing the data will be
    * returned. If the ID does not exist, this method will return null.</p>
    *
@@ -561,7 +561,7 @@ public class PhotosetDAO {
 
   /**
    * Update the metadata for the photoset.
-   * <p/>
+   *
    * <p>This method updates the title, description, and photo count for
    * the specified photoset.</p>
    *

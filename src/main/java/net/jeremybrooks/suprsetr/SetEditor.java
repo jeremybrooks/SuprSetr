@@ -1057,7 +1057,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 	/*
 	 * Respond to clicks on the cancel button.
-	 * <p/>
+	 *
 	 * <p>The window will be closed.</p>
 	 */
 	private void btnCancelActionPerformed() {
@@ -1476,7 +1476,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 	/**
 	 * Enable and disable components as needed.
-	 * <p/>
+	 *
 	 * <p>The enable/disable state of entry boxes, etc depends on if the set is
 	 * managed by SuprSetr. This method will set all components as needed.</p>
 	 */
@@ -1538,7 +1538,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 	/**
 	 * Set the message label text.
-	 * <p/>
+	 *
 	 * <p>Used by the PhotoPickerDialog to display a message when the user
 	 * changes the primary photo.</p>
 	 *
@@ -1550,7 +1550,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 	/**
 	 * Set the primary photo image.
-	 * <p/>
+	 *
 	 * <p>Used by the PhotoPickerDialog when the user changes the primary photo.</p>
 	 *
 	 * @param id
@@ -1649,7 +1649,7 @@ public class SetEditor extends javax.swing.JDialog {
 
 	/**
 	 * Document that is limited to a specific number of characters.
-	 * <p/>
+	 *
 	 * <p>This document is used by the Tweet Profile text entry field to limit
 	 * user entry to 140 characters.</p>
 	 */

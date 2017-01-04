@@ -37,10 +37,10 @@ import java.util.List;
 
 /**
  * This is a wrapper around the Flickr API library.
- * <p>
+ *
  * <p>This wrapper provides access to the photoset methods.</p>
- * <p>
- * <p>This class is implemented as a Singleton. Calling <code>PhotosetHelper.getInstance()</code>
+ *
+ * <p>This class is implemented as a Singleton. Calling {@code PhotosetHelper.getInstance()}
  * will return a reference to the instance of this class.</p>
  *
  * @author jeremyb
@@ -90,27 +90,10 @@ public class PhotosetHelper {
   public PhotosetList getPhotosets(String nsid) throws Exception {
     return JinxFactory.getInstance().getPhotosetsApi().getList(nsid, 0, 0, null);
   }
-//    public List<Photoset> getPhotosetList(String nsid) throws Exception {
-//
-//	net.jeremybrooks.jinx.dto.Photosets ps = PhotosetsApi.getInstance().getList(nsid);
-//	ps.getPhotosetList();
-//	List<Photoset> list = new ArrayList<Photoset>();
-//
-//	logger.info("Getting photosets for user " + nsid);
-//	PhotosetsInterface psi = FlickrHelper.getInstance().getPhotosetsInterface();
-//	Photosets psets = psi.getList(nsid);
-//
-//	for (Object o : psets.getPhotosets()) {
-//	    list.add((Photoset) o);
-//	}
-//
-//	return list;
-//    }
-
 
   /**
    * Get the icon for the specified photoset.
-   * <p>
+   *
    * <p>This method will get the thumbnail icon from Flickr for the specified
    * photoset, and return it as an ImageIcon instance.</p>
    *
@@ -144,12 +127,7 @@ public class PhotosetHelper {
       throw new Exception("PRIMARY PHOTO ID CANNOT BE NULL OR EMPTY.");
     }
 
-//	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
-//	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
-//
-//	return pi.create(title, description, primaryPhotoId);
     return JinxFactory.getInstance().getPhotosetsApi().create(title, description, primaryPhotoId);
-//	return PhotosetsApi.getInstance().create(title, description, primaryPhotoId);
   }
 
 
@@ -190,11 +168,6 @@ public class PhotosetHelper {
     if (ssPhotoset == null) {
       throw new Exception("delete: PARAMETER CANNOT BE NULL.");
     }
-
-//	RequestContext rc = FlickrHelper.getInstance().getRequestContext();
-//	PhotosetsInterface pi = FlickrHelper.getInstance().getPhotosetsInterface();
-//	pi.delete(ssPhotoset.getId());
-//	PhotosetsApi.getInstance().delete(ssPhotoset.getId());
     Response response = JinxFactory.getInstance().getPhotosetsApi().delete(ssPhotoset.getPhotosetId());
     if (response.getCode() != 0) {
       throw new Exception("Error deleting photoset. Code " + response.getCode() + ":" + response.getMessage());
@@ -234,7 +207,7 @@ public class PhotosetHelper {
 
   /**
    * Get the list of photos in a given photoset.
-   * <p>
+   *
    * <p>Returns a list of Photo ID's representing all the photos in the
    * specified photoset. Flickr returns results in pages, so this method will
    * continue requesting the next page until all results are returned. There is
@@ -336,7 +309,7 @@ public class PhotosetHelper {
 
   /**
    * Edit the photos contained in the photoset.
-   * <p>
+   *
    * <p>This will replace the photos in the photoset with the photos in
    * the array.</p>
    *

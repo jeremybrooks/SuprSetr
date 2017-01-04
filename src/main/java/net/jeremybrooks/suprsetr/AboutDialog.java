@@ -44,6 +44,9 @@ public class AboutDialog extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form AboutDialog
+   *
+   * @param parent parent component.
+   * @param modal if true, dialog is modal.
 	 */
 	public AboutDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);

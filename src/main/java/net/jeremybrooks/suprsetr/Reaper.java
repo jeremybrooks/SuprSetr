@@ -28,7 +28,7 @@ import java.awt.*;
 
 /**
  * Shutdown hook.
- * <p/>
+ *
  * <p>Everything in the run method will be executed just before the JVM
  * shuts down.</p>
  *

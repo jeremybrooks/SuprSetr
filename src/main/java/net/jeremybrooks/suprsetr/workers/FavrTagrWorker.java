@@ -46,9 +46,9 @@ import java.util.ResourceBundle;
 /**
  * This class scans a user's photos, adding favxx tags depending on how many
  * times a photo has been faved.
- * <p/>
+ *
  * <p>This operation can take a very long time!</p>
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -104,7 +104,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Execute the Flickr operations on a background thread.
-	 * <p/>
+	 *
 	 * <p>This method searches all the users photos, then gets the fave count
 	 * for each photo. It then checks to see if the fave count is greater than
 	 * the fave interval, and computes the tags needed for each fave interval.

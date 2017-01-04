@@ -47,7 +47,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class refreshes a photoset on Flickr, or a list of photosets.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -79,13 +79,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
   /**
    * Create an instance of RefreshPhotoset.
-   * <p/>
+   *
    * <p>All photosets in the list will be refreshed. The caller should make
    * sure that the sets in the list are eligible for refresh, or that the user
    * wants to refresh the sets early.</p>
    *
    * @param blocker      the blocker.
    * @param photosetList list of photosets to refresh.
+   * @param exitWhenDone if true, SuprSetr will exit when this process finishes.
    */
   public RefreshPhotosetWorker(BlockerPanel blocker, List<SSPhotoset> photosetList, boolean exitWhenDone) {
     this.blocker = blocker;

@@ -127,7 +127,7 @@ public class DAOHelper {
 
   /**
    * Create the database.
-   * <p/>
+   *
    * <p>The photoset and lookup tables will be created.</p>
    *
    * @throws Exception if there are any errors.
@@ -167,7 +167,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param conn the connection to close.
@@ -183,7 +183,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param conn the connection to close.
@@ -196,7 +196,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param conn the connection to close.
@@ -209,7 +209,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param s  the statement to close.
@@ -222,7 +222,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param conn the connection to close.
@@ -240,7 +240,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param s the statement to close.
@@ -258,7 +258,7 @@ public class DAOHelper {
 
   /**
    * Close database resources.
-   * <p/>
+   *
    * Errors will be logged, not thrown.
    *
    * @param rs the result set to close.
@@ -276,7 +276,7 @@ public class DAOHelper {
 
   /**
    * Convert an icon to bytes.
-   * <p/>
+   *
    * <p>If the icon is null, or if there is an error, this method will
    * return null.</p>
    *
@@ -305,7 +305,7 @@ public class DAOHelper {
 
   /**
    * Convert bytes to icon.
-   * <p/>
+   *
    * <p>If the icon is null, or there is an error, this method will return
    * null</p>
    *
@@ -335,7 +335,7 @@ public class DAOHelper {
 
   /**
    * Convert a string to a boolean value.
-   * <p/>
+   *
    * <p>If the string is equal to Y or y, return true, otherwise return
    * false.</p>
    *
@@ -357,7 +357,7 @@ public class DAOHelper {
 
   /**
    * Convert a boolean value to a string.
-   * <p/>
+   *
    * <p>Return Y for true, N for false.</p>
    *
    * @param flag boolean value.

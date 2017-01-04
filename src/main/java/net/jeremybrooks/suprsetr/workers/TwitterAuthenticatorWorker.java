@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class performs the Twitter authentication operations in the background.
- * <p/>
+ *
  * <p>This class extends SwingWorker, so the GUI can remain responsive and
  * the user can be updated about the progress of the operation. The
  * BlockerPanel class is used to prevent the user from accessing the GUI during
@@ -73,7 +73,7 @@ public class TwitterAuthenticatorWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Execute the Twitter authentication operations on a background thread.
-	 * <p/>
+	 *
 	 * <p>The TwitterHelper class does the real work, but this method allows
 	 * that work to happen on a non-GUI thread, so the GUI remains responsive.</p>
 	 *

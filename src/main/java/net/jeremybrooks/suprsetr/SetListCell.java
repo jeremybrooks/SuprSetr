@@ -202,7 +202,7 @@ public class SetListCell extends javax.swing.JPanel {
 
 	/**
 	 * Set the text and icon indicating that this set is ready to be refreshed.
-	 * <p/>
+	 *
 	 * <p>The elapsed time before a set is "stale" is configured by the user,
 	 * so this must be taken into account.</p>
 	 *

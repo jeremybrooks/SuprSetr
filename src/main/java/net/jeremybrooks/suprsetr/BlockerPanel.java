@@ -187,7 +187,7 @@ public class BlockerPanel extends JPanel implements MouseInputListener, KeyListe
 
 	/**
 	 * Class to update the displayed message.
-	 * <p/>
+	 *
 	 * <p>An instance of this class should be scheduled on the EventDispatch
 	 * thread in order to avoid blocking the application.</p>
 	 */

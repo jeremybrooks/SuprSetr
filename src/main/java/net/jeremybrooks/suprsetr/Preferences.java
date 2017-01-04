@@ -763,7 +763,7 @@ public class Preferences extends javax.swing.JDialog {
 
 	/**
 	 * Respond to clicks on the "Use Proxy" checkbox.
-	 * <p/>
+	 *
 	 * <p>The text entryfields will be enabled/disabled based on the state of
 	 * the checkbox.</p>
 	 *
