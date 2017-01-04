@@ -22,9 +22,8 @@ managed/unmanaged, then alphabetically. Managed sets will always display at the
 top of the list. Additional sort options may be added in the future if users
 want that feature.
 
-# 3.0.0 beta release
-This is a beta release of SuprSetr that will work with the new https Flickr API endpoints.
-It probably has bugs. But don't worry, I'll fix them when they are found.
+## Installers
+If you are just looking for the installer, head over to [the SuprSetr home page](http://jeremybrooks.net/suprsetr)
 
 ## Known Issues
 
@@ -38,7 +37,7 @@ system that it has been tested on (Mac, Linux, Windows)
  * Creating new sets based on tags (M)
  * Creating new sets with tags and negative tags (M)
  * Sets with limit on photo count (M)
- * Creating sets by date taken (M)x
+ * Creating sets by date taken (M)
  * Updating sets by date taken (M)
  * Editing the primary photo for a set (M)
  * Editing title and description for a set (M)
@@ -59,10 +58,10 @@ system that it has been tested on (Mac, Linux, Windows)
  * Tweet when created (M)
  * Tweet when updated (M)
  * Proxy settings (M)
-
+ * Creating sets based on machine tags (M)
+ 
 Things that still need some testing and may not work
 
- * Creating sets based on machine tags
  * Lots of combinations of set criteria
  * FavrTagr
 

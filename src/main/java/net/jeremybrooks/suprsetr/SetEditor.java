@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.response.Response;
@@ -32,22 +33,42 @@ import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DateFormatSymbols;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -276,819 +297,719 @@ public class SetEditor extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        ResourceBundle bundle = this.resourceBundle;
-        jTabbedPane1 = new JTabbedPane();
-        basicPanel = new JPanel();
-        pnlTitle = new JPanel();
-        lblIcon = new JLabel();
-        lblMessage = new JLabel();
-        cbxManage = new JCheckBox();
-        cbxLock = new JCheckBox();
-        label1 = new JLabel();
-        txtTitle = new JTextField();
-        label2 = new JLabel();
-        jScrollPane1 = new JScrollPane();
-        txtDescription = new JTextArea();
-        pnlTags = new JPanel();
-        txtTags = new JTextField();
-        cmbTags = new JComboBox<>();
-        btnTagsHelp = new JButton();
-        pnlMachineTags = new JPanel();
-        cmbMachineTags = new JComboBox<>();
-        txtMachineTags = new JTextField();
-        btnMachineTagsHelp = new JButton();
-        pnlText = new JPanel();
-        txtTextSearch = new JTextField();
-        btnTextHelp = new JButton();
-        pnlDates = new JPanel();
-        panel1 = new JPanel();
-        cbxDateTaken = new JCheckBox();
-        dateTakenAfter = new JDateChooser();
-        jLabel3 = new JLabel();
-        dateTakenBefore = new JDateChooser();
-        cbxDateUploaded = new JCheckBox();
-        dateUploadedAfter = new JDateChooser();
-        jLabel4 = new JLabel();
-        dateUploadedBefore = new JDateChooser();
-        panel2 = new JPanel();
-        cbxOnThisDay = new JCheckBox();
-        cmbOTDMonth = new JComboBox();
-        cmbOTDDay = new JComboBox<>();
-        jLabel9 = new JLabel();
-        yearOTDStart = new JYearChooser();
-        jLabel13 = new JLabel();
-        yearOTDEnd = new JYearChooser();
-        cbxCurrentYear = new JCheckBox();
-        pnlSort = new JPanel();
-        jLabel1 = new JLabel();
-        cmbSortBy = new JComboBox();
-        advancedPanel = new JPanel();
-        pnlSocial = new JPanel();
-        jScrollPane3 = new JScrollPane();
-        txtTweet = new JTextArea();
-        jLabel2 = new JLabel();
-        jLabel5 = new JLabel();
-        jLabel6 = new JLabel();
-        jLabel7 = new JLabel();
-        radioTweetNone = new JRadioButton();
-        radioTweetUpdated = new JRadioButton();
-        radioTweetCreated = new JRadioButton();
-        jPanel4 = new JPanel();
-        jLabel8 = new JLabel();
-        cmbPrivacy = new JComboBox();
-        lblSafeSearch = new JLabel();
-        cmbSafeSearch = new JComboBox();
-        jPanel5 = new JPanel();
-        jLabel10 = new JLabel();
-        cmbContentType = new JComboBox();
-        jLabel11 = new JLabel();
-        cmbMediaType = new JComboBox();
-        jPanel6 = new JPanel();
-        jLabel12 = new JLabel();
-        cmbGeotag = new JComboBox();
-        cbxInGallery = new JCheckBox();
-        cbxInCommons = new JCheckBox();
-        cbxInGetty = new JCheckBox();
-        cbxLimitSize = new JCheckBox();
-        txtSetSize = new JTextField();
-        buttonPanel = new JPanel();
-        btnSave = new JButton();
-        btnCancel = new JButton();
-        btnSaveAndRefresh = new JButton();
+  private void initComponents() {
+    ResourceBundle bundle = this.resourceBundle;
+    jTabbedPane1 = new JTabbedPane();
+    basicPanel = new JPanel();
+    pnlTitle = new JPanel();
+    lblIcon = new JLabel();
+    lblMessage = new JLabel();
+    cbxManage = new JCheckBox();
+    cbxLock = new JCheckBox();
+    label1 = new JLabel();
+    txtTitle = new JTextField();
+    label2 = new JLabel();
+    jScrollPane1 = new JScrollPane();
+    txtDescription = new JTextArea();
+    pnlTags = new JPanel();
+    txtTags = new JTextField();
+    cmbTags = new JComboBox<>();
+    btnTagsHelp = new JButton();
+    pnlMachineTags = new JPanel();
+    cmbMachineTags = new JComboBox<>();
+    txtMachineTags = new JTextField();
+    btnMachineTagsHelp = new JButton();
+    pnlText = new JPanel();
+    txtTextSearch = new JTextField();
+    btnTextHelp = new JButton();
+    pnlDates = new JPanel();
+    panel1 = new JPanel();
+    cbxDateTaken = new JCheckBox();
+    dateTakenAfter = new JDateChooser();
+    jLabel3 = new JLabel();
+    dateTakenBefore = new JDateChooser();
+    cbxDateUploaded = new JCheckBox();
+    dateUploadedAfter = new JDateChooser();
+    jLabel4 = new JLabel();
+    dateUploadedBefore = new JDateChooser();
+    panel2 = new JPanel();
+    cbxOnThisDay = new JCheckBox();
+    cmbOTDMonth = new JComboBox();
+    cmbOTDDay = new JComboBox<>();
+    jLabel9 = new JLabel();
+    yearOTDStart = new JYearChooser();
+    jLabel13 = new JLabel();
+    yearOTDEnd = new JYearChooser();
+    cbxCurrentYear = new JCheckBox();
+    pnlSort = new JPanel();
+    jLabel1 = new JLabel();
+    cmbSortBy = new JComboBox();
+    advancedPanel = new JPanel();
+    pnlSocial = new JPanel();
+    jScrollPane3 = new JScrollPane();
+    txtTweet = new JTextArea();
+    jLabel2 = new JLabel();
+    jLabel5 = new JLabel();
+    jLabel6 = new JLabel();
+    jLabel7 = new JLabel();
+    radioTweetNone = new JRadioButton();
+    radioTweetUpdated = new JRadioButton();
+    radioTweetCreated = new JRadioButton();
+    jPanel4 = new JPanel();
+    jLabel8 = new JLabel();
+    cmbPrivacy = new JComboBox();
+    lblSafeSearch = new JLabel();
+    cmbSafeSearch = new JComboBox();
+    jPanel5 = new JPanel();
+    jLabel10 = new JLabel();
+    cmbContentType = new JComboBox();
+    jLabel11 = new JLabel();
+    cmbMediaType = new JComboBox();
+    jPanel6 = new JPanel();
+    jLabel12 = new JLabel();
+    cmbGeotag = new JComboBox();
+    cbxInGallery = new JCheckBox();
+    cbxInCommons = new JCheckBox();
+    cbxInGetty = new JCheckBox();
+    cbxLimitSize = new JCheckBox();
+    txtSetSize = new JTextField();
+    buttonPanel = new JPanel();
+    btnSave = new JButton();
+    btnCancel = new JButton();
+    btnSaveAndRefresh = new JButton();
 
-        //======== this ========
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
+    //======== this ========
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    Container contentPane = getContentPane();
+    contentPane.setLayout(new BorderLayout());
 
-        //======== jTabbedPane1 ========
+    //======== jTabbedPane1 ========
+    {
+
+      //======== basicPanel ========
+      {
+        basicPanel.setLayout(new VerticalLayout(5));
+
+        //======== pnlTitle ========
         {
+          pnlTitle.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTitle.border")));
+          pnlTitle.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlTitle.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)pnlTitle.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+          ((GridBagLayout)pnlTitle.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTitle.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
-            //======== basicPanel ========
-            {
-                basicPanel.setLayout(new VerticalLayout(5));
-
-                //======== pnlTitle ========
-                {
-                    pnlTitle.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTitle.border")));
-                    pnlTitle.setLayout(new GridBagLayout());
-                    ((GridBagLayout)pnlTitle.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
-                    ((GridBagLayout)pnlTitle.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
-                    ((GridBagLayout)pnlTitle.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)pnlTitle.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-
-                    //---- lblIcon ----
-                    lblIcon.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
-                    lblIcon.setToolTipText(bundle.getString("SetEditor.lblIcon.toolTipText"));
-                    lblIcon.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            lblIconMouseClicked(e);
-                        }
-                    });
-                    pnlTitle.add(lblIcon, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
-                        GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- lblMessage ----
-                    lblMessage.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-                    lblMessage.setForeground(Color.red);
-                    pnlTitle.add(lblMessage, new GridBagConstraints(1, 0, 2, 1, 0.0, 1.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- cbxManage ----
-                    cbxManage.setText(bundle.getString("SetEditor.cbxManage.text"));
-                    cbxManage.setToolTipText(bundle.getString("SetEditor.cbxManage.toolTipText"));
-                    cbxManage.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            cbxManageActionPerformed();
-                        }
-                    });
-                    pnlTitle.add(cbxManage, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- cbxLock ----
-                    cbxLock.setText(bundle.getString("SetEditor.cbxLock.text"));
-                    cbxLock.setToolTipText(bundle.getString("SetEditor.cbxLock.toolTipText"));
-                    pnlTitle.add(cbxLock, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.NONE,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- label1 ----
-                    label1.setText(bundle.getString("SetEditor.label1.text"));
-                    pnlTitle.add(label1, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- txtTitle ----
-                    txtTitle.setToolTipText(bundle.getString("SetEditor.txtTitle.toolTipText"));
-                    txtTitle.addKeyListener(new KeyAdapter() {
-                        @Override
-                        public void keyReleased(KeyEvent e) {
-                            txtTitleKeyReleased();
-                        }
-                    });
-                    pnlTitle.add(txtTitle, new GridBagConstraints(2, 3, 1, 1, 1.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 3, 5, 8), 0, 0));
-
-                    //---- label2 ----
-                    label2.setText(bundle.getString("SetEditor.label2.text"));
-                    pnlTitle.add(label2, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //======== jScrollPane1 ========
-                    {
-
-                        //---- txtDescription ----
-                        txtDescription.setColumns(20);
-                        txtDescription.setLineWrap(true);
-                        txtDescription.setRows(5);
-                        txtDescription.setToolTipText(bundle.getString("SetEditor.txtDescription.toolTipText"));
-                        txtDescription.setWrapStyleWord(true);
-                        jScrollPane1.setViewportView(txtDescription);
-                    }
-                    pnlTitle.add(jScrollPane1, new GridBagConstraints(2, 4, 1, 1, 1.0, 1.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 3, 0, 8), 0, 0));
-                }
-                basicPanel.add(pnlTitle);
-
-                //======== pnlTags ========
-                {
-                    pnlTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTags.border")));
-                    pnlTags.setLayout(new GridBagLayout());
-                    ((GridBagLayout)pnlTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)pnlTags.getLayout()).rowHeights = new int[] {0, 0};
-                    ((GridBagLayout)pnlTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)pnlTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
-
-                    //---- txtTags ----
-                    txtTags.setToolTipText(bundle.getString("SetEditor.txtTags.toolTipText"));
-                    pnlTags.add(txtTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- cmbTags ----
-                    cmbTags.setModel(new DefaultComboBoxModel<>(new String[] {
-                        "All",
-                        "Any"
-                    }));
-                    cmbTags.setToolTipText(bundle.getString("SetEditor.cmbTags.toolTipText"));
-                    pnlTags.add(cmbTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- btnTagsHelp ----
-                    btnTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
-                    btnTagsHelp.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            btnTagsHelpActionPerformed();
-                        }
-                    });
-                    pnlTags.add(btnTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                basicPanel.add(pnlTags);
-
-                //======== pnlMachineTags ========
-                {
-                    pnlMachineTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlMachineTags.border")));
-                    pnlMachineTags.setLayout(new GridBagLayout());
-                    ((GridBagLayout)pnlMachineTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)pnlMachineTags.getLayout()).rowHeights = new int[] {0, 0};
-                    ((GridBagLayout)pnlMachineTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)pnlMachineTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
-
-                    //---- cmbMachineTags ----
-                    cmbMachineTags.setModel(new DefaultComboBoxModel<>(new String[] {
-                        "All",
-                        "Any"
-                    }));
-                    pnlMachineTags.add(cmbMachineTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
-                    pnlMachineTags.add(txtMachineTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- btnMachineTagsHelp ----
-                    btnMachineTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
-                    btnMachineTagsHelp.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            btnMachineTagsHelpActionPerformed();
-                        }
-                    });
-                    pnlMachineTags.add(btnMachineTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                basicPanel.add(pnlMachineTags);
-
-                //======== pnlText ========
-                {
-                    pnlText.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlText.border")));
-                    pnlText.setLayout(new GridBagLayout());
-                    ((GridBagLayout)pnlText.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)pnlText.getLayout()).rowHeights = new int[] {0, 0};
-                    ((GridBagLayout)pnlText.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)pnlText.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
-                    pnlText.add(txtTextSearch, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-
-                    //---- btnTextHelp ----
-                    btnTextHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
-                    btnTextHelp.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            btnTextHelpActionPerformed();
-                        }
-                    });
-                    pnlText.add(btnTextHelp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                basicPanel.add(pnlText);
-
-                //======== pnlDates ========
-                {
-                    pnlDates.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlDates.border")));
-                    pnlDates.setLayout(new VerticalLayout());
-
-                    //======== panel1 ========
-                    {
-                        panel1.setLayout(new GridBagLayout());
-                        ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
-                        ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-                        ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
-                        ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
-
-                        //---- cbxDateTaken ----
-                        cbxDateTaken.setText(bundle.getString("SetEditor.cbxDateTaken.text"));
-                        cbxDateTaken.setToolTipText(bundle.getString("SetEditor.cbxDateTaken.toolTipText"));
-                        cbxDateTaken.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                cbxDateTakenActionPerformed();
-                            }
-                        });
-                        panel1.add(cbxDateTaken, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- dateTakenAfter ----
-                        dateTakenAfter.setToolTipText(bundle.getString("SetEditor.dateTakenAfter.toolTipText"));
-                        dateTakenAfter.addPropertyChangeListener(new PropertyChangeListener() {
-                            @Override
-                            public void propertyChange(PropertyChangeEvent e) {
-                                dateTakenAfterPropertyChange();
-                            }
-                        });
-                        panel1.add(dateTakenAfter, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- jLabel3 ----
-                        jLabel3.setText(bundle.getString("SetEditor.jLabel3.text"));
-                        panel1.add(jLabel3, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- dateTakenBefore ----
-                        dateTakenBefore.setToolTipText(bundle.getString("SetEditor.dateTakenBefore.toolTipText"));
-                        panel1.add(dateTakenBefore, new GridBagConstraints(3, 0, 1, 1, 1.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
-
-                        //---- cbxDateUploaded ----
-                        cbxDateUploaded.setText(bundle.getString("SetEditor.cbxDateUploaded.text"));
-                        cbxDateUploaded.setToolTipText(bundle.getString("SetEditor.cbxDateUploaded.toolTipText"));
-                        cbxDateUploaded.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                cbxDateUploadedActionPerformed();
-                            }
-                        });
-                        panel1.add(cbxDateUploaded, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- dateUploadedAfter ----
-                        dateUploadedAfter.setToolTipText(bundle.getString("SetEditor.dateUploadedAfter.toolTipText"));
-                        dateUploadedAfter.addPropertyChangeListener(new PropertyChangeListener() {
-                            @Override
-                            public void propertyChange(PropertyChangeEvent e) {
-                                dateUploadedAfterPropertyChange();
-                            }
-                        });
-                        panel1.add(dateUploadedAfter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- jLabel4 ----
-                        jLabel4.setText(bundle.getString("SetEditor.jLabel4.text"));
-                        panel1.add(jLabel4, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- dateUploadedBefore ----
-                        dateUploadedBefore.setToolTipText(bundle.getString("SetEditor.dateUploadedBefore.toolTipText"));
-                        panel1.add(dateUploadedBefore, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
-                    }
-                    pnlDates.add(panel1);
-
-                    //======== panel2 ========
-                    {
-                        panel2.setLayout(new GridBagLayout());
-                        ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0};
-                        ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-                        ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
-
-                        //---- cbxOnThisDay ----
-                        cbxOnThisDay.setText(bundle.getString("SetEditor.cbxOnThisDay.text"));
-                        cbxOnThisDay.setToolTipText(bundle.getString("SetEditor.cbxOnThisDay.toolTipText"));
-                        cbxOnThisDay.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                cbxOnThisDayActionPerformed();
-                            }
-                        });
-                        panel2.add(cbxOnThisDay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- cmbOTDMonth ----
-                        cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
-                        cmbOTDMonth.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                cmbOTDMonthActionPerformed();
-                            }
-                        });
-                        cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
-                        panel2.add(cmbOTDMonth, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- cmbOTDDay ----
-                        cmbOTDDay.setModel(new DefaultComboBoxModel<>(new String[] {
-                            "1",
-                            "2",
-                            "3",
-                            "4",
-                            "5",
-                            "6",
-                            "7",
-                            "8",
-                            "9",
-                            "10",
-                            "11",
-                            "12",
-                            "13",
-                            "14",
-                            "15",
-                            "16",
-                            "17",
-                            "18",
-                            "19",
-                            "20",
-                            "21",
-                            "22",
-                            "23",
-                            "24",
-                            "25",
-                            "26",
-                            "27",
-                            "28",
-                            "29",
-                            "30",
-                            "31"
-                        }));
-                        cmbOTDDay.setToolTipText(bundle.getString("SetEditor.cmbOTDDay.toolTipText"));
-                        panel2.add(cmbOTDDay, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- jLabel9 ----
-                        jLabel9.setText(bundle.getString("SetEditor.jLabel9.text"));
-                        panel2.add(jLabel9, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- yearOTDStart ----
-                        yearOTDStart.setToolTipText(bundle.getString("SetEditor.yearOTDStart.toolTipText"));
-                        yearOTDStart.setMinimum(1900);
-                        yearOTDStart.setStartYear(1900);
-                        yearOTDStart.addPropertyChangeListener(new PropertyChangeListener() {
-                            @Override
-                            public void propertyChange(PropertyChangeEvent e) {
-                                yearFromPropertyChange();
-                            }
-                        });
-                        panel2.add(yearOTDStart, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- jLabel13 ----
-                        jLabel13.setText(bundle.getString("SetEditor.jLabel13.text"));
-                        panel2.add(jLabel13, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- yearOTDEnd ----
-                        yearOTDEnd.setToolTipText(bundle.getString("SetEditor.yearOTDEnd.toolTipText"));
-                        yearOTDEnd.setMinimum(1900);
-                        panel2.add(yearOTDEnd, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                            new Insets(0, 0, 5, 5), 0, 0));
-
-                        //---- cbxCurrentYear ----
-                        cbxCurrentYear.setText(bundle.getString("SetEditor.cbxCurrentYear.text"));
-                        cbxCurrentYear.setToolTipText(bundle.getString("SetEditor.cbxCurrentYear.toolTipText"));
-                        cbxCurrentYear.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                cbxCurrentYearActionPerformed();
-                            }
-                        });
-                        panel2.add(cbxCurrentYear, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                            new Insets(0, 0, 0, 5), 0, 0));
-                    }
-                    pnlDates.add(panel2);
-                }
-                basicPanel.add(pnlDates);
-
-                //======== pnlSort ========
-                {
-                    pnlSort.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlSort.border")));
-                    pnlSort.setLayout(new GridBagLayout());
-                    ((GridBagLayout)pnlSort.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)pnlSort.getLayout()).rowHeights = new int[] {0, 0};
-                    ((GridBagLayout)pnlSort.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)pnlSort.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
-
-                    //---- jLabel1 ----
-                    jLabel1.setText(bundle.getString("SetEditor.jLabel1.text"));
-                    pnlSort.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- cmbSortBy ----
-                    cmbSortBy.setToolTipText(bundle.getString("SetEditor.cmbSortBy.toolTipText"));
-                    cmbSortBy.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            cmbSortByActionPerformed();
-                        }
-                    });
-                    cmbSortBy.setModel(new DefaultComboBoxModel<>(this.sortModelArray));
-                    pnlSort.add(cmbSortBy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                basicPanel.add(pnlSort);
+          //---- lblIcon ----
+          lblIcon.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
+          lblIcon.setToolTipText(bundle.getString("SetEditor.lblIcon.toolTipText"));
+          lblIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+              lblIconMouseClicked(e);
             }
-            jTabbedPane1.addTab(bundle.getString("SetEditor.basicPanel.tab.title"), basicPanel);
+          });
+          pnlTitle.add(lblIcon, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
+            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
-            //======== advancedPanel ========
-            {
-                advancedPanel.setVerifyInputWhenFocusTarget(false);
-                advancedPanel.setLayout(new VerticalLayout(5));
+          //---- lblMessage ----
+          lblMessage.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+          lblMessage.setForeground(Color.red);
+          pnlTitle.add(lblMessage, new GridBagConstraints(1, 0, 2, 1, 0.0, 1.0,
+            GridBagConstraints.CENTER, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
-                //======== pnlSocial ========
-                {
-                    pnlSocial.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlSocial.border")));
-                    pnlSocial.setLayout(new GridBagLayout());
-                    ((GridBagLayout)pnlSocial.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)pnlSocial.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-                    ((GridBagLayout)pnlSocial.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)pnlSocial.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          //---- cbxManage ----
+          cbxManage.setText(bundle.getString("SetEditor.cbxManage.text"));
+          cbxManage.setToolTipText(bundle.getString("SetEditor.cbxManage.toolTipText"));
+          cbxManage.addActionListener(e -> cbxManageActionPerformed());
+          pnlTitle.add(cbxManage, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
+            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
-                    //======== jScrollPane3 ========
-                    {
+          //---- cbxLock ----
+          cbxLock.setText(bundle.getString("SetEditor.cbxLock.text"));
+          cbxLock.setToolTipText(bundle.getString("SetEditor.cbxLock.toolTipText"));
+          pnlTitle.add(cbxLock, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
-                        //---- txtTweet ----
-                        txtTweet.setToolTipText(bundle.getString("SetEditor.txtTweet.toolTipText"));
-                        txtTweet.setLineWrap(true);
-                        txtTweet.setWrapStyleWord(true);
-                        Document styledDoc = txtTweet.getDocument();
-                        if (styledDoc instanceof AbstractDocument) {
-                            AbstractDocument doc = (AbstractDocument)styledDoc;
-                            doc.setDocumentFilter(new DocumentSizeFilter(140));
-                        }
-                        jScrollPane3.setViewportView(txtTweet);
-                    }
-                    pnlSocial.add(jScrollPane3, new GridBagConstraints(1, 0, 1, 4, 1.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+          //---- label1 ----
+          label1.setText(bundle.getString("SetEditor.label1.text"));
+          pnlTitle.add(label1, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
 
-                    //---- jLabel2 ----
-                    jLabel2.setText(bundle.getString("SetEditor.jLabel2.text"));
-                    pnlSocial.add(jLabel2, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- jLabel5 ----
-                    jLabel5.setText(bundle.getString("SetEditor.jLabel5.text"));
-                    pnlSocial.add(jLabel5, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- jLabel6 ----
-                    jLabel6.setText(bundle.getString("SetEditor.jLabel6.text"));
-                    pnlSocial.add(jLabel6, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- jLabel7 ----
-                    jLabel7.setText(bundle.getString("SetEditor.jLabel7.text"));
-                    pnlSocial.add(jLabel7, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-
-                    //---- radioTweetNone ----
-                    radioTweetNone.setSelected(true);
-                    radioTweetNone.setText(bundle.getString("SetEditor.radioTweetNone.text"));
-                    radioTweetNone.setToolTipText(bundle.getString("SetEditor.radioTweetNone.toolTipText"));
-                    radioTweetNone.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            radioTweetNoneActionPerformed();
-                        }
-                    });
-                    pnlSocial.add(radioTweetNone, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- radioTweetUpdated ----
-                    radioTweetUpdated.setText(bundle.getString("SetEditor.radioTweetUpdated.text"));
-                    radioTweetUpdated.setToolTipText(bundle.getString("SetEditor.radioTweetUpdated.toolTipText"));
-                    radioTweetUpdated.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            radioTweetCreatedOrUpdatedActionPerformed(e);
-                        }
-                    });
-                    pnlSocial.add(radioTweetUpdated, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- radioTweetCreated ----
-                    radioTweetCreated.setText(bundle.getString("SetEditor.radioTweetCreated.text"));
-                    radioTweetCreated.setToolTipText(bundle.getString("SetEditor.radioTweetCreated.toolTipText"));
-                    radioTweetCreated.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            radioTweetCreatedOrUpdatedActionPerformed(e);
-                        }
-                    });
-                    pnlSocial.add(radioTweetCreated, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
-                }
-                advancedPanel.add(pnlSocial);
-
-                //======== jPanel4 ========
-                {
-                    jPanel4.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel4.border")));
-                    jPanel4.setLayout(new GridBagLayout());
-                    ((GridBagLayout)jPanel4.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)jPanel4.getLayout()).rowHeights = new int[] {0, 0, 0};
-                    ((GridBagLayout)jPanel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)jPanel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
-
-                    //---- jLabel8 ----
-                    jLabel8.setText(bundle.getString("SetEditor.jLabel8.text"));
-                    jPanel4.add(jLabel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- cmbPrivacy ----
-                    cmbPrivacy.setToolTipText(bundle.getString("SetEditor.cmbPrivacy.toolTipText"));
-                    cmbPrivacy.setModel(new DefaultComboBoxModel<>(this.privacyModelArray));
-                    jPanel4.add(cmbPrivacy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- lblSafeSearch ----
-                    lblSafeSearch.setText(bundle.getString("SetEditor.lblSafeSearch.text"));
-                    jPanel4.add(lblSafeSearch, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- cmbSafeSearch ----
-                    cmbSafeSearch.setToolTipText(bundle.getString("SetEditor.cmbSafeSearch.toolTipText"));
-                    cmbSafeSearch.setModel(new DefaultComboBoxModel<>(this.safeModelArray));
-                    jPanel4.add(cmbSafeSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                advancedPanel.add(jPanel4);
-
-                //======== jPanel5 ========
-                {
-                    jPanel5.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel5.border")));
-                    jPanel5.setLayout(new GridBagLayout());
-                    ((GridBagLayout)jPanel5.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)jPanel5.getLayout()).rowHeights = new int[] {0, 0, 0};
-                    ((GridBagLayout)jPanel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)jPanel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
-
-                    //---- jLabel10 ----
-                    jLabel10.setText(bundle.getString("SetEditor.jLabel10.text"));
-                    jPanel5.add(jLabel10, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- cmbContentType ----
-                    cmbContentType.setToolTipText(bundle.getString("SetEditor.cmbContentType.toolTipText"));
-                    cmbContentType.setModel(new DefaultComboBoxModel<>(this.contentModelArray));
-                    jPanel5.add(cmbContentType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- jLabel11 ----
-                    jLabel11.setText(bundle.getString("SetEditor.jLabel11.text"));
-                    jPanel5.add(jLabel11, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- cmbMediaType ----
-                    cmbMediaType.setToolTipText(bundle.getString("SetEditor.cmbMediaType.toolTipText"));
-                    cmbMediaType.setModel(new DefaultComboBoxModel<>(this.typeModelArray));
-                    jPanel5.add(cmbMediaType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                advancedPanel.add(jPanel5);
-
-                //======== jPanel6 ========
-                {
-                    jPanel6.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel6.border")));
-                    jPanel6.setLayout(new GridBagLayout());
-                    ((GridBagLayout)jPanel6.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)jPanel6.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
-                    ((GridBagLayout)jPanel6.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)jPanel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-
-                    //---- jLabel12 ----
-                    jLabel12.setText(bundle.getString("SetEditor.jLabel12.text"));
-                    jPanel6.add(jLabel12, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //---- cmbGeotag ----
-                    cmbGeotag.setToolTipText(bundle.getString("SetEditor.cmbGeotag.toolTipText"));
-                    cmbGeotag.setModel(new DefaultComboBoxModel<>(this.geotagModelArray));
-                    jPanel6.add(cmbGeotag, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- cbxInGallery ----
-                    cbxInGallery.setText(bundle.getString("SetEditor.cbxInGallery.text"));
-                    cbxInGallery.setToolTipText(bundle.getString("SetEditor.cbxInGallery.toolTipText"));
-                    jPanel6.add(cbxInGallery, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- cbxInCommons ----
-                    cbxInCommons.setText(bundle.getString("SetEditor.cbxInCommons.text"));
-                    cbxInCommons.setToolTipText(bundle.getString("SetEditor.cbxInCommons.toolTipText"));
-                    jPanel6.add(cbxInCommons, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- cbxInGetty ----
-                    cbxInGetty.setText(bundle.getString("SetEditor.cbxInGetty.text"));
-                    cbxInGetty.setToolTipText(bundle.getString("SetEditor.cbxInGetty.toolTipText"));
-                    jPanel6.add(cbxInGetty, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- cbxLimitSize ----
-                    cbxLimitSize.setText(bundle.getString("SetEditor.cbxLimitSize.text"));
-                    cbxLimitSize.setToolTipText(bundle.getString("SetEditor.cbxLimitSize.toolTipText"));
-                    cbxLimitSize.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            cbxLimitSizeActionPerformed();
-                        }
-                    });
-                    jPanel6.add(cbxLimitSize, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                        new Insets(0, 0, 0, 5), 0, 0));
-
-                    //---- txtSetSize ----
-                    txtSetSize.setToolTipText(bundle.getString("SetEditor.txtSetSize.toolTipText"));
-                    jPanel6.add(txtSetSize, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
-                }
-                advancedPanel.add(jPanel6);
+          //---- txtTitle ----
+          txtTitle.setToolTipText(bundle.getString("SetEditor.txtTitle.toolTipText"));
+          txtTitle.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+              txtTitleKeyReleased();
             }
-            jTabbedPane1.addTab(bundle.getString("SetEditor.advancedPanel.tab.title"), advancedPanel);
+          });
+          pnlTitle.add(txtTitle, new GridBagConstraints(2, 3, 1, 1, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 3, 5, 8), 0, 0));
+
+          //---- label2 ----
+          label2.setText(bundle.getString("SetEditor.label2.text"));
+          pnlTitle.add(label2, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
+            GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //======== jScrollPane1 ========
+          {
+
+            //---- txtDescription ----
+            txtDescription.setColumns(20);
+            txtDescription.setLineWrap(true);
+            txtDescription.setRows(5);
+            txtDescription.setToolTipText(bundle.getString("SetEditor.txtDescription.toolTipText"));
+            txtDescription.setWrapStyleWord(true);
+            jScrollPane1.setViewportView(txtDescription);
+          }
+          pnlTitle.add(jScrollPane1, new GridBagConstraints(2, 4, 1, 1, 1.0, 1.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 3, 0, 8), 0, 0));
         }
-        contentPane.add(jTabbedPane1, BorderLayout.CENTER);
+        basicPanel.add(pnlTitle);
 
-        //======== buttonPanel ========
+        //======== pnlTags ========
         {
-            buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+          pnlTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTags.border")));
+          pnlTags.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)pnlTags.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
-            //---- btnSave ----
-            btnSave.setText(bundle.getString("SetEditor.btnSave.text"));
-            btnSave.setToolTipText(bundle.getString("SetEditor.btnSave.toolTipText"));
-            btnSave.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    btnSaveActionPerformed();
-                }
-            });
-            buttonPanel.add(btnSave);
+          //---- txtTags ----
+          txtTags.setToolTipText(bundle.getString("SetEditor.txtTags.toolTipText"));
+          pnlTags.add(txtTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
-            //---- btnCancel ----
-            btnCancel.setText(bundle.getString("SetEditor.btnCancel.text"));
-            btnCancel.setToolTipText(bundle.getString("SetEditor.btnCancel.toolTipText"));
-            btnCancel.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    btnCancelActionPerformed();
-                }
-            });
-            buttonPanel.add(btnCancel);
+          //---- cmbTags ----
+          cmbTags.setModel(new DefaultComboBoxModel<>(new String[] {
+            "All",
+            "Any"
+          }));
+          cmbTags.setToolTipText(bundle.getString("SetEditor.cmbTags.toolTipText"));
+          pnlTags.add(cmbTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
-            //---- btnSaveAndRefresh ----
-            btnSaveAndRefresh.setText(bundle.getString("SetEditor.btnSaveAndRefresh.text"));
-            btnSaveAndRefresh.setToolTipText(bundle.getString("SetEditor.btnSaveAndRefresh.toolTipText"));
-            btnSaveAndRefresh.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    btnSaveAndRefreshActionPerformed();
-                }
-            });
-            buttonPanel.add(btnSaveAndRefresh);
+          //---- btnTagsHelp ----
+          btnTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+          btnTagsHelp.addActionListener(e -> btnTagsHelpActionPerformed());
+          pnlTags.add(btnTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
-        contentPane.add(buttonPanel, BorderLayout.PAGE_END);
-        setSize(795, 750);
-        setLocationRelativeTo(null);
+        basicPanel.add(pnlTags);
 
-        //---- btnGrpTweet ----
-        ButtonGroup btnGrpTweet = new ButtonGroup();
-        btnGrpTweet.add(radioTweetNone);
-        btnGrpTweet.add(radioTweetUpdated);
-        btnGrpTweet.add(radioTweetCreated);
+        //======== pnlMachineTags ========
+        {
+          pnlMachineTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlMachineTags.border")));
+          pnlMachineTags.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlMachineTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)pnlMachineTags.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlMachineTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlMachineTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+
+          //---- cmbMachineTags ----
+          cmbMachineTags.setModel(new DefaultComboBoxModel<>(new String[] {
+            "All",
+            "Any"
+          }));
+          pnlMachineTags.add(cmbMachineTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
+          pnlMachineTags.add(txtMachineTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- btnMachineTagsHelp ----
+          btnMachineTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+          btnMachineTagsHelp.addActionListener(e -> btnMachineTagsHelpActionPerformed());
+          pnlMachineTags.add(btnMachineTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        basicPanel.add(pnlMachineTags);
+
+        //======== pnlText ========
+        {
+          pnlText.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlText.border")));
+          pnlText.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlText.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlText.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlText.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlText.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
+          pnlText.add(txtTextSearch, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- btnTextHelp ----
+          btnTextHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+          btnTextHelp.addActionListener(e -> btnTextHelpActionPerformed());
+          pnlText.add(btnTextHelp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        basicPanel.add(pnlText);
+
+        //======== pnlDates ========
+        {
+          pnlDates.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlDates.border")));
+          pnlDates.setLayout(new VerticalLayout());
+
+          //======== panel1 ========
+          {
+            panel1.setLayout(new GridBagLayout());
+            ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+            ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+            ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+            //---- cbxDateTaken ----
+            cbxDateTaken.setText(bundle.getString("SetEditor.cbxDateTaken.text"));
+            cbxDateTaken.setToolTipText(bundle.getString("SetEditor.cbxDateTaken.toolTipText"));
+            cbxDateTaken.addActionListener(e -> cbxDateTakenActionPerformed());
+            panel1.add(cbxDateTaken, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- dateTakenAfter ----
+            dateTakenAfter.setToolTipText(bundle.getString("SetEditor.dateTakenAfter.toolTipText"));
+            dateTakenAfter.addPropertyChangeListener(e -> dateTakenAfterPropertyChange());
+            panel1.add(dateTakenAfter, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- jLabel3 ----
+            jLabel3.setText(bundle.getString("SetEditor.jLabel3.text"));
+            panel1.add(jLabel3, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- dateTakenBefore ----
+            dateTakenBefore.setToolTipText(bundle.getString("SetEditor.dateTakenBefore.toolTipText"));
+            panel1.add(dateTakenBefore, new GridBagConstraints(3, 0, 1, 1, 1.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- cbxDateUploaded ----
+            cbxDateUploaded.setText(bundle.getString("SetEditor.cbxDateUploaded.text"));
+            cbxDateUploaded.setToolTipText(bundle.getString("SetEditor.cbxDateUploaded.toolTipText"));
+            cbxDateUploaded.addActionListener(e -> cbxDateUploadedActionPerformed());
+            panel1.add(cbxDateUploaded, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- dateUploadedAfter ----
+            dateUploadedAfter.setToolTipText(bundle.getString("SetEditor.dateUploadedAfter.toolTipText"));
+            dateUploadedAfter.addPropertyChangeListener(e -> dateUploadedAfterPropertyChange());
+            panel1.add(dateUploadedAfter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- jLabel4 ----
+            jLabel4.setText(bundle.getString("SetEditor.jLabel4.text"));
+            panel1.add(jLabel4, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- dateUploadedBefore ----
+            dateUploadedBefore.setToolTipText(bundle.getString("SetEditor.dateUploadedBefore.toolTipText"));
+            panel1.add(dateUploadedBefore, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 0), 0, 0));
+          }
+          pnlDates.add(panel1);
+
+          //======== panel2 ========
+          {
+            panel2.setLayout(new GridBagLayout());
+            ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0};
+            ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+            //---- cbxOnThisDay ----
+            cbxOnThisDay.setText(bundle.getString("SetEditor.cbxOnThisDay.text"));
+            cbxOnThisDay.setToolTipText(bundle.getString("SetEditor.cbxOnThisDay.toolTipText"));
+            cbxOnThisDay.addActionListener(e -> cbxOnThisDayActionPerformed());
+            panel2.add(cbxOnThisDay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- cmbOTDMonth ----
+            cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
+            cmbOTDMonth.addActionListener(e -> cmbOTDMonthActionPerformed());
+            cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
+            panel2.add(cmbOTDMonth, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- cmbOTDDay ----
+            cmbOTDDay.setModel(new DefaultComboBoxModel<>(new String[] {
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24",
+              "25",
+              "26",
+              "27",
+              "28",
+              "29",
+              "30",
+              "31"
+            }));
+            cmbOTDDay.setToolTipText(bundle.getString("SetEditor.cmbOTDDay.toolTipText"));
+            panel2.add(cmbOTDDay, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- jLabel9 ----
+            jLabel9.setText(bundle.getString("SetEditor.jLabel9.text"));
+            panel2.add(jLabel9, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- yearOTDStart ----
+            yearOTDStart.setToolTipText(bundle.getString("SetEditor.yearOTDStart.toolTipText"));
+            yearOTDStart.setMinimum(1900);
+            yearOTDStart.setStartYear(1900);
+            yearOTDStart.addPropertyChangeListener(e -> yearFromPropertyChange());
+            panel2.add(yearOTDStart, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- jLabel13 ----
+            jLabel13.setText(bundle.getString("SetEditor.jLabel13.text"));
+            panel2.add(jLabel13, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- yearOTDEnd ----
+            yearOTDEnd.setToolTipText(bundle.getString("SetEditor.yearOTDEnd.toolTipText"));
+            yearOTDEnd.setMinimum(1900);
+            panel2.add(yearOTDEnd, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0,
+              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+              new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- cbxCurrentYear ----
+            cbxCurrentYear.setText(bundle.getString("SetEditor.cbxCurrentYear.text"));
+            cbxCurrentYear.setToolTipText(bundle.getString("SetEditor.cbxCurrentYear.toolTipText"));
+            cbxCurrentYear.addActionListener(e -> cbxCurrentYearActionPerformed());
+            panel2.add(cbxCurrentYear, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0,
+              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+              new Insets(0, 0, 0, 5), 0, 0));
+          }
+          pnlDates.add(panel2);
+        }
+        basicPanel.add(pnlDates);
+
+        //======== pnlSort ========
+        {
+          pnlSort.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlSort.border")));
+          pnlSort.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlSort.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlSort.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlSort.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlSort.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+
+          //---- jLabel1 ----
+          jLabel1.setText(bundle.getString("SetEditor.jLabel1.text"));
+          pnlSort.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- cmbSortBy ----
+          cmbSortBy.setToolTipText(bundle.getString("SetEditor.cmbSortBy.toolTipText"));
+          cmbSortBy.addActionListener(e -> cmbSortByActionPerformed());
+          cmbSortBy.setModel(new DefaultComboBoxModel<>(this.sortModelArray));
+          pnlSort.add(cmbSortBy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        basicPanel.add(pnlSort);
+      }
+      jTabbedPane1.addTab(bundle.getString("SetEditor.basicPanel.tab.title"), basicPanel);
+
+      //======== advancedPanel ========
+      {
+        advancedPanel.setVerifyInputWhenFocusTarget(false);
+        advancedPanel.setLayout(new VerticalLayout(5));
+
+        //======== pnlSocial ========
+        {
+          pnlSocial.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlSocial.border")));
+          pnlSocial.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlSocial.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)pnlSocial.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)pnlSocial.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlSocial.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+          //======== jScrollPane3 ========
+          {
+
+            //---- txtTweet ----
+            txtTweet.setToolTipText(bundle.getString("SetEditor.txtTweet.toolTipText"));
+            txtTweet.setLineWrap(true);
+            txtTweet.setWrapStyleWord(true);
+            Document styledDoc = txtTweet.getDocument();
+            if (styledDoc instanceof AbstractDocument) {
+                AbstractDocument doc = (AbstractDocument)styledDoc;
+                doc.setDocumentFilter(new DocumentSizeFilter(140));
+            }
+            jScrollPane3.setViewportView(txtTweet);
+          }
+          pnlSocial.add(jScrollPane3, new GridBagConstraints(1, 0, 1, 4, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- jLabel2 ----
+          jLabel2.setText(bundle.getString("SetEditor.jLabel2.text"));
+          pnlSocial.add(jLabel2, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- jLabel5 ----
+          jLabel5.setText(bundle.getString("SetEditor.jLabel5.text"));
+          pnlSocial.add(jLabel5, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- jLabel6 ----
+          jLabel6.setText(bundle.getString("SetEditor.jLabel6.text"));
+          pnlSocial.add(jLabel6, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- jLabel7 ----
+          jLabel7.setText(bundle.getString("SetEditor.jLabel7.text"));
+          pnlSocial.add(jLabel7, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- radioTweetNone ----
+          radioTweetNone.setSelected(true);
+          radioTweetNone.setText(bundle.getString("SetEditor.radioTweetNone.text"));
+          radioTweetNone.setToolTipText(bundle.getString("SetEditor.radioTweetNone.toolTipText"));
+          radioTweetNone.addActionListener(e -> radioTweetNoneActionPerformed());
+          pnlSocial.add(radioTweetNone, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
+
+          //---- radioTweetUpdated ----
+          radioTweetUpdated.setText(bundle.getString("SetEditor.radioTweetUpdated.text"));
+          radioTweetUpdated.setToolTipText(bundle.getString("SetEditor.radioTweetUpdated.toolTipText"));
+          radioTweetUpdated.addActionListener(e -> radioTweetCreatedOrUpdatedActionPerformed(e));
+          pnlSocial.add(radioTweetUpdated, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
+
+          //---- radioTweetCreated ----
+          radioTweetCreated.setText(bundle.getString("SetEditor.radioTweetCreated.text"));
+          radioTweetCreated.setToolTipText(bundle.getString("SetEditor.radioTweetCreated.toolTipText"));
+          radioTweetCreated.addActionListener(e -> radioTweetCreatedOrUpdatedActionPerformed(e));
+          pnlSocial.add(radioTweetCreated, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
+        }
+        advancedPanel.add(pnlSocial);
+
+        //======== jPanel4 ========
+        {
+          jPanel4.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel4.border")));
+          jPanel4.setLayout(new GridBagLayout());
+          ((GridBagLayout)jPanel4.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel4.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+          //---- jLabel8 ----
+          jLabel8.setText(bundle.getString("SetEditor.jLabel8.text"));
+          jPanel4.add(jLabel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
+
+          //---- cmbPrivacy ----
+          cmbPrivacy.setToolTipText(bundle.getString("SetEditor.cmbPrivacy.toolTipText"));
+          cmbPrivacy.setModel(new DefaultComboBoxModel<>(this.privacyModelArray));
+          jPanel4.add(cmbPrivacy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- lblSafeSearch ----
+          lblSafeSearch.setText(bundle.getString("SetEditor.lblSafeSearch.text"));
+          jPanel4.add(lblSafeSearch, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- cmbSafeSearch ----
+          cmbSafeSearch.setToolTipText(bundle.getString("SetEditor.cmbSafeSearch.toolTipText"));
+          cmbSafeSearch.setModel(new DefaultComboBoxModel<>(this.safeModelArray));
+          jPanel4.add(cmbSafeSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        advancedPanel.add(jPanel4);
+
+        //======== jPanel5 ========
+        {
+          jPanel5.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel5.border")));
+          jPanel5.setLayout(new GridBagLayout());
+          ((GridBagLayout)jPanel5.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel5.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+          //---- jLabel10 ----
+          jLabel10.setText(bundle.getString("SetEditor.jLabel10.text"));
+          jPanel5.add(jLabel10, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
+
+          //---- cmbContentType ----
+          cmbContentType.setToolTipText(bundle.getString("SetEditor.cmbContentType.toolTipText"));
+          cmbContentType.setModel(new DefaultComboBoxModel<>(this.contentModelArray));
+          jPanel5.add(cmbContentType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- jLabel11 ----
+          jLabel11.setText(bundle.getString("SetEditor.jLabel11.text"));
+          jPanel5.add(jLabel11, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- cmbMediaType ----
+          cmbMediaType.setToolTipText(bundle.getString("SetEditor.cmbMediaType.toolTipText"));
+          cmbMediaType.setModel(new DefaultComboBoxModel<>(this.typeModelArray));
+          jPanel5.add(cmbMediaType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        advancedPanel.add(jPanel5);
+
+        //======== jPanel6 ========
+        {
+          jPanel6.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel6.border")));
+          jPanel6.setLayout(new GridBagLayout());
+          ((GridBagLayout)jPanel6.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)jPanel6.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+          ((GridBagLayout)jPanel6.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+          //---- jLabel12 ----
+          jLabel12.setText(bundle.getString("SetEditor.jLabel12.text"));
+          jPanel6.add(jLabel12, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
+
+          //---- cmbGeotag ----
+          cmbGeotag.setToolTipText(bundle.getString("SetEditor.cmbGeotag.toolTipText"));
+          cmbGeotag.setModel(new DefaultComboBoxModel<>(this.geotagModelArray));
+          jPanel6.add(cmbGeotag, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- cbxInGallery ----
+          cbxInGallery.setText(bundle.getString("SetEditor.cbxInGallery.text"));
+          cbxInGallery.setToolTipText(bundle.getString("SetEditor.cbxInGallery.toolTipText"));
+          jPanel6.add(cbxInGallery, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- cbxInCommons ----
+          cbxInCommons.setText(bundle.getString("SetEditor.cbxInCommons.text"));
+          cbxInCommons.setToolTipText(bundle.getString("SetEditor.cbxInCommons.toolTipText"));
+          jPanel6.add(cbxInCommons, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- cbxInGetty ----
+          cbxInGetty.setText(bundle.getString("SetEditor.cbxInGetty.text"));
+          cbxInGetty.setToolTipText(bundle.getString("SetEditor.cbxInGetty.toolTipText"));
+          jPanel6.add(cbxInGetty, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+          //---- cbxLimitSize ----
+          cbxLimitSize.setText(bundle.getString("SetEditor.cbxLimitSize.text"));
+          cbxLimitSize.setToolTipText(bundle.getString("SetEditor.cbxLimitSize.toolTipText"));
+          cbxLimitSize.addActionListener(e -> cbxLimitSizeActionPerformed());
+          jPanel6.add(cbxLimitSize, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- txtSetSize ----
+          txtSetSize.setToolTipText(bundle.getString("SetEditor.txtSetSize.toolTipText"));
+          jPanel6.add(txtSetSize, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        advancedPanel.add(jPanel6);
+      }
+      jTabbedPane1.addTab(bundle.getString("SetEditor.advancedPanel.tab.title"), advancedPanel);
+    }
+    contentPane.add(jTabbedPane1, BorderLayout.CENTER);
+
+    //======== buttonPanel ========
+    {
+      buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+      //---- btnSave ----
+      btnSave.setText(bundle.getString("SetEditor.btnSave.text"));
+      btnSave.setToolTipText(bundle.getString("SetEditor.btnSave.toolTipText"));
+      btnSave.addActionListener(e -> btnSaveActionPerformed());
+      buttonPanel.add(btnSave);
+
+      //---- btnCancel ----
+      btnCancel.setText(bundle.getString("SetEditor.btnCancel.text"));
+      btnCancel.setToolTipText(bundle.getString("SetEditor.btnCancel.toolTipText"));
+      btnCancel.addActionListener(e -> btnCancelActionPerformed());
+      buttonPanel.add(btnCancel);
+
+      //---- btnSaveAndRefresh ----
+      btnSaveAndRefresh.setText(bundle.getString("SetEditor.btnSaveAndRefresh.text"));
+      btnSaveAndRefresh.setToolTipText(bundle.getString("SetEditor.btnSaveAndRefresh.toolTipText"));
+      btnSaveAndRefresh.addActionListener(e -> btnSaveAndRefreshActionPerformed());
+      buttonPanel.add(btnSaveAndRefresh);
+    }
+    contentPane.add(buttonPanel, BorderLayout.PAGE_END);
+    setSize(795, 750);
+    setLocationRelativeTo(null);
+
+    //---- btnGrpTweet ----
+    ButtonGroup btnGrpTweet = new ButtonGroup();
+    btnGrpTweet.add(radioTweetNone);
+    btnGrpTweet.add(radioTweetUpdated);
+    btnGrpTweet.add(radioTweetCreated);
 	}// </editor-fold>//GEN-END:initComponents
 
 
@@ -1645,84 +1566,84 @@ public class SetEditor extends javax.swing.JDialog {
 
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-    private JTabbedPane jTabbedPane1;
-    private JPanel basicPanel;
-    private JPanel pnlTitle;
-    private JLabel lblIcon;
-    private JLabel lblMessage;
-    private JCheckBox cbxManage;
-    private JCheckBox cbxLock;
-    private JLabel label1;
-    private JTextField txtTitle;
-    private JLabel label2;
-    private JScrollPane jScrollPane1;
-    private JTextArea txtDescription;
-    private JPanel pnlTags;
-    private JTextField txtTags;
-    private JComboBox<String> cmbTags;
-    private JButton btnTagsHelp;
-    private JPanel pnlMachineTags;
-    private JComboBox<String> cmbMachineTags;
-    private JTextField txtMachineTags;
-    private JButton btnMachineTagsHelp;
-    private JPanel pnlText;
-    private JTextField txtTextSearch;
-    private JButton btnTextHelp;
-    private JPanel pnlDates;
-    private JPanel panel1;
-    private JCheckBox cbxDateTaken;
-    private JDateChooser dateTakenAfter;
-    private JLabel jLabel3;
-    private JDateChooser dateTakenBefore;
-    private JCheckBox cbxDateUploaded;
-    private JDateChooser dateUploadedAfter;
-    private JLabel jLabel4;
-    private JDateChooser dateUploadedBefore;
-    private JPanel panel2;
-    private JCheckBox cbxOnThisDay;
-    private JComboBox cmbOTDMonth;
-    private JComboBox<String> cmbOTDDay;
-    private JLabel jLabel9;
-    private JYearChooser yearOTDStart;
-    private JLabel jLabel13;
-    private JYearChooser yearOTDEnd;
-    private JCheckBox cbxCurrentYear;
-    private JPanel pnlSort;
-    private JLabel jLabel1;
-    private JComboBox cmbSortBy;
-    private JPanel advancedPanel;
-    private JPanel pnlSocial;
-    private JScrollPane jScrollPane3;
-    private JTextArea txtTweet;
-    private JLabel jLabel2;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JRadioButton radioTweetNone;
-    private JRadioButton radioTweetUpdated;
-    private JRadioButton radioTweetCreated;
-    private JPanel jPanel4;
-    private JLabel jLabel8;
-    private JComboBox cmbPrivacy;
-    private JLabel lblSafeSearch;
-    private JComboBox cmbSafeSearch;
-    private JPanel jPanel5;
-    private JLabel jLabel10;
-    private JComboBox cmbContentType;
-    private JLabel jLabel11;
-    private JComboBox cmbMediaType;
-    private JPanel jPanel6;
-    private JLabel jLabel12;
-    private JComboBox cmbGeotag;
-    private JCheckBox cbxInGallery;
-    private JCheckBox cbxInCommons;
-    private JCheckBox cbxInGetty;
-    private JCheckBox cbxLimitSize;
-    private JTextField txtSetSize;
-    private JPanel buttonPanel;
-    private JButton btnSave;
-    private JButton btnCancel;
-    private JButton btnSaveAndRefresh;
+  private JTabbedPane jTabbedPane1;
+  private JPanel basicPanel;
+  private JPanel pnlTitle;
+  private JLabel lblIcon;
+  private JLabel lblMessage;
+  private JCheckBox cbxManage;
+  private JCheckBox cbxLock;
+  private JLabel label1;
+  private JTextField txtTitle;
+  private JLabel label2;
+  private JScrollPane jScrollPane1;
+  private JTextArea txtDescription;
+  private JPanel pnlTags;
+  private JTextField txtTags;
+  private JComboBox<String> cmbTags;
+  private JButton btnTagsHelp;
+  private JPanel pnlMachineTags;
+  private JComboBox<String> cmbMachineTags;
+  private JTextField txtMachineTags;
+  private JButton btnMachineTagsHelp;
+  private JPanel pnlText;
+  private JTextField txtTextSearch;
+  private JButton btnTextHelp;
+  private JPanel pnlDates;
+  private JPanel panel1;
+  private JCheckBox cbxDateTaken;
+  private JDateChooser dateTakenAfter;
+  private JLabel jLabel3;
+  private JDateChooser dateTakenBefore;
+  private JCheckBox cbxDateUploaded;
+  private JDateChooser dateUploadedAfter;
+  private JLabel jLabel4;
+  private JDateChooser dateUploadedBefore;
+  private JPanel panel2;
+  private JCheckBox cbxOnThisDay;
+  private JComboBox cmbOTDMonth;
+  private JComboBox<String> cmbOTDDay;
+  private JLabel jLabel9;
+  private JYearChooser yearOTDStart;
+  private JLabel jLabel13;
+  private JYearChooser yearOTDEnd;
+  private JCheckBox cbxCurrentYear;
+  private JPanel pnlSort;
+  private JLabel jLabel1;
+  private JComboBox cmbSortBy;
+  private JPanel advancedPanel;
+  private JPanel pnlSocial;
+  private JScrollPane jScrollPane3;
+  private JTextArea txtTweet;
+  private JLabel jLabel2;
+  private JLabel jLabel5;
+  private JLabel jLabel6;
+  private JLabel jLabel7;
+  private JRadioButton radioTweetNone;
+  private JRadioButton radioTweetUpdated;
+  private JRadioButton radioTweetCreated;
+  private JPanel jPanel4;
+  private JLabel jLabel8;
+  private JComboBox cmbPrivacy;
+  private JLabel lblSafeSearch;
+  private JComboBox cmbSafeSearch;
+  private JPanel jPanel5;
+  private JLabel jLabel10;
+  private JComboBox cmbContentType;
+  private JLabel jLabel11;
+  private JComboBox cmbMediaType;
+  private JPanel jPanel6;
+  private JLabel jLabel12;
+  private JComboBox cmbGeotag;
+  private JCheckBox cbxInGallery;
+  private JCheckBox cbxInCommons;
+  private JCheckBox cbxInGetty;
+  private JCheckBox cbxLimitSize;
+  private JTextField txtSetSize;
+  private JPanel buttonPanel;
+  private JButton btnSave;
+  private JButton btnCancel;
+  private JButton btnSaveAndRefresh;
 	// End of variables declaration//GEN-END:variables
 
 
