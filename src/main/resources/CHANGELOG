@@ -1,12 +1,15 @@
 Version 3.0.0
- * Use latest Jinx library so API endpoints will all be https
+ * Require Java 1.8+
+ * Use Jinx 0.8.1
+   * API endpoints will all be https
+   * Support machine tags with spaces
  * Support full text searches
  * View counts are shown
  * View counts are updated when photosets are refreshed
- * View can be ordered alphabetically or by view count
+ * Set list can be ordered alphabetically or by view count
  * Enabled Flickr Commons search
  * Enabled Privacy options
- * Require Java 1.8 or higher
+ * Updated third party libraries to latest versions
 
 Version 2.1.0
  * Added support for Machine Tags
