@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.*;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
