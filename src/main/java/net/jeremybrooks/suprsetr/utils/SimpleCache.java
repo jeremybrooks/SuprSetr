@@ -109,4 +109,16 @@ public class SimpleCache {
     }
   }
 
+  /**
+   * Invalidate the state of all the cells in the cache.
+   *
+   * <p>This is used when we want to force the cells to be redrawn, for example when the user
+   * changes the refresh time in settings.</p>
+   */
+  public void invalidateAll() {
+    for (SetListCell cell : this.cache.values()) {
+      cell.setCacheValid(false);
+    }
+  }
+
 }
