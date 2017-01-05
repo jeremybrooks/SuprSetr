@@ -7,7 +7,6 @@ tmp/**/*
 *.swp
 *~
 .DS_Store
-VERSION*
 api*
 build
 dist
