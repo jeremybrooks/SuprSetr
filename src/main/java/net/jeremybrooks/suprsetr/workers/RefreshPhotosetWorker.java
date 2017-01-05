@@ -22,7 +22,6 @@ package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
-import net.jeremybrooks.jinx.response.photosets.PhotosetInfo;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
@@ -289,10 +288,6 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
         ssPhotoset.setVideos(videoCount);
         ssPhotoset.setSyncTimestamp(System.currentTimeMillis());
       }
-
-      // update view count
-      PhotosetInfo info = PhotosetHelper.getInstance().getPhotosetById(ssPhotoset.getPhotosetId());
-      ssPhotoset.setViewCount(info.getPhotoset().getCountViews());
 
       // mark the list cell as invalid, so anything that has changed
       // will get updated when the list is repainted

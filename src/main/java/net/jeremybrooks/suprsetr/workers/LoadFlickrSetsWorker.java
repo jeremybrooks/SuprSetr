@@ -106,6 +106,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
           ssp.setSecret(p.getSecret());
           ssp.setServer(p.getServer());
           ssp.setTitle(p.getTitle());
+          ssp.setViewCount(p.getCountViews());
 
           // build the URL -- it is not correct in the getUrl() call
           StringBuilder sb = new StringBuilder();
@@ -134,6 +135,7 @@ public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
           ssp.setFarm(Integer.parseInt(p.getFarm()));
           ssp.setPhotos(p.getPhotos());
           ssp.setVideos(p.getVideos());
+          ssp.setViewCount(p.getCountViews());
 
           if (ssp.getPrimaryPhotoIcon() == null) {
             logger.info("Retrieving missing icon for set " + ssp.getTitle());
