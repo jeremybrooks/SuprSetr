@@ -1,4 +1,5 @@
 Version 3.0.0
+ * New icons
  * Require Java 1.8+
  * Use Jinx 0.8.1
    * API endpoints will all be https
@@ -10,6 +11,8 @@ Version 3.0.0
  * Enabled Flickr Commons search
  * Enabled Privacy options
  * Updated third party libraries to latest versions
+ * Added view count sort to Album Ordering Tool
+ * Improved look and layout of Album Ordering Tool
 
 Version 2.1.0
  * Added support for Machine Tags

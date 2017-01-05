@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.workers.OrderSetsWorker;
 import net.jeremybrooks.suprsetr.workers.SetOrdererDTOListWorker;
 import org.apache.log4j.Logger;
@@ -30,20 +31,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -59,24 +59,16 @@ import java.util.ResourceBundle;
 public class SetOrderer extends javax.swing.JDialog {
 
   private static final long serialVersionUID = -8987356410180796854L;
-  /**
-   * Logging.
-   */
   private Logger logger = Logger.getLogger(SetOrderer.class);
 
-  /**
-   * The list model.
-   */
-  private DefaultListModel listModel;
+  private DefaultListModel<SetOrdererDTO> listModel;
 
-  /**
-   * The data list.
-   */
-  List<SetOrdererDTO> dtoList;
+  /* The data list. */
+  private List<SetOrdererDTO> dtoList;
 
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.setorderer");
 
-  private String[] comboBoxModel = new String[5];
+  private String[] comboBoxModel = new String[7];
 
   /**
    * Creates new form SetOrdererDialog
@@ -87,9 +79,9 @@ public class SetOrderer extends javax.swing.JDialog {
   public SetOrderer(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
 
-    this.listModel = new DefaultListModel();
+    this.listModel = new DefaultListModel<>();
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 7; i++) {
       this.comboBoxModel[i] = resourceBundle.getString("SetOrderer.comboBoxModel." + i);
     }
 
@@ -113,12 +105,13 @@ public class SetOrderer extends javax.swing.JDialog {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
     ResourceBundle bundle = this.resourceBundle;
-    jLabel1 = new JLabel();
+    JLabel jLabel1 = new JLabel();
     cmbOrder = new JComboBox();
-    btnSave = new JButton();
-    jScrollPane1 = new JScrollPane();
-    jList1 = new JList();
-    btnCancel = new JButton();
+    JScrollPane jScrollPane1 = new JScrollPane();
+    jList1 = new JList<>();
+    JPanel panel1 = new JPanel();
+    JButton btnCancel = new JButton();
+    JButton btnSave = new JButton();
 
     //======== this ========
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -129,32 +122,15 @@ public class SetOrderer extends javax.swing.JDialog {
     //---- jLabel1 ----
     jLabel1.setText(bundle.getString("SetOrderer.jLabel1.text"));
     contentPane.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-        GridBagConstraints.WEST, GridBagConstraints.NONE,
-        new Insets(3, 3, 3, 3), 0, 0));
+      GridBagConstraints.WEST, GridBagConstraints.NONE,
+      new Insets(3, 3, 3, 3), 0, 0));
 
     //---- cmbOrder ----
-    cmbOrder.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        cmbOrderActionPerformed();
-      }
-    });
+    cmbOrder.addActionListener(e -> cmbOrderActionPerformed());
     cmbOrder.setModel(new DefaultComboBoxModel(this.comboBoxModel));
     contentPane.add(cmbOrder, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-        new Insets(3, 0, 3, 3), 0, 0));
-
-    //---- btnSave ----
-    btnSave.setText(bundle.getString("SetOrderer.btnSave.text"));
-    btnSave.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        btnSaveActionPerformed();
-      }
-    });
-    contentPane.add(btnSave, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-        GridBagConstraints.EAST, GridBagConstraints.NONE,
-        new Insets(3, 3, 3, 3), 0, 0));
+      GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+      new Insets(3, 0, 3, 3), 0, 0));
 
     //======== jScrollPane1 ========
     {
@@ -165,22 +141,28 @@ public class SetOrderer extends javax.swing.JDialog {
       jList1.setCellRenderer(new SetOrdererRenderer());
       jScrollPane1.setViewportView(jList1);
     }
-    contentPane.add(jScrollPane1, new GridBagConstraints(0, 1, 3, 1, 1.0, 1.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(3, 3, 3, 3), 0, 0));
+    contentPane.add(jScrollPane1, new GridBagConstraints(0, 1, 2, 1, 1.0, 1.0,
+      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+      new Insets(3, 3, 3, 3), 0, 0));
 
-    //---- btnCancel ----
-    btnCancel.setText(bundle.getString("SetOrderer.btnCancel.text"));
-    btnCancel.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        btnCancelActionPerformed();
-      }
-    });
-    contentPane.add(btnCancel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-        GridBagConstraints.EAST, GridBagConstraints.NONE,
-        new Insets(3, 3, 3, 3), 0, 0));
-    setSize(429, 629);
+    //======== panel1 ========
+    {
+      panel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+      //---- btnCancel ----
+      btnCancel.setText(bundle.getString("SetOrderer.btnCancel.text"));
+      btnCancel.addActionListener(e -> btnCancelActionPerformed());
+      panel1.add(btnCancel);
+
+      //---- btnSave ----
+      btnSave.setText(bundle.getString("SetOrderer.btnSave.text"));
+      btnSave.addActionListener(e -> btnSaveActionPerformed());
+      panel1.add(btnSave);
+    }
+    contentPane.add(panel1, new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0,
+      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+      new Insets(0, 0, 0, 0), 0, 0));
+    setSize(480, 604);
     setLocationRelativeTo(null);
   }// </editor-fold>//GEN-END:initComponents
 
@@ -204,6 +186,11 @@ public class SetOrderer extends javax.swing.JDialog {
       case 4:
         this.sort(new CountLowToHigh());
         break;
+      case 5:
+        this.sort(new ViewsHighToLow());
+        break;
+      case 6:
+        this.sort(new ViewsLowToHigh());
       default:
         break;
     }
@@ -217,7 +204,7 @@ public class SetOrderer extends javax.swing.JDialog {
     List<String> photosetIds = new ArrayList<>();
     logger.info("New photoset order");
     for (int i = 0; i < this.listModel.size(); i++) {
-      SetOrdererDTO dto = (SetOrdererDTO) this.listModel.getElementAt(i);
+      SetOrdererDTO dto = this.listModel.getElementAt(i);
       logger.info(dto.getId() + " : " + dto.getTitle());
       photosetIds.add(dto.getId());
     }
@@ -238,13 +225,13 @@ public class SetOrderer extends javax.swing.JDialog {
 
   /**
    * Sort the dto list using the specified comparator.
-   * <p>
+   *
    * <p>The list will be sorted, and the ListModel updated.</p>
    *
    * @param comparator the comparator used to sort the list.
    */
   private void sort(Comparator<SetOrdererDTO> comparator) {
-    Collections.sort(dtoList, comparator);
+    dtoList.sort(comparator);
     SwingUtilities.invokeLater(new UpdateListModel());
     jList1.scrollRectToVisible(jList1.getCellBounds(0, 0));
   }
@@ -275,12 +262,8 @@ public class SetOrderer extends javax.swing.JDialog {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private JLabel jLabel1;
   private JComboBox cmbOrder;
-  private JButton btnSave;
-  private JScrollPane jScrollPane1;
-  private JList jList1;
-  private JButton btnCancel;
+  private JList<SetOrdererDTO> jList1;
   // End of variables declaration//GEN-END:variables
 
 
@@ -378,7 +361,28 @@ public class SetOrderer extends javax.swing.JDialog {
 
       return o1.getPhotoCount() > o2.getPhotoCount() ? 1 : -1;
     }
+  }
 
+  class ViewsHighToLow implements Comparator<SetOrdererDTO> {
+    @Override
+    public int compare(SetOrdererDTO o1, SetOrdererDTO o2) {
+      if (o1.getViewCount() == o2.getViewCount()) {
+        return 0;
+      }
+
+      return o1.getViewCount() > o2.getViewCount() ? -1 : 1;
+    }
+  }
+
+  class ViewsLowToHigh implements Comparator<SetOrdererDTO> {
+    @Override
+    public int compare(SetOrdererDTO o1, SetOrdererDTO o2) {
+      if (o1.getViewCount() == o2.getViewCount()) {
+        return 0;
+      }
+
+      return o1.getViewCount() > o2.getViewCount() ? 1 : -1;
+    }
   }
 
 
@@ -387,14 +391,14 @@ public class SetOrderer extends javax.swing.JDialog {
    */
   class ReorderListener extends MouseAdapter {
 
-    private JList list;
+    private JList<SetOrdererDTO> list;
 
     private int pressIndex = 0;
 
     private int releaseIndex = 0;
 
 
-    public ReorderListener(JList list) {
+    ReorderListener(JList<SetOrdererDTO> list) {
       if (!(list.getModel() instanceof DefaultListModel)) {
         throw new IllegalArgumentException("List must have a DefaultListModel");
       }
@@ -425,8 +429,8 @@ public class SetOrderer extends javax.swing.JDialog {
 
 
     private void reorder() {
-      DefaultListModel model = (DefaultListModel) list.getModel();
-      Object dragee = model.elementAt(pressIndex);
+      DefaultListModel<SetOrdererDTO> model = (DefaultListModel<SetOrdererDTO>) list.getModel();
+      SetOrdererDTO dragee = model.elementAt(pressIndex);
       model.removeElementAt(pressIndex);
       model.insertElementAt(dragee, releaseIndex);
     }

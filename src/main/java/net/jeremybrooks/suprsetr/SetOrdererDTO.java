@@ -31,109 +31,137 @@ import javax.swing.ImageIcon;
  */
 public class SetOrdererDTO {
 
-    /** The set ID. */
-    private String id;
+  /**
+   * The set ID.
+   */
+  private String id;
 
-    /** The set title. */
-    private String title;
+  /**
+   * The set title.
+   */
+  private String title;
 
-    /** The description of the set. */
-    private String description;
+  /**
+   * The description of the set.
+   */
+  private String description;
 
-    /** The photo count. */
-    private int photoCount;
+  /**
+   * The photo count.
+   */
+  private int photoCount;
 
-	private int videoCount;
+  /**
+   * The view count.
+   */
+  private int viewCount;
 
-    /** The icon. */
-    private ImageIcon icon;
+  private int videoCount;
 
-
-    /**
-     * @return the id
-     */
-    public String getId() {
-	return id;
-    }
-
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-	this.id = id;
-    }
-
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-	return title;
-    }
+  /**
+   * The icon.
+   */
+  private ImageIcon icon;
 
 
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-	this.title = title;
-    }
+  /**
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
 
 
-    /**
-     * @return the photoCount
-     */
-    public int getPhotoCount() {
-	return photoCount;
-    }
+  /**
+   * @param id the id to set
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
 
 
-    /**
-     * @param photoCount the photoCount to set
-     */
-    public void setPhotoCount(int photoCount) {
-	this.photoCount = photoCount;
-    }
+  /**
+   * @return the title
+   */
+  public String getTitle() {
+    return title;
+  }
 
 
-    /**
-     * @return the icon
-     */
-    public ImageIcon getIcon() {
-	return icon;
-    }
+  /**
+   * @param title the title to set
+   */
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
 
-    /**
-     * @param icon the icon to set
-     */
-    public void setIcon(ImageIcon icon) {
-	this.icon = icon;
-    }
+  /**
+   * @return the photoCount
+   */
+  public int getPhotoCount() {
+    return photoCount;
+  }
 
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-	return description;
-    }
+  /**
+   * @param photoCount the photoCount to set
+   */
+  public void setPhotoCount(int photoCount) {
+    this.photoCount = photoCount;
+  }
 
 
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-	this.description = description;
-    }
+  /**
+   * @return the icon
+   */
+  public ImageIcon getIcon() {
+    return icon;
+  }
 
 
-	public int getVideoCount() {
-		return videoCount;
-	}
+  /**
+   * @param icon the icon to set
+   */
+  public void setIcon(ImageIcon icon) {
+    this.icon = icon;
+  }
 
-	public void setVideoCount(int videoCount) {
-		this.videoCount = videoCount;
-	}
+
+  /**
+   * @return the description
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * @return the view count.
+   */
+  public int getViewCount() {
+    return this.viewCount;
+  }
+
+  /**
+   * @param viewCount the view count.
+   */
+  public void setViewCount(int viewCount) {
+    this.viewCount = viewCount;
+  }
+
+  /**
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
+  public int getVideoCount() {
+    return videoCount;
+  }
+
+  public void setVideoCount(int videoCount) {
+    this.videoCount = videoCount;
+  }
 }

@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.5.1.342" Java: "1.8.0_112-release" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -10,7 +10,14 @@ new FormModel {
 		auxiliary() {
 			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
 		}
-		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0, 0"
+			"$rowSpecs": "0, 0"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignTop": true
+			"$alignLeft": true
+		} ) {
 			name: "this"
 			"border": new javax.swing.border.BevelBorder( 0, null, null, null, null )
 			"minimumSize": new java.awt.Dimension( 494, 81 )
@@ -18,32 +25,27 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "lblPic"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/empty_set_icon.png" )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 2
-				"y": 3
-				"width": 75
-				"height": 75
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridheight": 2
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "lblTitle"
 				"font": new java.awt.Font( "Lucida Grande", 1, 13 )
 				"text": new FormMessage( null, "SetOrdererCell.lblTitle.text" )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 80
-				"y": 10
-				"height": 23
-				"width": 210
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "lblCount"
 				"text": new FormMessage( null, "SetOrdererCell.lblCount.text" )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 80
-				"y": 50
-				"width": 215
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 1
+				"weightx": 1.0
+				"vAlign": 0
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 300, 81 )
+			"size": new java.awt.Dimension( 380, 81 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

@@ -114,6 +114,7 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
         sod.setVideoCount(p.getVideos());
         sod.setId(p.getPhotosetId());
         sod.setTitle(p.getTitle());
+        sod.setViewCount(p.getCountViews());
 
         // get the icon from the database if possible
         SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
