@@ -22,7 +22,7 @@ new FormModel {
 				"rollover": true
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnAddSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/746-plus-circle-toolbar.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnAddSet.toolTipText" )
 					"focusable": false
 					"horizontalTextPosition": 0
@@ -31,7 +31,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnEditSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/830-pencil-toolbar.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnEditSet.toolTipText" )
 					"focusable": false
 					"horizontalTextPosition": 0
@@ -40,7 +40,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnDeleteSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/342-delete-22x22.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnDeleteSet.toolTipText" )
 					"focusable": false
 					"horizontalTextPosition": 0
@@ -49,7 +49,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnRefreshSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnRefreshSet.toolTipText" )
 					"focusable": false
 					"horizontalTextPosition": 0
@@ -58,7 +58,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnRefreshAll"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refreshall16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar-infinity.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnRefreshAll.toolTipText" )
 					"focusable": false
 					"horizontalTextPosition": 0
@@ -67,7 +67,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnBrowser"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/internet-web-browser16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/786-browser-toolbar-22x22.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnBrowser.toolTipText" )
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBrowserActionPerformed", false ) )
 				} )
@@ -115,20 +115,20 @@ new FormModel {
 					"text": new FormMessage( null, "MainWindow.mnuFile.text" )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuBrowser"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/web16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/786-browser-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuBrowser.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 79, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuBrowserActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuBackup"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/database16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1052-database-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuBackup.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuBackupActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuRestore"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/database16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1052-database-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuRestore.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRestoreActionPerformed", false ) )
 					} )
@@ -137,7 +137,7 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuQuit"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/quit16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/602-exit.png" )
 						"text": new FormMessage( null, "MainWindow.mnuQuit.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuQuitActionPerformed", false ) )
 					} )
@@ -147,42 +147,42 @@ new FormModel {
 					"text": new FormMessage( null, "MainWindow.mnuEdit.text" )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuCreateSet"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/746-plus-circle-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuCreateSet.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 78, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCreateSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuEditSet"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/830-pencil-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuEditSet.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 69, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuEditSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuDeleteSet"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/342-delete-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuDeleteSet.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 68, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuDeleteSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuRefreshSet"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuRefreshSet.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 82, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRefreshSetActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuRefreshAll"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refreshall16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar-infinity.png" )
 						"text": new FormMessage( null, "MainWindow.mnuRefreshAll.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 82, 4421, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuRefreshAllActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuPreferences"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/process16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/740-gear-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuPreferences.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPreferencesActionPerformed", false ) )
 					} )
@@ -242,25 +242,25 @@ new FormModel {
 					"text": new FormMessage( null, "MainWindow.mnuTools.text" )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuFavr"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/tag16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/909-tags-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuFavr.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuFavrActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuClearFave"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/deletetag16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/909-tags-toolbar-x.png" )
 						"text": new FormMessage( null, "MainWindow.mnuClearFave.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuClearFaveActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuSetOrder"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/order16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/707-albums-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuSetOrder.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuSetOrderActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuLogs"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/compress16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/797-archive-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuLogs.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogsActionPerformed", false ) )
 					} )
@@ -270,25 +270,25 @@ new FormModel {
 					"text": new FormMessage( null, "MainWindow.mnuHelp.text" )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuAbout"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/739-question-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuAbout.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuAboutActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuTutorial"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/info16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/724-info-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuTutorial.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuTutorialActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuSSHelp"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/739-question-toolbar.png" )
 						"text": new FormMessage( null, "MainWindow.mnuSSHelp.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuSSHelpActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuCheckUpdates"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/new16.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/55-network-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuCheckUpdates.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCheckUpdatesActionPerformed", false ) )
 					} )
@@ -302,7 +302,7 @@ new FormModel {
 			name: "mnuPopup"
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupCreate"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/add16.png" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/746-plus-circle-toolbar.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupCreate.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupCreateActionPerformed", false ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
@@ -311,7 +311,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupEdit"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit16.png" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/830-pencil-toolbar.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupEdit.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupEditActionPerformed", false ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
@@ -320,7 +320,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupDelete"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/delete16.png" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/342-delete-22x22.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupDelete.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupDeleteActionPerformed", false ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
@@ -329,7 +329,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupRefresh"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/refresh16.png" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupRefresh.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupRefreshActionPerformed", false ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
@@ -338,7 +338,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupOpen"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/web16.png" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/786-browser-toolbar-22x22.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupOpen.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupOpenActionPerformed", false ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {

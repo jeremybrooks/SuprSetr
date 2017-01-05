@@ -61,7 +61,7 @@ public class Tutorial extends javax.swing.JDialog {
   private int lastPage = 5;
 
   /* Icon for the Next button. */
-  private ImageIcon nextIcon = new ImageIcon(getClass().getResource("/images/next16.png"));
+  private ImageIcon nextIcon = new ImageIcon(getClass().getResource("/images/40-forward.png"));
 
   /* Icon for the Finish button */
   private ImageIcon finishIcon = new ImageIcon(getClass().getResource("/images/s16.png"));
@@ -131,13 +131,13 @@ public class Tutorial extends javax.swing.JDialog {
       panel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
       //---- btnBack ----
-      btnBack.setIcon(new ImageIcon(getClass().getResource("/images/back16.png")));
+      btnBack.setIcon(new ImageIcon(getClass().getResource("/images/39-back.png")));
       btnBack.setText(bundle.getString("Tutorial.btnBack.text"));
       btnBack.addActionListener(e -> btnBackActionPerformed());
       panel1.add(btnBack);
 
       //---- btnNext ----
-      btnNext.setIcon(new ImageIcon(getClass().getResource("/images/next16.png")));
+      btnNext.setIcon(new ImageIcon(getClass().getResource("/images/40-forward.png")));
       btnNext.setText(bundle.getString("Tutorial.btnNext.text"));
       btnNext.setHorizontalTextPosition(SwingConstants.LEFT);
       btnNext.addActionListener(e -> btnNextActionPerformed());

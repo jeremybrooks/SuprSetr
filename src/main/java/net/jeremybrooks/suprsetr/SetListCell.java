@@ -48,7 +48,7 @@ public class SetListCell extends javax.swing.JPanel {
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.setlistcell");
 
 	static {
-		ICON_REFRESH = new ImageIcon(SetListCell.class.getResource("/images/refresh16.png"));
+    ICON_REFRESH = new ImageIcon(SetListCell.class.getResource("/images/759-refresh-2-toolbar.png"));
 		ICON_ACCEPT = new ImageIcon(SetListCell.class.getResource("/images/accept.png"));
 		ICON_UNMANAGED = new ImageIcon(SetListCell.class.getResource("/images/unmanaged.png"));
 		ICON_WARN = new ImageIcon(SetListCell.class.getResource("/images/warning.png"));

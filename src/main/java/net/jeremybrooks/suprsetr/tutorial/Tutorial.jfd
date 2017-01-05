@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.1.0.2.64" Java: "1.6.0_45" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.5.1.342" Java: "1.8.0_112-release" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -33,13 +33,13 @@ new FormModel {
 				name: "panel1"
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnBack"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/back16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/39-back.png" )
 					"text": new FormMessage( null, "Tutorial.btnBack.text" )
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBackActionPerformed", false ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnNext"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/next16.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/40-forward.png" )
 					"text": new FormMessage( null, "Tutorial.btnNext.text" )
 					"horizontalTextPosition": 2
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnNextActionPerformed", false ) )

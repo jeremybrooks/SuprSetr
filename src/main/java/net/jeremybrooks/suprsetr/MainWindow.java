@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -275,27 +276,27 @@ public class MainWindow extends javax.swing.JFrame {
         mnuFile.setText(bundle.getString("MainWindow.mnuFile.text"));
 
         //---- mnuBrowser ----
-        mnuBrowser.setIcon(new ImageIcon(getClass().getResource("/images/web16.png")));
+        mnuBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
         mnuBrowser.setText(bundle.getString("MainWindow.mnuBrowser.text"));
         mnuBrowser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         mnuBrowser.addActionListener(e -> mnuBrowserActionPerformed());
         mnuFile.add(mnuBrowser);
 
         //---- mnuBackup ----
-        mnuBackup.setIcon(new ImageIcon(getClass().getResource("/images/database16.png")));
+        mnuBackup.setIcon(new ImageIcon(getClass().getResource("/images/1052-database-toolbar-22x22.png")));
         mnuBackup.setText(bundle.getString("MainWindow.mnuBackup.text"));
         mnuBackup.addActionListener(e -> mnuBackupActionPerformed());
         mnuFile.add(mnuBackup);
 
         //---- mnuRestore ----
-        mnuRestore.setIcon(new ImageIcon(getClass().getResource("/images/database16.png")));
+        mnuRestore.setIcon(new ImageIcon(getClass().getResource("/images/1052-database-toolbar-22x22.png")));
         mnuRestore.setText(bundle.getString("MainWindow.mnuRestore.text"));
         mnuRestore.addActionListener(e -> mnuRestoreActionPerformed());
         mnuFile.add(mnuRestore);
         mnuFile.addSeparator();
 
         //---- mnuQuit ----
-        mnuQuit.setIcon(new ImageIcon(getClass().getResource("/images/quit16.png")));
+        mnuQuit.setIcon(new ImageIcon(getClass().getResource("/images/602-exit.png")));
         mnuQuit.setText(bundle.getString("MainWindow.mnuQuit.text"));
         mnuQuit.addActionListener(e -> mnuQuitActionPerformed());
         mnuFile.add(mnuQuit);
@@ -307,42 +308,42 @@ public class MainWindow extends javax.swing.JFrame {
         mnuEdit.setText(bundle.getString("MainWindow.mnuEdit.text"));
 
         //---- mnuCreateSet ----
-        mnuCreateSet.setIcon(new ImageIcon(getClass().getResource("/images/add16.png")));
+        mnuCreateSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
         mnuCreateSet.setText(bundle.getString("MainWindow.mnuCreateSet.text"));
         mnuCreateSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         mnuCreateSet.addActionListener(e -> mnuCreateSetActionPerformed());
         mnuEdit.add(mnuCreateSet);
 
         //---- mnuEditSet ----
-        mnuEditSet.setIcon(new ImageIcon(getClass().getResource("/images/edit16.png")));
+        mnuEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
         mnuEditSet.setText(bundle.getString("MainWindow.mnuEditSet.text"));
         mnuEditSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         mnuEditSet.addActionListener(e -> mnuEditSetActionPerformed());
         mnuEdit.add(mnuEditSet);
 
         //---- mnuDeleteSet ----
-        mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/delete16.png")));
+        mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/342-delete-22x22.png")));
         mnuDeleteSet.setText(bundle.getString("MainWindow.mnuDeleteSet.text"));
         mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         mnuDeleteSet.addActionListener(e -> mnuDeleteSetActionPerformed());
         mnuEdit.add(mnuDeleteSet);
 
         //---- mnuRefreshSet ----
-        mnuRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/refresh16.png")));
+        mnuRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
         mnuRefreshSet.setText(bundle.getString("MainWindow.mnuRefreshSet.text"));
         mnuRefreshSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         mnuRefreshSet.addActionListener(e -> mnuRefreshSetActionPerformed());
         mnuEdit.add(mnuRefreshSet);
 
         //---- mnuRefreshAll ----
-        mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/refreshall16.png")));
+        mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
         mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
+        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
         mnuRefreshAll.addActionListener(e -> mnuRefreshAllActionPerformed());
         mnuEdit.add(mnuRefreshAll);
 
         //---- mnuPreferences ----
-        mnuPreferences.setIcon(new ImageIcon(getClass().getResource("/images/process16.png")));
+        mnuPreferences.setIcon(new ImageIcon(getClass().getResource("/images/740-gear-toolbar.png")));
         mnuPreferences.setText(bundle.getString("MainWindow.mnuPreferences.text"));
         mnuPreferences.addActionListener(e -> mnuPreferencesActionPerformed());
         mnuEdit.add(mnuPreferences);
@@ -398,25 +399,25 @@ public class MainWindow extends javax.swing.JFrame {
         mnuTools.setText(bundle.getString("MainWindow.mnuTools.text"));
 
         //---- mnuFavr ----
-        mnuFavr.setIcon(new ImageIcon(getClass().getResource("/images/tag16.png")));
+        mnuFavr.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar.png")));
         mnuFavr.setText(bundle.getString("MainWindow.mnuFavr.text"));
         mnuFavr.addActionListener(e -> mnuFavrActionPerformed());
         mnuTools.add(mnuFavr);
 
         //---- mnuClearFave ----
-        mnuClearFave.setIcon(new ImageIcon(getClass().getResource("/images/deletetag16.png")));
+        mnuClearFave.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar-x.png")));
         mnuClearFave.setText(bundle.getString("MainWindow.mnuClearFave.text"));
         mnuClearFave.addActionListener(e -> mnuClearFaveActionPerformed());
         mnuTools.add(mnuClearFave);
 
         //---- mnuSetOrder ----
-        mnuSetOrder.setIcon(new ImageIcon(getClass().getResource("/images/order16.png")));
+        mnuSetOrder.setIcon(new ImageIcon(getClass().getResource("/images/707-albums-toolbar-22x22.png")));
         mnuSetOrder.setText(bundle.getString("MainWindow.mnuSetOrder.text"));
         mnuSetOrder.addActionListener(e -> mnuSetOrderActionPerformed());
         mnuTools.add(mnuSetOrder);
 
         //---- mnuLogs ----
-        mnuLogs.setIcon(new ImageIcon(getClass().getResource("/images/compress16.png")));
+        mnuLogs.setIcon(new ImageIcon(getClass().getResource("/images/797-archive-toolbar-22x22.png")));
         mnuLogs.setText(bundle.getString("MainWindow.mnuLogs.text"));
         mnuLogs.addActionListener(e -> mnuLogsActionPerformed());
         mnuTools.add(mnuLogs);
@@ -428,25 +429,25 @@ public class MainWindow extends javax.swing.JFrame {
         mnuHelp.setText(bundle.getString("MainWindow.mnuHelp.text"));
 
         //---- mnuAbout ----
-        mnuAbout.setIcon(new ImageIcon(getClass().getResource("/images/help16.png")));
+        mnuAbout.setIcon(new ImageIcon(getClass().getResource("/images/739-question-toolbar.png")));
         mnuAbout.setText(bundle.getString("MainWindow.mnuAbout.text"));
         mnuAbout.addActionListener(e -> mnuAboutActionPerformed());
         mnuHelp.add(mnuAbout);
 
         //---- mnuTutorial ----
-        mnuTutorial.setIcon(new ImageIcon(getClass().getResource("/images/info16.png")));
+        mnuTutorial.setIcon(new ImageIcon(getClass().getResource("/images/724-info-toolbar.png")));
         mnuTutorial.setText(bundle.getString("MainWindow.mnuTutorial.text"));
         mnuTutorial.addActionListener(e -> mnuTutorialActionPerformed());
         mnuHelp.add(mnuTutorial);
 
         //---- mnuSSHelp ----
-        mnuSSHelp.setIcon(new ImageIcon(getClass().getResource("/images/help16.png")));
+        mnuSSHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-toolbar.png")));
         mnuSSHelp.setText(bundle.getString("MainWindow.mnuSSHelp.text"));
         mnuSSHelp.addActionListener(e -> mnuSSHelpActionPerformed());
         mnuHelp.add(mnuSSHelp);
 
         //---- mnuCheckUpdates ----
-        mnuCheckUpdates.setIcon(new ImageIcon(getClass().getResource("/images/new16.png")));
+        mnuCheckUpdates.setIcon(new ImageIcon(getClass().getResource("/images/55-network-22x22.png")));
         mnuCheckUpdates.setText(bundle.getString("MainWindow.mnuCheckUpdates.text"));
         mnuCheckUpdates.addActionListener(e -> mnuCheckUpdatesActionPerformed());
         mnuHelp.add(mnuCheckUpdates);
@@ -460,7 +461,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.setRollover(true);
 
       //---- btnAddSet ----
-      btnAddSet.setIcon(new ImageIcon(getClass().getResource("/images/add16.png")));
+      btnAddSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
       btnAddSet.setToolTipText(bundle.getString("MainWindow.btnAddSet.toolTipText"));
       btnAddSet.setFocusable(false);
       btnAddSet.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -469,7 +470,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.add(btnAddSet);
 
       //---- btnEditSet ----
-      btnEditSet.setIcon(new ImageIcon(getClass().getResource("/images/edit16.png")));
+      btnEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
       btnEditSet.setToolTipText(bundle.getString("MainWindow.btnEditSet.toolTipText"));
       btnEditSet.setFocusable(false);
       btnEditSet.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -478,7 +479,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.add(btnEditSet);
 
       //---- btnDeleteSet ----
-      btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/delete16.png")));
+      btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/342-delete-22x22.png")));
       btnDeleteSet.setToolTipText(bundle.getString("MainWindow.btnDeleteSet.toolTipText"));
       btnDeleteSet.setFocusable(false);
       btnDeleteSet.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -487,7 +488,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.add(btnDeleteSet);
 
       //---- btnRefreshSet ----
-      btnRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/refresh16.png")));
+      btnRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
       btnRefreshSet.setToolTipText(bundle.getString("MainWindow.btnRefreshSet.toolTipText"));
       btnRefreshSet.setFocusable(false);
       btnRefreshSet.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -496,7 +497,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.add(btnRefreshSet);
 
       //---- btnRefreshAll ----
-      btnRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/refreshall16.png")));
+      btnRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
       btnRefreshAll.setToolTipText(bundle.getString("MainWindow.btnRefreshAll.toolTipText"));
       btnRefreshAll.setFocusable(false);
       btnRefreshAll.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -505,7 +506,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.add(btnRefreshAll);
 
       //---- btnBrowser ----
-      btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/internet-web-browser16.png")));
+      btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
       btnBrowser.setToolTipText(bundle.getString("MainWindow.btnBrowser.toolTipText"));
       btnBrowser.addActionListener(e -> btnBrowserActionPerformed());
       jToolBar1.add(btnBrowser);
@@ -544,7 +545,6 @@ public class MainWindow extends javax.swing.JFrame {
         public void mousePressed(MouseEvent e) {
           jList1MousePressed(e);
         }
-
         @Override
         public void mouseReleased(MouseEvent e) {
           jList1MouseReleased(e);
@@ -567,35 +567,35 @@ public class MainWindow extends javax.swing.JFrame {
       mnuPopup.setLayout(null);
 
       //---- mnuPopupCreate ----
-      mnuPopupCreate.setIcon(new ImageIcon(getClass().getResource("/images/add16.png")));
+      mnuPopupCreate.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
       mnuPopupCreate.setText(bundle.getString("MainWindow.mnuPopupCreate.text"));
       mnuPopupCreate.addActionListener(e -> mnuPopupCreateActionPerformed());
       mnuPopup.add(mnuPopupCreate);
       mnuPopupCreate.setBounds(0, 4, 205, mnuPopupCreate.getPreferredSize().height);
 
       //---- mnuPopupEdit ----
-      mnuPopupEdit.setIcon(new ImageIcon(getClass().getResource("/images/edit16.png")));
+      mnuPopupEdit.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
       mnuPopupEdit.setText(bundle.getString("MainWindow.mnuPopupEdit.text"));
       mnuPopupEdit.addActionListener(e -> mnuPopupEditActionPerformed());
       mnuPopup.add(mnuPopupEdit);
       mnuPopupEdit.setBounds(0, 23, 205, mnuPopupEdit.getPreferredSize().height);
 
       //---- mnuPopupDelete ----
-      mnuPopupDelete.setIcon(new ImageIcon(getClass().getResource("/images/delete16.png")));
+      mnuPopupDelete.setIcon(new ImageIcon(getClass().getResource("/images/342-delete-22x22.png")));
       mnuPopupDelete.setText(bundle.getString("MainWindow.mnuPopupDelete.text"));
       mnuPopupDelete.addActionListener(e -> mnuPopupDeleteActionPerformed());
       mnuPopup.add(mnuPopupDelete);
       mnuPopupDelete.setBounds(0, 42, 205, mnuPopupDelete.getPreferredSize().height);
 
       //---- mnuPopupRefresh ----
-      mnuPopupRefresh.setIcon(new ImageIcon(getClass().getResource("/images/refresh16.png")));
+      mnuPopupRefresh.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
       mnuPopupRefresh.setText(bundle.getString("MainWindow.mnuPopupRefresh.text"));
       mnuPopupRefresh.addActionListener(e -> mnuPopupRefreshActionPerformed());
       mnuPopup.add(mnuPopupRefresh);
       mnuPopupRefresh.setBounds(0, 61, 205, mnuPopupRefresh.getPreferredSize().height);
 
       //---- mnuPopupOpen ----
-      mnuPopupOpen.setIcon(new ImageIcon(getClass().getResource("/images/web16.png")));
+      mnuPopupOpen.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
       mnuPopupOpen.setText(bundle.getString("MainWindow.mnuPopupOpen.text"));
       mnuPopupOpen.addActionListener(e -> mnuPopupOpenActionPerformed());
       mnuPopup.add(mnuPopupOpen);
@@ -603,7 +603,7 @@ public class MainWindow extends javax.swing.JFrame {
 
       { // compute preferred size
         Dimension preferredSize = new Dimension();
-        for (int i = 0; i < mnuPopup.getComponentCount(); i++) {
+        for(int i = 0; i < mnuPopup.getComponentCount(); i++) {
           Rectangle bounds = mnuPopup.getComponent(i).getBounds();
           preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
           preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
