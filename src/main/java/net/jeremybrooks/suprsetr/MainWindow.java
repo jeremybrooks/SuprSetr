@@ -39,6 +39,7 @@ import net.jeremybrooks.suprsetr.workers.LoadFlickrSetsWorker;
 import net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker;
 import org.apache.log4j.Logger;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -65,10 +66,6 @@ import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -312,7 +309,7 @@ public class MainWindow extends javax.swing.JFrame {
         mnuEdit.add(mnuEditSet);
 
         //---- mnuDeleteSet ----
-        mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/342-delete-22x22.png")));
+        mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
         mnuDeleteSet.setText(bundle.getString("MainWindow.mnuDeleteSet.text"));
         mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         mnuDeleteSet.addActionListener(e -> mnuDeleteSetActionPerformed());
@@ -469,7 +466,7 @@ public class MainWindow extends javax.swing.JFrame {
       jToolBar1.add(btnEditSet);
 
       //---- btnDeleteSet ----
-      btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/342-delete-22x22.png")));
+      btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
       btnDeleteSet.setToolTipText(bundle.getString("MainWindow.btnDeleteSet.toolTipText"));
       btnDeleteSet.setFocusable(false);
       btnDeleteSet.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -554,56 +551,37 @@ public class MainWindow extends javax.swing.JFrame {
 
     //======== mnuPopup ========
     {
-      mnuPopup.setLayout(null);
+      mnuPopup.setLayout(new BoxLayout(mnuPopup, BoxLayout.Y_AXIS));
 
       //---- mnuPopupCreate ----
       mnuPopupCreate.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
       mnuPopupCreate.setText(bundle.getString("MainWindow.mnuPopupCreate.text"));
       mnuPopupCreate.addActionListener(e -> mnuPopupCreateActionPerformed());
       mnuPopup.add(mnuPopupCreate);
-      mnuPopupCreate.setBounds(0, 4, 205, mnuPopupCreate.getPreferredSize().height);
 
       //---- mnuPopupEdit ----
       mnuPopupEdit.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
       mnuPopupEdit.setText(bundle.getString("MainWindow.mnuPopupEdit.text"));
       mnuPopupEdit.addActionListener(e -> mnuPopupEditActionPerformed());
       mnuPopup.add(mnuPopupEdit);
-      mnuPopupEdit.setBounds(0, 23, 205, mnuPopupEdit.getPreferredSize().height);
 
       //---- mnuPopupDelete ----
-      mnuPopupDelete.setIcon(new ImageIcon(getClass().getResource("/images/342-delete-22x22.png")));
+      mnuPopupDelete.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
       mnuPopupDelete.setText(bundle.getString("MainWindow.mnuPopupDelete.text"));
       mnuPopupDelete.addActionListener(e -> mnuPopupDeleteActionPerformed());
       mnuPopup.add(mnuPopupDelete);
-      mnuPopupDelete.setBounds(0, 42, 205, mnuPopupDelete.getPreferredSize().height);
 
       //---- mnuPopupRefresh ----
       mnuPopupRefresh.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
       mnuPopupRefresh.setText(bundle.getString("MainWindow.mnuPopupRefresh.text"));
       mnuPopupRefresh.addActionListener(e -> mnuPopupRefreshActionPerformed());
       mnuPopup.add(mnuPopupRefresh);
-      mnuPopupRefresh.setBounds(0, 61, 205, mnuPopupRefresh.getPreferredSize().height);
 
       //---- mnuPopupOpen ----
       mnuPopupOpen.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
       mnuPopupOpen.setText(bundle.getString("MainWindow.mnuPopupOpen.text"));
       mnuPopupOpen.addActionListener(e -> mnuPopupOpenActionPerformed());
       mnuPopup.add(mnuPopupOpen);
-      mnuPopupOpen.setBounds(new Rectangle(new Point(0, 80), mnuPopupOpen.getPreferredSize()));
-
-      { // compute preferred size
-        Dimension preferredSize = new Dimension();
-        for(int i = 0; i < mnuPopup.getComponentCount(); i++) {
-          Rectangle bounds = mnuPopup.getComponent(i).getBounds();
-          preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
-          preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
-        }
-        Insets insets = mnuPopup.getInsets();
-        preferredSize.width += insets.right;
-        preferredSize.height += insets.bottom;
-        mnuPopup.setMinimumSize(preferredSize);
-        mnuPopup.setPreferredSize(preferredSize);
-      }
     }
 
     //---- buttonGroup1 ----

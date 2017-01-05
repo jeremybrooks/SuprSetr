@@ -40,7 +40,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "btnDeleteSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/342-delete-22x22.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/711-trash-toolbar-22x22.png" )
 					"toolTipText": new FormMessage( null, "MainWindow.btnDeleteSet.toolTipText" )
 					"focusable": false
 					"horizontalTextPosition": 0
@@ -161,7 +161,7 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "mnuDeleteSet"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/342-delete-22x22.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/711-trash-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuDeleteSet.text" )
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 68, 4356, false )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuDeleteSetActionPerformed", false ) )
@@ -298,54 +298,43 @@ new FormModel {
 			"size": new java.awt.Dimension( 488, 522 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
-		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class javax.swing.BoxLayout ) {
+			"axis": 1
+		} ) {
 			name: "mnuPopup"
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupCreate"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/746-plus-circle-toolbar.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupCreate.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupCreateActionPerformed", false ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"y": 4
-				"width": 205
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupEdit"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/830-pencil-toolbar.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupEdit.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupEditActionPerformed", false ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"y": 23
-				"width": 205
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupDelete"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/342-delete-22x22.png" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/711-trash-toolbar-22x22.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupDelete.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupDeleteActionPerformed", false ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"y": 42
-				"width": 205
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupRefresh"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupRefresh.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupRefreshActionPerformed", false ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"y": 61
-				"width": 205
 			} )
 			add( new FormComponent( "javax.swing.JMenuItem" ) {
 				name: "mnuPopupOpen"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/786-browser-toolbar-22x22.png" )
 				"text": new FormMessage( null, "MainWindow.mnuPopupOpen.text" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuPopupOpenActionPerformed", false ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"y": 80
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 0, 532 )
+			"location": new java.awt.Point( 205, 535 )
+			"size": new java.awt.Dimension( 225, 133 )
 		} )
 		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
 			name: "buttonGroup1"
