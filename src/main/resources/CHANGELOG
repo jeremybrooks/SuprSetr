@@ -5,8 +5,7 @@ Version 3.0.0
    * API endpoints will all be https
    * Support machine tags with spaces
  * Support full text searches
- * View counts are shown
- * View counts are updated when photosets are refreshed
+ * Set list now shows view counts
  * Set list can be ordered alphabetically or by view count
  * Enabled Flickr Commons search
  * Enabled Privacy options
