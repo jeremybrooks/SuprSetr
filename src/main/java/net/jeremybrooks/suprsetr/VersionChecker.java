@@ -40,11 +40,11 @@ public class VersionChecker implements Runnable {
   private boolean showNoUpdateMessage;
   private boolean delayCheck;
 
-  public VersionChecker() {
+  VersionChecker() {
     this(false, true);
   }
 
-  public VersionChecker(boolean showNoUpdateMessage, boolean delayCheck) {
+  VersionChecker(boolean showNoUpdateMessage, boolean delayCheck) {
     this.showNoUpdateMessage = showNoUpdateMessage;
     this.delayCheck = delayCheck;
   }
