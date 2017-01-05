@@ -71,8 +71,6 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -189,14 +187,7 @@ public class MainWindow extends javax.swing.JFrame {
     this.logWindow = new LogWindow();
     LogWindow.addLogMessage("Started up at " + new Date());
 
-    this.filterTimer = new Timer(500, new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doFilter();
-      }
-
-    });
+    this.filterTimer = new Timer(500, e -> doFilter());
     this.filterTimer.setRepeats(false);
   }
 
@@ -1033,7 +1024,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void doFilter() {
+  private void doFilter() {
     this.doFilter(null);
   }
 
@@ -1112,7 +1103,7 @@ public class MainWindow extends javax.swing.JFrame {
    *
    * @param enabled true if filter should be enabled.
    */
-  public void enableFilter(boolean enabled) {
+  void enableFilter(boolean enabled) {
     this.txtFilter.setEnabled(enabled);
     if (enabled) {
       this.txtFilter.requestFocusInWindow();
@@ -1148,7 +1139,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void doAuth() {
+  void doAuth() {
     while (!FlickrHelper.getInstance().authorize()) {
       (new LoginDialog(this, true)).setVisible(true);
     }
@@ -1157,7 +1148,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public boolean setTitleExists(String title) {
+  boolean setTitleExists(String title) {
     boolean exists = false;
 
     for (int i = 0; i < listModel.size(); i++) {
@@ -1196,7 +1187,7 @@ public class MainWindow extends javax.swing.JFrame {
    *
    * @return true if the window is in a blocked state.
    */
-  public static boolean isBlocked() {
+  static boolean isBlocked() {
     return theWindow.getGlassPane().isVisible();
   }
 
@@ -1205,7 +1196,7 @@ public class MainWindow extends javax.swing.JFrame {
     return theWindow;
   }
 
-  public void updateStatusBar() {
+  void updateStatusBar() {
     SwingUtilities.invokeLater(new UpdateStatusBar());
   }
 
@@ -1236,7 +1227,7 @@ public class MainWindow extends javax.swing.JFrame {
    *
    * @return the filter text in lower case, or null if there is no filter text.
    */
-  public String getFilter() {
+  private String getFilter() {
     String filter = this.txtFilter.getText().toLowerCase().trim();
     if (filter.isEmpty()) {
       filter = null;
@@ -1364,7 +1355,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void showUpdateDialog() {
+  void showUpdateDialog() {
     int response = JOptionPane.showConfirmDialog(this,
         resourceBundle.getString("MainWindow.dialog.newversion.message"),
         resourceBundle.getString("MainWindow.dialog.newversion.title"),
@@ -1384,7 +1375,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
   }
 
-  public void showNoUpdateDialog() {
+  void showNoUpdateDialog() {
     JOptionPane.showMessageDialog(this,
         resourceBundle.getString("MainWindow.dialog.noupdate.message"),
         resourceBundle.getString("MainWindow.dialog.noupdate.title"),
@@ -1444,7 +1435,7 @@ public class MainWindow extends javax.swing.JFrame {
   // End of variables declaration//GEN-END:variables
 
 
-  public void executeAddSetWorker(SSPhotoset ssPhotoset) {
+  void executeAddSetWorker(SSPhotoset ssPhotoset) {
     BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.addingset") + " " + ssPhotoset.getTitle());
     setGlassPane(blocker);
     blocker.block("");
@@ -1452,7 +1443,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void executeRefreshSetWorker(SSPhotoset ssPhotoset) {
+  void executeRefreshSetWorker(SSPhotoset ssPhotoset) {
     BlockerPanel blocker = new BlockerPanel(this,
         resourceBundle.getString("MainWindow.blocker.refreshingset") +
             " \"" +
@@ -1466,7 +1457,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void executeRefreshSetWorker(List<SSPhotoset> list, boolean exitWhenDone) {
+  private void executeRefreshSetWorker(List<SSPhotoset> list, boolean exitWhenDone) {
     BlockerPanel blocker = new BlockerPanel(this,
         resourceBundle.getString("MainWindow.blocker.refreshing1") +
             " " +
@@ -1479,7 +1470,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void executeLoadFlickrSetsWorker() {
+  void executeLoadFlickrSetsWorker() {
     BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.loadingsets"));
     setGlassPane(blocker);
     blocker.block("");
@@ -1487,7 +1478,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void executeDeleteSetWorker(SSPhotoset ssPhotoset) {
+  private void executeDeleteSetWorker(SSPhotoset ssPhotoset) {
     BlockerPanel blocker = new BlockerPanel(this,
         resourceBundle.getString("MainWindow.blocker.deletingset") +
             " \"" +
@@ -1499,7 +1490,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  public void showPopup(MouseEvent e) {
+  private void showPopup(MouseEvent e) {
     if (e.getComponent() instanceof JList) {
       JList list = (JList) e.getComponent();
 
