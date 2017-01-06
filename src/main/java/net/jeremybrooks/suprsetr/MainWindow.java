@@ -214,7 +214,6 @@ public class MainWindow extends javax.swing.JFrame {
     mnuView = new JMenu();
     mnuHideUnmanaged = new JCheckBoxMenuItem();
     mnuCaseSensitive = new JCheckBoxMenuItem();
-    mnuLogWindow = new JMenuItem();
     mnuOrderAlpha = new JRadioButtonMenuItem();
     mnuOrderAlphaDesc = new JRadioButtonMenuItem();
     mnuOrderHighLow = new JRadioButtonMenuItem();
@@ -224,6 +223,7 @@ public class MainWindow extends javax.swing.JFrame {
     mnuClearFave = new JMenuItem();
     mnuSetOrder = new JMenuItem();
     mnuLogs = new JMenuItem();
+    mnuLogWindow = new JMenuItem();
     mnuHelp = new JMenu();
     mnuAbout = new JMenuItem();
     mnuTutorial = new JMenuItem();
@@ -350,12 +350,6 @@ public class MainWindow extends javax.swing.JFrame {
         mnuCaseSensitive.setText(bundle.getString("MainWindow.mnuCaseSensitive.text"));
         mnuCaseSensitive.addActionListener(e -> mnuCaseSensitiveActionPerformed());
         mnuView.add(mnuCaseSensitive);
-
-        //---- mnuLogWindow ----
-        mnuLogWindow.setText(bundle.getString("MainWindow.mnuLogWindow.text"));
-        mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuLogWindow.addActionListener(e -> mnuLogWindowActionPerformed());
-        mnuView.add(mnuLogWindow);
         mnuView.addSeparator();
 
         //---- mnuOrderAlpha ----
@@ -408,6 +402,13 @@ public class MainWindow extends javax.swing.JFrame {
         mnuLogs.setText(bundle.getString("MainWindow.mnuLogs.text"));
         mnuLogs.addActionListener(e -> mnuLogsActionPerformed());
         mnuTools.add(mnuLogs);
+
+        //---- mnuLogWindow ----
+        mnuLogWindow.setText(bundle.getString("MainWindow.mnuLogWindow.text"));
+        mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuLogWindow.setIcon(new ImageIcon(getClass().getResource("/images/1072-terminal-toolbar-22x22.png")));
+        mnuLogWindow.addActionListener(e -> mnuLogWindowActionPerformed());
+        mnuTools.add(mnuLogWindow);
       }
       jMenuBar1.add(mnuTools);
 
@@ -1376,7 +1377,6 @@ public class MainWindow extends javax.swing.JFrame {
   private JMenu mnuView;
   private JCheckBoxMenuItem mnuHideUnmanaged;
   private JCheckBoxMenuItem mnuCaseSensitive;
-  private JMenuItem mnuLogWindow;
   private JRadioButtonMenuItem mnuOrderAlpha;
   private JRadioButtonMenuItem mnuOrderAlphaDesc;
   private JRadioButtonMenuItem mnuOrderHighLow;
@@ -1386,6 +1386,7 @@ public class MainWindow extends javax.swing.JFrame {
   private JMenuItem mnuClearFave;
   private JMenuItem mnuSetOrder;
   private JMenuItem mnuLogs;
+  private JMenuItem mnuLogWindow;
   private JMenu mnuHelp;
   private JMenuItem mnuAbout;
   private JMenuItem mnuTutorial;

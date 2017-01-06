@@ -200,12 +200,6 @@ new FormModel {
 						"text": new FormMessage( null, "MainWindow.mnuCaseSensitive.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCaseSensitiveActionPerformed", false ) )
 					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "mnuLogWindow"
-						"text": new FormMessage( null, "MainWindow.mnuLogWindow.text" )
-						"accelerator": static javax.swing.KeyStroke getKeyStroke( 76, 4356, false )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", false ) )
-					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator2"
 					} )
@@ -263,6 +257,13 @@ new FormModel {
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/797-archive-toolbar-22x22.png" )
 						"text": new FormMessage( null, "MainWindow.mnuLogs.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogsActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "mnuLogWindow"
+						"text": new FormMessage( null, "MainWindow.mnuLogWindow.text" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 76, 4356, false )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1072-terminal-toolbar-22x22.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", false ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
