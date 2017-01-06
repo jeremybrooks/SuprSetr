@@ -39,7 +39,7 @@ import java.util.List;
  *
  * <p>These methods should be public static.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SSUtils {
 
@@ -208,10 +208,20 @@ public class SSUtils {
     list.sort(new PhotoTitleComparatorAscending());
   }
 
+  /**
+   * Sort a list of photos by number of views in descending order.
+   *
+   * @param list the list of photos to sort.
+   */
   public static void sortPhotoListByViewsDescending(List<Photo> list) {
     list.sort(new PhotoViewsComparatorDescending());
   }
 
+  /**
+   * Sort a list of photos by number of views in ascending order.
+   *
+   * @param list the list of photos to sort.
+   */
   public static void sortPhotoListByViewsAscending(List<Photo> list) {
     list.sort(new PhotoViewsComparatorAscending());
   }
@@ -229,6 +239,9 @@ public class SSUtils {
     }
   }
 
+  /**
+   * Comparator that sorts by photo title in descnending order, but is not sensitive to case.
+   */
   static class PhotoTitleComparatorDescending implements Comparator<Photo>, Serializable {
     private static final long serialVersionUID = -3766242945003682431L;
 
@@ -238,6 +251,9 @@ public class SSUtils {
     }
   }
 
+  /**
+   * Comparator that sorts by photo views in ascending order.
+   */
   static class PhotoViewsComparatorAscending implements Comparator<Photo>, Serializable {
     private static final long serialVersionUID = 2703785877608384885L;
 
@@ -247,6 +263,9 @@ public class SSUtils {
     }
   }
 
+  /**
+   * Comparator that sorts by photo views in descending order.
+   */
   static class PhotoViewsComparatorDescending implements Comparator<Photo>, Serializable {
     private static final long serialVersionUID = -8953067632780861868L;
 
@@ -256,6 +275,11 @@ public class SSUtils {
     }
   }
 
+  /**
+   * Get the current calendar year.
+   *
+   * @return current calendar year.
+   */
   public static int getCurrentYear() {
     return new GregorianCalendar().get(Calendar.YEAR);
   }
