@@ -37,7 +37,6 @@ import org.apache.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -114,14 +113,8 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 				if (ssPhotoset.getSortOrder() == 2) {
 					// Sorted by date taken descending
 					for (int year = endYear; year >= ssPhotoset.getOnThisDayYearStart(); year--) {
-						params = SearchHelper.getInstance().getSearchParametersForOnThisDay(ssPhotoset, year);
-						blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.searchingon") + " "
-								+ ssPhotoset.getOnThisDayMonth() + "/"
-								+ ssPhotoset.getOnThisDayDay() + "/"
-								+ year + "....");
-						tempResults = PhotoHelper.getInstance().getPhotos(params);
+					  tempResults = doSearchForYear(ssPhotoset, year);
 						logger.info("Got " + tempResults.size() + " results.");
-
 						if (photos == null) {
 							photos = tempResults;
 						} else {
@@ -129,14 +122,8 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 						}
 					}
 				} else {
-					// Sorted by date taken descending, or no particular order
 					for (int year = ssPhotoset.getOnThisDayYearStart(); year <= endYear; year++) {
-						params = SearchHelper.getInstance().getSearchParametersForOnThisDay(ssPhotoset, year);
-						blocker.updateMessage(resourceBundle.getString("AddPhotosetWorker.blocker.searchingon") + " "
-								+ +ssPhotoset.getOnThisDayMonth() + "/"
-								+ ssPhotoset.getOnThisDayDay() + "/"
-								+ year + "....");
-						tempResults = PhotoHelper.getInstance().getPhotos(params);
+					  tempResults = doSearchForYear(ssPhotoset, year);
 						logger.info("Got " + tempResults.size() + " results.");
 						if (photos == null) {
 							photos = tempResults;
@@ -163,14 +150,7 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 			if (matches > 0) {
 				logger.info("Got " + matches + " search results.");
 
-				// sort by title or random, if necessary
-				if (ssPhotoset.getSortOrder() == 7) {
-					SSUtils.sortPhotoListByTitleDescending(photos);
-				} else if (ssPhotoset.getSortOrder() == 8) {
-					SSUtils.sortPhotoListByTitleAscending(photos);
-				} else if (ssPhotoset.getSortOrder() == 9) {
-					Collections.shuffle(photos);
-				}
+				SSUtils.sortPhotoList(photos, ssPhotoset.getSortOrder());
 
 				firstPhoto = photos.get(0);
 
@@ -306,4 +286,16 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 		}
 		blocker.unBlock();
 	}
+
+  private List<Photo> doSearchForYear(SSPhotoset ssPhotoset, int year) throws Exception {
+    SearchParameters params = SearchHelper.getInstance().getSearchParametersForOnThisDay(ssPhotoset, year);
+    blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.searchingon") + " " +
+        + ssPhotoset.getOnThisDayMonth() + "/"
+        + ssPhotoset.getOnThisDayDay() + "/"
+        + year + "....");
+
+    List<Photo> tempResults = PhotoHelper.getInstance().getPhotos(params);
+    logger.info("Got " + tempResults.size() + " results.");
+    return tempResults;
+  }
 }

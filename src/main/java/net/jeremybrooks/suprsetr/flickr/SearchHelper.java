@@ -34,7 +34,7 @@ import java.util.GregorianCalendar;
  *
  * <p>This wrapper provides access to the search methods.</p>
  *
- * <p>This class is implemented as a Singleton. Calling <code>SearchHelper.getInstance()</code>
+ * <p>This class is implemented as a Singleton. Calling {@code SearchHelper.getInstance()}
  * will return a reference to the instance of this class.</p>
  *
  * @author jeremyb
@@ -304,7 +304,8 @@ public class SearchHelper {
     cal.set(Calendar.SECOND, 59);
     sp.setMaxTakenDate(cal.getTime());
 
-    sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media, JinxConstants.PhotoExtras.views));
+    sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media, JinxConstants.PhotoExtras.views,
+        JinxConstants.PhotoExtras.date_taken));
 
     return sp;
   }

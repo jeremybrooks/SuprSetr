@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -69,6 +70,30 @@ public class SSUtils {
   private SSUtils() {
   }
 
+  /**
+   * Sort a list of photos.
+   *
+   * <p>For sort order constants, see {@link SSConstants#SORT_ORDER}.</p>
+   *
+   * @param photoList the list of photos to sort.
+   * @param sortOrder the sort order.
+   */
+  public static void sortPhotoList(List<Photo> photoList, int sortOrder) {
+    if (photoList == null) {
+      return;
+    }
+    if (sortOrder == 7) {
+      SSUtils.sortPhotoListByTitleDescending(photoList);
+    } else if (sortOrder == 8) {
+      SSUtils.sortPhotoListByTitleAscending(photoList);
+    } else if (sortOrder == 9) {
+      Collections.shuffle(photoList);
+    } else if (sortOrder == 10) {
+      SSUtils.sortPhotoListByViewsDescending(photoList);
+    } else if (sortOrder == 11) {
+      SSUtils.sortPhotoListByViewsAscending(photoList);
+    }
+  }
 
   /**
    * Format the date with the long format.
@@ -192,7 +217,7 @@ public class SSUtils {
    *
    * @param list the list of photos to sort.
    */
-  public static void sortPhotoListByTitleDescending(List<Photo> list) {
+  private static void sortPhotoListByTitleDescending(List<Photo> list) {
     list.sort(new PhotoTitleComparatorDescending());
   }
 
@@ -204,7 +229,7 @@ public class SSUtils {
    *
    * @param list the list of photos to sort.
    */
-  public static void sortPhotoListByTitleAscending(List<Photo> list) {
+  private static void sortPhotoListByTitleAscending(List<Photo> list) {
     list.sort(new PhotoTitleComparatorAscending());
   }
 
@@ -213,7 +238,7 @@ public class SSUtils {
    *
    * @param list the list of photos to sort.
    */
-  public static void sortPhotoListByViewsDescending(List<Photo> list) {
+  private static void sortPhotoListByViewsDescending(List<Photo> list) {
     list.sort(new PhotoViewsComparatorDescending());
   }
 
@@ -222,7 +247,7 @@ public class SSUtils {
    *
    * @param list the list of photos to sort.
    */
-  public static void sortPhotoListByViewsAscending(List<Photo> list) {
+  private static void sortPhotoListByViewsAscending(List<Photo> list) {
     list.sort(new PhotoViewsComparatorAscending());
   }
 
