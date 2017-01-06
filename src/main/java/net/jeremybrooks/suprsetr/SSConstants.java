@@ -51,7 +51,9 @@ public class SSConstants {
       "No Particular Order",
       "Photo Title Descending",
       "Photo Title Ascending",
-      "Random"
+      "Random",
+      "Views High To Low",
+      "Views Low To High"
   };
 
   public static final String LIST_SORT_ATOZ = "0";

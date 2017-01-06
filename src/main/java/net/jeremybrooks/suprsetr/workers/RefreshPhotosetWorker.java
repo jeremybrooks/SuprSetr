@@ -201,9 +201,14 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
             SSUtils.sortPhotoListByTitleAscending(searchResults);
           } else if (ssPhotoset.getSortOrder() == 9) {
             Collections.shuffle(searchResults);
+          } else if (ssPhotoset.getSortOrder() == 10) {
+            SSUtils.sortPhotoListByViewsDescending(searchResults);
+          } else if (ssPhotoset.getSortOrder() == 11) {
+            SSUtils.sortPhotoListByViewsAscending(searchResults);
           }
-
-
+for (Photo p : searchResults) {
+  System.out.println(p.getViews());
+}
           // determine which photo should be the primary photo
           if (ssPhotoset.isLockPrimaryPhoto()) {
             currentPrimaryId = ssPhotoset.getPrimary();

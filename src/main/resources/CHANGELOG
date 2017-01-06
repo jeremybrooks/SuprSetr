@@ -12,6 +12,7 @@ Version 3.0.0
  * Updated third party libraries to latest versions
  * Added view count sort to Album Ordering Tool
  * Improved look and layout of Album Ordering Tool
+ * Photosets can be sorted by the number of views on photos
 
 Version 2.1.0
  * Added support for Machine Tags

@@ -208,6 +208,14 @@ public class SSUtils {
     list.sort(new PhotoTitleComparatorAscending());
   }
 
+  public static void sortPhotoListByViewsDescending(List<Photo> list) {
+    list.sort(new PhotoViewsComparatorDescending());
+  }
+
+  public static void sortPhotoListByViewsAscending(List<Photo> list) {
+    list.sort(new PhotoViewsComparatorAscending());
+  }
+
 
   /**
    * Comparator that sorts by photo title, but not sensitive to case.
@@ -227,6 +235,24 @@ public class SSUtils {
     @Override
     public int compare(Photo photoA, Photo photoB) {
       return -(photoA.getTitle().compareToIgnoreCase(photoB.getTitle()));
+    }
+  }
+
+  static class PhotoViewsComparatorAscending implements Comparator<Photo>, Serializable {
+    private static final long serialVersionUID = 2703785877608384885L;
+
+    @Override
+    public int compare(Photo photoA, Photo photoB) {
+      return Integer.compare(photoA.getViews(), photoB.getViews());
+    }
+  }
+
+  static class PhotoViewsComparatorDescending implements Comparator<Photo>, Serializable {
+    private static final long serialVersionUID = -8953067632780861868L;
+
+    @Override
+    public int compare(Photo photoA, Photo photoB) {
+      return -Integer.compare(photoA.getViews(), photoB.getViews());
     }
   }
 

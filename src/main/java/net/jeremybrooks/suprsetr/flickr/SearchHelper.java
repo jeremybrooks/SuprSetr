@@ -131,11 +131,9 @@ public class SearchHelper {
     if (ssPhotoset.getMachineTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ALL)) {
       sp.setMachineTagMode(JinxConstants.TagMode.all);
       sp.setMachineTags(ssPhotoset.getMachineTags());
-//		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
     } else if (ssPhotoset.getMachineTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ANY)) {
       sp.setMachineTagMode(JinxConstants.TagMode.any);
       sp.setMachineTags(ssPhotoset.getMachineTags());
-//		sp.setMachineTags(ssPhotoset.getMachineTagsAsString());
     }
 
     if (ssPhotoset.getTextSearch() != null && ssPhotoset.getTextSearch().trim().length() > 0) {
@@ -189,19 +187,15 @@ public class SearchHelper {
       // default safe
       case 0:
         sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
-//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_SAFE);
         break;
       case 1:
         sp.setSafetyLevel(JinxConstants.SafetyLevel.moderate);
-//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_MODERATE);
         break;
       case 2:
         sp.setSafetyLevel(JinxConstants.SafetyLevel.restricted);
-//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_RESTRICTED);
         break;
       default:
         sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
-//		sp.setSafeSearch(JinxConstants.SAFE_SEARCH_SAFE);
         break;
     }
 
@@ -280,7 +274,7 @@ public class SearchHelper {
       sp.setGetty(true);
     }
 
-    sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media));
+    sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media, JinxConstants.PhotoExtras.views));
 
     return sp;
   }
@@ -310,7 +304,7 @@ public class SearchHelper {
     cal.set(Calendar.SECOND, 59);
     sp.setMaxTakenDate(cal.getTime());
 
-    sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media));
+    sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media, JinxConstants.PhotoExtras.views));
 
     return sp;
   }
