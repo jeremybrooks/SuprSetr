@@ -111,36 +111,19 @@ public class Main {
       }
     }
 
-    /*
-    // LOG FILE SIZE IS STORED IN A PROPERTIES FILE, SO WE CAN GET IT
-    // BEFORE THE DB IS SET UP
-    loggingProperties = new Properties();
-    try {
-      loggingProperties.load(new FileInputStream(new File(Main.configDir, "log.properties")));
-    } catch (Exception e) {
-      loggingProperties.setProperty("size", "1MB");
-      loggingProperties.setProperty("index", "2");
-      storeLoggingProperties();
-    }
-
-    // SET UP LOGGING
-    Properties p = new Properties();
-    p.setProperty("log4j.rootLogger", "DEBUG,FILE");
-    p.setProperty("log4j.appender.FILE", "org.apache.logging.log4j.RollingFileAppender");
-    p.setProperty("log4j.appender.FILE.Threshold", "DEBUG");
-    p.setProperty("log4j.appender.FILE.layout", "org.apache.logging.log4j.PatternLayout");
-    p.setProperty("log4j.appender.FILE.layout.ConversionPattern", "%p %c [%t] %d{ISO8601} - %m%n");
-    p.setProperty("log4j.appender.FILE.File", (new File(Main.configDir, "suprsetr.log")).getAbsolutePath());
-    p.setProperty("log4j.appender.FILE.MaxFileSize", loggingProperties.getProperty("size"));
-    p.setProperty("log4j.appender.FILE.MaxBackupIndex", loggingProperties.getProperty("index"));
-
-    PropertyConfigurator.configure(p);
-*/
-
-//    logger.info("Logging configuration: " + p);
-    // log4j2 will find its configuration file in the classpath and configure itself
+    // this is the first logging - log4j2 will find its configuration file in the classpath and configure itself
     logger.info("SuprSetr version " + Main.VERSION + " starting with Java version " + System.getProperty("java.version") +
         " in " + System.getProperty("java.home"));
+
+    // delete old files that are no longer needed
+    File oldLogConfig = new File(Main.configDir, "log.properties");
+    if (oldLogConfig.exists()) {
+      if (oldLogConfig.delete()) {
+        logger.info("Deleted old config file " + oldLogConfig.getAbsolutePath());
+      } else {
+        logger.warn("Could not delete old file " + oldLogConfig.getAbsolutePath());
+      }
+    }
 
     // Set the default database directory
     System.setProperty("derby.system.home", configDir.getAbsolutePath());
