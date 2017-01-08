@@ -22,7 +22,8 @@ package net.jeremybrooks.suprsetr;
 import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.suprsetr.utils.ObjectCache;
 import net.jeremybrooks.suprsetr.workers.LoadImagesWorker;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -60,7 +61,7 @@ import java.util.ResourceBundle;
  * Once the cache is created, it will persist for the lifetime of the
  * application.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class PhotoPickerDialog extends javax.swing.JDialog {
 
@@ -69,7 +70,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 	/**
 	 * Logging.
 	 */
-	private Logger logger = Logger.getLogger(PhotoPickerDialog.class);
+	private Logger logger = LogManager.getLogger(PhotoPickerDialog.class);
 
 	/**
 	 * The photoset that we are displaying photos from.

@@ -20,8 +20,8 @@ new FormModel {
 				name: "jTabbedPane1"
 				"toolTipText": new FormMessage( null, "Preferences.jTabbedPane1.toolTipText" )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}, comp cbxDetailLog::l:p::p, seq l {space :p:8:p, par l {seq l {par l {comp lblLogFile::l:p::p, comp lblRetain::l:p::p}, space :::p, par l {comp cmbLogSize:::p::p, comp cmbLogIndex::l:p::p}}, comp lblNote::l:p::p}}}, space ::106:x}}"
-					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :p:50:p, comp cbxDetailLog:::p::p, space :::p, par b {comp lblLogFile::b:p::p, comp cmbLogSize::b:p::p}, space :::p, par b {comp lblRetain::b:p::p, comp cmbLogIndex::b:p::p}, space ::53:x, comp lblNote:::p::p, space :::p}}"
+					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}, comp cbxDetailLog::l:p::p}, space ::252:x}}"
+					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :p:50:p, comp cbxDetailLog:::p::p, space ::139:x}}"
 				} ) {
 					name: "jPanel1"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
@@ -64,37 +64,6 @@ new FormModel {
 						"text": new FormMessage( null, "Preferences.cbxDetailLog.text" )
 						"toolTipText": new FormMessage( null, "Preferences.cbxDetailLog.toolTipText" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDetailLogActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblLogFile"
-						"text": new FormMessage( null, "Preferences.lblLogFile.text" )
-					} )
-					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "cmbLogSize"
-						"model": new javax.swing.DefaultComboBoxModel {
-							selectedItem: "1MB"
-							addElement( "1MB" )
-							addElement( "5MB" )
-							addElement( "10MB" )
-						}
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblRetain"
-						"text": new FormMessage( null, "Preferences.lblRetain.text" )
-					} )
-					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "cmbLogIndex"
-						"model": new javax.swing.DefaultComboBoxModel {
-							selectedItem: "2"
-							addElement( "2" )
-							addElement( "5" )
-							addElement( "10" )
-						}
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "lblNote"
-						"font": new java.awt.Font( "Lucida Grande", 2, 13 )
-						"text": new FormMessage( null, "Preferences.lblNote.text" )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.jPanel1.tab.title" )

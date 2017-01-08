@@ -37,7 +37,8 @@ import net.jeremybrooks.suprsetr.workers.FavrTagrWorker;
 import net.jeremybrooks.suprsetr.workers.FilterSetListWorker;
 import net.jeremybrooks.suprsetr.workers.LoadFlickrSetsWorker;
 import net.jeremybrooks.suprsetr.workers.RefreshPhotosetWorker;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -88,53 +89,37 @@ import java.util.zip.ZipOutputStream;
 
 
 /**
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class MainWindow extends javax.swing.JFrame {
 
   private static final long serialVersionUID = 5381447617741236893L;
-  /**
-   * Logging.
-   */
-  private Logger logger = Logger.getLogger(MainWindow.class);
 
-  /**
-   * List model.
-   */
+  private Logger logger = LogManager.getLogger(MainWindow.class);
+
+  /* List model. */
   private DefaultListModel listModel = new DefaultListModel();
 
-  /**
-   * Master list.
-   */
+  /* Master list. */
   private List<SSPhotoset> masterList;
 
-  /**
-   * Reference to this window.
-   */
   private static MainWindow theWindow;
 
-  /**
-   * Log window
-   */
   private LogWindow logWindow = null;
 
-  /**
-   * Timer used to trigger filtering.
-   */
+  /* Timer used to trigger filtering. */
   private Timer filterTimer = null;
 
   private java.util.Timer autoRefreshTimer = null;
 
-
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
 
-  /**
+  /*
    * Creates new form MainWindow
    */
   private void btnBrowserActionPerformed() {
     this.doOpenInBrowserAction();
   }
-
 
   public MainWindow() {
     initComponents();

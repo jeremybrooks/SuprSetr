@@ -20,7 +20,8 @@
 package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.workers.FlickrAuthenticatorWorker;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,7 +42,7 @@ import java.util.ResourceBundle;
 /**
  * Display a dialog for Flickr authorization.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class LoginDialog extends javax.swing.JDialog {
 
@@ -50,7 +51,7 @@ public class LoginDialog extends javax.swing.JDialog {
 	/**
 	 * Logging
 	 */
-	private Logger logger = Logger.getLogger(LoginDialog.class);
+	private Logger logger = LogManager.getLogger(LoginDialog.class);
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.login");
 

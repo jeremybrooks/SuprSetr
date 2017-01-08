@@ -32,7 +32,7 @@ import java.awt.event.WindowEvent;
 import java.util.ResourceBundle;
 
 /**
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class LogWindow extends javax.swing.JFrame {
 

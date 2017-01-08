@@ -35,7 +35,7 @@ import java.awt.event.MouseEvent;
  * BlockerPanel should be used as a GlassPane to block user input during long
  * operations, and provide feedback to the user.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class BlockerPanel extends JPanel implements MouseInputListener, KeyListener {
 

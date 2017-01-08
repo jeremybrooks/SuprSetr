@@ -20,18 +20,19 @@
 package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.jinx.logger.LogInterface;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
  * Allow logging of detailed information from Jinx.
  * 
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class MyJinxLogger implements LogInterface {
 
     /** Logger. */
-    private Logger logger = Logger.getLogger(MyJinxLogger.class);
+    private Logger logger = LogManager.getLogger(MyJinxLogger.class);
 
     @Override
     public void log(String message) {

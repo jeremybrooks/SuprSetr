@@ -19,7 +19,8 @@
 
 package net.jeremybrooks.suprsetr.tutorial;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,13 +47,13 @@ import java.util.ResourceBundle;
  * back and forth. When they finish, it will hide itself, and the user has the
  * option to close the window before they finish the tutorial.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class Tutorial extends javax.swing.JDialog {
 
   private static final long serialVersionUID = 1675398273280362432L;
   /* Logging. */
-  private Logger logger = Logger.getLogger(Tutorial.class);
+  private Logger logger = LogManager.getLogger(Tutorial.class);
 
   /* The current page of the tutorial. */
   private int currentPage = 1;

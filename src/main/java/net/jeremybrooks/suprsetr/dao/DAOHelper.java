@@ -21,7 +21,8 @@ package net.jeremybrooks.suprsetr.dao;
 
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -41,14 +42,14 @@ import java.sql.Statement;
 /**
  * General database utility methods for SuprSetr.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class DAOHelper {
 
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(DAOHelper.class);
+  private static Logger logger = LogManager.getLogger(DAOHelper.class);
 
   /**
    * Database connection string.

@@ -22,7 +22,8 @@ package net.jeremybrooks.suprsetr.workers;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.Preferences;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.JDialog;
 import javax.swing.SwingWorker;
@@ -37,14 +38,14 @@ import java.util.ResourceBundle;
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class TwitterAuthenticatorWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Logging.
 	 */
-	private Logger logger = Logger.getLogger(TwitterAuthenticatorWorker.class);
+	private Logger logger = LogManager.getLogger(TwitterAuthenticatorWorker.class);
 
 	/**
 	 * The blocker.

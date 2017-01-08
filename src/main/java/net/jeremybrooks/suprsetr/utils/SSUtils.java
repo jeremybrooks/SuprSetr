@@ -23,7 +23,8 @@ import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -47,7 +48,7 @@ public class SSUtils {
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(SSUtils.class);
+  private static Logger logger = LogManager.getLogger(SSUtils.class);
 
   /**
    * Date formatter in a nice full format.

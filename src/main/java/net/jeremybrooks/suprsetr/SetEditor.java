@@ -29,7 +29,8 @@ import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.ButtonGroup;
@@ -75,7 +76,7 @@ import java.util.StringTokenizer;
 
 
 /**
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SetEditor extends javax.swing.JDialog {
 
@@ -120,7 +121,7 @@ public class SetEditor extends javax.swing.JDialog {
   /**
    * Logging.
    */
-  private Logger logger = Logger.getLogger(SetEditor.class);
+  private Logger logger = LogManager.getLogger(SetEditor.class);
 
   private String[] sortModelArray = new String[12];
   private String[] privacyModelArray = new String[6];

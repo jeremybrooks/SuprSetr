@@ -28,7 +28,8 @@ import net.jeremybrooks.jinx.response.photosets.PhotosetInfo;
 import net.jeremybrooks.jinx.response.photosets.PhotosetList;
 import net.jeremybrooks.jinx.response.photosets.PhotosetPhotos;
 import net.jeremybrooks.suprsetr.SSPhotoset;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
@@ -43,14 +44,14 @@ import java.util.List;
  * <p>This class is implemented as a Singleton. Calling {@code PhotosetHelper.getInstance()}
  * will return a reference to the instance of this class.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class PhotosetHelper {
 
   /**
    * Logging.
    */
-  private Logger logger = Logger.getLogger(PhotosetHelper.class);
+  private Logger logger = LogManager.getLogger(PhotosetHelper.class);
 
   /**
    * Reference to the only instance of this class.

@@ -35,7 +35,7 @@ import java.util.ResourceBundle;
 /**
  * Handle Mac-specific events.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class OSXSetup {
 

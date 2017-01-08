@@ -19,7 +19,8 @@
 
 package net.jeremybrooks.suprsetr.utils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +34,7 @@ import java.io.Serializable;
  * @author Jeremy Brooks
  */
 public class ObjectCache {
-  private Logger logger = Logger.getLogger(ObjectCache.class);
+  private Logger logger = LogManager.getLogger(ObjectCache.class);
   private File cacheDir;
 
   public ObjectCache() throws IOException {

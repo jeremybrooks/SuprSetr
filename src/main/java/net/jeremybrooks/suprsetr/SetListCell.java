@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 /**
  * This is the List cell used to represent set data to the user.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SetListCell extends javax.swing.JPanel {
 

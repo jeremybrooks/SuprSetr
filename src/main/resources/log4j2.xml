@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Appenders>
+        <RollingFile name="ROLLING" fileName="${sys:user.home}/.suprsetr/suprsetr.log" filePattern="suprsetr-%i.log">
+            <PatternLayout pattern="%d %p %c: %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="ROLLING" />
+        </Root>
+    </Loggers>
+</Configuration>

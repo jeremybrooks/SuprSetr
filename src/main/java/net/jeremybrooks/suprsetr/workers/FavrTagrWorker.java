@@ -31,7 +31,8 @@ import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -54,14 +55,14 @@ import java.util.ResourceBundle;
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Logging.
 	 */
-	private Logger logger = Logger.getLogger(FavrTagrWorker.class);
+	private Logger logger = LogManager.getLogger(FavrTagrWorker.class);
 
 	/**
 	 * The blocker to provide user with feedback.

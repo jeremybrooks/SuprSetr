@@ -21,9 +21,10 @@ package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 
 /**
@@ -32,14 +33,14 @@ import java.awt.*;
  * <p>Everything in the run method will be executed just before the JVM
  * shuts down.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class Reaper implements Runnable {
 
     /**
      * Logging.
      */
-    private Logger logger = Logger.getLogger(Reaper.class);
+    private Logger logger = LogManager.getLogger(Reaper.class);
 
 
     /**

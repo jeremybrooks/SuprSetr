@@ -29,7 +29,8 @@ import net.jeremybrooks.suprsetr.SetOrdererDTO;
 import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.PhotosetHelper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -48,14 +49,14 @@ import java.util.ResourceBundle;
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SSPhotoset> {
 
   /**
    * Logging.
    */
-  private Logger logger = Logger.getLogger(SetOrdererDTOListWorker.class);
+  private Logger logger = LogManager.getLogger(SetOrdererDTOListWorker.class);
 
   /**
    * The blocker used for feedback.

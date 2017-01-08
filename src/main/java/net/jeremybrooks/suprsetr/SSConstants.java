@@ -24,7 +24,7 @@ package net.jeremybrooks.suprsetr;
  *
  * <p>These should be public static final.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SSConstants {
 

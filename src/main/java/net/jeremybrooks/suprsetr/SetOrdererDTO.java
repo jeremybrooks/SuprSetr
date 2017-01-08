@@ -27,7 +27,7 @@ import javax.swing.ImageIcon;
  * <p>This class is used rather than the SSPhotoset object because we do not
  * need all that data. Using a smaller class may conserve some memory.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SetOrdererDTO {
 

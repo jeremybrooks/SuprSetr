@@ -28,9 +28,11 @@ import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.jinx.response.photos.PhotoInfo;
 import net.jeremybrooks.jinx.response.photos.Photos;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.ImageIcon;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,17 +43,17 @@ import java.util.List;
  *
  * <p>This wrapper provides access to the photo methods.</p>
  *
- * <p>This class is implemented as a Singleton. Calling <code>PhotoHelper.getInstance()</code>
+ * <p>This class is implemented as a Singleton. Calling {@code PhotoHelper.getInstance()}
  * will return a reference to the instance of this class.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class PhotoHelper {
 
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(PhotoHelper.class);
+  private static Logger logger = LogManager.getLogger(PhotoHelper.class);
 
   /**
    * Reference to the only instance of this class.
@@ -185,12 +187,15 @@ public class PhotoHelper {
     if (info.getCode() > 0) {
       throw new Exception("Error getting info for photo " + photoId + ". Code " + info.getCode() + ":" + info.getMessage());
     }
-    ImageIcon icon;
+    ImageIcon icon = null;
     try {
       icon = new ImageIcon(PhotoUtils.getImageForSize(JinxConstants.PhotoSize.SIZE_SMALL_SQUARE, info));
     } catch (Exception e) {
       logger.warn("ERROR GETTING ICON FOR PHOTO " + photoId, e);
-      icon = new ImageIcon(this.getClass().getClassLoader().getResource("images/empty_set_icon.png"));
+      URL url = this.getClass().getClassLoader().getResource("images/empty_set_icon.png");
+      if (url != null) {
+        icon = new ImageIcon(url);
+      }
     }
 
     return icon;

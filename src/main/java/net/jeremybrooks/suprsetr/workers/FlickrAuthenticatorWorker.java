@@ -21,7 +21,8 @@ package net.jeremybrooks.suprsetr.workers;
 
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -39,14 +40,14 @@ import java.util.ResourceBundle;
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class FlickrAuthenticatorWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Logging.
 	 */
-	private Logger logger = Logger.getLogger(FlickrAuthenticatorWorker.class);
+	private Logger logger = LogManager.getLogger(FlickrAuthenticatorWorker.class);
 
 	/**
 	 * The blocker instance.

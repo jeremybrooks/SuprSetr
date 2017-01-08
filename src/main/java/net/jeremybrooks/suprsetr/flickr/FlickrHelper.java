@@ -25,7 +25,8 @@ import net.jeremybrooks.jinx.OAuthAccessToken;
 import net.jeremybrooks.jinx.api.OAuthApi;
 import net.jeremybrooks.suprsetr.Main;
 import net.jeremybrooks.suprsetr.utils.IOUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.scribe.model.Token;
 
 import java.io.File;
@@ -42,11 +43,11 @@ import java.net.URL;
  * <p>This wrapper provides access to the authentication methods, the API
  * interfaces, and metadata about the user.</p>
  *
- * <p>This class is implemented as a Singleton. Calling <code>FlickrHelper.getInstance()</code>
+ * <p>This class is implemented as a Singleton. Calling {@code FlickrHelper.getInstance()}
  * will return a reference to the instance of this class. The initialize
  * method must be called once before other methods are called.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class FlickrHelper {
 
@@ -54,7 +55,7 @@ public class FlickrHelper {
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(FlickrHelper.class);
+  private static Logger logger = LogManager.getLogger(FlickrHelper.class);
 
   /**
    * Reference to the only instance of this class.

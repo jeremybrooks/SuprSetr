@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
 

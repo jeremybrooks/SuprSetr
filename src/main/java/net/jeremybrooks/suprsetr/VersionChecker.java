@@ -20,7 +20,8 @@
 package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.utils.NetUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
@@ -32,11 +33,11 @@ import java.net.URL;
 /**
  * Check for a new version of the program.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class VersionChecker implements Runnable {
 
-  private Logger logger = Logger.getLogger(VersionChecker.class);
+  private Logger logger = LogManager.getLogger(VersionChecker.class);
   private boolean showNoUpdateMessage;
   private boolean delayCheck;
 

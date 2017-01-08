@@ -37,7 +37,7 @@ import java.util.GregorianCalendar;
  * <p>This class is implemented as a Singleton. Calling {@code SearchHelper.getInstance()}
  * will return a reference to the instance of this class.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SearchHelper {
 

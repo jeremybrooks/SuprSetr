@@ -19,7 +19,8 @@
 
 package net.jeremybrooks.suprsetr.utils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Closeable;
 import java.io.OutputStream;
@@ -29,7 +30,7 @@ import java.io.Writer;
  * @author Jeremy Brooks
  */
 public class IOUtil {
-  private static Logger logger = Logger.getLogger(IOUtil.class);
+  private static Logger logger = LogManager.getLogger(IOUtil.class);
 
   public IOUtil() {
   }

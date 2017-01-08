@@ -24,14 +24,12 @@ import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.tutorial.Tutorial;
 import net.jeremybrooks.suprsetr.utils.NetUtil;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -42,37 +40,29 @@ import java.util.ResourceBundle;
  * <p>This class should set things up for the rest of the application, make sure
  * necessary resources are available, and then display the main window.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class Main {
 
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(Main.class);
+  private static Logger logger = LogManager.getLogger(Main.class);
 
   /**
    * The application version.
    */
-  public static String VERSION = "";
+  static String VERSION = "";
 
   /**
    * Location of SuprSetr's files.
    */
   public static File configDir;
 
-  /**
-   * Some logging properties are here.
-   */
-  private static Properties loggingProperties;
-
-  /**
-   * These are the "private" properties, such as API keys.
-   */
+  /* These are the "private" properties, such as API keys. */
   private static Properties privateProperties;
 
   private static ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.misc");
-
 
   /**
    * Main.
@@ -121,6 +111,7 @@ public class Main {
       }
     }
 
+    /*
     // LOG FILE SIZE IS STORED IN A PROPERTIES FILE, SO WE CAN GET IT
     // BEFORE THE DB IS SET UP
     loggingProperties = new Properties();
@@ -135,17 +126,19 @@ public class Main {
     // SET UP LOGGING
     Properties p = new Properties();
     p.setProperty("log4j.rootLogger", "DEBUG,FILE");
-    p.setProperty("log4j.appender.FILE", "org.apache.log4j.RollingFileAppender");
+    p.setProperty("log4j.appender.FILE", "org.apache.logging.log4j.RollingFileAppender");
     p.setProperty("log4j.appender.FILE.Threshold", "DEBUG");
-    p.setProperty("log4j.appender.FILE.layout", "org.apache.log4j.PatternLayout");
+    p.setProperty("log4j.appender.FILE.layout", "org.apache.logging.log4j.PatternLayout");
     p.setProperty("log4j.appender.FILE.layout.ConversionPattern", "%p %c [%t] %d{ISO8601} - %m%n");
     p.setProperty("log4j.appender.FILE.File", (new File(Main.configDir, "suprsetr.log")).getAbsolutePath());
     p.setProperty("log4j.appender.FILE.MaxFileSize", loggingProperties.getProperty("size"));
     p.setProperty("log4j.appender.FILE.MaxBackupIndex", loggingProperties.getProperty("index"));
 
     PropertyConfigurator.configure(p);
+*/
 
-    logger.info("Logging configuration: " + p);
+//    logger.info("Logging configuration: " + p);
+    // log4j2 will find its configuration file in the classpath and configure itself
     logger.info("SuprSetr version " + Main.VERSION + " starting with Java version " + System.getProperty("java.version") +
         " in " + System.getProperty("java.home"));
 
@@ -230,8 +223,13 @@ public class Main {
     if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER) == null) {
       LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER, SSConstants.LIST_SORT_ATOZ);
     }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_DETAIL_LOG, DAOHelper.booleanToString(false));
+    }
+
 
     JinxFactory.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));
+
     // Turn on Jinx logging if needed
     if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG))) {
       JinxFactory.getInstance().setLogger(new MyJinxLogger());
@@ -257,14 +255,11 @@ public class Main {
 
     try {
       // Finally, show the main window
-      java.awt.EventQueue.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          MainWindow main = new MainWindow();
-          main.setVisible(true);
-          main.doAuth();
-          main.executeLoadFlickrSetsWorker();
-        }
+      java.awt.EventQueue.invokeLater(() -> {
+        MainWindow main = new MainWindow();
+        main.setVisible(true);
+        main.doAuth();
+        main.executeLoadFlickrSetsWorker();
       });
     } catch (Throwable t) {
       System.out.println("A fatal error has occurred.");
@@ -282,18 +277,6 @@ public class Main {
     if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE))) {
       (new Thread(new VersionChecker(), "VersionCheckerThread")).start();
     }
-  }
-
-  static void storeLoggingProperties() {
-    try (FileOutputStream out = new FileOutputStream(new File(Main.configDir, "log.properties"))) {
-      loggingProperties.store(out, "SuprSetr logging properties");
-    } catch (Exception e) {
-      logger.warn("Error saving logging properties.");
-    }
-  }
-
-  static Properties getLoggingProperties() {
-    return Main.loggingProperties;
   }
 
   public static String getPrivateProperty(String key) {

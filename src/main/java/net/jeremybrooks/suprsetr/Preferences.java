@@ -28,7 +28,8 @@ import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
 import net.jeremybrooks.suprsetr.utils.NetUtil;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.DefaultComboBoxModel;
@@ -51,7 +52,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -65,7 +65,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class Preferences extends javax.swing.JDialog {
 
@@ -73,7 +73,7 @@ public class Preferences extends javax.swing.JDialog {
   /**
    * Logging.
    */
-  private Logger logger = Logger.getLogger(Preferences.class);
+  private Logger logger = LogManager.getLogger(Preferences.class);
 
   /**
    * Constant defining the options tab panel.
@@ -150,11 +150,6 @@ public class Preferences extends javax.swing.JDialog {
         NetUtil.clearProxy();
       }
 
-      // save logging properties
-      Main.getLoggingProperties().setProperty("size", this.cmbLogSize.getSelectedItem().toString());
-      Main.getLoggingProperties().setProperty("index", this.cmbLogIndex.getSelectedItem().toString());
-      Main.storeLoggingProperties();
-
       if (this.refreshList) {
         SimpleCache.getInstance().invalidateAll();
         try {
@@ -227,8 +222,6 @@ public class Preferences extends javax.swing.JDialog {
     }
 
     this.cbxDetailLog.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG)));
-    this.cmbLogSize.setSelectedItem(Main.getLoggingProperties().getProperty("size"));
-    this.cmbLogIndex.setSelectedItem(Main.getLoggingProperties().getProperty("index"));
 
     // The value "0" indicates a special selection for interval, so set accordingly
     String interval = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL);
@@ -291,11 +284,6 @@ public class Preferences extends javax.swing.JDialog {
     lblRefreshSuffix = new JLabel();
     cbxUpdate = new JCheckBox();
     cbxDetailLog = new JCheckBox();
-    lblLogFile = new JLabel();
-    cmbLogSize = new JComboBox<>();
-    lblRetain = new JLabel();
-    cmbLogIndex = new JComboBox<>();
-    lblNote = new JLabel();
     pnlFavrTagr = new JPanel();
     lblFavrPrefix = new JLabel();
     cmbFavr = new JComboBox<>();
@@ -357,12 +345,12 @@ public class Preferences extends javax.swing.JDialog {
         lblRefreshPrefix.setText(bundle.getString("Preferences.lblRefreshPrefix.text"));
 
         //---- cmbRefresh ----
-        cmbRefresh.setModel(new DefaultComboBoxModel<>(new String[]{
-            "6",
-            "12",
-            "24",
-            "48",
-            "72"
+        cmbRefresh.setModel(new DefaultComboBoxModel<>(new String[] {
+          "6",
+          "12",
+          "24",
+          "48",
+          "72"
         }));
         cmbRefresh.addActionListener(e -> cmbRefreshActionPerformed(e));
 
@@ -378,87 +366,41 @@ public class Preferences extends javax.swing.JDialog {
         cbxDetailLog.setToolTipText(bundle.getString("Preferences.cbxDetailLog.toolTipText"));
         cbxDetailLog.addActionListener(e -> cbxDetailLogActionPerformed(e));
 
-        //---- lblLogFile ----
-        lblLogFile.setText(bundle.getString("Preferences.lblLogFile.text"));
-
-        //---- cmbLogSize ----
-        cmbLogSize.setModel(new DefaultComboBoxModel<>(new String[]{
-            "1MB",
-            "5MB",
-            "10MB"
-        }));
-
-        //---- lblRetain ----
-        lblRetain.setText(bundle.getString("Preferences.lblRetain.text"));
-
-        //---- cmbLogIndex ----
-        cmbLogIndex.setModel(new DefaultComboBoxModel<>(new String[]{
-            "2",
-            "5",
-            "10"
-        }));
-
-        //---- lblNote ----
-        lblNote.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
-        lblNote.setText(bundle.getString("Preferences.lblNote.text"));
-
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup()
+          jPanel1Layout.createParallelGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+              .addGroup(jPanel1Layout.createParallelGroup()
+                .addComponent(cbxAddVia)
+                .addComponent(cbxUpdate)
+                .addComponent(cbxAddManaged)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGroup(jPanel1Layout.createParallelGroup()
-                        .addComponent(cbxAddVia)
-                        .addComponent(cbxUpdate)
-                        .addComponent(cbxAddManaged)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(9, 9, 9)
-                            .addComponent(lblRefreshPrefix)
-                            .addGap(10, 10, 10)
-                            .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(lblRefreshSuffix))
-                        .addComponent(cbxDetailLog)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(8, 8, 8)
-                            .addGroup(jPanel1Layout.createParallelGroup()
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup()
-                                        .addComponent(lblLogFile)
-                                        .addComponent(lblRetain))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel1Layout.createParallelGroup()
-                                        .addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(lblNote))))
-                    .addContainerGap(106, Short.MAX_VALUE))
+                  .addGap(9, 9, 9)
+                  .addComponent(lblRefreshPrefix)
+                  .addGap(10, 10, 10)
+                  .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                  .addComponent(lblRefreshSuffix))
+                .addComponent(cbxDetailLog))
+              .addContainerGap(252, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup()
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addComponent(cbxAddVia)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(cbxAddManaged)
-                    .addGap(7, 7, 7)
-                    .addComponent(cbxUpdate)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblRefreshPrefix)
-                        .addComponent(lblRefreshSuffix)
-                        .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGap(50, 50, 50)
-                    .addComponent(cbxDetailLog)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblLogFile)
-                        .addComponent(cmbLogSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblRetain)
-                        .addComponent(cmbLogIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                    .addComponent(lblNote)
-                    .addContainerGap())
+          jPanel1Layout.createParallelGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+              .addComponent(cbxAddVia)
+              .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+              .addComponent(cbxAddManaged)
+              .addGap(7, 7, 7)
+              .addComponent(cbxUpdate)
+              .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+              .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblRefreshPrefix)
+                .addComponent(lblRefreshSuffix)
+                .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+              .addGap(50, 50, 50)
+              .addComponent(cbxDetailLog)
+              .addContainerGap(139, Short.MAX_VALUE))
         );
       }
       jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
@@ -472,12 +414,12 @@ public class Preferences extends javax.swing.JDialog {
         pnlFavrTagr.add(lblFavrPrefix);
 
         //---- cmbFavr ----
-        cmbFavr.setModel(new DefaultComboBoxModel<>(new String[]{
-            "every 10 favorites",
-            "every 25 favorites",
-            "every 100 favorites",
-            "every 10 favorites up to 100, then every 100 favorites",
-            "only 10, 25, 50, and 100 favorites"
+        cmbFavr.setModel(new DefaultComboBoxModel<>(new String[] {
+          "every 10 favorites",
+          "every 25 favorites",
+          "every 100 favorites",
+          "every 10 favorites up to 100, then every 100 favorites",
+          "only 10, 25, 50, and 100 favorites"
         }));
         cmbFavr.addActionListener(e -> cmbFavrActionPerformed(e));
         pnlFavrTagr.add(cmbFavr);
@@ -492,23 +434,23 @@ public class Preferences extends javax.swing.JDialog {
         {
           pnlFlickr.setBorder(new TitledBorder(bundle.getString("Preferences.pnlFlickr.border")));
           pnlFlickr.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlFlickr.getLayout()).columnWidths = new int[]{0, 0};
-          ((GridBagLayout) pnlFlickr.getLayout()).rowHeights = new int[]{0, 0, 0};
-          ((GridBagLayout) pnlFlickr.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
-          ((GridBagLayout) pnlFlickr.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlFlickr.getLayout()).columnWidths = new int[] {0, 0};
+          ((GridBagLayout)pnlFlickr.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlFlickr.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+          ((GridBagLayout)pnlFlickr.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
           //---- lblFlickrStatus ----
           lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
           pnlFlickr.add(lblFlickrStatus, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
 
           //---- btnFlickr ----
           btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
           btnFlickr.addActionListener(e -> btnFlickrActionPerformed(e));
           pnlFlickr.add(btnFlickr, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         pnlAuthorizations.add(pnlFlickr);
 
@@ -516,26 +458,26 @@ public class Preferences extends javax.swing.JDialog {
         {
           pnlTwitter.setBorder(new TitledBorder(bundle.getString("Preferences.pnlTwitter.border")));
           pnlTwitter.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlTwitter.getLayout()).columnWidths = new int[]{0, 0, 0};
-          ((GridBagLayout) pnlTwitter.getLayout()).rowHeights = new int[]{0, 0, 0};
-          ((GridBagLayout) pnlTwitter.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlTwitter.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTwitter.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlTwitter.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlTwitter.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTwitter.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
           //---- lblTwitterStatus ----
           lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
           pnlTwitter.add(lblTwitterStatus, new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
           pnlTwitter.add(lblMessage, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- btnTwitter ----
           btnTwitter.setText(bundle.getString("Preferences.btnTwitter.text"));
           btnTwitter.addActionListener(e -> btnTwitterActionPerformed(e));
           pnlTwitter.add(btnTwitter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         pnlAuthorizations.add(pnlTwitter);
       }
@@ -545,104 +487,104 @@ public class Preferences extends javax.swing.JDialog {
       {
         pnlProxy.setBorder(new TitledBorder(bundle.getString("Preferences.pnlProxy.border")));
         pnlProxy.setLayout(new GridBagLayout());
-        ((GridBagLayout) pnlProxy.getLayout()).columnWidths = new int[]{0, 0, 0};
-        ((GridBagLayout) pnlProxy.getLayout()).rowHeights = new int[]{0, 0, 0};
-        ((GridBagLayout) pnlProxy.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-        ((GridBagLayout) pnlProxy.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)pnlProxy.getLayout()).columnWidths = new int[] {0, 0, 0};
+        ((GridBagLayout)pnlProxy.getLayout()).rowHeights = new int[] {0, 0, 0};
+        ((GridBagLayout)pnlProxy.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)pnlProxy.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
         //---- cbxProxy ----
         cbxProxy.setText(bundle.getString("Preferences.cbxProxy.text"));
         cbxProxy.addActionListener(e -> cbxProxyActionPerformed(e));
         pnlProxy.add(cbxProxy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-            new Insets(0, 0, 5, 0), 0, 0));
+          GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+          new Insets(0, 0, 5, 0), 0, 0));
 
         //======== panel2 ========
         {
           panel2.setLayout(new GridBagLayout());
-          ((GridBagLayout) panel2.getLayout()).columnWidths = new int[]{0, 0, 0};
-          ((GridBagLayout) panel2.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
-          ((GridBagLayout) panel2.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) panel2.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
           //---- lblHost ----
           lblHost.setText(bundle.getString("Preferences.lblHost.text"));
           panel2.add(lblHost, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
           panel2.add(txtProxyHost, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- lblPort ----
           lblPort.setText(bundle.getString("Preferences.lblPort.text"));
           panel2.add(lblPort, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
           panel2.add(txtProxyPort, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- lblUsername ----
           lblUsername.setText(bundle.getString("Preferences.lblUsername.text"));
           panel2.add(lblUsername, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
           panel2.add(txtProxyUser, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- lblPassword ----
           lblPassword.setText(bundle.getString("Preferences.lblPassword.text"));
           panel2.add(lblPassword, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- txtProxyPass ----
           txtProxyPass.setToolTipText(bundle.getString("Preferences.txtProxyPass.toolTipText"));
           panel2.add(txtProxyPass, new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
-        }
-        pnlProxy.add(panel2, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
+        }
+        pnlProxy.add(panel2, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 0, 0), 0, 0));
       }
       jTabbedPane1.addTab(bundle.getString("Preferences.pnlProxy.tab.title"), pnlProxy);
 
       //======== pnlAutoRefresh ========
       {
         pnlAutoRefresh.setLayout(new GridBagLayout());
-        ((GridBagLayout) pnlAutoRefresh.getLayout()).columnWidths = new int[]{0, 0, 0};
-        ((GridBagLayout) pnlAutoRefresh.getLayout()).rowHeights = new int[]{0, 0, 0, 0};
-        ((GridBagLayout) pnlAutoRefresh.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-        ((GridBagLayout) pnlAutoRefresh.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)pnlAutoRefresh.getLayout()).columnWidths = new int[] {0, 0, 0};
+        ((GridBagLayout)pnlAutoRefresh.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)pnlAutoRefresh.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)pnlAutoRefresh.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
         //---- cbxAutoRefresh ----
         cbxAutoRefresh.setText(bundle.getString("Preferences.cbxAutoRefresh.text"));
         cbxAutoRefresh.addActionListener(e -> cbxAutoRefreshActionPerformed());
         pnlAutoRefresh.add(cbxAutoRefresh, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 5), 0, 0));
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
 
         //---- cbxExitAfter ----
         cbxExitAfter.setText(bundle.getString("Preferences.cbxExitAfter.text"));
         pnlAutoRefresh.add(cbxExitAfter, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 5), 0, 0));
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
 
         //---- label1 ----
         label1.setText(bundle.getString("Preferences.label1.text"));
         pnlAutoRefresh.add(label1, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-            new Insets(0, 0, 0, 5), 0, 0));
+          GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+          new Insets(0, 0, 0, 5), 0, 0));
 
         //---- timeSpinner ----
         timeSpinner.setModel(new SpinnerDateModel(autoRefreshDate, null, null, Calendar.MINUTE));
         timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
         pnlAutoRefresh.add(timeSpinner, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 0, 0), 0, 0));
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 0, 0), 0, 0));
       }
       jTabbedPane1.addTab(bundle.getString("Preferences.pnlAutoRefresh.tab.title"), pnlAutoRefresh);
     }
@@ -836,11 +778,6 @@ public class Preferences extends javax.swing.JDialog {
   private JLabel lblRefreshSuffix;
   private JCheckBox cbxUpdate;
   private JCheckBox cbxDetailLog;
-  private JLabel lblLogFile;
-  private JComboBox<String> cmbLogSize;
-  private JLabel lblRetain;
-  private JComboBox<String> cmbLogIndex;
-  private JLabel lblNote;
   private JPanel pnlFavrTagr;
   private JLabel lblFavrPrefix;
   private JComboBox<String> cmbFavr;

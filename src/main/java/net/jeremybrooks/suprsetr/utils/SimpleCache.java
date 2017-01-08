@@ -36,7 +36,7 @@ import java.util.Map;
  * for example by a refresh, the SetListCell in the cache will be marked as
  * invalid.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SimpleCache {
 

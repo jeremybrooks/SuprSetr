@@ -19,10 +19,10 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.*;
 import net.jeremybrooks.suprsetr.workers.OrderSetsWorker;
 import net.jeremybrooks.suprsetr.workers.SetOrdererDTOListWorker;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -43,6 +43,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -54,12 +55,12 @@ import java.util.ResourceBundle;
  *
  * <p>The user can drag and drop the sets in the list.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SetOrderer extends javax.swing.JDialog {
 
   private static final long serialVersionUID = -8987356410180796854L;
-  private Logger logger = Logger.getLogger(SetOrderer.class);
+  private Logger logger = LogManager.getLogger(SetOrderer.class);
 
   private DefaultListModel<SetOrdererDTO> listModel;
 
@@ -287,7 +288,9 @@ public class SetOrderer extends javax.swing.JDialog {
   /**
    * Sort the list alphabetically by title.
    */
-  class AlphaAscending implements Comparator<SetOrdererDTO> {
+  class AlphaAscending implements Comparator<SetOrdererDTO>, Serializable {
+
+    private static final long serialVersionUID = -7403145864736423464L;
 
     /**
      * Compares its two arguments for order.
@@ -305,7 +308,9 @@ public class SetOrderer extends javax.swing.JDialog {
   /**
    * Sort the list reverse-alphabetically by title.
    */
-  class AlphaDescending implements Comparator<SetOrdererDTO> {
+  class AlphaDescending implements Comparator<SetOrdererDTO>, Serializable {
+
+    private static final long serialVersionUID = 1132663312078002723L;
 
     /**
      * Compares its two arguments for order.
@@ -323,7 +328,9 @@ public class SetOrderer extends javax.swing.JDialog {
   /**
    * Sort the list by number of photos from high to low.
    */
-  class CountHighToLow implements Comparator<SetOrdererDTO> {
+  class CountHighToLow implements Comparator<SetOrdererDTO>, Serializable {
+
+    private static final long serialVersionUID = -7208888297992426646L;
 
     /**
      * Compares its two arguments for order.
@@ -346,7 +353,9 @@ public class SetOrderer extends javax.swing.JDialog {
   /**
    * Sort the list by number of photos from low to high.
    */
-  class CountLowToHigh implements Comparator<SetOrdererDTO> {
+  class CountLowToHigh implements Comparator<SetOrdererDTO>, Serializable {
+
+    private static final long serialVersionUID = -8559282815270125576L;
 
     /**
      * Compares its two arguments for order.
@@ -363,7 +372,9 @@ public class SetOrderer extends javax.swing.JDialog {
     }
   }
 
-  class ViewsHighToLow implements Comparator<SetOrdererDTO> {
+  class ViewsHighToLow implements Comparator<SetOrdererDTO>, Serializable {
+    private static final long serialVersionUID = 312216680968178328L;
+
     @Override
     public int compare(SetOrdererDTO o1, SetOrdererDTO o2) {
       if (o1.getViewCount() == o2.getViewCount()) {
@@ -374,7 +385,9 @@ public class SetOrderer extends javax.swing.JDialog {
     }
   }
 
-  class ViewsLowToHigh implements Comparator<SetOrdererDTO> {
+  class ViewsLowToHigh implements Comparator<SetOrdererDTO>, Serializable {
+    private static final long serialVersionUID = 8977498108185209791L;
+
     @Override
     public int compare(SetOrdererDTO o1, SetOrdererDTO o2) {
       if (o1.getViewCount() == o2.getViewCount()) {

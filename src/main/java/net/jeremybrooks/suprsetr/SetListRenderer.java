@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 /**
  * Custom renderer for the List of sets on the main window.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SetListRenderer implements ListCellRenderer {
 

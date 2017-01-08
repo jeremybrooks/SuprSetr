@@ -30,7 +30,8 @@ import net.jeremybrooks.jinx.api.PhotosetsApi;
 import net.jeremybrooks.jinx.logger.JinxLogger;
 import net.jeremybrooks.jinx.logger.LogInterface;
 import net.jeremybrooks.jinx.response.photos.Photo;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.scribe.model.Token;
 
 /**
@@ -44,7 +45,7 @@ public class JinxFactory {
   private OAuthApi oAuthApi;
   private PhotosetsApi photosetsApi;
 
-  private Logger logger = Logger.getLogger(JinxFactory.class);
+  private Logger logger = LogManager.getLogger(JinxFactory.class);
 
   private JinxFactory() {
   }

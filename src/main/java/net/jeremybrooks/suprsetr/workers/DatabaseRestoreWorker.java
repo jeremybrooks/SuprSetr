@@ -24,7 +24,8 @@ package net.jeremybrooks.suprsetr.workers;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.MainWindow;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -48,14 +49,14 @@ import java.util.ResourceBundle;
  * BlockerPanel class is used to prevent the user from accessing the GUI during
  * the operation, and to provide the user with feedback.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class DatabaseRestoreWorker extends SwingWorker<Void, Void> {
 
 	/**
 	 * Logging.
 	 */
-	private Logger logger = Logger.getLogger(DatabaseRestoreWorker.class);
+	private Logger logger = LogManager.getLogger(DatabaseRestoreWorker.class);
 
 	/**
 	 * The blocker instance used to provide user with feedback.

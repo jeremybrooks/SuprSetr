@@ -21,7 +21,8 @@ package net.jeremybrooks.suprsetr.dao;
 
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.SSPhotoset;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,14 +35,14 @@ import java.util.List;
 /**
  * Methods to access the Photoset table.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class PhotosetDAO {
 
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(PhotosetDAO.class);
+  private static Logger logger = LogManager.getLogger(PhotosetDAO.class);
 
   /**
    * SQL to insert a new record.

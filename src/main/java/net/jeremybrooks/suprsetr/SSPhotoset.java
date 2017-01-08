@@ -36,7 +36,7 @@ import java.util.StringTokenizer;
  * refresh, and display a summary of a photoset. The data in here is saved to
  * the database, and these classes can be created from that data.</p>
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class SSPhotoset {
 

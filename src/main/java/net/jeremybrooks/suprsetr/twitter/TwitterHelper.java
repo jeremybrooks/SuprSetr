@@ -23,28 +23,29 @@ import net.jeremybrooks.suprsetr.Main;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.util.ResourceBundle;
 
 
 /**
  * This is a wrapper around the Twitter API library.
  *
- * @author jeremyb
+ * @author Jeremy Brooks
  */
 public class TwitterHelper {
 
   /**
    * Logging.
    */
-  private static Logger logger = Logger.getLogger(TwitterHelper.class);
+  private static Logger logger = LogManager.getLogger(TwitterHelper.class);
 
   private static TwitterFactory twitterFactory = new TwitterFactory();
   private static Twitter twitter;
