@@ -13,30 +13,53 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": new FormMessage( null, "Preferences.this.title" )
-			"$sizePolicy": 1
 			"$locationPolicy": 1
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
 				"toolTipText": new FormMessage( null, "Preferences.jTabbedPane1.toolTipText" )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {comp cbxAddVia::l:p::p, comp cbxUpdate::l:p::p, comp cbxAddManaged::l:p::p, seq l {space :p:9:p, comp lblRefreshPrefix:::p::p, space :p:10:p, comp cmbRefresh:::p::p, space u:::p, comp lblRefreshSuffix:::p::p}, comp cbxDetailLog::l:p::p}, space ::252:x}}"
-					"$verticalGroup": "par l {seq l {comp cbxAddVia:::p::p, space u:::p, comp cbxAddManaged:::p::p, space :p:7:p, comp cbxUpdate:::p::p, space u:::p, par b {comp lblRefreshPrefix::b:p::p, comp lblRefreshSuffix::b:p::p, comp cmbRefresh::b:p::p}, space :p:50:p, comp cbxDetailLog:::p::p, space ::139:x}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0, 0, 0"
+					"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
 				} ) {
 					name: "jPanel1"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxAddVia"
 						"text": new FormMessage( null, "Preferences.cbxAddVia.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAddViaActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridwidth": 3
+						"insets": new java.awt.Insets( 5, 5, 0, 0 )
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxAddManaged"
 						"text": new FormMessage( null, "Preferences.cbxAddManaged.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAddManagedActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+						"gridwidth": 3
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxUpdate"
+						"text": new FormMessage( null, "Preferences.cbxUpdate.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxUpdateActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 3
+						"gridwidth": 2
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblRefreshPrefix"
 						"text": new FormMessage( null, "Preferences.lblRefreshPrefix.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 5
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
+						"hAlign": 4
 					} )
 					add( new FormComponent( "javax.swing.JComboBox" ) {
 						name: "cmbRefresh"
@@ -49,30 +72,45 @@ new FormModel {
 							addElement( "72" )
 						}
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbRefreshActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 5
+						"hAlign": 2
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblRefreshSuffix"
 						"text": new FormMessage( null, "Preferences.lblRefreshSuffix.text" )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "cbxUpdate"
-						"text": new FormMessage( null, "Preferences.cbxUpdate.text" )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxUpdateActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+						"gridy": 5
+						"hAlign": 2
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxDetailLog"
 						"text": new FormMessage( null, "Preferences.cbxDetailLog.text" )
 						"toolTipText": new FormMessage( null, "Preferences.cbxDetailLog.toolTipText" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxDetailLogActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 7
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.jPanel1.tab.title" )
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0, 0"
+					"$rowSpecs": "0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
+				} ) {
 					name: "pnlFavrTagr"
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "lblFavrPrefix"
 						"text": new FormMessage( null, "Preferences.lblFavrPrefix.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"insets": new java.awt.Insets( 5, 5, 0, 0 )
 					} )
 					add( new FormComponent( "javax.swing.JComboBox" ) {
 						name: "cmbFavr"
@@ -85,6 +123,10 @@ new FormModel {
 							addElement( "only 10, 25, 50, and 100 favorites" )
 						}
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbFavrActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"weightx": 1.0
+						"insets": new java.awt.Insets( 5, 0, 0, 5 )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "FavrTagr"
@@ -258,12 +300,15 @@ new FormModel {
 						name: "cbxAutoRefresh"
 						"text": new FormMessage( null, "Preferences.cbxAutoRefresh.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAutoRefreshActionPerformed", false ) )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"insets": new java.awt.Insets( 5, 5, 0, 0 )
+					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxExitAfter"
 						"text": new FormMessage( null, "Preferences.cbxExitAfter.text" )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 1
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label1"

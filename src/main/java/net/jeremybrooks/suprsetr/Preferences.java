@@ -33,7 +33,6 @@ import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -45,7 +44,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
 import javax.swing.SpinnerDateModel;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
@@ -279,10 +277,10 @@ public class Preferences extends javax.swing.JDialog {
     jPanel1 = new JPanel();
     cbxAddVia = new JCheckBox();
     cbxAddManaged = new JCheckBox();
+    cbxUpdate = new JCheckBox();
     lblRefreshPrefix = new JLabel();
     cmbRefresh = new JComboBox<>();
     lblRefreshSuffix = new JLabel();
-    cbxUpdate = new JCheckBox();
     cbxDetailLog = new JCheckBox();
     pnlFavrTagr = new JPanel();
     lblFavrPrefix = new JLabel();
@@ -332,17 +330,38 @@ public class Preferences extends javax.swing.JDialog {
 
       //======== jPanel1 ========
       {
+        jPanel1.setLayout(new GridBagLayout());
+        ((GridBagLayout)jPanel1.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)jPanel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)jPanel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)jPanel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- cbxAddVia ----
         cbxAddVia.setText(bundle.getString("Preferences.cbxAddVia.text"));
         cbxAddVia.addActionListener(e -> cbxAddViaActionPerformed(e));
+        jPanel1.add(cbxAddVia, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(5, 5, 5, 0), 0, 0));
 
         //---- cbxAddManaged ----
         cbxAddManaged.setText(bundle.getString("Preferences.cbxAddManaged.text"));
         cbxAddManaged.addActionListener(e -> cbxAddManagedActionPerformed(e));
+        jPanel1.add(cbxAddManaged, new GridBagConstraints(0, 1, 3, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 5, 5, 0), 0, 0));
+
+        //---- cbxUpdate ----
+        cbxUpdate.setText(bundle.getString("Preferences.cbxUpdate.text"));
+        cbxUpdate.addActionListener(e -> cbxUpdateActionPerformed(e));
+        jPanel1.add(cbxUpdate, new GridBagConstraints(0, 3, 2, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 5, 5, 5), 0, 0));
 
         //---- lblRefreshPrefix ----
         lblRefreshPrefix.setText(bundle.getString("Preferences.lblRefreshPrefix.text"));
+        jPanel1.add(lblRefreshPrefix, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
+          GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+          new Insets(0, 5, 5, 5), 0, 0));
 
         //---- cmbRefresh ----
         cmbRefresh.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -353,65 +372,39 @@ public class Preferences extends javax.swing.JDialog {
           "72"
         }));
         cmbRefresh.addActionListener(e -> cmbRefreshActionPerformed(e));
+        jPanel1.add(cmbRefresh, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0,
+          GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+          new Insets(0, 0, 5, 5), 0, 0));
 
         //---- lblRefreshSuffix ----
         lblRefreshSuffix.setText(bundle.getString("Preferences.lblRefreshSuffix.text"));
-
-        //---- cbxUpdate ----
-        cbxUpdate.setText(bundle.getString("Preferences.cbxUpdate.text"));
-        cbxUpdate.addActionListener(e -> cbxUpdateActionPerformed(e));
+        jPanel1.add(lblRefreshSuffix, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0,
+          GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+          new Insets(0, 0, 5, 0), 0, 0));
 
         //---- cbxDetailLog ----
         cbxDetailLog.setText(bundle.getString("Preferences.cbxDetailLog.text"));
         cbxDetailLog.setToolTipText(bundle.getString("Preferences.cbxDetailLog.toolTipText"));
         cbxDetailLog.addActionListener(e -> cbxDetailLogActionPerformed(e));
-
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-          jPanel1Layout.createParallelGroup()
-            .addGroup(jPanel1Layout.createSequentialGroup()
-              .addGroup(jPanel1Layout.createParallelGroup()
-                .addComponent(cbxAddVia)
-                .addComponent(cbxUpdate)
-                .addComponent(cbxAddManaged)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addGap(9, 9, 9)
-                  .addComponent(lblRefreshPrefix)
-                  .addGap(10, 10, 10)
-                  .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                  .addComponent(lblRefreshSuffix))
-                .addComponent(cbxDetailLog))
-              .addContainerGap(252, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-          jPanel1Layout.createParallelGroup()
-            .addGroup(jPanel1Layout.createSequentialGroup()
-              .addComponent(cbxAddVia)
-              .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-              .addComponent(cbxAddManaged)
-              .addGap(7, 7, 7)
-              .addComponent(cbxUpdate)
-              .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-              .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblRefreshPrefix)
-                .addComponent(lblRefreshSuffix)
-                .addComponent(cmbRefresh, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-              .addGap(50, 50, 50)
-              .addComponent(cbxDetailLog)
-              .addContainerGap(139, Short.MAX_VALUE))
-        );
+        jPanel1.add(cbxDetailLog, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 5, 0, 5), 0, 0));
       }
       jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
 
       //======== pnlFavrTagr ========
       {
-        pnlFavrTagr.setLayout(new FlowLayout());
+        pnlFavrTagr.setLayout(new GridBagLayout());
+        ((GridBagLayout)pnlFavrTagr.getLayout()).columnWidths = new int[] {0, 0, 0};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).rowHeights = new int[] {0, 0};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
         //---- lblFavrPrefix ----
         lblFavrPrefix.setText(bundle.getString("Preferences.lblFavrPrefix.text"));
-        pnlFavrTagr.add(lblFavrPrefix);
+        pnlFavrTagr.add(lblFavrPrefix, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(5, 5, 0, 5), 0, 0));
 
         //---- cmbFavr ----
         cmbFavr.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -422,7 +415,9 @@ public class Preferences extends javax.swing.JDialog {
           "only 10, 25, 50, and 100 favorites"
         }));
         cmbFavr.addActionListener(e -> cmbFavrActionPerformed(e));
-        pnlFavrTagr.add(cmbFavr);
+        pnlFavrTagr.add(cmbFavr, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(5, 0, 0, 5), 0, 0));
       }
       jTabbedPane1.addTab("FavrTagr", pnlFavrTagr);
 
@@ -565,13 +560,13 @@ public class Preferences extends javax.swing.JDialog {
         cbxAutoRefresh.addActionListener(e -> cbxAutoRefreshActionPerformed());
         pnlAutoRefresh.add(cbxAutoRefresh, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-          new Insets(0, 0, 5, 5), 0, 0));
+          new Insets(5, 5, 5, 5), 0, 0));
 
         //---- cbxExitAfter ----
         cbxExitAfter.setText(bundle.getString("Preferences.cbxExitAfter.text"));
         pnlAutoRefresh.add(cbxExitAfter, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-          new Insets(0, 0, 5, 5), 0, 0));
+          new Insets(0, 5, 5, 5), 0, 0));
 
         //---- label1 ----
         label1.setText(bundle.getString("Preferences.label1.text"));
@@ -600,7 +595,7 @@ public class Preferences extends javax.swing.JDialog {
       panel1.add(btnOK);
     }
     contentPane.add(panel1, BorderLayout.SOUTH);
-    setSize(595, 450);
+    pack();
     setLocationRelativeTo(null);
   }// </editor-fold>//GEN-END:initComponents
 
@@ -773,10 +768,10 @@ public class Preferences extends javax.swing.JDialog {
   private JPanel jPanel1;
   private JCheckBox cbxAddVia;
   private JCheckBox cbxAddManaged;
+  private JCheckBox cbxUpdate;
   private JLabel lblRefreshPrefix;
   private JComboBox<String> cmbRefresh;
   private JLabel lblRefreshSuffix;
-  private JCheckBox cbxUpdate;
   private JCheckBox cbxDetailLog;
   private JPanel pnlFavrTagr;
   private JLabel lblFavrPrefix;
