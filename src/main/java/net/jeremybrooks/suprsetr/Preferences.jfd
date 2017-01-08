@@ -98,8 +98,8 @@ new FormModel {
 					"title": new FormMessage( null, "Preferences.jPanel1.tab.title" )
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-					"$columnSpecs": "0, 0"
-					"$rowSpecs": "0"
+					"$columnSpecs": "0, 0, 0"
+					"$rowSpecs": "0, 0, 0"
 					"$hGap": 5
 					"$vGap": 5
 					"$alignTop": true
@@ -121,12 +121,37 @@ new FormModel {
 							addElement( "every 100 favorites" )
 							addElement( "every 10 favorites up to 100, then every 100 favorites" )
 							addElement( "only 10, 25, 50, and 100 favorites" )
+							addElement( "custom interval" )
 						}
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbFavrActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
 						"weightx": 1.0
-						"insets": new java.awt.Insets( 5, 0, 0, 5 )
+						"insets": new java.awt.Insets( 5, 0, 0, 0 )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblCustom"
+						"text": new FormMessage( null, "Preferences.lblCustom.text" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
+						"hAlign": 4
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtCustom"
+						"toolTipText": new FormMessage( null, "Preferences.txtCustom.toolTipText" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 1
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnCustomHelp"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/739-question-selected.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnCustomHelpActionPerformed", false ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+						"gridy": 1
+						"insets": new java.awt.Insets( 0, 0, 0, 5 )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "FavrTagr"

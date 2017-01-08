@@ -57,8 +57,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -119,7 +122,12 @@ public class Preferences extends javax.swing.JDialog {
    * options affect the state of the photosets.
    */
   private void btnOKActionPerformed(ActionEvent e) {
-    if (this.validateProxyInput()) {
+    if (!this.validateProxyInput()) {
+      JOptionPane.showMessageDialog(this,
+          resourceBundle.getString("Preferences.message.proxyErrorMsg"),
+          resourceBundle.getString("Preferences.message.proxyErrorTitle"),
+          JOptionPane.WARNING_MESSAGE);
+    } else if (this.validateCustomFavrInterval()) {
       if (this.cbxProxy.isSelected()) {
         // save proxy settings
         String host = this.txtProxyHost.getText().trim();
@@ -165,11 +173,6 @@ public class Preferences extends javax.swing.JDialog {
 
       this.setVisible(false);
       this.dispose();
-    } else {
-      JOptionPane.showMessageDialog(this,
-          resourceBundle.getString("Preferences.message.proxyErrorMsg"),
-          resourceBundle.getString("Preferences.message.proxyErrorTitle"),
-          JOptionPane.WARNING_MESSAGE);
     }
   }
 
@@ -183,13 +186,11 @@ public class Preferences extends javax.swing.JDialog {
     this.cbxExitAfter.setEnabled(cbxAutoRefresh.isSelected());
   }
 
-  private void button1ActionPerformed() {
-    logger.info("Testing twitter");
-    try {
-      TwitterHelper.updateStatus("Test tweet");
-    } catch (Exception e) {
-      logger.error("error", e);
-    }
+  private void btnCustomHelpActionPerformed() {
+    JOptionPane.showMessageDialog(this,
+        resourceBundle.getString("Preferences.customhelp.message"),
+        resourceBundle.getString("Preferences.customhelp.title"),
+        JOptionPane.INFORMATION_MESSAGE);
   }
 
 
@@ -222,26 +223,34 @@ public class Preferences extends javax.swing.JDialog {
     this.cbxDetailLog.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG)));
 
     // The value "0" indicates a special selection for interval, so set accordingly
+    // The value "c,...." indicates custom interval, so set accordingly
     String interval = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL);
-    switch (Integer.valueOf(interval)) {
-      case 10:
-        this.cmbFavr.setSelectedIndex(0);
-        break;
-      case 25:
-        this.cmbFavr.setSelectedIndex(1);
-        break;
-      case 100:
-        this.cmbFavr.setSelectedIndex(2);
-        break;
-      case 0:
-        this.cmbFavr.setSelectedIndex(3);
-        break;
-      case 4:
-        this.cmbFavr.setSelectedIndex(4);
-        break;
-      default:
-        this.cmbFavr.setSelectedIndex(0);
-        break;
+    if (interval.startsWith("c,")) {
+      this.displayCustomIntervalFields(true);
+      this.txtCustom.setText(interval.substring(2));
+      this.cmbFavr.setSelectedIndex(5);
+    } else {
+      this.displayCustomIntervalFields(false);
+      switch (Integer.valueOf(interval)) {
+        case 10:
+          this.cmbFavr.setSelectedIndex(0);
+          break;
+        case 25:
+          this.cmbFavr.setSelectedIndex(1);
+          break;
+        case 100:
+          this.cmbFavr.setSelectedIndex(2);
+          break;
+        case 0:
+          this.cmbFavr.setSelectedIndex(3);
+          break;
+        case 4:
+          this.cmbFavr.setSelectedIndex(4);
+          break;
+        default:
+          this.cmbFavr.setSelectedIndex(0);
+          break;
+      }
     }
 
     this.cbxUpdate.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE)));
@@ -285,6 +294,9 @@ public class Preferences extends javax.swing.JDialog {
     pnlFavrTagr = new JPanel();
     lblFavrPrefix = new JLabel();
     cmbFavr = new JComboBox<>();
+    lblCustom = new JLabel();
+    txtCustom = new JTextField();
+    btnCustomHelp = new JButton();
     pnlAuthorizations = new JPanel();
     pnlFlickr = new JPanel();
     lblFlickrStatus = new JLabel();
@@ -395,16 +407,16 @@ public class Preferences extends javax.swing.JDialog {
       //======== pnlFavrTagr ========
       {
         pnlFavrTagr.setLayout(new GridBagLayout());
-        ((GridBagLayout)pnlFavrTagr.getLayout()).columnWidths = new int[] {0, 0, 0};
-        ((GridBagLayout)pnlFavrTagr.getLayout()).rowHeights = new int[] {0, 0};
-        ((GridBagLayout)pnlFavrTagr.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)pnlFavrTagr.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)pnlFavrTagr.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
         //---- lblFavrPrefix ----
         lblFavrPrefix.setText(bundle.getString("Preferences.lblFavrPrefix.text"));
         pnlFavrTagr.add(lblFavrPrefix, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-          new Insets(5, 5, 0, 5), 0, 0));
+          new Insets(5, 5, 5, 5), 0, 0));
 
         //---- cmbFavr ----
         cmbFavr.setModel(new DefaultComboBoxModel<>(new String[] {
@@ -412,12 +424,32 @@ public class Preferences extends javax.swing.JDialog {
           "every 25 favorites",
           "every 100 favorites",
           "every 10 favorites up to 100, then every 100 favorites",
-          "only 10, 25, 50, and 100 favorites"
+          "only 10, 25, 50, and 100 favorites",
+          "custom interval"
         }));
         cmbFavr.addActionListener(e -> cmbFavrActionPerformed(e));
         pnlFavrTagr.add(cmbFavr, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-          new Insets(5, 0, 0, 5), 0, 0));
+          new Insets(5, 0, 5, 5), 0, 0));
+
+        //---- lblCustom ----
+        lblCustom.setText(bundle.getString("Preferences.lblCustom.text"));
+        pnlFavrTagr.add(lblCustom, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+          GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+          new Insets(0, 5, 5, 5), 0, 0));
+
+        //---- txtCustom ----
+        txtCustom.setToolTipText(bundle.getString("Preferences.txtCustom.toolTipText"));
+        pnlFavrTagr.add(txtCustom, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- btnCustomHelp ----
+        btnCustomHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+        btnCustomHelp.addActionListener(e -> btnCustomHelpActionPerformed());
+        pnlFavrTagr.add(btnCustomHelp, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
       }
       jTabbedPane1.addTab("FavrTagr", pnlFavrTagr);
 
@@ -628,6 +660,68 @@ public class Preferences extends javax.swing.JDialog {
     return true;
   }
 
+  private boolean validateCustomFavrInterval() {
+    // have not selected custom interval, so just move on
+    if (this.cmbFavr.getSelectedIndex() != 5) {
+      return true;
+    }
+
+    boolean valid = true;
+    String interval = this.txtCustom.getText().replaceAll(" ", "");
+    if (interval.isEmpty()) {
+      valid = false;
+      JOptionPane.showMessageDialog(this,
+          resourceBundle.getString("Preferences.emptyinterval.message"),
+          resourceBundle.getString("Preferences.emptyinterval.title"),
+          JOptionPane.ERROR_MESSAGE);
+    } else {
+      List<Integer> list = new ArrayList<>();
+      for (String s : interval.split(",")) {
+        try {
+          Integer count = Integer.parseInt(s);
+          // add each fave count to a list, removing duplicates
+          if (count > 0) {
+            if (!list.contains(count)) {
+              list.add(count);
+            }
+          }
+        } catch (Exception e) {
+          logger.warn("Bad content in custom interval field: " + s, e);
+          valid = false;
+        }
+      }
+      Collections.sort(list);
+      if (list.isEmpty()) {
+        valid = false;
+      }
+
+      if (valid) {
+        // create a new interval string, and check the length
+        StringBuilder sb = new StringBuilder();
+        for (Integer i : list) {
+          sb.append(i).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        String newInterval = sb.toString();
+        if (newInterval.length() > 1022) {
+          valid = false;
+          JOptionPane.showMessageDialog(this,
+              resourceBundle.getString("Preferences.intervaltoolong.message"),
+              resourceBundle.getString("Preferences.intervaltoolong.title"),
+              JOptionPane.ERROR_MESSAGE);
+        } else {
+          LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "c," + newInterval);
+        }
+      } else {
+        JOptionPane.showMessageDialog(this,
+            resourceBundle.getString("Preferences.badinterval.message"),
+            resourceBundle.getString("Preferences.badinterval.title"),
+            JOptionPane.ERROR_MESSAGE);
+      }
+    }
+    return valid;
+  }
+
 
   private void cbxUpdateActionPerformed(java.awt.event.ActionEvent evt) {
     LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE, DAOHelper.booleanToString(this.cbxUpdate.isSelected()));
@@ -636,19 +730,27 @@ public class Preferences extends javax.swing.JDialog {
   private void cmbFavrActionPerformed(java.awt.event.ActionEvent evt) {
     switch (this.cmbFavr.getSelectedIndex()) {
       case 0:
+        this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "10");
         break;
       case 1:
+        this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "25");
         break;
       case 2:
+        this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "100");
         break;
       case 3:
+        this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "0");
         break;
       case 4:
+        this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "4");
+        break;
+      case 5:
+        this.displayCustomIntervalFields(true);
         break;
       default:
         break;
@@ -753,8 +855,14 @@ public class Preferences extends javax.swing.JDialog {
 
   }
 
+  private void displayCustomIntervalFields(boolean display) {
+    this.lblCustom.setVisible(display);
+    this.txtCustom.setVisible(display);
+    this.btnCustomHelp.setVisible(display);
+  }
 
-  public void setTabIndex(int index) {
+
+   void setTabIndex(int index) {
     this.jTabbedPane1.setSelectedIndex(index);
   }
 
@@ -776,6 +884,9 @@ public class Preferences extends javax.swing.JDialog {
   private JPanel pnlFavrTagr;
   private JLabel lblFavrPrefix;
   private JComboBox<String> cmbFavr;
+  private JLabel lblCustom;
+  private JTextField txtCustom;
+  private JButton btnCustomHelp;
   private JPanel pnlAuthorizations;
   private JPanel pnlFlickr;
   private JLabel lblFlickrStatus;
