@@ -137,7 +137,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
           }
         }
         processed++;
-        if (processed % 10 == 0) {
+        if (processed % 100 == 0) {
           blocker.setTitle(resourceBundle.getString("FavDeleteWorker.blocker.title.finished") + " " + processed + "/" + total);
         }
       }
