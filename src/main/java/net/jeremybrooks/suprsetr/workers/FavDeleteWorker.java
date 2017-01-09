@@ -155,7 +155,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
   @Override
   protected void done() {
     StringBuilder message = new StringBuilder(resourceBundle.getString("FavDeleteWorker.message.removed"));
-    message.append(" ").append(this.count);
+    message.append(" ").append(this.count).append(" ");
     if (this.count == 1) {
       message.append(resourceBundle.getString("message.photo"));
     } else {
