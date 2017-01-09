@@ -13,6 +13,9 @@ Version 3.0.0
  * Added view count sort to Album Ordering Tool
  * Improved look and layout of Album Ordering Tool
  * Photosets can be sorted by the number of views on photos
+ * FavrTagr supports custom fave intervals (define in Preferences)
+ * FavrTagr will show your most favorited photo when it is finished
+
 
 Version 2.1.0
  * Added support for Machine Tags
