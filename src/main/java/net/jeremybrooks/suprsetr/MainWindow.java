@@ -987,7 +987,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  private void doFilter() {
+  public void doFilter() {
     this.doFilter(null);
   }
 

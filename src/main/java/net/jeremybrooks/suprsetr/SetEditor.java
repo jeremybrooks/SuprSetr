@@ -1085,6 +1085,7 @@ public class SetEditor extends javax.swing.JDialog {
         MainWindow.getMainWindow().updateMasterList(this.ssPhotoset.getPhotosetId());
         this.setVisible(false);
         this.dispose();
+        MainWindow.getMainWindow().doFilter();
       } catch (Exception e) {
         logger.error("Error saving set parameters to database.", e);
         JOptionPane.showMessageDialog(this,
@@ -1487,6 +1488,7 @@ public class SetEditor extends javax.swing.JDialog {
     this.txtTitle.setEnabled(this.cbxManage.isSelected());
     this.txtDescription.setEnabled(this.cbxManage.isSelected());
     this.cmbTags.setEnabled(this.cbxManage.isSelected());
+    this.cmbMachineTags.setEnabled(this.cbxManage.isSelected());
     this.txtTags.setEnabled(this.cbxManage.isSelected());
     this.cbxDateTaken.setEnabled(this.cbxManage.isSelected());
     this.dateTakenAfter.setEnabled(this.cbxManage.isSelected());
@@ -1500,6 +1502,9 @@ public class SetEditor extends javax.swing.JDialog {
     this.radioTweetUpdated.setEnabled(this.cbxManage.isSelected());
     this.txtTweet.setEnabled(this.cbxManage.isSelected());
     this.cbxLock.setEnabled(this.cbxManage.isSelected());
+    this.btnTagsHelp.setEnabled(this.cbxManage.isSelected());
+    this.btnTextHelp.setEnabled(this.cbxManage.isSelected());
+    this.btnMachineTagsHelp.setEnabled(this.cbxManage.isSelected());
 
 
     // now set things that may change if is managed
