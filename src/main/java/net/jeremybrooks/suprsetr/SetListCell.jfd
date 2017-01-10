@@ -11,7 +11,7 @@ new FormModel {
 			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
 		}
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-			"$columnSpecs": "0, 0"
+			"$columnSpecs": "0, 0, 0"
 			"$rowSpecs": "0, 0, 0"
 			"$hGap": 5
 			"$vGap": 5
@@ -22,10 +22,6 @@ new FormModel {
 			"border": new javax.swing.border.BevelBorder( 0, null, null, null, null )
 			"minimumSize": new java.awt.Dimension( 494, 81 )
 			"preferredSize": new java.awt.Dimension( 0, 81 )
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "lblTwitter"
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/twitter24.png" )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "lblPic"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/empty_set_icon.png" )
@@ -41,12 +37,19 @@ new FormModel {
 				"weightx": 1.0
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblTwitter"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1282-twitter-toolbar.png" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 2
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "lblManaged"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1040-checkmark-toolbar-selected-22x22.png" )
 				"text": new FormMessage( null, "SetListCell.lblManaged.text" )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 1
 				"gridy": 1
+				"gridwidth": 2
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "lblLastUpdate"
@@ -55,6 +58,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 1
 				"gridy": 2
+				"gridwidth": 2
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 434, 81 )

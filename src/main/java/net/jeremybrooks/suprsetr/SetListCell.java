@@ -51,7 +51,7 @@ public class SetListCell extends javax.swing.JPanel {
     ICON_REFRESH = new ImageIcon(SetListCell.class.getResource("/images/759-refresh-2-toolbar.png"));
 		ICON_ACCEPT = new ImageIcon(SetListCell.class.getResource("/images/1040-checkmark-toolbar-selected-22x22.png"));
 		ICON_UNMANAGED = new ImageIcon(SetListCell.class.getResource("/images/20-no-symbol.png"));
-		ICON_WARN = new ImageIcon(SetListCell.class.getResource("/images/warning.png"));
+		ICON_WARN = new ImageIcon(SetListCell.class.getResource("/images/791-warning-toolbar-22x22.png"));
 	}
 
 
@@ -72,9 +72,9 @@ public class SetListCell extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
     ResourceBundle bundle = this.resourceBundle;
-    lblTwitter = new JLabel();
     lblPic = new JLabel();
     lblTitle = new JLabel();
+    lblTwitter = new JLabel();
     lblManaged = new JLabel();
     lblLastUpdate = new JLabel();
 
@@ -83,16 +83,10 @@ public class SetListCell extends javax.swing.JPanel {
     setMinimumSize(new Dimension(494, 81));
     setPreferredSize(new Dimension(0, 81));
     setLayout(new GridBagLayout());
-    ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0};
+    ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0, 0};
     ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-    ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+    ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
     ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-
-    //---- lblTwitter ----
-    lblTwitter.setIcon(new ImageIcon(getClass().getResource("/images/twitter24.png")));
-    add(lblTwitter, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-      new Insets(0, 0, 5, 5), 0, 0));
 
     //---- lblPic ----
     lblPic.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
@@ -105,19 +99,25 @@ public class SetListCell extends javax.swing.JPanel {
     lblTitle.setText(bundle.getString("SetListCell.lblTitle.text"));
     add(lblTitle, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
       GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+      new Insets(0, 0, 5, 5), 0, 0));
+
+    //---- lblTwitter ----
+    lblTwitter.setIcon(new ImageIcon(getClass().getResource("/images/1282-twitter-toolbar.png")));
+    add(lblTwitter, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
       new Insets(0, 0, 5, 0), 0, 0));
 
     //---- lblManaged ----
     lblManaged.setIcon(new ImageIcon(getClass().getResource("/images/1040-checkmark-toolbar-selected-22x22.png")));
     lblManaged.setText(bundle.getString("SetListCell.lblManaged.text"));
-    add(lblManaged, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+    add(lblManaged, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
       GridBagConstraints.CENTER, GridBagConstraints.BOTH,
       new Insets(0, 0, 5, 0), 0, 0));
 
     //---- lblLastUpdate ----
     lblLastUpdate.setIcon(new ImageIcon(getClass().getResource("/images/1040-checkmark-toolbar-selected-22x22.png")));
     lblLastUpdate.setText(bundle.getString("SetListCell.lblLastUpdate.text"));
-    add(lblLastUpdate, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+    add(lblLastUpdate, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
       GridBagConstraints.CENTER, GridBagConstraints.BOTH,
       new Insets(0, 0, 0, 0), 0, 0));
 	}// </editor-fold>//GEN-END:initComponents
@@ -258,9 +258,9 @@ public class SetListCell extends javax.swing.JPanel {
 
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-  private JLabel lblTwitter;
   private JLabel lblPic;
   private JLabel lblTitle;
+  private JLabel lblTwitter;
   private JLabel lblManaged;
   private JLabel lblLastUpdate;
 	// End of variables declaration//GEN-END:variables

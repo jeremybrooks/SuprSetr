@@ -171,9 +171,11 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "lblFlickrStatus"
 							"text": new FormMessage( null, "Preferences.lblFlickrStatus.text" )
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1262-flickr-toolbar.png" )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"weightx": 1.0
 							"hAlign": 5
+							"insets": new java.awt.Insets( 0, 5, 0, 0 )
 						} )
 						add( new FormComponent( "javax.swing.JButton" ) {
 							name: "btnFlickr"
@@ -197,10 +199,12 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "lblTwitterStatus"
 							"text": new FormMessage( null, "Preferences.lblTwitterStatus.text" )
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1282-twitter-toolbar.png" )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"hAlign": 5
 							"weightx": 1.0
 							"gridwidth": 2
+							"insets": new java.awt.Insets( 0, 5, 0, 0 )
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "lblMessage"

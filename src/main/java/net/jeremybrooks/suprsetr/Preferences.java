@@ -20,6 +20,7 @@
 package net.jeremybrooks.suprsetr;
 
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -468,9 +469,10 @@ public class Preferences extends javax.swing.JDialog {
 
           //---- lblFlickrStatus ----
           lblFlickrStatus.setText(bundle.getString("Preferences.lblFlickrStatus.text"));
+          lblFlickrStatus.setIcon(new ImageIcon(getClass().getResource("/images/1262-flickr-toolbar.png")));
           pnlFlickr.add(lblFlickrStatus, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 0, 0), 0, 0));
+            new Insets(0, 5, 0, 0), 0, 0));
 
           //---- btnFlickr ----
           btnFlickr.setText(bundle.getString("Preferences.btnFlickr.text"));
@@ -492,9 +494,10 @@ public class Preferences extends javax.swing.JDialog {
 
           //---- lblTwitterStatus ----
           lblTwitterStatus.setText(bundle.getString("Preferences.lblTwitterStatus.text"));
+          lblTwitterStatus.setIcon(new ImageIcon(getClass().getResource("/images/1282-twitter-toolbar.png")));
           pnlTwitter.add(lblTwitterStatus, new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 0), 0, 0));
+            new Insets(0, 5, 5, 0), 0, 0));
           pnlTwitter.add(lblMessage, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 5), 0, 0));
