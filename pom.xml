@@ -37,6 +37,12 @@
         <name>Jeremy Brooks</name>
         <url>http://jeremybrooks.net</url>
     </organization>
+    <scm>
+        <connection>scm:git:git@github.com:jeremybrooks/suprsetr.git</connection>
+        <developerConnection>scm:git:git@github.com:jeremybrooks/suprsetr.git</developerConnection>
+        <url>git@github.com:suprsetr/suprsetr.git</url>
+        <tag>HEAD</tag>
+    </scm>
     <developers>
         <developer>
             <email>jeremyb@whirljack.net</email>
