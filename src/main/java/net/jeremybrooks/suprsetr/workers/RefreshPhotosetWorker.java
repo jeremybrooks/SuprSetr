@@ -291,7 +291,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
     try {
       String id;
       id = this.photosetList.get(0).getPhotosetId();
-      MainWindow.getMainWindow().doFilter(id);
+      MainWindow.getMainWindow().updateMasterList(id);
     } catch (Exception e) {
       logger.error("ERROR WHILE TRYING TO UPDATE LIST MODEL.", e);
       JOptionPane.showMessageDialog(null,

@@ -96,7 +96,6 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 		Photoset newSet = null;
 		Photo firstPhoto = null;
 		List<Photo> photos = null;
-//		int total = 0;
 
 		// TO CREATE A SET, WE NEED PHOTOS
 		// SO GET SEARCH RESULTS FOR THE PARAMETERS

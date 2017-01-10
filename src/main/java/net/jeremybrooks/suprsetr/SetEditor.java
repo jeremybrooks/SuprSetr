@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.response.Response;
@@ -394,10 +395,10 @@ public class SetEditor extends javax.swing.JDialog {
         {
           pnlTitle.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTitle.border")));
           pnlTitle.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlTitle.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
-          ((GridBagLayout) pnlTitle.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-          ((GridBagLayout) pnlTitle.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlTitle.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTitle.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)pnlTitle.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+          ((GridBagLayout)pnlTitle.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTitle.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
           //---- lblIcon ----
           lblIcon.setIcon(new ImageIcon(getClass().getResource("/images/empty_set_icon.png")));
@@ -409,36 +410,36 @@ public class SetEditor extends javax.swing.JDialog {
             }
           });
           pnlTitle.add(lblIcon, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
-              GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- lblMessage ----
           lblMessage.setFont(new Font("Lucida Grande", Font.BOLD, 13));
           lblMessage.setForeground(Color.red);
           pnlTitle.add(lblMessage, new GridBagConstraints(1, 0, 2, 1, 0.0, 1.0,
-              GridBagConstraints.CENTER, GridBagConstraints.NONE,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- cbxManage ----
           cbxManage.setText(bundle.getString("SetEditor.cbxManage.text"));
           cbxManage.setToolTipText(bundle.getString("SetEditor.cbxManage.toolTipText"));
           cbxManage.addActionListener(e -> cbxManageActionPerformed());
           pnlTitle.add(cbxManage, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
-              GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- cbxLock ----
           cbxLock.setText(bundle.getString("SetEditor.cbxLock.text"));
           cbxLock.setToolTipText(bundle.getString("SetEditor.cbxLock.toolTipText"));
           pnlTitle.add(cbxLock, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.NONE,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.NONE,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- label1 ----
           label1.setText(bundle.getString("SetEditor.label1.text"));
           pnlTitle.add(label1, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- txtTitle ----
           txtTitle.setToolTipText(bundle.getString("SetEditor.txtTitle.toolTipText"));
@@ -449,14 +450,14 @@ public class SetEditor extends javax.swing.JDialog {
             }
           });
           pnlTitle.add(txtTitle, new GridBagConstraints(2, 3, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 3, 5, 8), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 3, 5, 8), 0, 0));
 
           //---- label2 ----
           label2.setText(bundle.getString("SetEditor.label2.text"));
           pnlTitle.add(label2, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
-              GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //======== jScrollPane1 ========
           {
@@ -470,8 +471,8 @@ public class SetEditor extends javax.swing.JDialog {
             jScrollPane1.setViewportView(txtDescription);
           }
           pnlTitle.add(jScrollPane1, new GridBagConstraints(2, 4, 1, 1, 1.0, 1.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 3, 0, 8), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 3, 0, 8), 0, 0));
         }
         basicPanel.add(pnlTitle);
 
@@ -479,33 +480,33 @@ public class SetEditor extends javax.swing.JDialog {
         {
           pnlTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlTags.border")));
           pnlTags.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlTags.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-          ((GridBagLayout) pnlTags.getLayout()).rowHeights = new int[]{0, 0};
-          ((GridBagLayout) pnlTags.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlTags.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+          ((GridBagLayout)pnlTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)pnlTags.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
           //---- txtTags ----
           txtTags.setToolTipText(bundle.getString("SetEditor.txtTags.toolTipText"));
           pnlTags.add(txtTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- cmbTags ----
-          cmbTags.setModel(new DefaultComboBoxModel<>(new String[]{
-              "All",
-              "Any"
+          cmbTags.setModel(new DefaultComboBoxModel<>(new String[] {
+            "All",
+            "Any"
           }));
           cmbTags.setToolTipText(bundle.getString("SetEditor.cmbTags.toolTipText"));
           pnlTags.add(cmbTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- btnTagsHelp ----
           btnTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
           btnTagsHelp.addActionListener(e -> btnTagsHelpActionPerformed());
           pnlTags.add(btnTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         basicPanel.add(pnlTags);
 
@@ -513,29 +514,29 @@ public class SetEditor extends javax.swing.JDialog {
         {
           pnlMachineTags.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlMachineTags.border")));
           pnlMachineTags.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlMachineTags.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-          ((GridBagLayout) pnlMachineTags.getLayout()).rowHeights = new int[]{0, 0};
-          ((GridBagLayout) pnlMachineTags.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlMachineTags.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+          ((GridBagLayout)pnlMachineTags.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)pnlMachineTags.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlMachineTags.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlMachineTags.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
           //---- cmbMachineTags ----
-          cmbMachineTags.setModel(new DefaultComboBoxModel<>(new String[]{
-              "All",
-              "Any"
+          cmbMachineTags.setModel(new DefaultComboBoxModel<>(new String[] {
+            "All",
+            "Any"
           }));
           pnlMachineTags.add(cmbMachineTags, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
           pnlMachineTags.add(txtMachineTags, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- btnMachineTagsHelp ----
           btnMachineTagsHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
           btnMachineTagsHelp.addActionListener(e -> btnMachineTagsHelpActionPerformed());
           pnlMachineTags.add(btnMachineTagsHelp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         basicPanel.add(pnlMachineTags);
 
@@ -543,20 +544,20 @@ public class SetEditor extends javax.swing.JDialog {
         {
           pnlText.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlText.border")));
           pnlText.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlText.getLayout()).columnWidths = new int[]{0, 0, 0};
-          ((GridBagLayout) pnlText.getLayout()).rowHeights = new int[]{0, 0};
-          ((GridBagLayout) pnlText.getLayout()).columnWeights = new double[]{1.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlText.getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
+          ((GridBagLayout)pnlText.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlText.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlText.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlText.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
           pnlText.add(txtTextSearch, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
 
           //---- btnTextHelp ----
           btnTextHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
           btnTextHelp.addActionListener(e -> btnTextHelpActionPerformed());
           pnlText.add(btnTextHelp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         basicPanel.add(pnlText);
 
@@ -568,135 +569,135 @@ public class SetEditor extends javax.swing.JDialog {
           //======== panel1 ========
           {
             panel1.setLayout(new GridBagLayout());
-            ((GridBagLayout) panel1.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
-            ((GridBagLayout) panel1.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
-            ((GridBagLayout) panel1.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout) panel1.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+            ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+            ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
             //---- cbxDateTaken ----
             cbxDateTaken.setText(bundle.getString("SetEditor.cbxDateTaken.text"));
             cbxDateTaken.setToolTipText(bundle.getString("SetEditor.cbxDateTaken.toolTipText"));
             cbxDateTaken.addActionListener(e -> cbxDateTakenActionPerformed());
             panel1.add(cbxDateTaken, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- dateTakenAfter ----
             dateTakenAfter.setToolTipText(bundle.getString("SetEditor.dateTakenAfter.toolTipText"));
             dateTakenAfter.addPropertyChangeListener(e -> dateTakenAfterPropertyChange());
             panel1.add(dateTakenAfter, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- jLabel3 ----
             jLabel3.setText(bundle.getString("SetEditor.jLabel3.text"));
             panel1.add(jLabel3, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- dateTakenBefore ----
             dateTakenBefore.setToolTipText(bundle.getString("SetEditor.dateTakenBefore.toolTipText"));
             panel1.add(dateTakenBefore, new GridBagConstraints(3, 0, 1, 1, 1.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 0), 0, 0));
 
             //---- cbxDateUploaded ----
             cbxDateUploaded.setText(bundle.getString("SetEditor.cbxDateUploaded.text"));
             cbxDateUploaded.setToolTipText(bundle.getString("SetEditor.cbxDateUploaded.toolTipText"));
             cbxDateUploaded.addActionListener(e -> cbxDateUploadedActionPerformed());
             panel1.add(cbxDateUploaded, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- dateUploadedAfter ----
             dateUploadedAfter.setToolTipText(bundle.getString("SetEditor.dateUploadedAfter.toolTipText"));
             dateUploadedAfter.addPropertyChangeListener(e -> dateUploadedAfterPropertyChange());
             panel1.add(dateUploadedAfter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- jLabel4 ----
             jLabel4.setText(bundle.getString("SetEditor.jLabel4.text"));
             panel1.add(jLabel4, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- dateUploadedBefore ----
             dateUploadedBefore.setToolTipText(bundle.getString("SetEditor.dateUploadedBefore.toolTipText"));
             panel1.add(dateUploadedBefore, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 0), 0, 0));
           }
           pnlDates.add(panel1);
 
           //======== panel2 ========
           {
             panel2.setLayout(new GridBagLayout());
-            ((GridBagLayout) panel2.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ((GridBagLayout) panel2.getLayout()).rowHeights = new int[]{0, 0, 0};
-            ((GridBagLayout) panel2.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout) panel2.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0};
+            ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
             //---- cbxOnThisDay ----
             cbxOnThisDay.setText(bundle.getString("SetEditor.cbxOnThisDay.text"));
             cbxOnThisDay.setToolTipText(bundle.getString("SetEditor.cbxOnThisDay.toolTipText"));
             cbxOnThisDay.addActionListener(e -> cbxOnThisDayActionPerformed());
             panel2.add(cbxOnThisDay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- cmbOTDMonth ----
             cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
             cmbOTDMonth.addActionListener(e -> cmbOTDMonthActionPerformed());
             cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
             panel2.add(cmbOTDMonth, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- cmbOTDDay ----
-            cmbOTDDay.setModel(new DefaultComboBoxModel<>(new String[]{
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12",
-                "13",
-                "14",
-                "15",
-                "16",
-                "17",
-                "18",
-                "19",
-                "20",
-                "21",
-                "22",
-                "23",
-                "24",
-                "25",
-                "26",
-                "27",
-                "28",
-                "29",
-                "30",
-                "31"
+            cmbOTDDay.setModel(new DefaultComboBoxModel<>(new String[] {
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24",
+              "25",
+              "26",
+              "27",
+              "28",
+              "29",
+              "30",
+              "31"
             }));
             cmbOTDDay.setToolTipText(bundle.getString("SetEditor.cmbOTDDay.toolTipText"));
             panel2.add(cmbOTDDay, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- jLabel9 ----
             jLabel9.setText(bundle.getString("SetEditor.jLabel9.text"));
             panel2.add(jLabel9, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- yearOTDStart ----
             yearOTDStart.setToolTipText(bundle.getString("SetEditor.yearOTDStart.toolTipText"));
@@ -704,29 +705,29 @@ public class SetEditor extends javax.swing.JDialog {
             yearOTDStart.setStartYear(1900);
             yearOTDStart.addPropertyChangeListener(e -> yearFromPropertyChange());
             panel2.add(yearOTDStart, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- jLabel13 ----
             jLabel13.setText(bundle.getString("SetEditor.jLabel13.text"));
             panel2.add(jLabel13, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- yearOTDEnd ----
             yearOTDEnd.setToolTipText(bundle.getString("SetEditor.yearOTDEnd.toolTipText"));
             yearOTDEnd.setMinimum(1900);
             panel2.add(yearOTDEnd, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                new Insets(0, 0, 5, 5), 0, 0));
+              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+              new Insets(0, 0, 5, 5), 0, 0));
 
             //---- cbxCurrentYear ----
             cbxCurrentYear.setText(bundle.getString("SetEditor.cbxCurrentYear.text"));
             cbxCurrentYear.setToolTipText(bundle.getString("SetEditor.cbxCurrentYear.toolTipText"));
             cbxCurrentYear.addActionListener(e -> cbxCurrentYearActionPerformed());
             panel2.add(cbxCurrentYear, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                new Insets(0, 0, 0, 5), 0, 0));
+              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+              new Insets(0, 0, 0, 5), 0, 0));
           }
           pnlDates.add(panel2);
         }
@@ -736,24 +737,24 @@ public class SetEditor extends javax.swing.JDialog {
         {
           pnlSort.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlSort.border")));
           pnlSort.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlSort.getLayout()).columnWidths = new int[]{0, 0, 0};
-          ((GridBagLayout) pnlSort.getLayout()).rowHeights = new int[]{0, 0};
-          ((GridBagLayout) pnlSort.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlSort.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+          ((GridBagLayout)pnlSort.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlSort.getLayout()).rowHeights = new int[] {0, 0};
+          ((GridBagLayout)pnlSort.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlSort.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
           //---- jLabel1 ----
           jLabel1.setText(bundle.getString("SetEditor.jLabel1.text"));
           pnlSort.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- cmbSortBy ----
           cmbSortBy.setToolTipText(bundle.getString("SetEditor.cmbSortBy.toolTipText"));
           cmbSortBy.addActionListener(e -> cmbSortByActionPerformed());
           cmbSortBy.setModel(new DefaultComboBoxModel<>(this.sortModelArray));
           pnlSort.add(cmbSortBy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         basicPanel.add(pnlSort);
       }
@@ -768,10 +769,10 @@ public class SetEditor extends javax.swing.JDialog {
         {
           pnlSocial.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlSocial.border")));
           pnlSocial.setLayout(new GridBagLayout());
-          ((GridBagLayout) pnlSocial.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-          ((GridBagLayout) pnlSocial.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
-          ((GridBagLayout) pnlSocial.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) pnlSocial.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlSocial.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)pnlSocial.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)pnlSocial.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlSocial.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
           //======== jScrollPane3 ========
           {
@@ -782,38 +783,38 @@ public class SetEditor extends javax.swing.JDialog {
             txtTweet.setWrapStyleWord(true);
             Document styledDoc = txtTweet.getDocument();
             if (styledDoc instanceof AbstractDocument) {
-              AbstractDocument doc = (AbstractDocument) styledDoc;
-              doc.setDocumentFilter(new DocumentSizeFilter(140));
+                AbstractDocument doc = (AbstractDocument)styledDoc;
+                doc.setDocumentFilter(new DocumentSizeFilter(140));
             }
             jScrollPane3.setViewportView(txtTweet);
           }
           pnlSocial.add(jScrollPane3, new GridBagConstraints(1, 0, 1, 4, 1.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- jLabel2 ----
           jLabel2.setText(bundle.getString("SetEditor.jLabel2.text"));
           pnlSocial.add(jLabel2, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- jLabel5 ----
           jLabel5.setText(bundle.getString("SetEditor.jLabel5.text"));
           pnlSocial.add(jLabel5, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- jLabel6 ----
           jLabel6.setText(bundle.getString("SetEditor.jLabel6.text"));
           pnlSocial.add(jLabel6, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- jLabel7 ----
           jLabel7.setText(bundle.getString("SetEditor.jLabel7.text"));
           pnlSocial.add(jLabel7, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
 
           //---- radioTweetNone ----
           radioTweetNone.setSelected(true);
@@ -821,24 +822,24 @@ public class SetEditor extends javax.swing.JDialog {
           radioTweetNone.setToolTipText(bundle.getString("SetEditor.radioTweetNone.toolTipText"));
           radioTweetNone.addActionListener(e -> radioTweetNoneActionPerformed());
           pnlSocial.add(radioTweetNone, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- radioTweetUpdated ----
           radioTweetUpdated.setText(bundle.getString("SetEditor.radioTweetUpdated.text"));
           radioTweetUpdated.setToolTipText(bundle.getString("SetEditor.radioTweetUpdated.toolTipText"));
           radioTweetUpdated.addActionListener(e -> radioTweetCreatedOrUpdatedActionPerformed(e));
           pnlSocial.add(radioTweetUpdated, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- radioTweetCreated ----
           radioTweetCreated.setText(bundle.getString("SetEditor.radioTweetCreated.text"));
           radioTweetCreated.setToolTipText(bundle.getString("SetEditor.radioTweetCreated.toolTipText"));
           radioTweetCreated.addActionListener(e -> radioTweetCreatedOrUpdatedActionPerformed(e));
           pnlSocial.add(radioTweetCreated, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
         }
         advancedPanel.add(pnlSocial);
 
@@ -846,36 +847,36 @@ public class SetEditor extends javax.swing.JDialog {
         {
           jPanel4.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel4.border")));
           jPanel4.setLayout(new GridBagLayout());
-          ((GridBagLayout) jPanel4.getLayout()).columnWidths = new int[]{0, 0, 0};
-          ((GridBagLayout) jPanel4.getLayout()).rowHeights = new int[]{0, 0, 0};
-          ((GridBagLayout) jPanel4.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) jPanel4.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel4.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel4.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
           //---- jLabel8 ----
           jLabel8.setText(bundle.getString("SetEditor.jLabel8.text"));
           jPanel4.add(jLabel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- cmbPrivacy ----
           cmbPrivacy.setToolTipText(bundle.getString("SetEditor.cmbPrivacy.toolTipText"));
           cmbPrivacy.setModel(new DefaultComboBoxModel<>(this.privacyModelArray));
           jPanel4.add(cmbPrivacy, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- lblSafeSearch ----
           lblSafeSearch.setText(bundle.getString("SetEditor.lblSafeSearch.text"));
           jPanel4.add(lblSafeSearch, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- cmbSafeSearch ----
           cmbSafeSearch.setToolTipText(bundle.getString("SetEditor.cmbSafeSearch.toolTipText"));
           cmbSafeSearch.setModel(new DefaultComboBoxModel<>(this.safeModelArray));
           jPanel4.add(cmbSafeSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         advancedPanel.add(jPanel4);
 
@@ -883,36 +884,36 @@ public class SetEditor extends javax.swing.JDialog {
         {
           jPanel5.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel5.border")));
           jPanel5.setLayout(new GridBagLayout());
-          ((GridBagLayout) jPanel5.getLayout()).columnWidths = new int[]{0, 0, 0};
-          ((GridBagLayout) jPanel5.getLayout()).rowHeights = new int[]{0, 0, 0};
-          ((GridBagLayout) jPanel5.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) jPanel5.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel5.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel5.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)jPanel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
           //---- jLabel10 ----
           jLabel10.setText(bundle.getString("SetEditor.jLabel10.text"));
           jPanel5.add(jLabel10, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- cmbContentType ----
           cmbContentType.setToolTipText(bundle.getString("SetEditor.cmbContentType.toolTipText"));
           cmbContentType.setModel(new DefaultComboBoxModel<>(this.contentModelArray));
           jPanel5.add(cmbContentType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- jLabel11 ----
           jLabel11.setText(bundle.getString("SetEditor.jLabel11.text"));
           jPanel5.add(jLabel11, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- cmbMediaType ----
           cmbMediaType.setToolTipText(bundle.getString("SetEditor.cmbMediaType.toolTipText"));
           cmbMediaType.setModel(new DefaultComboBoxModel<>(this.typeModelArray));
           jPanel5.add(cmbMediaType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         advancedPanel.add(jPanel5);
 
@@ -920,58 +921,58 @@ public class SetEditor extends javax.swing.JDialog {
         {
           jPanel6.setBorder(new TitledBorder(bundle.getString("SetEditor.jPanel6.border")));
           jPanel6.setLayout(new GridBagLayout());
-          ((GridBagLayout) jPanel6.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-          ((GridBagLayout) jPanel6.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-          ((GridBagLayout) jPanel6.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
-          ((GridBagLayout) jPanel6.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel6.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+          ((GridBagLayout)jPanel6.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+          ((GridBagLayout)jPanel6.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)jPanel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
           //---- jLabel12 ----
           jLabel12.setText(bundle.getString("SetEditor.jLabel12.text"));
           jPanel6.add(jLabel12, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-              GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 5), 0, 0));
+            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 5), 0, 0));
 
           //---- cmbGeotag ----
           cmbGeotag.setToolTipText(bundle.getString("SetEditor.cmbGeotag.toolTipText"));
           cmbGeotag.setModel(new DefaultComboBoxModel<>(this.geotagModelArray));
           jPanel6.add(cmbGeotag, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- cbxInGallery ----
           cbxInGallery.setText(bundle.getString("SetEditor.cbxInGallery.text"));
           cbxInGallery.setToolTipText(bundle.getString("SetEditor.cbxInGallery.toolTipText"));
           jPanel6.add(cbxInGallery, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- cbxInCommons ----
           cbxInCommons.setText(bundle.getString("SetEditor.cbxInCommons.text"));
           cbxInCommons.setToolTipText(bundle.getString("SetEditor.cbxInCommons.toolTipText"));
           jPanel6.add(cbxInCommons, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- cbxInGetty ----
           cbxInGetty.setText(bundle.getString("SetEditor.cbxInGetty.text"));
           cbxInGetty.setToolTipText(bundle.getString("SetEditor.cbxInGetty.toolTipText"));
           jPanel6.add(cbxInGetty, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 5, 0), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 5, 0), 0, 0));
 
           //---- cbxLimitSize ----
           cbxLimitSize.setText(bundle.getString("SetEditor.cbxLimitSize.text"));
           cbxLimitSize.setToolTipText(bundle.getString("SetEditor.cbxLimitSize.toolTipText"));
           cbxLimitSize.addActionListener(e -> cbxLimitSizeActionPerformed());
           jPanel6.add(cbxLimitSize, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
-              GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-              new Insets(0, 0, 0, 5), 0, 0));
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 5), 0, 0));
 
           //---- txtSetSize ----
           txtSetSize.setToolTipText(bundle.getString("SetEditor.txtSetSize.toolTipText"));
           jPanel6.add(txtSetSize, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
-              GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-              new Insets(0, 0, 0, 0), 0, 0));
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
         }
         advancedPanel.add(jPanel6);
       }
@@ -1085,7 +1086,6 @@ public class SetEditor extends javax.swing.JDialog {
         MainWindow.getMainWindow().updateMasterList(this.ssPhotoset.getPhotosetId());
         this.setVisible(false);
         this.dispose();
-        MainWindow.getMainWindow().doFilter();
       } catch (Exception e) {
         logger.error("Error saving set parameters to database.", e);
         JOptionPane.showMessageDialog(this,
