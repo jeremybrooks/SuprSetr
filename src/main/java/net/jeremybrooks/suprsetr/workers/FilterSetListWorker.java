@@ -40,37 +40,13 @@ import java.util.ResourceBundle;
  * @author Jeremy Brooks
  */
 public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
-
-  /**
-   * The blocker used for feedback.
-   */
   private BlockerPanel blocker;
-
-  /**
-   * The photoset list.
-   */
   private List<SSPhotoset> list;
-
-  /**
-   * Filter used to determine which sets to add to the list model.
-   */
   private String filter;
-
-  /**
-   * The list model.
-   */
-  private DefaultListModel listModel;
-
-  /**
-   * Flag indicating if unmanaged sets should be hidden.
-   */
-  private boolean hide;
-
-  /**
-   * Photoset to make visible after list is updated.
-   */
+  private DefaultListModel<SSPhotoset> listModel;
+  private boolean hideUnmanaged;
+  private boolean hideManaged;
   private String visiblePhotosetId;
-
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
@@ -80,15 +56,18 @@ public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
    * @param list              the list of photosets.
    * @param filter            filter used to determine which sets to add.
    * @param listModel         the list model.
-   * @param hide              hide unmanaged sets.
+   * @param hideUnmanaged     hide unmanaged sets.
+   *                          @param hideManaged hide managed sets.
    * @param visiblePhotosetId the photoset that should be visible in the list.
    */
-  public FilterSetListWorker(BlockerPanel blocker, List<SSPhotoset> list, String filter, DefaultListModel listModel, boolean hide, String visiblePhotosetId) {
+  public FilterSetListWorker(BlockerPanel blocker, List<SSPhotoset> list, String filter, DefaultListModel<SSPhotoset> listModel,
+                             boolean hideUnmanaged, boolean hideManaged, String visiblePhotosetId) {
     this.blocker = blocker;
     this.list = list;
     this.filter = filter;
     this.listModel = listModel;
-    this.hide = hide;
+    this.hideUnmanaged = hideUnmanaged;
+    this.hideManaged = hideManaged;
     this.visiblePhotosetId = visiblePhotosetId;
   }
 
@@ -106,7 +85,11 @@ public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
     int i = 1;
     for (SSPhotoset set : this.list) {
       if (filter == null || set.getTitle().toLowerCase().contains(filter)) {
-        if ((!hide) || (set.isManaged())) {
+        if (!hideUnmanaged && !hideManaged) {
+          publish(set);
+        } else if (hideUnmanaged && set.isManaged()) {
+          publish(set);
+        } else if (hideManaged && !set.isManaged()) {
           publish(set);
         }
       }

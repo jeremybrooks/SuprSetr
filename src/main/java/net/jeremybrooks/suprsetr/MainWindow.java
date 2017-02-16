@@ -121,6 +121,8 @@ public class MainWindow extends javax.swing.JFrame {
     this.doOpenInBrowserAction();
   }
 
+
+
   public MainWindow() {
     initComponents();
 
@@ -144,6 +146,7 @@ public class MainWindow extends javax.swing.JFrame {
     this.updateStatusBar();
 
     this.mnuHideUnmanaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED)));
+    this.mnuHideManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_MANAGED)));
     this.mnuCaseSensitive.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE)));
 
     try {
@@ -198,6 +201,7 @@ public class MainWindow extends javax.swing.JFrame {
     mnuPreferences = new JMenuItem();
     mnuView = new JMenu();
     mnuHideUnmanaged = new JCheckBoxMenuItem();
+    mnuHideManaged = new JCheckBoxMenuItem();
     mnuCaseSensitive = new JCheckBoxMenuItem();
     mnuOrderAlpha = new JRadioButtonMenuItem();
     mnuOrderAlphaDesc = new JRadioButtonMenuItem();
@@ -330,6 +334,12 @@ public class MainWindow extends javax.swing.JFrame {
         mnuHideUnmanaged.setText(bundle.getString("MainWindow.mnuHideUnmanaged.text"));
         mnuHideUnmanaged.addActionListener(e -> mnuHideUnmanagedActionPerformed());
         mnuView.add(mnuHideUnmanaged);
+
+        //---- mnuHideManaged ----
+        mnuHideManaged.setText(bundle.getString("MainWindow.mnuHideManaged.text"));
+        mnuHideManaged.addActionListener(e -> mnuHideManagedActionPerformed());
+        mnuView.add(mnuHideManaged);
+        mnuView.addSeparator();
 
         //---- mnuCaseSensitive ----
         mnuCaseSensitive.setText(bundle.getString("MainWindow.mnuCaseSensitive.text"));
@@ -935,13 +945,28 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
   private void mnuHideUnmanagedActionPerformed() {
-    boolean hide = this.mnuHideUnmanaged.isSelected();
-    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED, DAOHelper.booleanToString(hide));
-    String filter = this.getFilter();
-    this.listModel.clear();
-    BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
-    setGlassPane(blocker);
-    new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
+    boolean hideUnmanaged = this.mnuHideUnmanaged.isSelected();
+    if (hideUnmanaged) {
+      this.mnuHideManaged.setSelected(false);
+    }
+    this.setLookupForHideItems();
+    this.doFilter();
+  }
+
+  private void mnuHideManagedActionPerformed() {
+    boolean hideManaged = this.mnuHideManaged.isSelected();
+    if (hideManaged) {
+      this.mnuHideUnmanaged.setSelected(false);
+    }
+    this.setLookupForHideItems();
+    this.doFilter();
+  }
+
+  private void setLookupForHideItems() {
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED,
+        DAOHelper.booleanToString(this.mnuHideUnmanaged.isSelected()));
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HIDE_MANAGED,
+        DAOHelper.booleanToString(this.mnuHideManaged.isSelected()));
   }
 
   private void mnuTutorialActionPerformed() {
@@ -996,7 +1021,7 @@ public class MainWindow extends javax.swing.JFrame {
     this.listModel.clear();
     BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
     setGlassPane(blocker);
-    new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), visibleId).execute();
+    new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), this.mnuHideManaged.isSelected(), visibleId).execute();
   }
 
 
@@ -1026,7 +1051,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
     BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.filter"));
     setGlassPane(blocker);
-    new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), null).execute();
+    new FilterSetListWorker(blocker, masterList, filter, listModel, this.mnuHideUnmanaged.isSelected(), this.mnuHideManaged.isSelected(), null).execute();
   }
 
   private void btnRefreshAllActionPerformed() {
@@ -1361,6 +1386,7 @@ public class MainWindow extends javax.swing.JFrame {
   private JMenuItem mnuPreferences;
   private JMenu mnuView;
   private JCheckBoxMenuItem mnuHideUnmanaged;
+  private JCheckBoxMenuItem mnuHideManaged;
   private JCheckBoxMenuItem mnuCaseSensitive;
   private JRadioButtonMenuItem mnuOrderAlpha;
   private JRadioButtonMenuItem mnuOrderAlphaDesc;

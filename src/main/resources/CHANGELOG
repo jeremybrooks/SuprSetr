@@ -1,3 +1,6 @@
+ * Fix random order issues for size-limited sets (https://github.com/jeremybrooks/SuprSetr/issues/7)
+ * Added "Hide Managed Albums" menu item
+
 Version 3.0.0
  * New icons
  * Require Java 1.8+
@@ -166,7 +169,7 @@ Version 0.9.0
  * Added network proxy support
  * Remove Preferences menu when running on a Mac
  * Added View menu
- * Added option to hide unmanaged sets (on View menu)
+ * Added option to hideUnmanaged unmanaged sets (on View menu)
 
 Version 0.8.7
  * New splash screen

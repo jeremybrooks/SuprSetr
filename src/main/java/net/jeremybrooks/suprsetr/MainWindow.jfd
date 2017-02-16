@@ -196,6 +196,14 @@ new FormModel {
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuHideUnmanagedActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "mnuHideManaged"
+						"text": new FormMessage( null, "MainWindow.mnuHideManaged.text" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuHideManagedActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator3"
+					} )
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
 						name: "mnuCaseSensitive"
 						"text": new FormMessage( null, "MainWindow.mnuCaseSensitive.text" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuCaseSensitiveActionPerformed", false ) )

@@ -87,6 +87,7 @@ public class SSConstants {
   public static final String LOOKUP_KEY_PROXY_USE_SYSTEM = "PROXY_USE_SYSTEM";
 
   public static final String LOOKUP_KEY_HIDE_UNMANAGED = "HIDE_UNMANAGED_SETS";
+  public static final String LOOKUP_KEY_HIDE_MANAGED = "HIDE_MANAGED_SETS";
 
   public static final String LOOKUP_KEY_TUTORIAL_DISPLAYED = "TUTORIAL_DISPLAYED";
 
