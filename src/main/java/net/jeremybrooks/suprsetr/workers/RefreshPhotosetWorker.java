@@ -152,7 +152,9 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
           }
         } else {
           params = SearchHelper.getInstance().getSearchParameters(ssPhotoset);
-          if (ssPhotoset.isLimitSize()) {
+          if (ssPhotoset.isLimitSize() && ssPhotoset.getSortOrder() != 9) {
+            // handle limited size sets that are not sorted by random order
+            // limited size sets sorted by random order are sized AFTER randomizing
             searchResults = PhotoHelper.getInstance().getPhotos(params, ssPhotoset.getSizeLimit());
           } else {
             searchResults = PhotoHelper.getInstance().getPhotos(params);
@@ -165,6 +167,15 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
         if (matches > 0) {
           SSUtils.sortPhotoList(searchResults, ssPhotoset.getSortOrder());
+
+          // if random sort AND limit size, do the sizing here
+          if (ssPhotoset.isLimitSize() && ssPhotoset.getSortOrder() == 9) {
+            if (searchResults.size() > ssPhotoset.getSizeLimit()) {
+              while (searchResults.size() > ssPhotoset.getSizeLimit()) {
+                searchResults.remove(searchResults.size() - 1);
+              }
+            }
+          }
 
           // determine which photo should be the primary photo
           if (ssPhotoset.isLockPrimaryPhoto()) {

@@ -134,23 +134,30 @@ public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 				}
 			} else {
 				params = SearchHelper.getInstance().getSearchParameters(this.ssPhotoset);
-				if (this.ssPhotoset.isLimitSize()) {
+				if (this.ssPhotoset.isLimitSize() && this.ssPhotoset.getSortOrder() != 9) {
+				  // handle limited size sets that are not sorted by random order
+          // limited size sets sorted by random order are sized AFTER randomizing
 					photos = PhotoHelper.getInstance().getPhotos(params, this.ssPhotoset.getSizeLimit());
 				} else {
 					photos = PhotoHelper.getInstance().getPhotos(params);
 				}
 			}
 
-			if (photos == null) {
-				matches = 0;
-			} else {
-				matches = photos.size();
-			}
+			matches = photos == null ? 0 : photos.size();
+
+      logger.info("Got " + matches + " search results.");
 
 			if (matches > 0) {
-				logger.info("Got " + matches + " search results.");
-
 				SSUtils.sortPhotoList(photos, ssPhotoset.getSortOrder());
+
+				// if random sort AND limit size, do the sizing here
+        if (this.ssPhotoset.isLimitSize() && this.ssPhotoset.getSortOrder() == 9) {
+          if (photos.size() > this.ssPhotoset.getSizeLimit()) {
+            while (photos.size() > this.ssPhotoset.getSizeLimit()) {
+              photos.remove(photos.size() - 1);
+            }
+          }
+        }
 
 				firstPhoto = photos.get(0);
 
