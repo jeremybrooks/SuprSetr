@@ -1,4 +1,4 @@
-Version 3.0.1
+Version 3.0.2
  * Fix random order issues for size-limited sets (https://github.com/jeremybrooks/SuprSetr/issues/7)
  * Added "Hide Managed Albums" menu item
 
