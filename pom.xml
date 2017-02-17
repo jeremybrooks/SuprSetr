@@ -17,12 +17,11 @@
   ~ along with SuprSetr.  If not, see <http://www.gnu.org/licenses />.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jeremybrooks</groupId>
     <artifactId>suprsetr</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
     <name>SuprSetr</name>
     <description>Automated set management for Flickr photosets.</description>
     <url>http://jeremybrooks.net/suprsetr</url>
@@ -119,18 +118,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <configuration>
-                    <target>
-                        <ant antfile="build.xml"/>
-                    </target>
-                </configuration>
-                <goals>
-                    <goal>run</goal>
-                </goals>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
