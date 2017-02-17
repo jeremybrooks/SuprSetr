@@ -71,6 +71,7 @@ Things that still need some testing and may not work
 
 	FavrTagr uses machine tags (fave:count=10 for example)
 	Better control of when FavrTagr creates tags
+	Support experimental search options (color, style, orientation)
 
  * ?
 
