@@ -94,7 +94,9 @@ public class SSPhotoset {
 	private transient int onThisDayDay = 1;
 	private transient int onThisDayYearStart = 1995;
 	private transient int onThisDayYearEnd = SSUtils.getCurrentYear();
-
+  private String colorCode;
+  private String pictureStyle;
+  private String orientation;
 
 	public boolean isMetadataEqual(Photoset p) {
 		if ((this.getTitle() == null) ? (p.getTitle() != null) : !this.getTitle().equals(p.getTitle())) {
@@ -936,4 +938,28 @@ public class SSPhotoset {
 	public void setViewCount(int viewCount) {
 		this.viewCount = viewCount;
 	}
+
+  public String getColorCode() {
+    return colorCode;
+  }
+
+  public void setColorCode(String colorCode) {
+    this.colorCode = colorCode;
+  }
+
+  public String getPictureStyle() {
+    return pictureStyle;
+  }
+
+  public void setPictureStyle(String pictureStyle) {
+    this.pictureStyle = pictureStyle;
+  }
+
+  public String getOrientation() {
+    return orientation;
+  }
+
+  public void setOrientation(String orientation) {
+    this.orientation = orientation;
+  }
 }
