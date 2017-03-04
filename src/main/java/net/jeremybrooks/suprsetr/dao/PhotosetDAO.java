@@ -61,13 +61,14 @@ public class PhotosetDAO {
           + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY,"
           + " LIMIT_SIZE, SIZE_LIMIT, "
           + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT,"
-          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT) "
+          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT, "
+          + " COLOR_CODE, PICTURE_STYLE, ORIENTATION) "
           + "VALUES ("
           + "?, ?, ?, ?, ?, ?, ?,"
           + "?, ?, ?, ?, ?, ?, ?,"
           + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
           + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
-          + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   /**
    * SQL to get the photoset id's.
@@ -102,7 +103,8 @@ public class PhotosetDAO {
           + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
           + " LIMIT_SIZE, SIZE_LIMIT, "
           + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
-          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT "
+          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT, "
+          + " COLOR_CODE, PICTURE_STYLE, ORIENTATION "
           + "FROM PHOTOSET ";
   /**
    * SQL to get all photosets ordered by title.
@@ -176,7 +178,8 @@ public class PhotosetDAO {
           + " MEDIA_TYPE, GEOTAGGED, IN_COMMONS, IN_GALLERY, IN_GETTY, "
           + " LIMIT_SIZE, SIZE_LIMIT, "
           + " ON_THIS_DAY, OTD_MONTH, OTD_DAY, OTD_YEAR_START, OTD_YEAR_END, VIDEO_COUNT, "
-          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT "
+          + " MACHINE_TAGS, MACHINE_TAG_MATCH_MODE, TEXT_SEARCH, VIEW_COUNT, "
+          + " COLOR_CODE, PICTURE_STYLE, ORIENTATION "
           + "FROM PHOTOSET "
           + "WHERE ID = ?";
 
@@ -228,7 +231,10 @@ public class PhotosetDAO {
           + " MACHINE_TAGS = ?, "
           + " MACHINE_TAG_MATCH_MODE = ?, "
           + " TEXT_SEARCH = ?, "
-          + " VIEW_COUNT = ? "
+          + " VIEW_COUNT = ?, "
+          + " COLOR_CODE = ?, "
+          + " PICTURE_STYLE = ?, "
+          + " ORIENTATION = ? "
           + "WHERE ID = ?";
 
   /**
@@ -369,6 +375,10 @@ public class PhotosetDAO {
       ps.setString(44, p.getTextSearch());
 
       ps.setInt(45, p.getViewCount());
+
+      ps.setString(46, p.getColorCode());
+      ps.setString(47, p.getPictureStyle());
+      ps.setString(48, p.getOrientation());
 
       count = ps.executeUpdate();
 
@@ -696,8 +706,12 @@ public class PhotosetDAO {
 
       ps.setInt(44, ssPhotoset.getViewCount());
 
+      ps.setString(45, ssPhotoset.getColorCode());
+      ps.setString(46, ssPhotoset.getPictureStyle());
+      ps.setString(47, ssPhotoset.getOrientation());
+
       // where....
-      ps.setString(45, ssPhotoset.getPhotosetId());
+      ps.setString(48, ssPhotoset.getPhotosetId());
 
       logger.info("Updating record for photoset " + ssPhotoset.getPhotosetId()
           + " [" + ssPhotoset.getTitle() + "]");
@@ -841,6 +855,9 @@ public class PhotosetDAO {
     ssp.setVideos(rs.getInt("VIDEO_COUNT"));
     ssp.setTextSearch(rs.getString("TEXT_SEARCH"));
     ssp.setViewCount(rs.getInt("VIEW_COUNT"));
+    ssp.setColorCode(rs.getString("COLOR_CODE"));
+    ssp.setPictureStyle(rs.getString("PICTURE_STYLE"));
+    ssp.setOrientation(rs.getString("ORIENTATION"));
 
     return ssp;
   }

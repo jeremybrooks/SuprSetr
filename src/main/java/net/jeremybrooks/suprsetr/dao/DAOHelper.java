@@ -432,6 +432,11 @@ public class DAOHelper {
         break;
 
       case 8:
+        logger.info("Attempting to upgrade schema to version 9.");
+        DAOHelper.upgradeToVersion9();
+        logger.info("Upgrade to schema version 9: success.");
+
+      case 9:
         // DB is already up to date; nothing to do
         break;
 
@@ -671,6 +676,31 @@ public class DAOHelper {
     }
   }
 
+  private static void upgradeToVersion9() throws Exception {
+    Connection conn = null;
+    Statement s = null;
+    try {
+      conn = DAOHelper.getConnection();
+      s = conn.createStatement();
+
+      s.execute("ALTER TABLE PHOTOSET ADD COLUMN COLOR_CODE VARCHAR(2000)");
+      logger.info("Added column COLOR_CODE to PHOTOSET table.");
+
+      s.execute("ALTER TABLE PHOTOSET ADD COLUMN PICTURE_STYLE VARCHAR(2000)");
+      logger.info("Added column PICTURE_STYLE to PHOTOSET table.");
+
+      s.execute("ALTER TABLE PHOTOSET ADD COLUMN ORIENTATION VARCHAR(2000)");
+      logger.info("Added column ORIENTATION to PHOTOSET table.");
+
+      // no errors, so update the version
+      LookupDAO.setDatabaseVersion(9);
+    } catch (Exception e) {
+      logger.error("COULD NOT UPGRADE SCHEMA TO VERSION 9!", e);
+      throw e;
+    } finally {
+      DAOHelper.close(conn, s);
+    }
+  }
 
   public static void compressTables() throws Exception {
     Connection conn = null;

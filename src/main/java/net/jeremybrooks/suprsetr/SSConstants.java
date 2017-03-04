@@ -115,5 +115,5 @@ public class SSConstants {
 
   public static final String ADD_MANAGED = "This set is managed by <a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a>";
 
-  public static final int DATABASE_SCHEMA_CURRENT_VERSION = 8;
+  public static final int DATABASE_SCHEMA_CURRENT_VERSION = 9;
 }

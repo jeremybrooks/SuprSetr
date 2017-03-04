@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr.utils;
 
+import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.response.photos.Photo;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
@@ -28,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -70,6 +72,61 @@ public class SSUtils {
    */
   private SSUtils() {
   }
+
+  public static String colorCodeListToString(List<JinxConstants.ColorCode> colorCodes) {
+    StringBuilder builder = new StringBuilder();
+    for (JinxConstants.ColorCode colorCode : colorCodes) {
+      builder.append(colorCode.getColorName()).append(",");
+    }
+    if (builder.length() > 0) {
+      builder.deleteCharAt(builder.length() - 1);
+    }
+    return builder.toString();
+  }
+
+  public static List<JinxConstants.ColorCode> stringToColorCodeList(String colors) {
+    List<JinxConstants.ColorCode> colorCodes = new ArrayList<>();
+
+    if (colors != null) {
+      for (String color : colors.split(",")) {
+        for (JinxConstants.ColorCode code : JinxConstants.ColorCode.values()) {
+          if (color.equals(code.getColorName())) {
+            colorCodes.add(code);
+            break;
+          }
+        }
+      }
+    }
+    return colorCodes;
+  }
+
+  public static String pictureStyleListToString(List<JinxConstants.PictureStyle> pictureStyles) {
+    StringBuilder builder = new StringBuilder();
+    for (JinxConstants.PictureStyle style : pictureStyles) {
+      builder.append(style.getStyleName()).append(',');
+    }
+    if (builder.length() > 0) {
+      builder.deleteCharAt(builder.length() - 1);
+    }
+    return builder.toString();
+  }
+
+  public static List<JinxConstants.PictureStyle> stringToPictureStyleList(String styles) {
+    List<JinxConstants.PictureStyle> pictureStyles = new ArrayList<>();
+    if (styles != null) {
+      for (String styleName : styles.split(",")) {
+        for (JinxConstants.PictureStyle style : JinxConstants.PictureStyle.values()) {
+          if (styleName.equals(style.getStyleName())) {
+            pictureStyles.add(style);
+            break;
+          }
+        }
+      }
+    }
+    return pictureStyles;
+  }
+
+
 
   /**
    * Sort a list of photos.
