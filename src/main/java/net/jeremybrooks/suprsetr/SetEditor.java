@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.JinxConstants;
@@ -1937,6 +1936,19 @@ public class SetEditor extends javax.swing.JDialog {
       }
     }
 
+    // check to make sure the user has entered something to search on
+    if (
+        (this.txtTags.getText() == null || this.txtTags.getText().trim().isEmpty()) &&
+        (this.txtMachineTags.getText() == null || this.txtMachineTags.getText().trim().isEmpty()) &&
+        (this.txtTextSearch.getText() == null || this.txtTextSearch.getText().trim().isEmpty()) &&
+            (!this.cbxDateTaken.isSelected()) &&
+            (!this.cbxDateUploaded.isSelected()) &&
+            (!this.cbxOnThisDay.isSelected())
+        ) {
+      ok = false;
+      sb.append(String.format(resourceBundle.getString("SetEditor.validation.noFilters.error")));
+    }
+
     if (ok) {
       // do we have to change the title/description on Flickr?
       String t = this.txtTitle.getText().trim();
@@ -1947,7 +1959,6 @@ public class SetEditor extends javax.swing.JDialog {
               !d.equals(this.ssPhotoset.getDescription())) &&
               this.editorMode == EditorMode.EDIT) {
         try {
-//					PhotosetsApi.getInstance().editMeta(this.ssPhotoset.getId(), t, d);
           Response response = JinxFactory.getInstance().getPhotosetsApi().editMeta(this.ssPhotoset.getPhotosetId(), t, d);
           if (response.getCode() != 0) {
             throw new Exception("Error setting metadata. Code " + response.getCode() + ":" + response.getMessage());
