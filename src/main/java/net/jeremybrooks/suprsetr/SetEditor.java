@@ -1178,6 +1178,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxRed ----
           cbxRed.setText("Red");
+          cbxRed.setToolTipText("Include only red photos.");
           cbxRed.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxRed, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1191,6 +1192,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxDarkOrange ----
           cbxDarkOrange.setText(bundle.getString("SetEditor.cbxDarkOrange.text"));
+          cbxDarkOrange.setToolTipText("Include only dark orange photos.");
           cbxDarkOrange.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxDarkOrange, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1204,6 +1206,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxOrange ----
           cbxOrange.setText(bundle.getString("SetEditor.cbxOrange.text"));
+          cbxOrange.setToolTipText("Include only orange photos.");
           cbxOrange.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxOrange, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1217,6 +1220,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxPalePink ----
           cbxPalePink.setText(bundle.getString("SetEditor.cbxPalePink.text"));
+          cbxPalePink.setToolTipText("Include only pale pink photos.");
           cbxPalePink.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxPalePink, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1230,6 +1234,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxLemonYellow ----
           cbxLemonYellow.setText(bundle.getString("SetEditor.cbxLemonYellow.text"));
+          cbxLemonYellow.setToolTipText("Include only lemon yellow photos.");
           cbxLemonYellow.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxLemonYellow, new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1243,6 +1248,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxSchoolBusYellow ----
           cbxSchoolBusYellow.setText(bundle.getString("SetEditor.cbxSchoolBusYellow.text"));
+          cbxSchoolBusYellow.setToolTipText("Include only school bus yellow photos.");
           cbxSchoolBusYellow.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxSchoolBusYellow, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1256,6 +1262,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxGreen ----
           cbxGreen.setText(bundle.getString("SetEditor.cbxGreen.text"));
+          cbxGreen.setToolTipText("Include only green photos.");
           cbxGreen.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxGreen, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1269,6 +1276,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxDarkLimeGreen ----
           cbxDarkLimeGreen.setText(bundle.getString("SetEditor.cbxDarkLimeGreen.text"));
+          cbxDarkLimeGreen.setToolTipText("Include only dark lime green photos.");
           cbxDarkLimeGreen.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxDarkLimeGreen, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1282,6 +1290,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxCyan ----
           cbxCyan.setText(bundle.getString("SetEditor.cbxCyan.text"));
+          cbxCyan.setToolTipText("Include only cyan photos.");
           cbxCyan.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxCyan, new GridBagConstraints(7, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1295,6 +1304,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxBlue ----
           cbxBlue.setText(bundle.getString("SetEditor.cbxBlue.text"));
+          cbxBlue.setToolTipText("Include only blue photos.");
           cbxBlue.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxBlue, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1308,6 +1318,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxViolet ----
           cbxViolet.setText(bundle.getString("SetEditor.cbxViolet.text"));
+          cbxViolet.setToolTipText("Include only violet photos.");
           cbxViolet.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxViolet, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1321,6 +1332,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxPink ----
           cbxPink.setText(bundle.getString("SetEditor.cbxPink.text"));
+          cbxPink.setToolTipText("Include only pink photos.");
           cbxPink.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxPink, new GridBagConstraints(7, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1334,6 +1346,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxWhite ----
           cbxWhite.setText(bundle.getString("SetEditor.cbxWhite.text"));
+          cbxWhite.setToolTipText("Include only white photos.");
           cbxWhite.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxWhite, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1347,6 +1360,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxGray ----
           cbxGray.setText(bundle.getString("SetEditor.cbxGray.text"));
+          cbxGray.setToolTipText("Include only gray photos.");
           cbxGray.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxGray, new GridBagConstraints(4, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1360,6 +1374,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxBlack ----
           cbxBlack.setText(bundle.getString("SetEditor.cbxBlack.text"));
+          cbxBlack.setToolTipText("Include only black photos.");
           cbxBlack.addActionListener(e -> colorCodeActionPerformed(e));
           colorPanel.add(cbxBlack, new GridBagConstraints(7, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1384,6 +1399,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxLandscape ----
           cbxLandscape.setText(bundle.getString("SetEditor.cbxLandscape.text"));
+          cbxLandscape.setToolTipText("Include only landscape orientation.");
           cbxLandscape.addActionListener(e -> orientationActionPerformed(e));
           orientationPanel.add(cbxLandscape, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1397,6 +1413,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxPortrait ----
           cbxPortrait.setText(bundle.getString("SetEditor.cbxPortrait.text"));
+          cbxPortrait.setToolTipText("Include only portrait orientation.");
           cbxPortrait.addActionListener(e -> orientationActionPerformed(e));
           orientationPanel.add(cbxPortrait, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1410,6 +1427,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxSquare ----
           cbxSquare.setText(bundle.getString("SetEditor.cbxSquare.text"));
+          cbxSquare.setToolTipText("Include only square images.");
           cbxSquare.addActionListener(e -> orientationActionPerformed(e));
           orientationPanel.add(cbxSquare, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1423,6 +1441,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxPanorama ----
           cbxPanorama.setText(bundle.getString("SetEditor.cbxPanorama.text"));
+          cbxPanorama.setToolTipText("Include only panoramic images.");
           cbxPanorama.addActionListener(e -> orientationActionPerformed(e));
           orientationPanel.add(cbxPanorama, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1447,6 +1466,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxBlackAndWhite ----
           cbxBlackAndWhite.setText(bundle.getString("SetEditor.cbxBlackAndWhite.text"));
+          cbxBlackAndWhite.setToolTipText("Include only black and white images.");
           cbxBlackAndWhite.addActionListener(e -> pictureStyleActionPerformed(e));
           pictureStylePanel.add(cbxBlackAndWhite, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1460,6 +1480,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxShallow ----
           cbxShallow.setText(bundle.getString("SetEditor.cbxShallow.text"));
+          cbxShallow.setToolTipText("Include only images with shallow depth of field.");
           cbxShallow.addActionListener(e -> pictureStyleActionPerformed(e));
           pictureStylePanel.add(cbxShallow, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1473,6 +1494,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxPattern ----
           cbxPattern.setText(bundle.getString("SetEditor.cbxPattern.text"));
+          cbxPattern.setToolTipText("Include only images with patterns.");
           cbxPattern.addActionListener(e -> pictureStyleActionPerformed(e));
           pictureStylePanel.add(cbxPattern, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -1486,6 +1508,7 @@ public class SetEditor extends javax.swing.JDialog {
 
           //---- cbxMinimal ----
           cbxMinimal.setText(bundle.getString("SetEditor.cbxMinimal.text"));
+          cbxMinimal.setToolTipText("Include only minimalist images.");
           cbxMinimal.addActionListener(e -> pictureStyleActionPerformed(e));
           pictureStylePanel.add(cbxMinimal, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.WEST, GridBagConstraints.VERTICAL,

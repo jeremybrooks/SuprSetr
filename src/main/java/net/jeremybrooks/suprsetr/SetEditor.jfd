@@ -688,6 +688,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxRed"
 							"text": "Red"
+							"toolTipText": "Include only red photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
@@ -701,6 +702,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxDarkOrange"
 							"text": new FormMessage( null, "SetEditor.cbxDarkOrange.text" )
+							"toolTipText": "Include only dark orange photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 4
@@ -714,6 +716,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxOrange"
 							"text": new FormMessage( null, "SetEditor.cbxOrange.text" )
+							"toolTipText": "Include only orange photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 7
@@ -727,6 +730,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxPalePink"
 							"text": new FormMessage( null, "SetEditor.cbxPalePink.text" )
+							"toolTipText": "Include only pale pink photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 1
@@ -742,6 +746,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxLemonYellow"
 							"text": new FormMessage( null, "SetEditor.cbxLemonYellow.text" )
+							"toolTipText": "Include only lemon yellow photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 4
@@ -757,6 +762,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxSchoolBusYellow"
 							"text": new FormMessage( null, "SetEditor.cbxSchoolBusYellow.text" )
+							"toolTipText": "Include only school bus yellow photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 7
@@ -771,6 +777,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxGreen"
 							"text": new FormMessage( null, "SetEditor.cbxGreen.text" )
+							"toolTipText": "Include only green photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 2
@@ -786,6 +793,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxDarkLimeGreen"
 							"text": new FormMessage( null, "SetEditor.cbxDarkLimeGreen.text" )
+							"toolTipText": "Include only dark lime green photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 4
@@ -801,6 +809,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxCyan"
 							"text": new FormMessage( null, "SetEditor.cbxCyan.text" )
+							"toolTipText": "Include only cyan photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 7
@@ -815,6 +824,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxBlue"
 							"text": new FormMessage( null, "SetEditor.cbxBlue.text" )
+							"toolTipText": "Include only blue photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 3
@@ -830,6 +840,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxViolet"
 							"text": new FormMessage( null, "SetEditor.cbxViolet.text" )
+							"toolTipText": "Include only violet photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 4
@@ -845,6 +856,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxPink"
 							"text": new FormMessage( null, "SetEditor.cbxPink.text" )
+							"toolTipText": "Include only pink photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 7
@@ -859,6 +871,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxWhite"
 							"text": new FormMessage( null, "SetEditor.cbxWhite.text" )
+							"toolTipText": "Include only white photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 4
@@ -874,6 +887,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxGray"
 							"text": new FormMessage( null, "SetEditor.cbxGray.text" )
+							"toolTipText": "Include only gray photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 4
@@ -889,6 +903,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxBlack"
 							"text": new FormMessage( null, "SetEditor.cbxBlack.text" )
+							"toolTipText": "Include only black photos."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 7
@@ -912,6 +927,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxLandscape"
 							"text": new FormMessage( null, "SetEditor.cbxLandscape.text" )
+							"toolTipText": "Include only landscape orientation."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
@@ -926,6 +942,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxPortrait"
 							"text": new FormMessage( null, "SetEditor.cbxPortrait.text" )
+							"toolTipText": "Include only portrait orientation."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 1
@@ -941,6 +958,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxSquare"
 							"text": new FormMessage( null, "SetEditor.cbxSquare.text" )
+							"toolTipText": "Include only square images."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 2
@@ -956,6 +974,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxPanorama"
 							"text": new FormMessage( null, "SetEditor.cbxPanorama.text" )
+							"toolTipText": "Include only panoramic images."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 3
@@ -977,6 +996,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxBlackAndWhite"
 							"text": new FormMessage( null, "SetEditor.cbxBlackAndWhite.text" )
+							"toolTipText": "Include only black and white images."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
@@ -990,6 +1010,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxShallow"
 							"text": new FormMessage( null, "SetEditor.cbxShallow.text" )
+							"toolTipText": "Include only images with shallow depth of field."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 1
@@ -1004,6 +1025,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxPattern"
 							"text": new FormMessage( null, "SetEditor.cbxPattern.text" )
+							"toolTipText": "Include only images with patterns."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 2
@@ -1018,6 +1040,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "cbxMinimal"
 							"text": new FormMessage( null, "SetEditor.cbxMinimal.text" )
+							"toolTipText": "Include only minimalist images."
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 3
