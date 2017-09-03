@@ -22,6 +22,7 @@ package net.jeremybrooks.suprsetr;
 import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
+import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.response.Response;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -72,6 +73,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormatSymbols;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -131,6 +133,10 @@ public class SetEditor extends javax.swing.JDialog {
   private String[] typeModelArray = new String[3];
   private String[] geotagModelArray = new String[3];
 
+  private List<JinxConstants.ColorCode> colorCodeList;
+  private List<JinxConstants.PictureStyle> pictureStyleList;
+  private List<JinxConstants.Orientation> orientationList;
+
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.seteditor");
 
   // Cancelable properties.
@@ -161,6 +167,91 @@ public class SetEditor extends javax.swing.JDialog {
     String title = resourceBundle.getString("SetEditor.textHelp.title");
     JOptionPane.showMessageDialog(this,
         message, title, JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private void colorCodeActionPerformed(ActionEvent e) {
+    JCheckBox source = (JCheckBox)e.getSource();
+    JinxConstants.ColorCode colorCode = null;
+    if (source == this.cbxBlack) {
+      colorCode = JinxConstants.ColorCode.black;
+    } else if (source == this.cbxBlue) {
+      colorCode = JinxConstants.ColorCode.blue;
+    } else if (source == this.cbxCyan) {
+      colorCode = JinxConstants.ColorCode.cyan;
+    } else if (source == this.cbxDarkLimeGreen) {
+      colorCode = JinxConstants.ColorCode.dark_lime_green;
+    } else if (source == this.cbxDarkOrange) {
+      colorCode = JinxConstants.ColorCode.dark_orange;
+    } else if (source == this.cbxGray) {
+      colorCode = JinxConstants.ColorCode.gray;
+    } else if (source == this.cbxGreen) {
+      colorCode = JinxConstants.ColorCode.green;
+    } else if (source == this.cbxLemonYellow) {
+      colorCode = JinxConstants.ColorCode.lemon_yellow;
+    } else if (source == this.cbxPalePink) {
+      colorCode = JinxConstants.ColorCode.pale_pink;
+    } else if (source == this.cbxOrange) {
+      colorCode = JinxConstants.ColorCode.orange;
+    } else if (source == this.cbxRed) {
+      colorCode = JinxConstants.ColorCode.red;
+    } else if (source == this.cbxSchoolBusYellow) {
+      colorCode = JinxConstants.ColorCode.school_bus_yellow;
+    } else if (source == this.cbxViolet) {
+      colorCode = JinxConstants.ColorCode.violet;
+    } else if (source == this.cbxPink) {
+      colorCode = JinxConstants.ColorCode.pink;
+    } else if (source == this.cbxWhite) {
+      colorCode = JinxConstants.ColorCode.white;
+    }
+    if (colorCode != null) {
+      if (source.isSelected()) {
+        this.colorCodeList.add(colorCode);
+      } else {
+        this.colorCodeList.remove(colorCode);
+      }
+    }
+  }
+
+  private void pictureStyleActionPerformed(ActionEvent e) {
+    JCheckBox source = (JCheckBox)e.getSource();
+    JinxConstants.PictureStyle pictureStyle = null;
+    if (source == this.cbxBlackAndWhite) {
+      pictureStyle = JinxConstants.PictureStyle.blackandwhite;
+    } else if (source == this.cbxShallow) {
+        pictureStyle = JinxConstants.PictureStyle.depthoffield;
+    } else if (source == this.cbxPattern) {
+      pictureStyle = JinxConstants.PictureStyle.pattern;
+    } else if (source == this.cbxMinimal) {
+      pictureStyle = JinxConstants.PictureStyle.minimalism;
+    }
+    if (pictureStyle != null) {
+      if (source.isSelected()) {
+        this.pictureStyleList.add(pictureStyle);
+      } else {
+        this.pictureStyleList.remove(pictureStyle);
+      }
+    }
+  }
+
+  private void orientationActionPerformed(ActionEvent e) {
+    JCheckBox source = (JCheckBox)e.getSource();
+    JinxConstants.Orientation orientation = null;
+    if (source == this.cbxSquare) {
+      orientation = JinxConstants.Orientation.square;
+    } else if (source == this.cbxLandscape) {
+      orientation = JinxConstants.Orientation.landscape;
+    } else if (source == this.cbxPortrait) {
+      orientation = JinxConstants.Orientation.portrait;
+    } else if (source == this.cbxPanorama) {
+      orientation = JinxConstants.Orientation.panorama;
+    }
+    if (orientation != null) {
+      if (source.isSelected()) {
+        this.orientationList.add(orientation);
+      } else {
+        this.orientationList.remove(orientation);
+      }
+    }
   }
 
   public SetEditor(JFrame parent, EditorMode editorMode, SSPhotoset ssPhotoset) {
@@ -280,6 +371,39 @@ public class SetEditor extends javax.swing.JDialog {
     }
     this.yearOTDEnd.setMinimum(this.yearOTDStart.getYear());
 
+    // color codes
+    this.colorCodeList = SSUtils.stringToColorCodeList(this.ssPhotoset.getColorCode());
+    this.cbxBlack.setSelected(colorCodeList.contains(JinxConstants.ColorCode.black));
+    this.cbxBlue.setSelected(colorCodeList.contains(JinxConstants.ColorCode.blue));
+    this.cbxCyan.setSelected(colorCodeList.contains(JinxConstants.ColorCode.cyan));
+    this.cbxDarkLimeGreen.setSelected(colorCodeList.contains(JinxConstants.ColorCode.dark_lime_green));
+    this.cbxRed.setSelected(colorCodeList.contains(JinxConstants.ColorCode.red));
+    this.cbxDarkOrange.setSelected(colorCodeList.contains(JinxConstants.ColorCode.dark_orange));
+    this.cbxGray.setSelected(colorCodeList.contains(JinxConstants.ColorCode.gray));
+    this.cbxGreen.setSelected(colorCodeList.contains(JinxConstants.ColorCode.green));
+    this.cbxLemonYellow.setSelected(colorCodeList.contains(JinxConstants.ColorCode.lemon_yellow));
+    this.cbxSchoolBusYellow.setSelected(colorCodeList.contains(JinxConstants.ColorCode.school_bus_yellow));
+    this.cbxWhite.setSelected(colorCodeList.contains(JinxConstants.ColorCode.white));
+    this.cbxViolet.setSelected(colorCodeList.contains(JinxConstants.ColorCode.violet));
+    this.cbxPink.setSelected(colorCodeList.contains(JinxConstants.ColorCode.pink));
+    this.cbxPalePink.setSelected(colorCodeList.contains(JinxConstants.ColorCode.pale_pink));
+    this.cbxOrange.setSelected(colorCodeList.contains(JinxConstants.ColorCode.orange));
+
+    // picture style list
+    this.pictureStyleList = SSUtils.stringToPictureStyleList(this.ssPhotoset.getPictureStyle());
+    this.cbxBlackAndWhite.setSelected(this.pictureStyleList.contains(JinxConstants.PictureStyle.blackandwhite));
+    this.cbxShallow.setSelected(this.pictureStyleList.contains(JinxConstants.PictureStyle.depthoffield));
+    this.cbxPattern.setSelected(this.pictureStyleList.contains(JinxConstants.PictureStyle.pattern));
+    this.cbxMinimal.setSelected(this.pictureStyleList.contains(JinxConstants.PictureStyle.minimalism));
+
+    // orientation
+    this.orientationList = SSUtils.stringToOrientationList(this.ssPhotoset.getOrientation());
+    this.cbxSquare.setSelected(this.orientationList.contains(JinxConstants.Orientation.square));
+    this.cbxLandscape.setSelected(this.orientationList.contains(JinxConstants.Orientation.landscape));
+    this.cbxPortrait.setSelected(this.orientationList.contains(JinxConstants.Orientation.portrait));
+    this.cbxPanorama.setSelected(this.orientationList.contains(JinxConstants.Orientation.panorama));
+
+
     // remember these
     this.originalPrimaryIcon = this.ssPhotoset.getPrimaryPhotoIcon();
     this.originalPrimaryId = this.ssPhotoset.getPrimary();
@@ -374,6 +498,57 @@ public class SetEditor extends javax.swing.JDialog {
     cbxInGetty = new JCheckBox();
     cbxLimitSize = new JCheckBox();
     txtSetSize = new JTextField();
+    experimentalPanel = new JPanel();
+    label3 = new JLabel();
+    colorPanel = new JPanel();
+    label4 = new JLabel();
+    cbxRed = new JCheckBox();
+    label5 = new JLabel();
+    cbxDarkOrange = new JCheckBox();
+    label6 = new JLabel();
+    cbxOrange = new JCheckBox();
+    label7 = new JLabel();
+    cbxPalePink = new JCheckBox();
+    label11 = new JLabel();
+    cbxLemonYellow = new JCheckBox();
+    label17 = new JLabel();
+    cbxSchoolBusYellow = new JCheckBox();
+    label8 = new JLabel();
+    cbxGreen = new JCheckBox();
+    label12 = new JLabel();
+    cbxDarkLimeGreen = new JCheckBox();
+    label18 = new JLabel();
+    cbxCyan = new JCheckBox();
+    label13 = new JLabel();
+    cbxBlue = new JCheckBox();
+    label15 = new JLabel();
+    cbxViolet = new JCheckBox();
+    label19 = new JLabel();
+    cbxPink = new JCheckBox();
+    label14 = new JLabel();
+    cbxWhite = new JCheckBox();
+    label16 = new JLabel();
+    cbxGray = new JCheckBox();
+    label20 = new JLabel();
+    cbxBlack = new JCheckBox();
+    orientationPanel = new JPanel();
+    label21 = new JLabel();
+    cbxLandscape = new JCheckBox();
+    label22 = new JLabel();
+    cbxPortrait = new JCheckBox();
+    label23 = new JLabel();
+    cbxSquare = new JCheckBox();
+    label24 = new JLabel();
+    cbxPanorama = new JCheckBox();
+    pictureStylePanel = new JPanel();
+    label25 = new JLabel();
+    cbxBlackAndWhite = new JCheckBox();
+    label26 = new JLabel();
+    cbxShallow = new JCheckBox();
+    label29 = new JLabel();
+    cbxPattern = new JCheckBox();
+    label28 = new JLabel();
+    cbxMinimal = new JCheckBox();
     buttonPanel = new JPanel();
     btnSave = new JButton();
     btnCancel = new JButton();
@@ -977,6 +1152,348 @@ public class SetEditor extends javax.swing.JDialog {
         advancedPanel.add(jPanel6);
       }
       jTabbedPane1.addTab(bundle.getString("SetEditor.advancedPanel.tab.title"), advancedPanel);
+
+      //======== experimentalPanel ========
+      {
+        experimentalPanel.setLayout(new VerticalLayout(5));
+
+        //---- label3 ----
+        label3.setText(bundle.getString("SetEditor.label3.text"));
+        experimentalPanel.add(label3);
+
+        //======== colorPanel ========
+        {
+          colorPanel.setBorder(new TitledBorder(bundle.getString("SetEditor.colorPanel.border")));
+          colorPanel.setLayout(new GridBagLayout());
+          ((GridBagLayout)colorPanel.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+          ((GridBagLayout)colorPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+          ((GridBagLayout)colorPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4};
+          ((GridBagLayout)colorPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+          //---- label4 ----
+          label4.setIcon(new ImageIcon(getClass().getResource("/images/color-red.png")));
+          colorPanel.add(label4, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxRed ----
+          cbxRed.setText("Red");
+          cbxRed.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxRed, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label5 ----
+          label5.setIcon(new ImageIcon(getClass().getResource("/images/color-darkorange.png")));
+          colorPanel.add(label5, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxDarkOrange ----
+          cbxDarkOrange.setText(bundle.getString("SetEditor.cbxDarkOrange.text"));
+          cbxDarkOrange.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxDarkOrange, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label6 ----
+          label6.setIcon(new ImageIcon(getClass().getResource("/images/color-orange.png")));
+          colorPanel.add(label6, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxOrange ----
+          cbxOrange.setText(bundle.getString("SetEditor.cbxOrange.text"));
+          cbxOrange.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxOrange, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label7 ----
+          label7.setIcon(new ImageIcon(getClass().getResource("/images/color-palepink.png")));
+          colorPanel.add(label7, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxPalePink ----
+          cbxPalePink.setText(bundle.getString("SetEditor.cbxPalePink.text"));
+          cbxPalePink.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxPalePink, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label11 ----
+          label11.setIcon(new ImageIcon(getClass().getResource("/images/color-lemonyellow.png")));
+          colorPanel.add(label11, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxLemonYellow ----
+          cbxLemonYellow.setText(bundle.getString("SetEditor.cbxLemonYellow.text"));
+          cbxLemonYellow.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxLemonYellow, new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label17 ----
+          label17.setIcon(new ImageIcon(getClass().getResource("/images/color-schoolbusyellow.png")));
+          colorPanel.add(label17, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxSchoolBusYellow ----
+          cbxSchoolBusYellow.setText(bundle.getString("SetEditor.cbxSchoolBusYellow.text"));
+          cbxSchoolBusYellow.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxSchoolBusYellow, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label8 ----
+          label8.setIcon(new ImageIcon(getClass().getResource("/images/color-green.png")));
+          colorPanel.add(label8, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxGreen ----
+          cbxGreen.setText(bundle.getString("SetEditor.cbxGreen.text"));
+          cbxGreen.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxGreen, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label12 ----
+          label12.setIcon(new ImageIcon(getClass().getResource("/images/color-darklimegreen.png")));
+          colorPanel.add(label12, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxDarkLimeGreen ----
+          cbxDarkLimeGreen.setText(bundle.getString("SetEditor.cbxDarkLimeGreen.text"));
+          cbxDarkLimeGreen.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxDarkLimeGreen, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label18 ----
+          label18.setIcon(new ImageIcon(getClass().getResource("/images/color-cyan.png")));
+          colorPanel.add(label18, new GridBagConstraints(6, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxCyan ----
+          cbxCyan.setText(bundle.getString("SetEditor.cbxCyan.text"));
+          cbxCyan.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxCyan, new GridBagConstraints(7, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label13 ----
+          label13.setIcon(new ImageIcon(getClass().getResource("/images/color-blue.png")));
+          colorPanel.add(label13, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxBlue ----
+          cbxBlue.setText(bundle.getString("SetEditor.cbxBlue.text"));
+          cbxBlue.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxBlue, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label15 ----
+          label15.setIcon(new ImageIcon(getClass().getResource("/images/color-violet.png")));
+          colorPanel.add(label15, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxViolet ----
+          cbxViolet.setText(bundle.getString("SetEditor.cbxViolet.text"));
+          cbxViolet.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxViolet, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label19 ----
+          label19.setIcon(new ImageIcon(getClass().getResource("/images/color-pink.png")));
+          colorPanel.add(label19, new GridBagConstraints(6, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxPink ----
+          cbxPink.setText(bundle.getString("SetEditor.cbxPink.text"));
+          cbxPink.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxPink, new GridBagConstraints(7, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label14 ----
+          label14.setIcon(new ImageIcon(getClass().getResource("/images/color-white.png")));
+          colorPanel.add(label14, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxWhite ----
+          cbxWhite.setText(bundle.getString("SetEditor.cbxWhite.text"));
+          cbxWhite.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxWhite, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label16 ----
+          label16.setIcon(new ImageIcon(getClass().getResource("/images/color-gray.png")));
+          colorPanel.add(label16, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxGray ----
+          cbxGray.setText(bundle.getString("SetEditor.cbxGray.text"));
+          cbxGray.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxGray, new GridBagConstraints(4, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label20 ----
+          label20.setIcon(new ImageIcon(getClass().getResource("/images/color-black.png")));
+          colorPanel.add(label20, new GridBagConstraints(6, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxBlack ----
+          cbxBlack.setText(bundle.getString("SetEditor.cbxBlack.text"));
+          cbxBlack.addActionListener(e -> colorCodeActionPerformed(e));
+          colorPanel.add(cbxBlack, new GridBagConstraints(7, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        experimentalPanel.add(colorPanel);
+
+        //======== orientationPanel ========
+        {
+          orientationPanel.setBorder(new TitledBorder(bundle.getString("SetEditor.orientationPanel.border")));
+          orientationPanel.setLayout(new GridBagLayout());
+          ((GridBagLayout)orientationPanel.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)orientationPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)orientationPanel.getLayout()).columnWeights = new double[] {0.0, 1.0, 1.0E-4};
+          ((GridBagLayout)orientationPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+          //---- label21 ----
+          label21.setIcon(new ImageIcon(getClass().getResource("/images/orientation-landscape.png")));
+          orientationPanel.add(label21, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxLandscape ----
+          cbxLandscape.setText(bundle.getString("SetEditor.cbxLandscape.text"));
+          cbxLandscape.addActionListener(e -> orientationActionPerformed(e));
+          orientationPanel.add(cbxLandscape, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label22 ----
+          label22.setIcon(new ImageIcon(getClass().getResource("/images/orientation-portrait.png")));
+          orientationPanel.add(label22, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxPortrait ----
+          cbxPortrait.setText(bundle.getString("SetEditor.cbxPortrait.text"));
+          cbxPortrait.addActionListener(e -> orientationActionPerformed(e));
+          orientationPanel.add(cbxPortrait, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label23 ----
+          label23.setIcon(new ImageIcon(getClass().getResource("/images/orientation-square.png")));
+          orientationPanel.add(label23, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxSquare ----
+          cbxSquare.setText(bundle.getString("SetEditor.cbxSquare.text"));
+          cbxSquare.addActionListener(e -> orientationActionPerformed(e));
+          orientationPanel.add(cbxSquare, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label24 ----
+          label24.setIcon(new ImageIcon(getClass().getResource("/images/orientation-panorama.png")));
+          orientationPanel.add(label24, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxPanorama ----
+          cbxPanorama.setText(bundle.getString("SetEditor.cbxPanorama.text"));
+          cbxPanorama.addActionListener(e -> orientationActionPerformed(e));
+          orientationPanel.add(cbxPanorama, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        experimentalPanel.add(orientationPanel);
+
+        //======== pictureStylePanel ========
+        {
+          pictureStylePanel.setBorder(new TitledBorder(bundle.getString("SetEditor.pictureStylePanel.border")));
+          pictureStylePanel.setLayout(new GridBagLayout());
+          ((GridBagLayout)pictureStylePanel.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pictureStylePanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+          ((GridBagLayout)pictureStylePanel.getLayout()).columnWeights = new double[] {0.0, 1.0, 1.0E-4};
+          ((GridBagLayout)pictureStylePanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+          //---- label25 ----
+          label25.setIcon(new ImageIcon(getClass().getResource("/images/style-bw.png")));
+          pictureStylePanel.add(label25, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxBlackAndWhite ----
+          cbxBlackAndWhite.setText(bundle.getString("SetEditor.cbxBlackAndWhite.text"));
+          cbxBlackAndWhite.addActionListener(e -> pictureStyleActionPerformed(e));
+          pictureStylePanel.add(cbxBlackAndWhite, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label26 ----
+          label26.setIcon(new ImageIcon(getClass().getResource("/images/style-bokeh.png")));
+          pictureStylePanel.add(label26, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxShallow ----
+          cbxShallow.setText(bundle.getString("SetEditor.cbxShallow.text"));
+          cbxShallow.addActionListener(e -> pictureStyleActionPerformed(e));
+          pictureStylePanel.add(cbxShallow, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label29 ----
+          label29.setIcon(new ImageIcon(getClass().getResource("/images/style-pattern.png")));
+          pictureStylePanel.add(label29, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxPattern ----
+          cbxPattern.setText(bundle.getString("SetEditor.cbxPattern.text"));
+          cbxPattern.addActionListener(e -> pictureStyleActionPerformed(e));
+          pictureStylePanel.add(cbxPattern, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- label28 ----
+          label28.setIcon(new ImageIcon(getClass().getResource("/images/style-minimal.png")));
+          pictureStylePanel.add(label28, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+
+          //---- cbxMinimal ----
+          cbxMinimal.setText(bundle.getString("SetEditor.cbxMinimal.text"));
+          cbxMinimal.addActionListener(e -> pictureStyleActionPerformed(e));
+          pictureStylePanel.add(cbxMinimal, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        experimentalPanel.add(pictureStylePanel);
+      }
+      jTabbedPane1.addTab(bundle.getString("SetEditor.experimentalPanel.tab.title"), experimentalPanel);
     }
     contentPane.add(jTabbedPane1, BorderLayout.CENTER);
 
@@ -1466,6 +1983,9 @@ public class SetEditor extends javax.swing.JDialog {
       this.ssPhotoset.setOnThisDayMonth(this.cmbOTDMonth.getSelectedIndex() + 1);
       this.ssPhotoset.setOnThisDayDay(this.cmbOTDDay.getSelectedIndex() + 1);
 
+      this.ssPhotoset.setColorCode(SSUtils.colorCodeListToString(this.colorCodeList));
+      this.ssPhotoset.setOrientation(SSUtils.orientationListToString(this.orientationList));
+      this.ssPhotoset.setPictureStyle(SSUtils.pictureStyleListToString(this.pictureStyleList));
     } else {
       JOptionPane.showMessageDialog(this,
           resourceBundle.getString("SetEditor.validation.error.message") + "\n" + sb.toString(),
@@ -1647,6 +2167,57 @@ public class SetEditor extends javax.swing.JDialog {
   private JCheckBox cbxInGetty;
   private JCheckBox cbxLimitSize;
   private JTextField txtSetSize;
+  private JPanel experimentalPanel;
+  private JLabel label3;
+  private JPanel colorPanel;
+  private JLabel label4;
+  private JCheckBox cbxRed;
+  private JLabel label5;
+  private JCheckBox cbxDarkOrange;
+  private JLabel label6;
+  private JCheckBox cbxOrange;
+  private JLabel label7;
+  private JCheckBox cbxPalePink;
+  private JLabel label11;
+  private JCheckBox cbxLemonYellow;
+  private JLabel label17;
+  private JCheckBox cbxSchoolBusYellow;
+  private JLabel label8;
+  private JCheckBox cbxGreen;
+  private JLabel label12;
+  private JCheckBox cbxDarkLimeGreen;
+  private JLabel label18;
+  private JCheckBox cbxCyan;
+  private JLabel label13;
+  private JCheckBox cbxBlue;
+  private JLabel label15;
+  private JCheckBox cbxViolet;
+  private JLabel label19;
+  private JCheckBox cbxPink;
+  private JLabel label14;
+  private JCheckBox cbxWhite;
+  private JLabel label16;
+  private JCheckBox cbxGray;
+  private JLabel label20;
+  private JCheckBox cbxBlack;
+  private JPanel orientationPanel;
+  private JLabel label21;
+  private JCheckBox cbxLandscape;
+  private JLabel label22;
+  private JCheckBox cbxPortrait;
+  private JLabel label23;
+  private JCheckBox cbxSquare;
+  private JLabel label24;
+  private JCheckBox cbxPanorama;
+  private JPanel pictureStylePanel;
+  private JLabel label25;
+  private JCheckBox cbxBlackAndWhite;
+  private JLabel label26;
+  private JCheckBox cbxShallow;
+  private JLabel label29;
+  private JCheckBox cbxPattern;
+  private JLabel label28;
+  private JCheckBox cbxMinimal;
   private JPanel buttonPanel;
   private JButton btnSave;
   private JButton btnCancel;
@@ -1662,6 +2233,7 @@ public class SetEditor extends javax.swing.JDialog {
    */
   class LimitedPlainDocument extends PlainDocument {
 
+    private static final long serialVersionUID = 4743722971068107442L;
     /**
      * Maximum length of the text field.
      */

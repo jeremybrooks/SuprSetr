@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.0.0.109" Java: "1.6.0_65" encoding: "UTF-8"
+JFDML JFormDesigner: "6.0.2.0.116" Java: "1.8.0_152-release" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -664,6 +664,368 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "SetEditor.advancedPanel.tab.title" )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
+					"gap": 5
+				} ) {
+					name: "experimentalPanel"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label3"
+						"text": new FormMessage( null, "SetEditor.label3.text" )
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0, 0, 0, 0, 0, 0, left:0:1.0"
+						"$rowSpecs": "0, 0, 0, 0, 0"
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "colorPanel"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.colorPanel.border" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label4"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-red.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxRed"
+							"text": "Red"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label5"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-darkorange.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxDarkOrange"
+							"text": new FormMessage( null, "SetEditor.cbxDarkOrange.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 4
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label6"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-orange.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 6
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxOrange"
+							"text": new FormMessage( null, "SetEditor.cbxOrange.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 7
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label7"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-palepink.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxPalePink"
+							"text": new FormMessage( null, "SetEditor.cbxPalePink.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label11"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-lemonyellow.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 3
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxLemonYellow"
+							"text": new FormMessage( null, "SetEditor.cbxLemonYellow.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 4
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label17"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-schoolbusyellow.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 6
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxSchoolBusYellow"
+							"text": new FormMessage( null, "SetEditor.cbxSchoolBusYellow.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 7
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label8"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-green.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxGreen"
+							"text": new FormMessage( null, "SetEditor.cbxGreen.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label12"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-darklimegreen.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 3
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxDarkLimeGreen"
+							"text": new FormMessage( null, "SetEditor.cbxDarkLimeGreen.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 4
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label18"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-cyan.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 6
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxCyan"
+							"text": new FormMessage( null, "SetEditor.cbxCyan.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 7
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label13"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-blue.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxBlue"
+							"text": new FormMessage( null, "SetEditor.cbxBlue.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label15"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-violet.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 3
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxViolet"
+							"text": new FormMessage( null, "SetEditor.cbxViolet.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 4
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label19"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-pink.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 6
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxPink"
+							"text": new FormMessage( null, "SetEditor.cbxPink.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 7
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label14"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-white.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 4
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxWhite"
+							"text": new FormMessage( null, "SetEditor.cbxWhite.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 4
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label16"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-gray.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 3
+							"gridy": 4
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxGray"
+							"text": new FormMessage( null, "SetEditor.cbxGray.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 4
+							"gridy": 4
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label20"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/color-black.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 6
+							"gridy": 4
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxBlack"
+							"text": new FormMessage( null, "SetEditor.cbxBlack.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "colorCodeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 7
+							"gridy": 4
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, left:0:1.0"
+						"$rowSpecs": "0, 0, 0, 0"
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "orientationPanel"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.orientationPanel.border" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label21"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/orientation-landscape.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"hAlign": 0
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxLandscape"
+							"text": new FormMessage( null, "SetEditor.cbxLandscape.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label22"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/orientation-portrait.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 0
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxPortrait"
+							"text": new FormMessage( null, "SetEditor.cbxPortrait.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label23"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/orientation-square.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+							"hAlign": 0
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxSquare"
+							"text": new FormMessage( null, "SetEditor.cbxSquare.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label24"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/orientation-panorama.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+							"hAlign": 0
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxPanorama"
+							"text": new FormMessage( null, "SetEditor.cbxPanorama.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "orientationActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+							"gridx": 1
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, left:0:1.0"
+						"$rowSpecs": "0, 0, 0, 0"
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "pictureStylePanel"
+						"border": new javax.swing.border.TitledBorder( "i18nKey=SetEditor.pictureStylePanel.border" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label25"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/style-bw.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxBlackAndWhite"
+							"text": new FormMessage( null, "SetEditor.cbxBlackAndWhite.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label26"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/style-bokeh.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxShallow"
+							"text": new FormMessage( null, "SetEditor.cbxShallow.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label29"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/style-pattern.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxPattern"
+							"text": new FormMessage( null, "SetEditor.cbxPattern.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label28"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/style-minimal.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "cbxMinimal"
+							"text": new FormMessage( null, "SetEditor.cbxMinimal.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pictureStyleActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+							"gridx": 1
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "SetEditor.experimentalPanel.tab.title" )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"

@@ -73,10 +73,17 @@ public class SSUtils {
   private SSUtils() {
   }
 
+  /**
+   * Convert a list of ColorCode to a String that can be stored in the database.
+   * @param colorCodes list of color codes.
+   * @return comma delimited string of color codes.
+   */
   public static String colorCodeListToString(List<JinxConstants.ColorCode> colorCodes) {
     StringBuilder builder = new StringBuilder();
-    for (JinxConstants.ColorCode colorCode : colorCodes) {
-      builder.append(colorCode.getColorName()).append(",");
+    if (colorCodes != null) {
+      for (JinxConstants.ColorCode colorCode : colorCodes) {
+        builder.append(colorCode.getColorName()).append(",");
+      }
     }
     if (builder.length() > 0) {
       builder.deleteCharAt(builder.length() - 1);
@@ -84,6 +91,11 @@ public class SSUtils {
     return builder.toString();
   }
 
+  /**
+   * Convert a String of color codes to a List of ColorCode.
+   * @param colors string to convert.
+   * @return list of ColorCode.
+   */
   public static List<JinxConstants.ColorCode> stringToColorCodeList(String colors) {
     List<JinxConstants.ColorCode> colorCodes = new ArrayList<>();
 
@@ -100,10 +112,17 @@ public class SSUtils {
     return colorCodes;
   }
 
+  /**
+   * Convert a List of PictureStyle to a comma delimited String that can be stored in the database.
+   * @param pictureStyles list of PictureStyle.
+   * @return comma delimited String.
+   */
   public static String pictureStyleListToString(List<JinxConstants.PictureStyle> pictureStyles) {
     StringBuilder builder = new StringBuilder();
-    for (JinxConstants.PictureStyle style : pictureStyles) {
-      builder.append(style.getStyleName()).append(',');
+    if (pictureStyles != null) {
+      for (JinxConstants.PictureStyle style : pictureStyles) {
+        builder.append(style.getStyleName()).append(',');
+      }
     }
     if (builder.length() > 0) {
       builder.deleteCharAt(builder.length() - 1);
@@ -111,6 +130,11 @@ public class SSUtils {
     return builder.toString();
   }
 
+  /**
+   * Convert a String to a list of PictureStyle.
+   * @param styles string of picture styles.
+   * @return list of PictureStyle.
+   */
   public static List<JinxConstants.PictureStyle> stringToPictureStyleList(String styles) {
     List<JinxConstants.PictureStyle> pictureStyles = new ArrayList<>();
     if (styles != null) {
@@ -126,6 +150,43 @@ public class SSUtils {
     return pictureStyles;
   }
 
+  /**
+   * Convert a list of Orientation to a comma delimited String that can be stored in the database.
+   * @param orientations list of orientation.
+   * @return comma delimited string of orientation.
+   */
+  public static String orientationListToString(List<JinxConstants.Orientation> orientations) {
+    StringBuilder builder = new StringBuilder();
+    if (orientations != null) {
+      for (JinxConstants.Orientation orientation : orientations) {
+        builder.append(orientation.toString()).append(',');
+      }
+    }
+    if (builder.length() > 0) {
+      builder.deleteCharAt(builder.length() -1);
+    }
+    return builder.toString();
+  }
+
+  /**
+   * Convert a String to a List of Orientation.
+   * @param orientations string to convert.
+   * @return list of orientation.
+   */
+  public static List<JinxConstants.Orientation> stringToOrientationList(String orientations) {
+    List<JinxConstants.Orientation> orientationList = new ArrayList<>();
+    if (orientations != null) {
+      for (String orientationName : orientations.split(",")) {
+        for (JinxConstants.Orientation orientation : JinxConstants.Orientation.values()) {
+          if (orientationName.equals(orientation.toString())) {
+            orientationList.add(orientation);
+            break;
+          }
+        }
+      }
+    }
+    return orientationList;
+  }
 
 
   /**

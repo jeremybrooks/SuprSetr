@@ -23,10 +23,12 @@ import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.response.photos.SearchParameters;
 import net.jeremybrooks.suprsetr.SSConstants;
 import net.jeremybrooks.suprsetr.SSPhotoset;
+import net.jeremybrooks.suprsetr.utils.SSUtils;
 
 import java.util.Calendar;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 /**
@@ -275,6 +277,26 @@ public class SearchHelper {
     }
 
     sp.setExtras(EnumSet.of(JinxConstants.PhotoExtras.media, JinxConstants.PhotoExtras.views));
+
+    // experimental options
+    List<JinxConstants.ColorCode> colorCodeList = SSUtils.stringToColorCodeList(ssPhotoset.getColorCode());
+    if (colorCodeList.size() > 0) {
+      EnumSet<JinxConstants.ColorCode> temp = EnumSet.noneOf(JinxConstants.ColorCode.class);
+      temp.addAll(colorCodeList);
+      sp.setColorCodes(temp);
+    }
+    List<JinxConstants.PictureStyle> pictureStyleList = SSUtils.stringToPictureStyleList(ssPhotoset.getPictureStyle());
+    if (pictureStyleList.size() > 0) {
+      EnumSet<JinxConstants.PictureStyle> temp = EnumSet.noneOf(JinxConstants.PictureStyle.class);
+      temp.addAll(pictureStyleList);
+      sp.setPictureStyles(temp);
+    }
+    List<JinxConstants.Orientation> orientationList = SSUtils.stringToOrientationList(ssPhotoset.getOrientation());
+    if (orientationList.size() > 0) {
+      EnumSet<JinxConstants.Orientation> temp = EnumSet.noneOf(JinxConstants.Orientation.class);
+      temp.addAll(orientationList);
+      sp.setOrientations(temp);
+    }
 
     return sp;
   }
