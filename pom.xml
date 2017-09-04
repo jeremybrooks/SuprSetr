@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jeremybrooks</groupId>
     <artifactId>suprsetr</artifactId>
-    <version>3.1.6-SNAPSHOT</version>
+    <version>3.1.8-SNAPSHOT</version>
     <name>SuprSetr</name>
     <description>Automated set management for Flickr photosets.</description>
     <url>http://jeremybrooks.net/suprsetr</url>
@@ -150,23 +150,23 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.install4j</groupId>
-                <artifactId>install4j-maven-plugin</artifactId>
-                <version>1.1.1</version>
-                <executions>
-                    <execution>
-                        <id>compile-installers</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <projectFile>suprsetr.install4j</projectFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.sonatype.install4j</groupId>-->
+                <!--<artifactId>install4j-maven-plugin</artifactId>-->
+                <!--<version>1.1.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>compile-installers</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>compile</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<projectFile>suprsetr.install4j</projectFile>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
 
     </build>
