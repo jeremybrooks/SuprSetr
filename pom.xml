@@ -155,23 +155,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.sonatype.install4j</groupId>-->
-                <!--<artifactId>install4j-maven-plugin</artifactId>-->
-                <!--<version>1.1.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>compile-installers</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>compile</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<projectFile>suprsetr.install4j</projectFile>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
 
     </build>
