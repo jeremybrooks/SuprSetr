@@ -77,6 +77,7 @@ public class SSConstants {
   public static final String LOOKUP_KEY_FAVRTAGR_INTERVAL = "FAVRTAGR_INTERVAL";
   public static final String LOOKUP_KEY_CASE_SENSITIVE = "CASE_SENSITIVE";
   public static final String LOOKUP_KEY_LIST_SORT_ORDER = "SORT_ORDER";
+  public static final String LOOKUP_KEY_TAG_TYPE = "TAG_TYPE";
 
   // Proxy
   public static final String LOOKUP_KEY_USE_PROXY = "USE_PROXY";

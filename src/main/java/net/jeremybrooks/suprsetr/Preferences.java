@@ -20,7 +20,6 @@
 package net.jeremybrooks.suprsetr;
 
 
-import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -46,6 +45,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
@@ -194,6 +194,17 @@ public class Preferences extends javax.swing.JDialog {
         JOptionPane.INFORMATION_MESSAGE);
   }
 
+  private void btnTagTypeHelpActionPerformed(ActionEvent e) {
+    JOptionPane.showMessageDialog(this,
+        resourceBundle.getString("Preferences.tagtypehelp.message"),
+        resourceBundle.getString("Preferences.tagtypehelp.title"),
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private void cmbTagTypeActionPerformed(ActionEvent e) {
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TAG_TYPE, String.valueOf(this.cmbTagType.getSelectedIndex()));
+  }
+
 
   public Preferences(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
@@ -253,6 +264,11 @@ public class Preferences extends javax.swing.JDialog {
           break;
       }
     }
+    try {
+      this.cmbTagType.setSelectedIndex(Integer.parseInt(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE)));
+    } catch (Exception e) {
+      this.cmbTagType.setSelectedIndex(0);
+    }
 
     this.cbxUpdate.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE)));
     this.updateStatus();
@@ -298,6 +314,9 @@ public class Preferences extends javax.swing.JDialog {
     lblCustom = new JLabel();
     txtCustom = new JTextField();
     btnCustomHelp = new JButton();
+    lblTagType = new JLabel();
+    cmbTagType = new JComboBox<>();
+    btnTagTypeHelp = new JButton();
     pnlAuthorizations = new JPanel();
     pnlFlickr = new JPanel();
     lblFlickrStatus = new JLabel();
@@ -450,7 +469,31 @@ public class Preferences extends javax.swing.JDialog {
         btnCustomHelp.addActionListener(e -> btnCustomHelpActionPerformed());
         pnlFavrTagr.add(btnCustomHelp, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-          new Insets(0, 0, 5, 5), 0, 0));
+          new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- lblTagType ----
+        lblTagType.setText("Tag Type");
+        lblTagType.setHorizontalAlignment(SwingConstants.RIGHT);
+        pnlFavrTagr.add(lblTagType, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 5, 0, 5), 0, 0));
+
+        //---- cmbTagType ----
+        cmbTagType.setModel(new DefaultComboBoxModel<>(new String[] {
+          "Create using normal tag (favxx)",
+          "Create using machine tag (favrtagr:count=xx)"
+        }));
+        cmbTagType.addActionListener(e -> cmbTagTypeActionPerformed(e));
+        pnlFavrTagr.add(cmbTagType, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 0, 5), 0, 0));
+
+        //---- btnTagTypeHelp ----
+        btnTagTypeHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-selected.png")));
+        btnTagTypeHelp.addActionListener(e -> btnTagTypeHelpActionPerformed(e));
+        pnlFavrTagr.add(btnTagTypeHelp, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 0, 0), 0, 0));
       }
       jTabbedPane1.addTab("FavrTagr", pnlFavrTagr);
 
@@ -890,6 +933,9 @@ public class Preferences extends javax.swing.JDialog {
   private JLabel lblCustom;
   private JTextField txtCustom;
   private JButton btnCustomHelp;
+  private JLabel lblTagType;
+  private JComboBox<String> cmbTagType;
+  private JButton btnTagTypeHelp;
   private JPanel pnlAuthorizations;
   private JPanel pnlFlickr;
   private JLabel lblFlickrStatus;
