@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jeremybrooks</groupId>
     <artifactId>suprsetr</artifactId>
-    <version>3.1.8-SNAPSHOT</version>
+    <version>3.1.9-SNAPSHOT</version>
     <name>SuprSetr</name>
     <description>Automated set management for Flickr photosets.</description>
     <url>http://jeremybrooks.net/suprsetr</url>
@@ -40,7 +40,6 @@
         <connection>scm:git:git@github.com:jeremybrooks/suprsetr.git</connection>
         <developerConnection>scm:git:git@github.com:jeremybrooks/suprsetr.git</developerConnection>
         <url>git@github.com:suprsetr/suprsetr.git</url>
-        <tag>suprsetr-3.1.6</tag>
     </scm>
     <developers>
         <developer>
