@@ -669,9 +669,16 @@ new FormModel {
 					"gap": 5
 				} ) {
 					name: "experimentalPanel"
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "label3"
-						"text": new FormMessage( null, "SetEditor.label3.text" )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane1"
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "textArea1"
+							"text": new FormMessage( null, "SetEditor.textArea1.text" )
+							"rows": 4
+							"lineWrap": true
+							"wrapStyleWord": true
+							"editable": false
+						} )
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0, 0, 0, 0, 0, 0, 0, left:0:1.0"

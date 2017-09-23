@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.JinxConstants;
@@ -498,7 +499,8 @@ public class SetEditor extends javax.swing.JDialog {
     cbxLimitSize = new JCheckBox();
     txtSetSize = new JTextField();
     experimentalPanel = new JPanel();
-    label3 = new JLabel();
+    scrollPane1 = new JScrollPane();
+    textArea1 = new JTextArea();
     colorPanel = new JPanel();
     label4 = new JLabel();
     cbxRed = new JCheckBox();
@@ -1156,9 +1158,18 @@ public class SetEditor extends javax.swing.JDialog {
       {
         experimentalPanel.setLayout(new VerticalLayout(5));
 
-        //---- label3 ----
-        label3.setText(bundle.getString("SetEditor.label3.text"));
-        experimentalPanel.add(label3);
+        //======== scrollPane1 ========
+        {
+
+          //---- textArea1 ----
+          textArea1.setText(bundle.getString("SetEditor.textArea1.text"));
+          textArea1.setRows(4);
+          textArea1.setLineWrap(true);
+          textArea1.setWrapStyleWord(true);
+          textArea1.setEditable(false);
+          scrollPane1.setViewportView(textArea1);
+        }
+        experimentalPanel.add(scrollPane1);
 
         //======== colorPanel ========
         {
@@ -2202,7 +2213,8 @@ public class SetEditor extends javax.swing.JDialog {
   private JCheckBox cbxLimitSize;
   private JTextField txtSetSize;
   private JPanel experimentalPanel;
-  private JLabel label3;
+  private JScrollPane scrollPane1;
+  private JTextArea textArea1;
   private JPanel colorPanel;
   private JLabel label4;
   private JCheckBox cbxRed;
