@@ -80,6 +80,8 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
   private int maxFaves;
   private Photo favoritePhoto;
 
+  private String tagType = "fav";
+
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
@@ -105,7 +107,18 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
       logger.warn("Error parsing the intervals.", e);
     }
 
-    logger.info("Fave tag interval is " + this.interval);
+    switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE)) {
+      case "0":
+        this.tagType = "fav";
+        break;
+      case "1":
+        this.tagType = "favrtagr:count=";
+        break;
+      default:
+        this.tagType = "fav";
+    }
+
+    logger.info("Fave tag interval is " + this.interval + "; tag type is " + this.tagType);
   }
 
 
@@ -321,7 +334,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
         // add a tag to the list if needed each time the count is greater
         // than the fave interval
         while (faves >= faveCheck) {
-          String tag = "fav" + faveCheck;
+          String tag = this.tagType + faveCheck;
           if (!existingTags.contains(tag)) {
             list.add(tag);
           }
@@ -352,7 +365,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
     } else {
       // handle custom intervals
       for (Integer count : this.customIntervals) {
-        String tag = "fav" + count;
+        String tag = this.tagType + count;
         if (faves >= count) {
           if (!existingTags.contains(tag)) {
             list.add(tag);

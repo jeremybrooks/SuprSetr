@@ -868,8 +868,19 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
   private void mnuFavrActionPerformed() {
+    String message;
+    switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE)) {
+      case "0":
+        message = resourceBundle.getString("MainWindow.dialog.runfavrtagr.message.tags");
+        break;
+      case "1":
+        message = resourceBundle.getString("MainWindow.dialog.runfavrtagr.message.machinetags");
+        break;
+      default:
+        message = resourceBundle.getString("MainWindow.dialog.runfavrtagr.message.tags");
+    }
     int confirm = JOptionPane.showConfirmDialog(this,
-        resourceBundle.getString("MainWindow.dialog.runfavrtagr.message"),
+        message,
         resourceBundle.getString("MainWindow.dialog.runfavrtagr.title"),
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE);
@@ -1026,8 +1037,19 @@ public class MainWindow extends javax.swing.JFrame {
 
 
   private void mnuClearFaveActionPerformed() {
+    String message;
+    switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE)) {
+      case "0":
+        message = resourceBundle.getString("MainWindow.dialog.deletefav.message.tags");
+        break;
+      case "1":
+        message = resourceBundle.getString("MainWindow.dialog.deletefav.message.machinetags");
+        break;
+      default:
+        message = resourceBundle.getString("MainWindow.dialog.deletefav.message.tags");
+    }
     int confirm = JOptionPane.showConfirmDialog(this,
-        resourceBundle.getString("MainWindow.dialog.deletefav.message"),
+        message,
         resourceBundle.getString("MainWindow.dialog.deletefav.title"),
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE);

@@ -209,7 +209,9 @@ public class Main {
     if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_DETAIL_LOG) == null) {
       LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_DETAIL_LOG, DAOHelper.booleanToString(false));
     }
-
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TAG_TYPE, "0");
+    }
 
     JinxFactory.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));
 

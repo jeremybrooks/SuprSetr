@@ -27,6 +27,8 @@ import net.jeremybrooks.jinx.response.photos.Tag;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.LogWindow;
 import net.jeremybrooks.suprsetr.MainWindow;
+import net.jeremybrooks.suprsetr.SSConstants;
+import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import org.apache.logging.log4j.LogManager;
@@ -63,6 +65,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
 
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
+  private String tagType;
 
   /**
    * Create a new instance of FavrTagr.
@@ -71,6 +74,16 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
    */
   public FavDeleteWorker(BlockerPanel blocker) {
     this.blocker = blocker;
+    switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE)) {
+      case "0":
+        this.tagType = "fav";
+        break;
+      case "1":
+        this.tagType = "favrtagr:count=";
+        break;
+      default:
+        this.tagType = "fav";
+    }
   }
 
 
@@ -101,7 +114,11 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
       params.setMediaType(JinxConstants.MediaType.all);
       params.setMinUploadDate(new Date(0));
       params.setMaxUploadDate(new Date(System.currentTimeMillis() + 86400000));
-      params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.tags));
+      if (this.tagType.equals("fav")) {
+        params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.tags));
+      } else {
+        params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.machine_tags));
+      }
       photos = PhotoHelper.getInstance().getPhotos(params);
 
       total = photos.size();
@@ -115,13 +132,25 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
       // iterate through all photos
       for (Photo p : photos) {
         // if it looks like we might have some fav tags, get the photo info
-        if (p.getTags().contains("fav")) {
+        boolean containsTag = false;
+        if (this.tagType.equals("fav")) {
+          String tags = p.getMachineTags();
+          if (tags != null) {
+            containsTag = tags.contains(this.tagType);
+          }
+        } else {
+          String machineTags = p.getMachineTags();
+          if (machineTags != null) {
+            containsTag = machineTags.contains(this.tagType);
+          }
+        }
+        if (containsTag) {
           PhotoInfo pi = PhotoHelper.getInstance().getPhotoInfo(p);
-          // Look for "favxx" tags, and delete them.
+          // Look for this.tagType tags, and delete them.
           for (Tag tag : pi.getTags()) {
-            if (tag.getRaw().startsWith("fav")) {
+            if (tag.getRaw().startsWith(this.tagType)) {
               try {
-                if (Integer.parseInt(tag.getRaw().substring(3)) > 0) {
+                if (Integer.parseInt(tag.getRaw().substring(this.tagType.length())) > 0) {
                   logger.info("Removing tag " + tag.toString() + " from photo " + p.getPhotoId());
                   PhotoHelper.getInstance().removeTag(tag.getTagId());
                   this.count++;
@@ -131,7 +160,7 @@ public class FavDeleteWorker extends SwingWorker<Void, Void> {
                       " " + p.getPhotoId());
                 }
               } catch (Exception e) {
-                // ignore
+                logger.warn("Error removing tag " + tag.getRaw() + " from photo + " + p.getPhotoId(), e);
               }
             }
           }

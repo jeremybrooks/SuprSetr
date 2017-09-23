@@ -71,7 +71,7 @@ public class JinxFactory {
     }
   }
 
-  void setAccessToken(OAuthAccessToken token) {
+  public void setAccessToken(OAuthAccessToken token) {
     jinx.setoAuthAccessToken(token);
   }
 

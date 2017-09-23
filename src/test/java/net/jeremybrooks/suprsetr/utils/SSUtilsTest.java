@@ -20,10 +20,24 @@
 package net.jeremybrooks.suprsetr.utils;
 
 import net.jeremybrooks.jinx.JinxConstants;
+import net.jeremybrooks.jinx.OAuthAccessToken;
+import net.jeremybrooks.jinx.response.photos.Photo;
+import net.jeremybrooks.jinx.response.photos.PhotoInfo;
+import net.jeremybrooks.jinx.response.photos.SearchParameters;
+import net.jeremybrooks.jinx.response.photos.Tag;
+import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
+import net.jeremybrooks.suprsetr.flickr.JinxFactory;
+import net.jeremybrooks.suprsetr.flickr.PhotoHelper;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Properties;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -97,5 +111,84 @@ public class SSUtilsTest {
     assertTrue(list.contains(JinxConstants.Orientation.square));
     list = SSUtils.stringToOrientationList(null);
     assertTrue(list.isEmpty());
+  }
+
+  @Test
+  public void x() throws Exception {
+    Properties privateProperties = new Properties();
+    privateProperties.load(SSUtilsTest.class.getClassLoader().getResourceAsStream("net/jeremybrooks/suprsetr/private.properties"));
+    JinxFactory.getInstance().init(privateProperties.getProperty("FLICKR_KEY"), privateProperties.getProperty("FLICKR_SECRET"));
+    OAuthAccessToken oAuthAccessToken = new OAuthAccessToken();
+    InputStream in = null;
+      in = new FileInputStream(new File("/Users/jeremyb/.suprsetr/jinx_oauth.token"));
+      oAuthAccessToken.load(in);
+      JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
+
+    List<Photo> photos;
+    int processed = 0;
+    int total;
+    int count = 0;
+    String tagType = "favrtagr:count=";
+    try {
+
+      // Search for:
+      //    All media types
+      //    Uploaded from the beginning of time until tomorrow
+      //    Return tags as well
+      SearchParameters params = new SearchParameters();
+      params.setUserId(FlickrHelper.getInstance().getNSID());
+      params.setMediaType(JinxConstants.MediaType.all);
+      params.setMinUploadDate(new Date(0));
+      params.setMaxUploadDate(new Date(System.currentTimeMillis() + 86400000));
+      if (tagType.equals("fav")) {
+        params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.tags));
+      } else {
+        params.setExtras(EnumSet.of(JinxConstants.PhotoExtras.machine_tags));
+      }
+      photos = PhotoHelper.getInstance().getPhotos(params);
+
+      total = photos.size();
+
+      System.out.println("got " + total + " photos");
+
+      // iterate through all photos
+      for (Photo p : photos) {
+        // if it looks like we might have some fav tags, get the photo info
+        boolean containsTag = false;
+        if (tagType.equals("fav")) {
+          String tags = p.getMachineTags();
+          if (tags != null) {
+            containsTag = tags.contains(tagType);
+          }
+        } else {
+          String machineTags = p.getMachineTags();
+          if (machineTags != null) {
+            System.out.println(machineTags);
+            containsTag = machineTags.contains(tagType);
+          }
+        }
+        if (containsTag) {
+          PhotoInfo pi = PhotoHelper.getInstance().getPhotoInfo(p);
+          // Look for this.tagType tags, and delete them.
+          for (Tag tag : pi.getTags()) {
+            if (tag.getRaw().startsWith(tagType)) {
+              try {
+                if (Integer.parseInt(tag.getRaw().substring(3)) > 0) {
+                  System.out.println("Removing tag " + tag.toString() + " from photo " + p.getPhotoId());
+                  PhotoHelper.getInstance().removeTag(tag.getTagId());
+                  count++;
+                  System.out.println("removed " + tag.getTag() + " from photo " + p.getPhotoId());
+                }
+              } catch (Exception e) {
+                // ignore
+              }
+            }
+          }
+        }
+        processed++;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
