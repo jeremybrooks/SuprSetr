@@ -184,7 +184,7 @@ new FormModel {
 					"title": "FavrTagr"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.VerticalLayout ) {
-					"gap": 5
+					"gap": 6
 				} ) {
 					name: "pnlAuthorizations"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
@@ -247,6 +247,37 @@ new FormModel {
 							"gridy": 1
 							"hAlign": 4
 							"gridx": 1
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "pnlFacebook"
+						"border": new javax.swing.border.TitledBorder( "Facebook" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblFacebookStatus"
+							"text": new FormMessage( null, "Preferences.lblFacebookStatus.text" )
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1260-facebook-toolbar.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblFbMessage"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnFacebook"
+							"text": new FormMessage( null, "Preferences.btnFacebook.text" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFacebookActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {

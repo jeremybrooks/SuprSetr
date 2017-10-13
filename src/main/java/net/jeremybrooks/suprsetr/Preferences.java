@@ -22,6 +22,7 @@ package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
+import net.jeremybrooks.suprsetr.facebook.FacebookHelper;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
@@ -46,6 +47,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
@@ -99,7 +101,7 @@ public class Preferences extends javax.swing.JDialog {
 
   private SimpleDateFormat autoRefreshFormat = new SimpleDateFormat("HH:mm");
   private Date autoRefreshDate = new Date();
-
+  private FacebookHelper facebookHelper;
 
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.preferences");
 
@@ -203,6 +205,47 @@ public class Preferences extends javax.swing.JDialog {
 
   private void cmbTagTypeActionPerformed(ActionEvent e) {
     LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TAG_TYPE, String.valueOf(this.cmbTagType.getSelectedIndex()));
+  }
+
+  private void btnFacebookActionPerformed(ActionEvent e) {
+    // TODO add your code here
+    this.lblFbMessage.setText("");
+
+    if (btnFacebook.getText().equals(resourceBundle.getString("Preferences.btnFacebook_LoggedOut.text"))) {
+//      BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("Preferences.message.facebookAuthorization"));
+//      setGlassPane(blocker);
+      Preferences owner = this;
+      SwingUtilities.invokeLater(
+          new Runnable() {
+            @Override
+            public void run() {
+              if (facebookHelper == null) {
+                facebookHelper = new FacebookHelper();
+              }
+              facebookHelper.setOwner(owner);
+              facebookHelper.authorizeFacebook();
+            }
+          }
+      );
+    } else {
+      // todo deauthorize facebook
+//      updateStatus();
+    }
+  }
+
+  public void updateFacebookStatus(boolean connected) {
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        if (connected) {
+          lblFacebookStatus.setText(resourceBundle.getString("Preferences.lblFacebookStatus_LoggedIn.text"));
+          btnFacebook.setText(resourceBundle.getString("Preferences.btnFacebook_LoggedIn.text"));
+        } else {
+          lblFacebookStatus.setText(resourceBundle.getString("Preferences.lblFacebookStatus_LoggedOut.text"));
+          btnFacebook.setText(resourceBundle.getString("Preferences.btnFacebook_LoggedOut.text"));
+        }
+      }
+    });
   }
 
 
@@ -325,6 +368,10 @@ public class Preferences extends javax.swing.JDialog {
     lblTwitterStatus = new JLabel();
     lblMessage = new JLabel();
     btnTwitter = new JButton();
+    pnlFacebook = new JPanel();
+    lblFacebookStatus = new JLabel();
+    lblFbMessage = new JLabel();
+    btnFacebook = new JButton();
     pnlProxy = new JPanel();
     cbxProxy = new JCheckBox();
     panel2 = new JPanel();
@@ -499,7 +546,7 @@ public class Preferences extends javax.swing.JDialog {
 
       //======== pnlAuthorizations ========
       {
-        pnlAuthorizations.setLayout(new VerticalLayout(5));
+        pnlAuthorizations.setLayout(new VerticalLayout(6));
 
         //======== pnlFlickr ========
         {
@@ -553,6 +600,34 @@ public class Preferences extends javax.swing.JDialog {
             new Insets(0, 0, 0, 0), 0, 0));
         }
         pnlAuthorizations.add(pnlTwitter);
+
+        //======== pnlFacebook ========
+        {
+          pnlFacebook.setBorder(new TitledBorder("Facebook"));
+          pnlFacebook.setLayout(new GridBagLayout());
+          ((GridBagLayout)pnlFacebook.getLayout()).columnWidths = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlFacebook.getLayout()).rowHeights = new int[] {0, 0, 0};
+          ((GridBagLayout)pnlFacebook.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+          ((GridBagLayout)pnlFacebook.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+          //---- lblFacebookStatus ----
+          lblFacebookStatus.setText(bundle.getString("Preferences.lblFacebookStatus.text"));
+          lblFacebookStatus.setIcon(new ImageIcon(getClass().getResource("/images/1260-facebook-toolbar.png")));
+          pnlFacebook.add(lblFacebookStatus, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
+          pnlFacebook.add(lblFbMessage, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
+
+          //---- btnFacebook ----
+          btnFacebook.setText(bundle.getString("Preferences.btnFacebook.text"));
+          btnFacebook.addActionListener(e -> btnFacebookActionPerformed(e));
+          pnlFacebook.add(btnFacebook, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        pnlAuthorizations.add(pnlFacebook);
       }
       jTabbedPane1.addTab(bundle.getString("Preferences.pnlAuthorizations.tab.title"), pnlAuthorizations);
 
@@ -864,10 +939,13 @@ public class Preferences extends javax.swing.JDialog {
 
   public void updateStatus() {
     String token = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TWITTER_TOKEN);
+    String fbToken = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_FACEBOOK_ACCESS_TOKEN);
     final String twitterLabelText;
     final String twitterButtonText;
     final String flickrLabelText;
     final String flickrButtonText;
+    final String facebookLabelText;
+    final String facebookButtonText;
 
     if (token == null || token.isEmpty()) {
       twitterLabelText = resourceBundle.getString("Preferences.lblTwitterStatus_LoggedOut.text");
@@ -886,6 +964,14 @@ public class Preferences extends javax.swing.JDialog {
       flickrButtonText = resourceBundle.getString("Preferences.btnFlickr_LoggedIn.text");
     }
 
+    if (fbToken == null || fbToken.isEmpty()) {
+      facebookLabelText = resourceBundle.getString("Preferences.lblFacebookStatus_LoggedOut.text");
+      facebookButtonText = resourceBundle.getString("Preferences.btnFacebook_LoggedOut.text");
+    } else {
+      facebookLabelText = resourceBundle.getString("Preferences.lblFacebookStatus_LoggedIn.text");
+      facebookButtonText = resourceBundle.getString("Preferences.btnFacebook_LoggedIn.text");
+    }
+
     java.awt.EventQueue.invokeLater(new Runnable() {
 
       @Override
@@ -894,6 +980,8 @@ public class Preferences extends javax.swing.JDialog {
         btnTwitter.setText(twitterButtonText);
         lblFlickrStatus.setText(flickrLabelText);
         btnFlickr.setText(flickrButtonText);
+        lblFacebookStatus.setText(facebookLabelText);
+        btnFacebook.setText(facebookButtonText);
       }
 
     });
@@ -944,6 +1032,10 @@ public class Preferences extends javax.swing.JDialog {
   private JLabel lblTwitterStatus;
   private JLabel lblMessage;
   private JButton btnTwitter;
+  private JPanel pnlFacebook;
+  private JLabel lblFacebookStatus;
+  private JLabel lblFbMessage;
+  private JButton btnFacebook;
   private JPanel pnlProxy;
   private JCheckBox cbxProxy;
   private JPanel panel2;
