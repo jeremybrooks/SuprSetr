@@ -19,7 +19,6 @@
 
 package net.jeremybrooks.suprsetr;
 
-import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import net.jeremybrooks.jinx.JinxConstants;
