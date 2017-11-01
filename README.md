@@ -29,6 +29,7 @@ If you are just looking for the installer, head over to [the SuprSetr home page]
 
  * Flickr seems to limit sets to 4,500 images
  * Picking a set image doesn't work when using proxy
+ * If you don't limit searches using tags or dates, Flickr ignores other options
  
 ## Testing
 Things that have been tested and seem to work. Parenthesis indicate the operating
@@ -69,14 +70,15 @@ Things that still need some testing and may not work
 # ROADMAP
  * 3.1.0
 
-	FavrTagr uses machine tags (fave:count=10 for example)
+	FavrTagr can use machine tags (fave:count=10 for example) or regular tags
 	Better control of when FavrTagr creates tags
 	Support experimental search options (color, style, orientation)
 
- * ?
-
- 	Support multiple accounts
+ * 3.2.0 
  	Facebook integration
+ 	
+ * ?
+ 	Support multiple accounts?
  	Other social media integration?
 
 # DEVELOPERS
