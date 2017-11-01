@@ -22,7 +22,6 @@ package net.jeremybrooks.suprsetr;
 
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
-import net.jeremybrooks.suprsetr.facebook.FacebookHelper;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.flickr.JinxFactory;
 import net.jeremybrooks.suprsetr.twitter.TwitterHelper;
@@ -101,7 +100,7 @@ public class Preferences extends javax.swing.JDialog {
 
   private SimpleDateFormat autoRefreshFormat = new SimpleDateFormat("HH:mm");
   private Date autoRefreshDate = new Date();
-  private FacebookHelper facebookHelper;
+//  private FacebookHelper facebookHelper;
 
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.preferences");
 
@@ -208,6 +207,7 @@ public class Preferences extends javax.swing.JDialog {
   }
 
   private void btnFacebookActionPerformed(ActionEvent e) {
+    /*
     // TODO add your code here
     this.lblFbMessage.setText("");
 
@@ -231,6 +231,7 @@ public class Preferences extends javax.swing.JDialog {
       // todo deauthorize facebook
 //      updateStatus();
     }
+    */
   }
 
   public void updateFacebookStatus(boolean connected) {
@@ -604,6 +605,7 @@ public class Preferences extends javax.swing.JDialog {
         //======== pnlFacebook ========
         {
           pnlFacebook.setBorder(new TitledBorder("Facebook"));
+          pnlFacebook.setVisible(false);
           pnlFacebook.setLayout(new GridBagLayout());
           ((GridBagLayout)pnlFacebook.getLayout()).columnWidths = new int[] {0, 0, 0};
           ((GridBagLayout)pnlFacebook.getLayout()).rowHeights = new int[] {0, 0, 0};

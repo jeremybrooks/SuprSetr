@@ -259,6 +259,7 @@ new FormModel {
 					} ) {
 						name: "pnlFacebook"
 						"border": new javax.swing.border.TitledBorder( "Facebook" )
+						"visible": false
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "lblFacebookStatus"
 							"text": new FormMessage( null, "Preferences.lblFacebookStatus.text" )
