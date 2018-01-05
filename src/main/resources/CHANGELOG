@@ -1,3 +1,9 @@
+Version 3.2.0
+ * FavrTagr can use machine tags (fave:count=10 for example) or regular tags
+ * Better control of when FavrTagr creates tags
+ * Support experimental search options (color, style, orientation)
+
+
 Version 3.0.2
  * Fix random order issues for size-limited sets (https://github.com/jeremybrooks/SuprSetr/issues/7)
  * Added "Hide Managed Albums" menu item
