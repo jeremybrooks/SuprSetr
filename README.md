@@ -68,13 +68,13 @@ Things that still need some testing and may not work
 
 
 # ROADMAP
- * 3.1.0
+ * 3.2.0
 
 	FavrTagr can use machine tags (fave:count=10 for example) or regular tags
 	Better control of when FavrTagr creates tags
 	Support experimental search options (color, style, orientation)
 
- * 3.2.0 +
+ * 3.?.?
     Split large search results into multiple sets
  	Facebook integration
  	
