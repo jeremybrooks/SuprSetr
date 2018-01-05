@@ -74,7 +74,8 @@ Things that still need some testing and may not work
 	Better control of when FavrTagr creates tags
 	Support experimental search options (color, style, orientation)
 
- * 3.2.0 
+ * 3.2.0 +
+    Split large search results into multiple sets
  	Facebook integration
  	
  * ?
