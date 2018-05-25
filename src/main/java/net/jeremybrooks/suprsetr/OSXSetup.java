@@ -19,17 +19,8 @@
 
 package net.jeremybrooks.suprsetr;
 
-
-import com.apple.eawt.AboutHandler;
-import com.apple.eawt.AppEvent.AboutEvent;
-import com.apple.eawt.AppEvent.PreferencesEvent;
-import com.apple.eawt.AppEvent.QuitEvent;
-import com.apple.eawt.Application;
-import com.apple.eawt.PreferencesHandler;
-import com.apple.eawt.QuitHandler;
-import com.apple.eawt.QuitResponse;
-
 import javax.swing.JOptionPane;
+import java.awt.Desktop;
 import java.util.ResourceBundle;
 
 /**
@@ -47,48 +38,27 @@ public class OSXSetup {
 		quitMessage = resourceBundle.getString("busy.quit.message");
 		quitTitle = resourceBundle.getString("busy.quit.title");
 
-		Application app = Application.getApplication();
+		Desktop.getDesktop().setAboutHandler(ae -> new AboutDialog(null, true).setVisible(true));
 
-		app.setAboutHandler(new AboutHandler() {
+		Desktop.getDesktop().setQuitHandler((qe, qr) -> {
+      int confirm;
+      // make the user confirm if busy
+      if (MainWindow.isBlocked()) {
+        confirm = JOptionPane.showConfirmDialog(MainWindow.getMainWindow(),
+            quitMessage,
+            quitTitle,
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
 
-			@Override
-			public void handleAbout(AboutEvent ae) {
-				new AboutDialog(null, true).setVisible(true);
-			}
+        if (confirm == JOptionPane.YES_OPTION) {
+          qr.performQuit();
+        }
 
-		});
-
-		app.setQuitHandler(new QuitHandler() {
-
-			@Override
-			public void handleQuitRequestWith(QuitEvent qe, QuitResponse qr) {
-				int confirm;
-				// make the user confirm if busy
-				if (MainWindow.isBlocked()) {
-					confirm = JOptionPane.showConfirmDialog(MainWindow.getMainWindow(),
-							quitMessage,
-							quitTitle,
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
-
-					if (confirm == JOptionPane.YES_OPTION) {
-						qr.performQuit();
-					}
-
-				} else {
-					qr.performQuit();
-				}
-			}
-
-		});
-		app.setPreferencesHandler(new PreferencesHandler() {
-
-			@Override
-			public void handlePreferences(PreferencesEvent pe) {
-				new Preferences(MainWindow.getMainWindow(), true).setVisible(true);
-			}
-
-		});
+      } else {
+        qr.performQuit();
+      }
+    });
+		Desktop.getDesktop().setPreferencesHandler(pe -> new Preferences(MainWindow.getMainWindow(), true).setVisible(true));
 	}
 
 }

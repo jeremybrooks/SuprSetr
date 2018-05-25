@@ -84,7 +84,11 @@ public class Main {
     // If running on a Mac, set up the event handler
     if (System.getProperty("os.name").contains("Mac")) {
       System.setProperty("apple.laf.useScreenMenuBar", "true");
-      new OSXSetup();
+      try {
+        Class.forName("net.jeremybrooks.suprsetr.OSXSetup").getDeclaredConstructor().newInstance();
+      } catch (Exception e) {
+        logger.error("Could not find class.", e);
+      }
     }
 
     // ADD SHUTDOWN HOOK
