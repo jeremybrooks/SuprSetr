@@ -96,7 +96,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
       if (intervals.startsWith("c")) {
         customIntervals = new ArrayList<>();
         for (String s : intervals.substring(2).split(",")) {
-          this.customIntervals.add(new Integer(s));
+          this.customIntervals.add(Integer.valueOf(s));
         }
       } else {
         this.interval = Integer.parseInt(intervals);
