@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "6.0.2.0.116" Java: "1.8.0_152-release" encoding: "UTF-8"
+JFDML JFormDesigner: "6.0.4.0.167" Java: "1.8.0_152-release" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -247,38 +247,6 @@ new FormModel {
 							"gridy": 1
 							"hAlign": 4
 							"gridx": 1
-						} )
-					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "0, 0"
-						"$rowSpecs": "0, 0"
-						"$hGap": 5
-						"$vGap": 5
-						"$alignLeft": true
-						"$alignTop": true
-					} ) {
-						name: "pnlFacebook"
-						"border": new javax.swing.border.TitledBorder( "Facebook" )
-						"visible": false
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "lblFacebookStatus"
-							"text": new FormMessage( null, "Preferences.lblFacebookStatus.text" )
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1260-facebook-toolbar.png" )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"weightx": 1.0
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "lblFbMessage"
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 1
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "btnFacebook"
-							"text": new FormMessage( null, "Preferences.btnFacebook.text" )
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFacebookActionPerformed", true ) )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridx": 1
-							"gridy": 1
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {

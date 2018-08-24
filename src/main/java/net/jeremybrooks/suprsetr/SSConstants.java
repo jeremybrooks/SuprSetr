@@ -66,7 +66,6 @@ public class SSConstants {
   public static final String LOOKUP_KEY_TWITTER_USERID = "TWITTER_USER_ID";
   public static final String LOOKUP_KEY_TWITTER_TOKEN = "TWITTER_TOKEN";
   public static final String LOOKUP_KEY_TWITTER_TOKEN_SECRET = "TWITTER_TOKEN_SECRET";
-  public static final String LOOKUP_KEY_FACEBOOK_ACCESS_TOKEN = "FACEBOOK_ACCESS_TOKEN";
   public static final String LOOKUP_KEY_ADD_VIA = "ADD_VIA";
   public static final String LOOKUP_KEY_ADD_MANAGED = "ADD_MANAGED";
   public static final String LOOKUP_KEY_REFRESH_WAIT = "REFRESH_WAIT";
