@@ -76,7 +76,6 @@ Things that still need some testing and may not work
 
  * 3.?.?
     Split large search results into multiple sets
- 	Facebook integration
  	
  * ?
  	Support multiple accounts?
