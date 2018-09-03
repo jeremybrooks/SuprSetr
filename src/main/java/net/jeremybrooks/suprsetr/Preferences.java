@@ -72,9 +72,7 @@ import java.util.ResourceBundle;
 public class Preferences extends javax.swing.JDialog {
 
   private static final long serialVersionUID = 6297020767085159090L;
-  /**
-   * Logging.
-   */
+  /* Logging. */
   private Logger logger = LogManager.getLogger(Preferences.class);
 
   /**
@@ -92,10 +90,8 @@ public class Preferences extends javax.swing.JDialog {
    */
   public static final int PROXY_PANEL = 2;
 
-  /**
-   * Flag indicating if something has changed requiring list refresh.
-   */
-  private boolean refreshList = false;
+  /* Flag indicating if something has changed requiring list refresh. */
+  private boolean refreshList;
 
   private SimpleDateFormat autoRefreshFormat = new SimpleDateFormat("HH:mm");
   private Date autoRefreshDate = new Date();
