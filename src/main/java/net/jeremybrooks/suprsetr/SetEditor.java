@@ -32,8 +32,8 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.VerticalLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -563,7 +563,7 @@ public class SetEditor extends javax.swing.JDialog {
 
       //======== basicPanel ========
       {
-        basicPanel.setLayout(new VerticalLayout(5));
+        basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
 
         //======== pnlTitle ========
         {
@@ -738,7 +738,7 @@ public class SetEditor extends javax.swing.JDialog {
         //======== pnlDates ========
         {
           pnlDates.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlDates.border")));
-          pnlDates.setLayout(new VerticalLayout());
+          pnlDates.setLayout(new BoxLayout(pnlDates, BoxLayout.Y_AXIS));
 
           //======== panel1 ========
           {
@@ -937,7 +937,7 @@ public class SetEditor extends javax.swing.JDialog {
       //======== advancedPanel ========
       {
         advancedPanel.setVerifyInputWhenFocusTarget(false);
-        advancedPanel.setLayout(new VerticalLayout(5));
+        advancedPanel.setLayout(new BoxLayout(advancedPanel, BoxLayout.Y_AXIS));
 
         //======== pnlSocial ========
         {
@@ -1154,7 +1154,7 @@ public class SetEditor extends javax.swing.JDialog {
 
       //======== experimentalPanel ========
       {
-        experimentalPanel.setLayout(new VerticalLayout(5));
+        experimentalPanel.setLayout(new BoxLayout(experimentalPanel, BoxLayout.Y_AXIS));
 
         //======== scrollPane1 ========
         {

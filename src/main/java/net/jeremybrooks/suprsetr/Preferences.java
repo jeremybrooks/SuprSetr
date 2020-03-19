@@ -20,6 +20,7 @@
 package net.jeremybrooks.suprsetr;
 
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -30,8 +31,8 @@ import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.VerticalLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,7 +50,6 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -348,7 +348,7 @@ public class Preferences extends javax.swing.JDialog {
         formWindowClosed(e);
       }
     });
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jTabbedPane1 ========
@@ -494,7 +494,7 @@ public class Preferences extends javax.swing.JDialog {
 
       //======== pnlAuthorizations ========
       {
-        pnlAuthorizations.setLayout(new VerticalLayout(6));
+        pnlAuthorizations.setLayout(new BoxLayout(pnlAuthorizations, BoxLayout.Y_AXIS));
 
         //======== pnlFlickr ========
         {
