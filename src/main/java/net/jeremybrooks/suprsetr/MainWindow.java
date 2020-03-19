@@ -1,20 +1,20 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr;
@@ -26,7 +26,6 @@ import net.jeremybrooks.suprsetr.dao.PhotosetDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
 import net.jeremybrooks.suprsetr.tutorial.Tutorial;
 import net.jeremybrooks.suprsetr.utils.FilenameContainsFilter;
-import net.jeremybrooks.suprsetr.utils.IOUtil;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.workers.AddPhotosetWorker;
 import net.jeremybrooks.suprsetr.workers.DatabaseBackupWorker;
@@ -120,7 +119,6 @@ public class MainWindow extends javax.swing.JFrame {
   private void btnBrowserActionPerformed() {
     this.doOpenInBrowserAction();
   }
-
 
 
   public MainWindow() {
@@ -314,7 +312,7 @@ public class MainWindow extends javax.swing.JFrame {
         //---- mnuRefreshAll ----
         mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
         mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
+        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
         mnuRefreshAll.addActionListener(e -> mnuRefreshAllActionPerformed());
         mnuEdit.add(mnuRefreshAll);
 
@@ -528,6 +526,7 @@ public class MainWindow extends javax.swing.JFrame {
         public void mousePressed(MouseEvent e) {
           jList1MousePressed(e);
         }
+
         @Override
         public void mouseReleased(MouseEvent e) {
           jList1MouseReleased(e);
@@ -807,26 +806,24 @@ public class MainWindow extends javax.swing.JFrame {
       filename = filename.replaceAll(" ", "_");
       File zipFile = new File(jfc.getSelectedFile(), filename);
       logger.info("Creating archive " + zipFile.getAbsolutePath());
-      ZipOutputStream out = null;
       File[] source = Main.configDir.listFiles(new FilenameContainsFilter("suprsetr.log"));
       logger.info("Adding " + source.length + " files to zip.");
       byte[] buf = new byte[1024];
-      try {
+      try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile))) {
         zipFile.createNewFile();
-        out = new ZipOutputStream(new FileOutputStream(zipFile));
         for (File logFile : source) {
           logger.info("Adding file " + logFile.getAbsolutePath() + " to archive.");
-          FileInputStream in = new FileInputStream(logFile);
-          // Add ZIP entry to output stream.
-          out.putNextEntry(new ZipEntry(logFile.getName()));
-          // Transfer bytes from the file to the ZIP file
-          int len;
-          while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
+          try (FileInputStream in = new FileInputStream(logFile)) {
+            // Add ZIP entry to output stream.
+            out.putNextEntry(new ZipEntry(logFile.getName()));
+            // Transfer bytes from the file to the ZIP file
+            int len;
+            while ((len = in.read(buf)) > 0) {
+              out.write(buf, 0, len);
+            }
+            // Complete the entry
+            out.closeEntry();
           }
-          // Complete the entry
-          out.closeEntry();
-          IOUtil.close(in);
         }
         JOptionPane.showMessageDialog(this,
             resourceBundle.getString("MainWindow.dialog.zipfile.created.message1") +
@@ -840,8 +837,6 @@ public class MainWindow extends javax.swing.JFrame {
             resourceBundle.getString("MainWindow.dialog.zipfile.error.message"),
             resourceBundle.getString("MainWindow.dialog.zipfile.error.title"),
             JOptionPane.INFORMATION_MESSAGE);
-      } finally {
-        IOUtil.close(out);
       }
     }
 
@@ -1103,10 +1098,10 @@ public class MainWindow extends javax.swing.JFrame {
   /**
    * This method is called by the BlockerPanel to disable keyboard input
    * while some task is running.
-   *
+   * <p>
    * There is not a reliable way to intercept keyboard events with a GlassPane,
    * so this is used as a workaround.
-   *
+   * <p>
    * Note that after the focus is requested, the text in the text box will
    * be selected. To remove the selection, the FOCUS_GAINED event is used
    * to know when the focus is actually gained, and we remove the selection.
@@ -1191,7 +1186,7 @@ public class MainWindow extends javax.swing.JFrame {
 
   /**
    * Determine if the window is in a blocked state.
-   *
+   * <p>
    * This can be called to determine if SuprSetr is currently in the middle of
    * a transaction with Flickr.
    *
@@ -1247,9 +1242,9 @@ public class MainWindow extends javax.swing.JFrame {
 
   /**
    * This will replace the master list that backs the list model.
-   *
+   * <p>
    * The list model will be refreshed by the FilterSetListWorker class.
-   *
+   * <p>
    * If you need to add, delete, or update a single set in the list model,
    * use one of the other methods. This method should only be used when the
    * entire list needs to be refreshed, as it can take time if the user has a
@@ -1302,14 +1297,14 @@ public class MainWindow extends javax.swing.JFrame {
 
   /**
    * This method will insert a single photoset into the list model.
-   *
+   * <p>
    * The photoset must exist in the supplied master list as well. The master
    * list will be set, and the specified photoset will be added to the
    * list model.
-   *
+   * <p>
    * The purpose of having this method is to allow us to add a single set
    * without forcing an update of the entire list in the GUI.
-   *
+   * <p>
    * This method must honor the filter text and the hide unmanaged sets menu
    * selection.
    *

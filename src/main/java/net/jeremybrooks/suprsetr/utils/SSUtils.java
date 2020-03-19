@@ -1,20 +1,20 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr.utils;
@@ -47,29 +47,18 @@ import java.util.List;
  */
 public class SSUtils {
 
-  /**
-   * Logging.
-   */
   private static Logger logger = LogManager.getLogger(SSUtils.class);
 
-  /**
-   * Date formatter in a nice full format.
-   */
+  /* Date formatter in a nice full format. */
   private static SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' HH:mm:ss");
 
-  /**
-   * Date formatter for a yyyy-MM-dd format.
-   */
+  /* Date formatter for a yyyy-MM-dd format. */
   private static SimpleDateFormat yyyyMMddFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-  /**
-   * Date formatter for a yyyy-MM-dd HH:mm:ss format.
-   */
+  /* Date formatter for a yyyy-MM-dd HH:mm:ss format. */
   private static SimpleDateFormat yyyyMMddHHmmssFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-  /**
-   * This is not the constructor you are looking for.
-   */
+  /* This is not the constructor you are looking for. */
   private SSUtils() {
   }
 
@@ -316,16 +305,14 @@ public class SSUtils {
    * @return nicely formatted string representing the search parameters.
    */
   public static String searchParamsToString(SearchParameters params) {
-    StringBuilder sb = new StringBuilder("Search parameters: [");
-    sb.append("User Id:").append(params.getUserId());
-    sb.append(" | Tag Mode:").append(params.getTagMode());
-    sb.append(" | Tags:").append(params.getTags());
-    sb.append(" | Min Taken Date:").append(params.getMinTakenDate());
-    sb.append(" | Max Taken Date:").append(params.getMaxTakenDate());
-    sb.append(" | Min Upload Date:").append(params.getMinUploadDate());
-    sb.append(" | Max Upload Date:").append(params.getMaxUploadDate());
-    sb.append(" ]");
-    return sb.toString();
+    return "Search parameters: [" + "User Id:" + params.getUserId() +
+        " | Tag Mode:" + params.getTagMode() +
+        " | Tags:" + params.getTags() +
+        " | Min Taken Date:" + params.getMinTakenDate() +
+        " | Max Taken Date:" + params.getMaxTakenDate() +
+        " | Min Upload Date:" + params.getMinUploadDate() +
+        " | Max Upload Date:" + params.getMaxUploadDate() +
+        " ]";
   }
 
 

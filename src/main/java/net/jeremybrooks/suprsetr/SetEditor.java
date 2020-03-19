@@ -1,20 +1,20 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr;
@@ -32,8 +32,8 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.VerticalLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -59,7 +59,6 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -556,7 +555,7 @@ public class SetEditor extends javax.swing.JDialog {
 
     //======== this ========
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jTabbedPane1 ========
@@ -564,7 +563,7 @@ public class SetEditor extends javax.swing.JDialog {
 
       //======== basicPanel ========
       {
-        basicPanel.setLayout(new VerticalLayout(5));
+        basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
 
         //======== pnlTitle ========
         {
@@ -739,7 +738,7 @@ public class SetEditor extends javax.swing.JDialog {
         //======== pnlDates ========
         {
           pnlDates.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlDates.border")));
-          pnlDates.setLayout(new VerticalLayout());
+          pnlDates.setLayout(new BoxLayout(pnlDates, BoxLayout.Y_AXIS));
 
           //======== panel1 ========
           {
@@ -938,7 +937,7 @@ public class SetEditor extends javax.swing.JDialog {
       //======== advancedPanel ========
       {
         advancedPanel.setVerifyInputWhenFocusTarget(false);
-        advancedPanel.setLayout(new VerticalLayout(5));
+        advancedPanel.setLayout(new BoxLayout(advancedPanel, BoxLayout.Y_AXIS));
 
         //======== pnlSocial ========
         {
@@ -1155,7 +1154,7 @@ public class SetEditor extends javax.swing.JDialog {
 
       //======== experimentalPanel ========
       {
-        experimentalPanel.setLayout(new VerticalLayout(5));
+        experimentalPanel.setLayout(new BoxLayout(experimentalPanel, BoxLayout.Y_AXIS));
 
         //======== scrollPane1 ========
         {
@@ -1556,7 +1555,7 @@ public class SetEditor extends javax.swing.JDialog {
     setLocationRelativeTo(null);
 
     //---- btnGrpTweet ----
-    ButtonGroup btnGrpTweet = new ButtonGroup();
+    var btnGrpTweet = new ButtonGroup();
     btnGrpTweet.add(radioTweetNone);
     btnGrpTweet.add(radioTweetUpdated);
     btnGrpTweet.add(radioTweetCreated);

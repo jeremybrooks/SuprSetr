@@ -1,3 +1,7 @@
+Version 3.3.0
+ * Fixed authentication issues
+ * Requires Java 13
+
 Version 3.2.0
  * FavrTagr can use machine tags (fave:count=10 for example) or regular tags
  * Better control of when FavrTagr creates tags

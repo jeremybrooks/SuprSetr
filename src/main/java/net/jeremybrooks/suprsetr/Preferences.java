@@ -1,25 +1,26 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr;
 
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -30,8 +31,8 @@ import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import net.jeremybrooks.suprsetr.workers.TwitterAuthenticatorWorker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.VerticalLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,7 +50,6 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -83,12 +83,12 @@ public class Preferences extends javax.swing.JDialog {
   /**
    * Constant defining the Authorizations tab panel.
    */
-  public static final int AUTH_PANEL = 1;
+  public static final int AUTH_PANEL = 2;
 
   /**
    * Constant defining the Proxy tab panel.
    */
-  public static final int PROXY_PANEL = 2;
+  public static final int PROXY_PANEL = 3;
 
   /* Flag indicating if something has changed requiring list refresh. */
   private boolean refreshList;
@@ -348,7 +348,7 @@ public class Preferences extends javax.swing.JDialog {
         formWindowClosed(e);
       }
     });
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jTabbedPane1 ========
@@ -494,7 +494,7 @@ public class Preferences extends javax.swing.JDialog {
 
       //======== pnlAuthorizations ========
       {
-        pnlAuthorizations.setLayout(new VerticalLayout(6));
+        pnlAuthorizations.setLayout(new BoxLayout(pnlAuthorizations, BoxLayout.Y_AXIS));
 
         //======== pnlFlickr ========
         {

@@ -1,27 +1,26 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr.workers;
 
 
 import net.jeremybrooks.jinx.response.photosets.Photoset;
-import net.jeremybrooks.jinx.response.photosets.PhotosetList;
 import net.jeremybrooks.suprsetr.BlockerPanel;
 import net.jeremybrooks.suprsetr.SSPhotoset;
 import net.jeremybrooks.suprsetr.SetOrderer;
@@ -100,44 +99,42 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
   protected List<SetOrdererDTO> doInBackground() {
     blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.getting"));
     String nsid = FlickrHelper.getInstance().getNSID();
-    PhotosetList photosetList;
     List<SetOrdererDTO> dtoList = new ArrayList<>();
 
     try {
-      photosetList = PhotosetHelper.getInstance().getPhotosets(nsid);
-      for (Photoset p : photosetList.getPhotosetList()) {
-        blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.processing") + " \"" + p.getTitle() + "\"");
+      List<Photoset> photosets = PhotosetHelper.getInstance().getPhotosets(nsid);
+        for (Photoset p : photosets) {
+          blocker.updateMessage(resourceBundle.getString("SetOrdererDTOListWorker.blocker.processing") + " \"" + p.getTitle() + "\"");
 
-        // populate a DTO
-        SetOrdererDTO sod = new SetOrdererDTO();
-        sod.setDescription(p.getDescription());
-        sod.setPhotoCount(p.getPhotos());
-        sod.setVideoCount(p.getVideos());
-        sod.setId(p.getPhotosetId());
-        sod.setTitle(p.getTitle());
-        sod.setViewCount(p.getCountViews());
+          // populate a DTO
+          SetOrdererDTO sod = new SetOrdererDTO();
+          sod.setDescription(p.getDescription());
+          sod.setPhotoCount(p.getPhotos());
+          sod.setVideoCount(p.getVideos());
+          sod.setId(p.getPhotosetId());
+          sod.setTitle(p.getTitle());
+          sod.setViewCount(p.getCountViews());
 
-        // get the icon from the database if possible
-        SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
+          // get the icon from the database if possible
+          SSPhotoset ssp = PhotosetDAO.getPhotosetForId(p.getPhotosetId());
 
-        if (ssp == null) {
-          // This means the set was created manually on Flickr after
-          // SuprSetr was launched. So load the icon from Flickr
-          // This is slower than loading from the database, but at
-          // least we get the icon
-          sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
-        } else {
-          // Check for missing icon, setting if needed
-          if (ssp.getPrimaryPhotoIcon() == null) {
+          if (ssp == null) {
+            // This means the set was created manually on Flickr after
+            // SuprSetr was launched. So load the icon from Flickr
+            // This is slower than loading from the database, but at
+            // least we get the icon
             sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
           } else {
-            sod.setIcon(ssp.getPrimaryPhotoIcon());
+            // Check for missing icon, setting if needed
+            if (ssp.getPrimaryPhotoIcon() == null) {
+              sod.setIcon(PhotosetHelper.getInstance().getIconForPhotoset(p));
+            } else {
+              sod.setIcon(ssp.getPrimaryPhotoIcon());
+            }
           }
+          // add to the list
+          dtoList.add(sod);
         }
-        // add to the list
-        dtoList.add(sod);
-      }
-
     } catch (Exception e) {
       logger.error("ERROR GETTING PHOTOSET LIST FOR SET ORDERER.", e);
 
