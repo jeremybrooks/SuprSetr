@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.0.0.109" Java: "1.6.0_65" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.1.0.272" Java: "11.0.6" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -39,7 +39,7 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp jScrollPane1::l::526:x}"
+					"$horizontalGroup": "par l {comp jScrollPane1::l::528:x}"
 					"$verticalGroup": "par l {comp jScrollPane1::l::255:x}"
 				} ) {
 					name: "pnlCredits"
@@ -49,14 +49,15 @@ new FormModel {
 							name: "txtCredits"
 							"contentType": "text/html"
 							"editable": false
-							"text": "<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"http://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"http://jeremybrooks.net/jinx/\">jinx</a></li>\n<li><a href=\"http://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"http://www.toedter.com/en/jcalendar/\">jcalendar</a></li>\n<li><a href=\"https://swingx.java.net\">SwingLabs components</a></li>\n<li><a href=\"https://db.apache.org/derby/\">Apache Derby</a></li>\n<li>A bunch of <a href=\"http://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n"
+							"text": "<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"https://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"https://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"https://github.com/jeremybrooks/jinx\">jinx</a></li>\n<li><a href=\"https://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"https://www.toedter.com/en/jcalendar/\">jcalendar</a></li>\n<li><a href=\"https://swingx.java.net\">SwingLabs components</a></li>\n<li><a href=\"https://db.apache.org/derby/\">Apache Derby</a></li>\n<li>A bunch of <a href=\"https://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n"
+							addEvent( new FormEvent( "javax.swing.event.HyperlinkListener", "hyperlinkUpdate", "txtCreditsHyperlinkUpdate", true ) )
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "AboutDialog.pnlCredits.tab.title" )
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp jScrollPane2::t::526:x}"
+					"$horizontalGroup": "par l {comp jScrollPane2::t::528:x}"
 					"$verticalGroup": "par l {comp jScrollPane2::t::255:x}"
 				} ) {
 					name: "pnlLicense"
@@ -76,7 +77,7 @@ new FormModel {
 					"title": new FormMessage( null, "AboutDialog.pnlLicense.tab.title" )
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp jScrollPane3::l::526:x}"
+					"$horizontalGroup": "par l {comp jScrollPane3::l::528:x}"
 					"$verticalGroup": "par l {comp jScrollPane3::l::255:x}"
 				} ) {
 					name: "pnlChangelog"

@@ -32,11 +32,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.event.HyperlinkEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ResourceBundle;
 
 
@@ -46,13 +48,8 @@ import java.util.ResourceBundle;
 public class AboutDialog extends javax.swing.JDialog {
 
   private static final long serialVersionUID = -7134729202657056791L;
-  /**
-   * Logging
-   */
   private Logger logger = LogManager.getLogger(AboutDialog.class);
-
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.about");
-
 
   /**
    * Creates new form AboutDialog
@@ -60,6 +57,8 @@ public class AboutDialog extends javax.swing.JDialog {
    * @param parent parent component.
    * @param modal  if true, dialog is modal.
    */
+
+
   public AboutDialog(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
     initComponents();
@@ -82,6 +81,17 @@ public class AboutDialog extends javax.swing.JDialog {
     this.txtChangelog.setCaretPosition(0);
     this.txtCredits.setCaretPosition(0);
     this.txtLicense.setCaretPosition(0);
+  }
+
+  private void txtCreditsHyperlinkUpdate(HyperlinkEvent e) {
+    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+      URL url = e.getURL();
+      try {
+        Desktop.getDesktop().browse(url.toURI());
+      } catch (Exception ex) {
+        logger.warn("Could not open the link {}.", url, ex);
+      }
+    }
   }
 
   /**
@@ -111,7 +121,7 @@ public class AboutDialog extends javax.swing.JDialog {
     //======== this ========
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setTitle(bundle.getString("AboutDialog.this.title"));
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jPanel1 ========
@@ -143,19 +153,20 @@ public class AboutDialog extends javax.swing.JDialog {
           //---- txtCredits ----
           txtCredits.setContentType("text/html");
           txtCredits.setEditable(false);
-          txtCredits.setText("<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"http://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"http://jeremybrooks.net/jinx/\">jinx</a></li>\n<li><a href=\"http://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"http://www.toedter.com/en/jcalendar/\">jcalendar</a></li>\n<li><a href=\"https://swingx.java.net\">SwingLabs components</a></li>\n<li><a href=\"https://db.apache.org/derby/\">Apache Derby</a></li>\n<li>A bunch of <a href=\"http://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n");
+          txtCredits.setText("<html>\n  <head>\n\n  </head>\n  <body>\n<p><a href=\"https://www.jeremybrooks.net/suprsetr\">SuprSetr</a> is a program to help you manage photosets on the Flickr \nphotosharing site.</p>\n<p>Coding: Jeremy Brooks</p>\n<p>Icon design: <a href=\"https://www.mattbryanwright.com\">Matt Wright</a></p>\n<p>For support or questions, contact <a href=\"mailto:suprsetr@jeremybrooks.net\">suprsetr@jeremybrooks.net</a></p>\n\n<p>SuprSetr uses the following libraries</p>\n<ul>\n<li><a href=\"https://github.com/jeremybrooks/jinx\">jinx</a></li>\n<li><a href=\"https://twitter4j.org/en/index.html\">Twitter4J</a></li>\n<li><a href=\"https://www.toedter.com/en/jcalendar/\">jcalendar</a></li>\n<li><a href=\"https://swingx.java.net\">SwingLabs components</a></li>\n<li><a href=\"https://db.apache.org/derby/\">Apache Derby</a></li>\n<li>A bunch of <a href=\"https://commons.apache.org/\">Apache Commons</a> libraries</li>\n</ul>\n\n<p>This product uses the Flickr API but is not endorsed or certified by Flickr.</p>\n  </body>\n</html>\n\n");
+          txtCredits.addHyperlinkListener(e -> txtCreditsHyperlinkUpdate(e));
           jScrollPane1.setViewportView(txtCredits);
         }
 
         GroupLayout pnlCreditsLayout = new GroupLayout(pnlCredits);
         pnlCredits.setLayout(pnlCreditsLayout);
         pnlCreditsLayout.setHorizontalGroup(
-            pnlCreditsLayout.createParallelGroup()
-                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+          pnlCreditsLayout.createParallelGroup()
+            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
         );
         pnlCreditsLayout.setVerticalGroup(
-            pnlCreditsLayout.createParallelGroup()
-                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+          pnlCreditsLayout.createParallelGroup()
+            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
         );
       }
       jTabbedPane1.addTab(bundle.getString("AboutDialog.pnlCredits.tab.title"), pnlCredits);
@@ -179,12 +190,12 @@ public class AboutDialog extends javax.swing.JDialog {
         GroupLayout pnlLicenseLayout = new GroupLayout(pnlLicense);
         pnlLicense.setLayout(pnlLicenseLayout);
         pnlLicenseLayout.setHorizontalGroup(
-            pnlLicenseLayout.createParallelGroup()
-                .addComponent(jScrollPane2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+          pnlLicenseLayout.createParallelGroup()
+            .addComponent(jScrollPane2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
         );
         pnlLicenseLayout.setVerticalGroup(
-            pnlLicenseLayout.createParallelGroup()
-                .addComponent(jScrollPane2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+          pnlLicenseLayout.createParallelGroup()
+            .addComponent(jScrollPane2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
         );
       }
       jTabbedPane1.addTab(bundle.getString("AboutDialog.pnlLicense.tab.title"), pnlLicense);
@@ -207,12 +218,12 @@ public class AboutDialog extends javax.swing.JDialog {
         GroupLayout pnlChangelogLayout = new GroupLayout(pnlChangelog);
         pnlChangelog.setLayout(pnlChangelogLayout);
         pnlChangelogLayout.setHorizontalGroup(
-            pnlChangelogLayout.createParallelGroup()
-                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+          pnlChangelogLayout.createParallelGroup()
+            .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
         );
         pnlChangelogLayout.setVerticalGroup(
-            pnlChangelogLayout.createParallelGroup()
-                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+          pnlChangelogLayout.createParallelGroup()
+            .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
         );
       }
       jTabbedPane1.addTab(bundle.getString("AboutDialog.pnlChangelog.tab.title"), pnlChangelog);
