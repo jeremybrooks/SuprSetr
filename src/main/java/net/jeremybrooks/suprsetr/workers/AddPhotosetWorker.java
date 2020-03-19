@@ -55,19 +55,12 @@ import java.util.ResourceBundle;
  */
 public class AddPhotosetWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
 	private Logger logger = LogManager.getLogger(AddPhotosetWorker.class);
 
-	/**
-	 * The blocker instance for user feedback.
-	 */
+	/* The blocker instance for user feedback. */
 	private BlockerPanel blocker;
 
-	/**
-	 * The photoset to add.
-	 */
+	/* The photoset to add. */
 	private SSPhotoset ssPhotoset;
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");

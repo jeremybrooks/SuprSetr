@@ -72,19 +72,12 @@ public class ObjectCache {
       throw new IOException("Cannot cache a null object.");
     }
 
-    ObjectOutputStream out = null;
     File cacheFile = new File(this.cacheDir, name);
     cacheFile.deleteOnExit();
-    try {
-      out = new ObjectOutputStream(new FileOutputStream(cacheFile));
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(cacheFile))) {
       out.writeObject(ser);
-
-      if (this.logger.isDebugEnabled()) {
-        this.logger.debug("Cached object '" + name + "' as " + cacheFile.getAbsolutePath());
-      }
-    } finally {
-      IOUtil.flush(out);
-      IOUtil.close(out);
+      this.logger.debug("Cached object '" + name + "' as " + cacheFile.getAbsolutePath());
+      out.flush();
     }
   }
 
@@ -94,17 +87,13 @@ public class ObjectCache {
     }
 
     Object obj = null;
-    ObjectInputStream in;
     File cacheFile = new File(this.cacheDir, name);
 
     if (cacheFile.exists()) {
-      in = new ObjectInputStream(new FileInputStream(cacheFile));
-      try {
+      try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(cacheFile))) {
         obj = in.readObject();
       } catch (ClassNotFoundException cnfe) {
         throw new IOException("Unable to read the object from cache.", cnfe);
-      } finally {
-        IOUtil.close(in);
       }
     }
 

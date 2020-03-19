@@ -83,12 +83,12 @@ public class Preferences extends javax.swing.JDialog {
   /**
    * Constant defining the Authorizations tab panel.
    */
-  public static final int AUTH_PANEL = 1;
+  public static final int AUTH_PANEL = 2;
 
   /**
    * Constant defining the Proxy tab panel.
    */
-  public static final int PROXY_PANEL = 2;
+  public static final int PROXY_PANEL = 3;
 
   /* Flag indicating if something has changed requiring list refresh. */
   private boolean refreshList;

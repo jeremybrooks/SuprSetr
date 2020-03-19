@@ -24,9 +24,9 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import net.jeremybrooks.jinx.OAuthAccessToken;
 import net.jeremybrooks.jinx.api.OAuthApi;
 import net.jeremybrooks.suprsetr.Main;
-import net.jeremybrooks.suprsetr.utils.IOUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -95,30 +95,24 @@ public class FlickrHelper {
     if (this.oauthTokenFile.exists()) {
       logger.info("Loading oauth token from " + this.oauthTokenFile.getAbsolutePath());
       oAuthAccessToken = new OAuthAccessToken();
-      InputStream in = null;
-      try {
-        in = new FileInputStream(oauthTokenFile);
+      try (InputStream in = new FileInputStream(oauthTokenFile)) {
         oAuthAccessToken.load(in);
         JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
         success = true;
       } catch (Exception e) {
         logger.warn("Unable to load oauth access token from file.", e);
-      } finally {
-        IOUtil.close(in);
       }
     } else if (this.tokenFile.exists()) {
       logger.info("Loading legacy auth token from " + this.tokenFile.getAbsolutePath());
-      InputStream in = null;
-      OutputStream out = null;
-      try {
+      try (InputStream in = new FileInputStream(tokenFile)) {
         logger.info("Converting legacy auth token to oauth token.");
-        in = new FileInputStream(tokenFile);
         OAuthApi oauth = JinxFactory.getInstance().getoAuthApi();
         oAuthAccessToken = oauth.getAccessToken(in);
         JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
-        out = new FileOutputStream(oauthTokenFile);
-        oAuthAccessToken.store(out);
-        success = true;
+        try (OutputStream out = new FileOutputStream(oauthTokenFile)) {
+          oAuthAccessToken.store(out);
+          success = true;
+        }
       } catch (Exception e) {
         logger.warn("Unable to load legacy auth token from file.", e);
       } finally {
@@ -127,8 +121,6 @@ public class FlickrHelper {
         } else {
           logger.warn("Unable to delete old legacy auth token file.");
         }
-        IOUtil.close(out);
-        IOUtil.close(in);
       }
     }
 
@@ -178,12 +170,8 @@ public class FlickrHelper {
   public void completeAuthentication(String verificationCode) throws Exception {
     this.oAuthAccessToken = JinxFactory.getInstance().getAccessToken(tempToken, verificationCode);
     JinxFactory.getInstance().setAccessToken(this.oAuthAccessToken);
-    OutputStream out = null;
-    try {
-      out = new FileOutputStream(oauthTokenFile);
+    try (OutputStream out = new FileOutputStream(oauthTokenFile)) {
       this.oAuthAccessToken.store(out);
-    } finally {
-      IOUtil.close(out);
     }
   }
 

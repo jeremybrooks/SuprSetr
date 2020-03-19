@@ -59,7 +59,6 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -556,7 +555,7 @@ public class SetEditor extends javax.swing.JDialog {
 
     //======== this ========
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jTabbedPane1 ========
@@ -1556,7 +1555,7 @@ public class SetEditor extends javax.swing.JDialog {
     setLocationRelativeTo(null);
 
     //---- btnGrpTweet ----
-    ButtonGroup btnGrpTweet = new ButtonGroup();
+    var btnGrpTweet = new ButtonGroup();
     btnGrpTweet.add(radioTweetNone);
     btnGrpTweet.add(radioTweetUpdated);
     btnGrpTweet.add(radioTweetCreated);

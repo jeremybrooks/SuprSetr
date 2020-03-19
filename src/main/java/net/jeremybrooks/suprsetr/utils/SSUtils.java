@@ -47,29 +47,18 @@ import java.util.List;
  */
 public class SSUtils {
 
-  /**
-   * Logging.
-   */
   private static Logger logger = LogManager.getLogger(SSUtils.class);
 
-  /**
-   * Date formatter in a nice full format.
-   */
+  /* Date formatter in a nice full format. */
   private static SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' HH:mm:ss");
 
-  /**
-   * Date formatter for a yyyy-MM-dd format.
-   */
+  /* Date formatter for a yyyy-MM-dd format. */
   private static SimpleDateFormat yyyyMMddFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-  /**
-   * Date formatter for a yyyy-MM-dd HH:mm:ss format.
-   */
+  /* Date formatter for a yyyy-MM-dd HH:mm:ss format. */
   private static SimpleDateFormat yyyyMMddHHmmssFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-  /**
-   * This is not the constructor you are looking for.
-   */
+  /* This is not the constructor you are looking for. */
   private SSUtils() {
   }
 
@@ -316,16 +305,14 @@ public class SSUtils {
    * @return nicely formatted string representing the search parameters.
    */
   public static String searchParamsToString(SearchParameters params) {
-    StringBuilder sb = new StringBuilder("Search parameters: [");
-    sb.append("User Id:").append(params.getUserId());
-    sb.append(" | Tag Mode:").append(params.getTagMode());
-    sb.append(" | Tags:").append(params.getTags());
-    sb.append(" | Min Taken Date:").append(params.getMinTakenDate());
-    sb.append(" | Max Taken Date:").append(params.getMaxTakenDate());
-    sb.append(" | Min Upload Date:").append(params.getMinUploadDate());
-    sb.append(" | Max Upload Date:").append(params.getMaxUploadDate());
-    sb.append(" ]");
-    return sb.toString();
+    return "Search parameters: [" + "User Id:" + params.getUserId() +
+        " | Tag Mode:" + params.getTagMode() +
+        " | Tags:" + params.getTags() +
+        " | Min Taken Date:" + params.getMinTakenDate() +
+        " | Max Taken Date:" + params.getMaxTakenDate() +
+        " | Min Upload Date:" + params.getMinUploadDate() +
+        " | Max Upload Date:" + params.getMaxUploadDate() +
+        " ]";
   }
 
 
