@@ -134,9 +134,8 @@ public class Main {
 
     if (new File(configDir, "SuprSetrDB").exists()) {
       // DB exists, so make sure we can connect to it
-      try {
-        Connection conn = DAOHelper.getConnection();
-        DAOHelper.close(conn);
+      try (Connection conn = DAOHelper.getConnection()) {
+        logger.info("Database connection test: success.");
       } catch (Exception e) {
         logger.error("Database connection failed.", e);
         JOptionPane.showMessageDialog(null,
@@ -160,26 +159,19 @@ public class Main {
       }
     }
 
-    // check database schema version
-    int dbVersion = LookupDAO.getDatabaseVersion();
-    logger.info("Database schema version " + dbVersion);
-    while (dbVersion != SSConstants.DATABASE_SCHEMA_CURRENT_VERSION) {
-      try {
-        DAOHelper.upgradeDatabase();
-      } catch (Exception e) {
-        logger.error("COULD NOT UPGRADE SCHEMA.", e);
+    try {
+      DAOHelper.upgradeDatabase();
+    } catch (Exception e) {
+      logger.error("COULD NOT UPGRADE SCHEMA.", e);
 
-        JOptionPane.showMessageDialog(null,
-            resourceBundle.getString("Main.dialog.error.dbschema.message"),
-            resourceBundle.getString("Main.dialog.error.dbschema.title"),
-            JOptionPane.ERROR_MESSAGE);
-        System.exit(1);
-      }
-
-      dbVersion = LookupDAO.getDatabaseVersion();
-      logger.info("Database schema version " + dbVersion);
+      JOptionPane.showMessageDialog(null,
+          resourceBundle.getString("Main.dialog.error.dbschema.message"),
+          resourceBundle.getString("Main.dialog.error.dbschema.title"),
+          JOptionPane.ERROR_MESSAGE);
+      System.exit(1);
     }
 
+    logger.info("Database schema version {}", LookupDAO.getDatabaseVersion());
 
     // Set some default key/value pairs in the database
     if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CHECK_FOR_UPDATE) == null) {
