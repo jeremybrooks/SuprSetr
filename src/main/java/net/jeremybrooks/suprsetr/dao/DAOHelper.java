@@ -314,7 +314,7 @@ public class DAOHelper {
    * @throws Exception if there are any errors.
    */
   public static void performBackup(File backupDirectory) throws Exception {
-    logger.info("Backing up database to " + backupDirectory.getAbsolutePath());
+    logger.info("Backing up database to {}", backupDirectory.getAbsolutePath());
     try (Connection conn = getConnection();
          CallableStatement cs = conn.prepareCall(SQL_BACKUP_DATABASE)) {
       cs.setString(1, backupDirectory.getAbsolutePath());

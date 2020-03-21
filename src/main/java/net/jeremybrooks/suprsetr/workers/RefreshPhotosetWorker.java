@@ -314,7 +314,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
     if (this.exitWhenDone) {
       logger.info("Refresh is done, exiting.");
-      System.exit(0);
+      MainWindow.getMainWindow().backupAndExit();
     }
   }
 

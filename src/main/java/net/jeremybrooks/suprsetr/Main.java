@@ -44,9 +44,6 @@ import java.util.ResourceBundle;
  */
 public class Main {
 
-  /**
-   * Logging.
-   */
   private static Logger logger = LogManager.getLogger(Main.class);
 
   /**
@@ -58,6 +55,7 @@ public class Main {
    * Location of SuprSetr's files.
    */
   public static File configDir;
+  private static File backupDir;
 
   /* These are the "private" properties, such as API keys. */
   private static Properties privateProperties;
@@ -91,9 +89,6 @@ public class Main {
       }
     }
 
-    // ADD SHUTDOWN HOOK
-    Runtime.getRuntime().addShutdownHook(new Thread(new Reaper(), "ReaperThread"));
-
     // SET VERSION
     try {
       Main.VERSION = Main.class.getPackage().getImplementationVersion();
@@ -116,16 +111,16 @@ public class Main {
     }
 
     // this is the first logging - log4j2 will find its configuration file in the classpath and configure itself
-    logger.info("SuprSetr version " + Main.VERSION + " starting with Java version " + System.getProperty("java.version") +
-        " in " + System.getProperty("java.home"));
+    logger.info("SuprSetr version {} starting with Java version {} in {}",
+        Main.VERSION, System.getProperty("java.version"), System.getProperty("java.home"));
 
     // delete old files that are no longer needed
     File oldLogConfig = new File(Main.configDir, "log.properties");
     if (oldLogConfig.exists()) {
       if (oldLogConfig.delete()) {
-        logger.info("Deleted old config file " + oldLogConfig.getAbsolutePath());
+        logger.info("Deleted old config file {}", oldLogConfig.getAbsolutePath());
       } else {
-        logger.warn("Could not delete old file " + oldLogConfig.getAbsolutePath());
+        logger.warn("Could not delete old file {}", oldLogConfig.getAbsolutePath());
       }
     }
 
@@ -149,7 +144,7 @@ public class Main {
       try {
         DAOHelper.createDatabase();
       } catch (Exception e) {
-        logger.error("Could not create/upgrade database.", e);
+        logger.error("Could not create database.", e);
         JOptionPane.showMessageDialog(null,
             resourceBundle.getString("Main.dialog.error.db.message"),
             resourceBundle.getString("Main.dialog.error.db.title"),
@@ -162,7 +157,7 @@ public class Main {
     try {
       DAOHelper.upgradeDatabase();
     } catch (Exception e) {
-      logger.error("COULD NOT UPGRADE SCHEMA.", e);
+      logger.error("Could not upgrade database schema.", e);
 
       JOptionPane.showMessageDialog(null,
           resourceBundle.getString("Main.dialog.error.dbschema.message"),
@@ -207,6 +202,23 @@ public class Main {
     }
     if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE) == null) {
       LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TAG_TYPE, "0");
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_AT_EXIT) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_BACKUP_AT_EXIT, DAOHelper.booleanToString(true));
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_COUNT) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_BACKUP_COUNT, "10");
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_DIRECTORY) == null) {
+      backupDir = new File(configDir, "backup");
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_BACKUP_DIRECTORY, backupDir.getAbsolutePath());
+    } else {
+      backupDir = new File(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_DIRECTORY));
+    }
+    if (!backupDir.exists()) {
+      if (!backupDir.mkdirs()) {
+        logger.warn("Could not create the backup directory {}", backupDir.getAbsolutePath());
+      }
     }
 
     JinxFactory.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));

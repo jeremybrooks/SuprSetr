@@ -20,7 +20,7 @@ new FormModel {
 				"toolTipText": new FormMessage( null, "Preferences.jTabbedPane1.toolTipText" )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "0, 0, 0"
-					"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0"
+					"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
 					"$hGap": 5
 					"$vGap": 5
 					"$alignTop": true
@@ -84,6 +84,7 @@ new FormModel {
 						"gridx": 2
 						"gridy": 5
 						"hAlign": 2
+						"weightx": 1.0
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxDetailLog"
@@ -93,6 +94,75 @@ new FormModel {
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 7
 						"insets": new java.awt.Insets( 0, 5, 0, 0 )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "cbxBackup"
+						"text": new FormMessage( null, "Preferences.lblBackup" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxBackupActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 9
+						"insets": new java.awt.Insets( 0, 5, 0, 0 )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblSaveBackup1"
+						"text": new FormMessage( null, "Preferences.lblSaveBackup1" )
+						"horizontalAlignment": 4
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 10
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "cmbBackupCount"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "5"
+							addElement( "5" )
+							addElement( "10" )
+							addElement( "15" )
+							addElement( "20" )
+							addElement( "25" )
+							addElement( "30" )
+						}
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 10
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblSaveBackup2"
+						"text": new FormMessage( null, "Preferences.lblSaveBackup2" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+						"gridy": 10
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lblBackupDirectory"
+						"text": new FormMessage( null, "Preferences.lblBackupDir" )
+						"horizontalAlignment": 4
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 11
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtBackupDirectory"
+						"columns": 1
+						"editable": false
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 11
+						"gridwidth": 2
+						"gridx": 1
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnChangeBackupDirectory"
+						"text": new FormMessage( null, "Preferences.btnBackupDirectory" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnChangeBackupDirectoryActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 12
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnResetDirectory"
+						"text": new FormMessage( null, "Preferences.btnResetDirectory" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnResetDirectoryActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+						"gridy": 12
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "Preferences.jPanel1.tab.title" )

@@ -64,8 +64,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Desktop;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -111,7 +111,7 @@ public class MainWindow extends javax.swing.JFrame {
 
   private java.util.Timer autoRefreshTimer = null;
 
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
+  private static ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
 
   /*
    * Creates new form MainWindow
@@ -236,10 +236,10 @@ public class MainWindow extends javax.swing.JFrame {
     mnuPopupOpen = new JMenuItem();
 
     //======== this ========
-    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setTitle(bundle.getString("MainWindow.this.title"));
     setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jMenuBar1 ========
@@ -312,7 +312,7 @@ public class MainWindow extends javax.swing.JFrame {
         //---- mnuRefreshAll ----
         mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
         mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
+        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
         mnuRefreshAll.addActionListener(e -> mnuRefreshAllActionPerformed());
         mnuEdit.add(mnuRefreshAll);
 
@@ -526,7 +526,6 @@ public class MainWindow extends javax.swing.JFrame {
         public void mousePressed(MouseEvent e) {
           jList1MousePressed(e);
         }
-
         @Override
         public void mouseReleased(MouseEvent e) {
           jList1MouseReleased(e);
@@ -580,7 +579,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     //---- buttonGroup1 ----
-    ButtonGroup buttonGroup1 = new ButtonGroup();
+    var buttonGroup1 = new ButtonGroup();
     buttonGroup1.add(mnuOrderAlpha);
     buttonGroup1.add(mnuOrderAlphaDesc);
     buttonGroup1.add(mnuOrderHighLow);
@@ -589,7 +588,59 @@ public class MainWindow extends javax.swing.JFrame {
 
 
   private void mnuQuitActionPerformed() {
-    this.confirmQuit();
+    backupAndExit();
+  }
+
+  /**
+   * This method will perform a database backup if necessary,
+   * and then call the {@link #exitSuprSetr()} method to
+   * actually exit.
+   */
+  public void backupAndExit() {
+    int confirm = JOptionPane.YES_OPTION;
+    // make the user confirm if busy
+    if (MainWindow.isBlocked()) {
+      confirm = JOptionPane.showConfirmDialog(this,
+          resourceBundle.getString("MainWindow.dialog.busy.message"),
+          resourceBundle.getString("MainWindow.dialog.busy.title"),
+          JOptionPane.YES_NO_OPTION,
+          JOptionPane.QUESTION_MESSAGE);
+    }
+    if (confirm == JOptionPane.YES_OPTION) {
+      if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_AT_EXIT))) {
+        doBackup(true);
+      } else {
+        exitSuprSetr();
+      }
+    }
+  }
+
+  /**
+   * Exit the application.
+   * Some housekeeping will be performed prior to exit.
+   */
+  public void exitSuprSetr() {
+    // save window position if possible
+    Rectangle rect = getBounds();
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_X, Integer.toString(rect.x));
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_Y, Integer.toString(rect.y));
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_WIDTH, Integer.toString(rect.width));
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_HEIGHT, Integer.toString(rect.height));
+    logger.info("Compressing database tables...");
+    try {
+      DAOHelper.compressTables();
+    } catch (Exception e) {
+      logger.error("ERROR COMPRESSING DATABASE TABLES.", e);
+    } finally {
+      try {
+        DAOHelper.shutdown();
+      } catch (Exception e) {
+        // ignore; this is expected
+      }
+    }
+    logger.info("Database has been shut down");
+
+    logger.info("SuprSetr exiting. Goodbye.");    System.exit(0);
   }
 
   private void mnuCreateSetActionPerformed() {
@@ -990,17 +1041,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
   private void mnuBackupActionPerformed() {
-    JFileChooser jfc = new JFileChooser();
-    jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    jfc.setMultiSelectionEnabled(false);
-    jfc.setDialogTitle(resourceBundle.getString("MainWindow.backup.dialog.title.text"));
-    int option = jfc.showOpenDialog(this);
-    if (option == JFileChooser.APPROVE_OPTION) {
-      BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.backup"));
-      setGlassPane(blocker);
-      blocker.block("");
-      new DatabaseBackupWorker(blocker, jfc.getSelectedFile()).execute();
-    }
+    doBackup(false);
   }
 
   private void mnuRestoreActionPerformed() {
@@ -1168,19 +1209,12 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-  private void confirmQuit() {
-    int confirm = JOptionPane.YES_OPTION;
-    // make the user confirm if busy
-    if (MainWindow.isBlocked()) {
-      confirm = JOptionPane.showConfirmDialog(this,
-          resourceBundle.getString("MainWindow.dialog.busy.message"),
-          resourceBundle.getString("MainWindow.dialog.busy.title"),
-          JOptionPane.YES_NO_OPTION,
-          JOptionPane.QUESTION_MESSAGE);
-    }
-    if (confirm == JOptionPane.YES_OPTION) {
-      System.exit(0);
-    }
+
+  private void doBackup(boolean exitWhenFinished) {
+    BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.backup"));
+    setGlassPane(blocker);
+    blocker.block("");
+    new DatabaseBackupWorker(blocker, exitWhenFinished).execute();
   }
 
 

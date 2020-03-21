@@ -20,7 +20,6 @@
 package net.jeremybrooks.suprsetr;
 
 
-import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -38,6 +37,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -57,6 +57,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,7 +73,6 @@ import java.util.ResourceBundle;
 public class Preferences extends javax.swing.JDialog {
 
   private static final long serialVersionUID = 6297020767085159090L;
-  /* Logging. */
   private Logger logger = LogManager.getLogger(Preferences.class);
 
   /**
@@ -92,113 +92,9 @@ public class Preferences extends javax.swing.JDialog {
 
   /* Flag indicating if something has changed requiring list refresh. */
   private boolean refreshList;
-
   private SimpleDateFormat autoRefreshFormat = new SimpleDateFormat("HH:mm");
   private Date autoRefreshDate = new Date();
-
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.preferences");
-
-  private void btnTwitterActionPerformed(ActionEvent e) {
-    this.lblMessage.setText("");
-
-    if (btnTwitter.getText().equals(resourceBundle.getString("Preferences.btnTwitter_LoggedOut.text"))) {
-      BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("Preferences.message.twitterAuthorization"));
-      setGlassPane(blocker);
-      new TwitterAuthenticatorWorker(this, blocker).execute();
-    } else {
-      TwitterHelper.logout();
-      updateStatus();
-    }
-  }
-
-
-  /*
-   * Update and close the window.
-   * When the user clicks OK, we need to update the list view because the
-   * options affect the state of the photosets.
-   */
-  private void btnOKActionPerformed(ActionEvent e) {
-    if (!this.validateProxyInput()) {
-      JOptionPane.showMessageDialog(this,
-          resourceBundle.getString("Preferences.message.proxyErrorMsg"),
-          resourceBundle.getString("Preferences.message.proxyErrorTitle"),
-          JOptionPane.WARNING_MESSAGE);
-    } else if (this.validateCustomFavrInterval()) {
-      if (this.cbxProxy.isSelected()) {
-        // save proxy settings
-        String host = this.txtProxyHost.getText().trim();
-        if (host != null) {
-          if (host.startsWith("http://")) {
-            host = host.substring("http://".length());
-          }
-        }
-
-        String port = this.txtProxyPort.getText().trim();
-        String user = this.txtProxyUser.getText().trim();
-        String pass = new String(this.txtProxyPass.getPassword());
-
-        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(true));
-        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_HOST, host);
-        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PORT, port);
-        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USER, user);
-        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PASS, pass);
-
-        logger.info("Using proxy " + host + ":" + port);
-        NetUtil.enableProxy(host, port, user, pass.toCharArray());
-
-      } else {
-        // Save proxy setting and clear system properties
-        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(false));
-        NetUtil.clearProxy();
-      }
-
-      if (this.refreshList) {
-        SimpleCache.getInstance().invalidateAll();
-        try {
-          MainWindow.getMainWindow().updateMasterList(null);
-        } catch (Exception ex) {
-          logger.warn("Could not update the list.", ex);
-        }
-      }
-
-      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH, DAOHelper.booleanToString(this.cbxAutoRefresh.isSelected()));
-      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER, DAOHelper.booleanToString(this.cbxExitAfter.isSelected()));
-      String time = autoRefreshFormat.format((Date) timeSpinner.getValue());
-      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME, time);
-      MainWindow.getMainWindow().updateStatusBar();
-
-      this.setVisible(false);
-      this.dispose();
-    }
-  }
-
-
-  private void cbxAddViaActionPerformed(ActionEvent e) {
-    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_VIA, DAOHelper.booleanToString(this.cbxAddVia.isSelected()));
-  }
-
-  private void cbxAutoRefreshActionPerformed() {
-    this.timeSpinner.setEnabled(cbxAutoRefresh.isSelected());
-    this.cbxExitAfter.setEnabled(cbxAutoRefresh.isSelected());
-  }
-
-  private void btnCustomHelpActionPerformed() {
-    JOptionPane.showMessageDialog(this,
-        resourceBundle.getString("Preferences.customhelp.message"),
-        resourceBundle.getString("Preferences.customhelp.title"),
-        JOptionPane.INFORMATION_MESSAGE);
-  }
-
-  private void btnTagTypeHelpActionPerformed(ActionEvent e) {
-    JOptionPane.showMessageDialog(this,
-        resourceBundle.getString("Preferences.tagtypehelp.message"),
-        resourceBundle.getString("Preferences.tagtypehelp.title"),
-        JOptionPane.INFORMATION_MESSAGE);
-  }
-
-  private void cmbTagTypeActionPerformed(ActionEvent e) {
-    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TAG_TYPE, String.valueOf(this.cmbTagType.getSelectedIndex()));
-  }
 
 
   public Preferences(java.awt.Frame parent, boolean modal) {
@@ -281,7 +177,152 @@ public class Preferences extends javax.swing.JDialog {
     this.cbxExitAfter.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER)));
     this.timeSpinner.setEnabled(this.cbxAutoRefresh.isSelected());
     this.cbxExitAfter.setEnabled(this.cbxAutoRefresh.isSelected());
+
+    this.cbxBackup.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_AT_EXIT)));
+    cmbBackupCount.setSelectedIndex(Integer.parseInt(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_COUNT)) / 5 - 1);
+    String backupDir = LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_BACKUP_DIRECTORY);
+    if (backupDir != null) {
+      this.txtBackupDirectory.setText(backupDir);
+    }
+    updateBackupFieldStates();
+
   }
+
+
+  private void btnTwitterActionPerformed(ActionEvent e) {
+    this.lblMessage.setText("");
+
+    if (btnTwitter.getText().equals(resourceBundle.getString("Preferences.btnTwitter_LoggedOut.text"))) {
+      BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("Preferences.message.twitterAuthorization"));
+      setGlassPane(blocker);
+      new TwitterAuthenticatorWorker(this, blocker).execute();
+    } else {
+      TwitterHelper.logout();
+      updateStatus();
+    }
+  }
+
+
+  /*
+   * Update and close the window.
+   * When the user clicks OK, we need to update the list view because the
+   * options affect the state of the photosets.
+   */
+  private void btnOKActionPerformed(ActionEvent e) {
+    if (!this.validateProxyInput()) {
+      JOptionPane.showMessageDialog(this,
+          resourceBundle.getString("Preferences.message.proxyErrorMsg"),
+          resourceBundle.getString("Preferences.message.proxyErrorTitle"),
+          JOptionPane.WARNING_MESSAGE);
+    } else if (this.validateCustomFavrInterval()) {
+      if (this.cbxProxy.isSelected()) {
+        // save proxy settings
+        String host = this.txtProxyHost.getText().trim();
+        if (host.startsWith("http://")) {
+          host = host.substring("http://".length());
+        }
+
+        String port = this.txtProxyPort.getText().trim();
+        String user = this.txtProxyUser.getText().trim();
+        String pass = new String(this.txtProxyPass.getPassword());
+
+        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(true));
+        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_HOST, host);
+        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PORT, port);
+        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_USER, user);
+        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_PROXY_PASS, pass);
+
+        logger.info("Using proxy " + host + ":" + port);
+        NetUtil.enableProxy(host, port, user, pass.toCharArray());
+
+      } else {
+        // Save proxy setting and clear system properties
+        LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_USE_PROXY, DAOHelper.booleanToString(false));
+        NetUtil.clearProxy();
+      }
+
+      if (this.refreshList) {
+        SimpleCache.getInstance().invalidateAll();
+        try {
+          MainWindow.getMainWindow().updateMasterList(null);
+        } catch (Exception ex) {
+          logger.warn("Could not update the list.", ex);
+        }
+      }
+
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH, DAOHelper.booleanToString(this.cbxAutoRefresh.isSelected()));
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER, DAOHelper.booleanToString(this.cbxExitAfter.isSelected()));
+      String time = autoRefreshFormat.format((Date) timeSpinner.getValue());
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_AUTO_REFRESH_TIME, time);
+
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_BACKUP_AT_EXIT,
+          DAOHelper.booleanToString(cbxBackup.isSelected()));
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_BACKUP_COUNT,
+          cmbBackupCount.getItemAt(cmbBackupCount.getSelectedIndex()));
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_BACKUP_DIRECTORY, txtBackupDirectory.getText());
+
+      MainWindow.getMainWindow().updateStatusBar();
+
+      this.setVisible(false);
+      this.dispose();
+    }
+  }
+
+
+  private void cbxAddViaActionPerformed(ActionEvent e) {
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_ADD_VIA, DAOHelper.booleanToString(this.cbxAddVia.isSelected()));
+  }
+
+  private void cbxAutoRefreshActionPerformed() {
+    this.timeSpinner.setEnabled(cbxAutoRefresh.isSelected());
+    this.cbxExitAfter.setEnabled(cbxAutoRefresh.isSelected());
+  }
+
+  private void btnCustomHelpActionPerformed() {
+    JOptionPane.showMessageDialog(this,
+        resourceBundle.getString("Preferences.customhelp.message"),
+        resourceBundle.getString("Preferences.customhelp.title"),
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private void btnTagTypeHelpActionPerformed(ActionEvent e) {
+    JOptionPane.showMessageDialog(this,
+        resourceBundle.getString("Preferences.tagtypehelp.message"),
+        resourceBundle.getString("Preferences.tagtypehelp.title"),
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private void cmbTagTypeActionPerformed(ActionEvent e) {
+    LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_TAG_TYPE, String.valueOf(this.cmbTagType.getSelectedIndex()));
+  }
+
+  private void btnChangeBackupDirectoryActionPerformed(ActionEvent e) {
+    JFileChooser jfc = new JFileChooser();
+    jfc.setDialogTitle(resourceBundle.getString("Preferences.backupDialogTitle"));
+    jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    jfc.setMultiSelectionEnabled(false);
+    int option = jfc.showOpenDialog(this);
+    if (option == JFileChooser.APPROVE_OPTION) {
+      txtBackupDirectory.setText(jfc.getSelectedFile().getAbsolutePath());
+    }
+  }
+
+  private void btnResetDirectoryActionPerformed(ActionEvent e) {
+    txtBackupDirectory.setText(new File(Main.configDir, "backup").getAbsolutePath());
+  }
+
+  private void cbxBackupActionPerformed(ActionEvent e) {
+    updateBackupFieldStates();
+  }
+
+  private void updateBackupFieldStates() {
+    btnChangeBackupDirectory.setEnabled(cbxBackup.isSelected());
+    btnResetDirectory.setEnabled(cbxBackup.isSelected());
+    txtBackupDirectory.setEnabled(cbxBackup.isSelected());
+    cmbBackupCount.setEnabled(cbxBackup.isSelected());
+  }
+
+
 
 
   /**
@@ -303,6 +344,14 @@ public class Preferences extends javax.swing.JDialog {
     cmbRefresh = new JComboBox<>();
     lblRefreshSuffix = new JLabel();
     cbxDetailLog = new JCheckBox();
+    cbxBackup = new JCheckBox();
+    lblSaveBackup1 = new JLabel();
+    cmbBackupCount = new JComboBox<>();
+    lblSaveBackup2 = new JLabel();
+    lblBackupDirectory = new JLabel();
+    txtBackupDirectory = new JTextField();
+    btnChangeBackupDirectory = new JButton();
+    btnResetDirectory = new JButton();
     pnlFavrTagr = new JPanel();
     lblFavrPrefix = new JLabel();
     cmbFavr = new JComboBox<>();
@@ -359,9 +408,9 @@ public class Preferences extends javax.swing.JDialog {
       {
         jPanel1.setLayout(new GridBagLayout());
         ((GridBagLayout)jPanel1.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-        ((GridBagLayout)jPanel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)jPanel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)jPanel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)jPanel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)jPanel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- cbxAddVia ----
         cbxAddVia.setText(bundle.getString("Preferences.cbxAddVia.text"));
@@ -405,7 +454,7 @@ public class Preferences extends javax.swing.JDialog {
 
         //---- lblRefreshSuffix ----
         lblRefreshSuffix.setText(bundle.getString("Preferences.lblRefreshSuffix.text"));
-        jPanel1.add(lblRefreshSuffix, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0,
+        jPanel1.add(lblRefreshSuffix, new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0,
           GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
           new Insets(0, 0, 5, 0), 0, 0));
 
@@ -415,7 +464,68 @@ public class Preferences extends javax.swing.JDialog {
         cbxDetailLog.addActionListener(e -> cbxDetailLogActionPerformed(e));
         jPanel1.add(cbxDetailLog, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-          new Insets(0, 5, 0, 5), 0, 0));
+          new Insets(0, 5, 5, 5), 0, 0));
+
+        //---- cbxBackup ----
+        cbxBackup.setText(bundle.getString("Preferences.lblBackup"));
+        cbxBackup.addActionListener(e -> cbxBackupActionPerformed(e));
+        jPanel1.add(cbxBackup, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 5, 5, 5), 0, 0));
+
+        //---- lblSaveBackup1 ----
+        lblSaveBackup1.setText(bundle.getString("Preferences.lblSaveBackup1"));
+        lblSaveBackup1.setHorizontalAlignment(SwingConstants.RIGHT);
+        jPanel1.add(lblSaveBackup1, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- cmbBackupCount ----
+        cmbBackupCount.setModel(new DefaultComboBoxModel<>(new String[] {
+          "5",
+          "10",
+          "15",
+          "20",
+          "25",
+          "30"
+        }));
+        jPanel1.add(cmbBackupCount, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- lblSaveBackup2 ----
+        lblSaveBackup2.setText(bundle.getString("Preferences.lblSaveBackup2"));
+        jPanel1.add(lblSaveBackup2, new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- lblBackupDirectory ----
+        lblBackupDirectory.setText(bundle.getString("Preferences.lblBackupDir"));
+        lblBackupDirectory.setHorizontalAlignment(SwingConstants.RIGHT);
+        jPanel1.add(lblBackupDirectory, new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- txtBackupDirectory ----
+        txtBackupDirectory.setColumns(1);
+        txtBackupDirectory.setEditable(false);
+        jPanel1.add(txtBackupDirectory, new GridBagConstraints(1, 11, 2, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- btnChangeBackupDirectory ----
+        btnChangeBackupDirectory.setText(bundle.getString("Preferences.btnBackupDirectory"));
+        btnChangeBackupDirectory.addActionListener(e -> btnChangeBackupDirectoryActionPerformed(e));
+        jPanel1.add(btnChangeBackupDirectory, new GridBagConstraints(1, 12, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 0, 5), 0, 0));
+
+        //---- btnResetDirectory ----
+        btnResetDirectory.setText(bundle.getString("Preferences.btnResetDirectory"));
+        btnResetDirectory.addActionListener(e -> btnResetDirectoryActionPerformed(e));
+        jPanel1.add(btnResetDirectory, new GridBagConstraints(2, 12, 1, 1, 0.0, 0.0,
+          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+          new Insets(0, 0, 0, 0), 0, 0));
       }
       jTabbedPane1.addTab(bundle.getString("Preferences.jPanel1.tab.title"), jPanel1);
 
@@ -922,6 +1032,14 @@ public class Preferences extends javax.swing.JDialog {
   private JComboBox<String> cmbRefresh;
   private JLabel lblRefreshSuffix;
   private JCheckBox cbxDetailLog;
+  private JCheckBox cbxBackup;
+  private JLabel lblSaveBackup1;
+  private JComboBox<String> cmbBackupCount;
+  private JLabel lblSaveBackup2;
+  private JLabel lblBackupDirectory;
+  private JTextField txtBackupDirectory;
+  private JButton btnChangeBackupDirectory;
+  private JButton btnResetDirectory;
   private JPanel pnlFavrTagr;
   private JLabel lblFavrPrefix;
   private JComboBox<String> cmbFavr;

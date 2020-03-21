@@ -34,16 +34,6 @@ import static java.util.Map.entry;
  * @author Jeremy Brooks
  */
 public class SSConstants {
-
-
-  public static final String KEY_TOKEN = "token";
-  public static final String KEY_NSID = "nsid";
-  public static final String KEY_REALNAME = "realname";
-  public static final String KEY_USERNAME = "username";
-  public static final String KEY_ICONFARM = "iconfarm";
-  public static final String KEY_ICONSERVER = "iconserver";
-  public static final String KEY_PERMISSION = "permission";
-
   public static final String TAG_MATCH_MODE_NONE = "NONE";
   public static final String TAG_MATCH_MODE_ANY = "ANY";
   public static final String TAG_MATCH_MODE_ALL = "ALL";
@@ -106,6 +96,10 @@ public class SSConstants {
   public static final String LOOKUP_KEY_AUTO_REFRESH = "AUTO_REFRESH";
   public static final String LOOKUP_KEY_AUTO_REFRESH_TIME = "AUTO_REFRESH_TIME";
   public static final String LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER = "AUTO_REFRESH_EXIT_AFTER";
+
+  public static final String LOOKUP_KEY_BACKUP_AT_EXIT = "BACKUP_AT_EXIT";
+  public static final String LOOKUP_KEY_BACKUP_COUNT = "BACKUP_COUNT";
+  public static final String LOOKUP_KEY_BACKUP_DIRECTORY = "BACKUP_DIRECTORY";
 
   public static final String DEFAULT_TWEET_TEMPLATE =
       "There are %c new photos in my Flickr photoset %u (%t).";
