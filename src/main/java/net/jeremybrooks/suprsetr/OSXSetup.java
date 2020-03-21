@@ -51,11 +51,11 @@ public class OSXSetup {
             JOptionPane.QUESTION_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
-          qr.performQuit();
+          MainWindow.getMainWindow().backupAndExit();
         }
 
       } else {
-        qr.performQuit();
+        MainWindow.getMainWindow().backupAndExit();
       }
     });
 		Desktop.getDesktop().setPreferencesHandler(pe -> new Preferences(MainWindow.getMainWindow(), true).setVisible(true));

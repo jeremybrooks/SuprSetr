@@ -32,7 +32,6 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -87,41 +86,26 @@ public class SetEditor extends javax.swing.JDialog {
   /**
    * Mode we are being called in.
    */
-  public static enum EditorMode {
+  public enum EditorMode {
     CREATE, EDIT
   }
 
-  ;
+  /* The combo box model for 29 days. */
+  private static ComboBoxModel<String> MODEL_29_DAYS = new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"});
 
-  /**
-   * The combo box model for 29 days.
-   */
-  private static ComboBoxModel MODEL_29_DAYS = new javax.swing.DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"});
+  /* The combo box model for 30 days. */
+  private static ComboBoxModel<String> MODEL_30_DAYS = new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"});
 
-  /**
-   * The combo box model for 30 days.
-   */
-  private static ComboBoxModel MODEL_30_DAYS = new javax.swing.DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"});
-
-  /**
-   * The combo box model for 31 days.
-   */
-  private static ComboBoxModel MODEL_31_DAYS = new javax.swing.DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
+  /* The combo box model for 31 days. */
+  private static ComboBoxModel<String> MODEL_31_DAYS = new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
 
 
-  /**
-   * The mode.
-   */
+  /* The mode. */
   private EditorMode editorMode = EditorMode.CREATE;
 
-  /**
-   * The photoset we are working on.
-   */
+  /* The photoset we are working on. */
   private SSPhotoset ssPhotoset;
 
-  /**
-   * Logging.
-   */
   private Logger logger = LogManager.getLogger(SetEditor.class);
 
   private String[] sortModelArray = new String[12];
@@ -457,7 +441,7 @@ public class SetEditor extends javax.swing.JDialog {
     dateUploadedBefore = new JDateChooser();
     panel2 = new JPanel();
     cbxOnThisDay = new JCheckBox();
-    cmbOTDMonth = new JComboBox();
+    cmbOTDMonth = new JComboBox<>();
     cmbOTDDay = new JComboBox<>();
     jLabel9 = new JLabel();
     yearOTDStart = new JYearChooser();
@@ -466,7 +450,7 @@ public class SetEditor extends javax.swing.JDialog {
     cbxCurrentYear = new JCheckBox();
     pnlSort = new JPanel();
     jLabel1 = new JLabel();
-    cmbSortBy = new JComboBox();
+    cmbSortBy = new JComboBox<>();
     advancedPanel = new JPanel();
     pnlSocial = new JPanel();
     jScrollPane3 = new JScrollPane();
@@ -480,17 +464,17 @@ public class SetEditor extends javax.swing.JDialog {
     radioTweetCreated = new JRadioButton();
     jPanel4 = new JPanel();
     jLabel8 = new JLabel();
-    cmbPrivacy = new JComboBox();
+    cmbPrivacy = new JComboBox<>();
     lblSafeSearch = new JLabel();
-    cmbSafeSearch = new JComboBox();
+    cmbSafeSearch = new JComboBox<>();
     jPanel5 = new JPanel();
     jLabel10 = new JLabel();
-    cmbContentType = new JComboBox();
+    cmbContentType = new JComboBox<>();
     jLabel11 = new JLabel();
-    cmbMediaType = new JComboBox();
+    cmbMediaType = new JComboBox<>();
     jPanel6 = new JPanel();
     jLabel12 = new JLabel();
-    cmbGeotag = new JComboBox();
+    cmbGeotag = new JComboBox<>();
     cbxInGallery = new JCheckBox();
     cbxInCommons = new JCheckBox();
     cbxInGetty = new JCheckBox();
@@ -823,7 +807,7 @@ public class SetEditor extends javax.swing.JDialog {
             //---- cmbOTDMonth ----
             cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
             cmbOTDMonth.addActionListener(e -> cmbOTDMonthActionPerformed());
-            cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
+            cmbOTDMonth.setModel(new DefaultComboBoxModel<>(DateFormatSymbols.getInstance().getMonths()));
             panel2.add(cmbOTDMonth, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
               GridBagConstraints.CENTER, GridBagConstraints.BOTH,
               new Insets(0, 0, 5, 5), 0, 0));
@@ -1955,7 +1939,7 @@ public class SetEditor extends javax.swing.JDialog {
             (!this.cbxOnThisDay.isSelected())
         ) {
       ok = false;
-      sb.append(String.format(resourceBundle.getString("SetEditor.validation.noFilters.error")));
+      sb.append(resourceBundle.getString("SetEditor.validation.noFilters.error"));
     }
 
     if (ok) {
@@ -2171,7 +2155,7 @@ public class SetEditor extends javax.swing.JDialog {
   private JDateChooser dateUploadedBefore;
   private JPanel panel2;
   private JCheckBox cbxOnThisDay;
-  private JComboBox cmbOTDMonth;
+  private JComboBox<String> cmbOTDMonth;
   private JComboBox<String> cmbOTDDay;
   private JLabel jLabel9;
   private JYearChooser yearOTDStart;
@@ -2180,7 +2164,7 @@ public class SetEditor extends javax.swing.JDialog {
   private JCheckBox cbxCurrentYear;
   private JPanel pnlSort;
   private JLabel jLabel1;
-  private JComboBox cmbSortBy;
+  private JComboBox<String> cmbSortBy;
   private JPanel advancedPanel;
   private JPanel pnlSocial;
   private JScrollPane jScrollPane3;
@@ -2194,17 +2178,17 @@ public class SetEditor extends javax.swing.JDialog {
   private JRadioButton radioTweetCreated;
   private JPanel jPanel4;
   private JLabel jLabel8;
-  private JComboBox cmbPrivacy;
+  private JComboBox<String> cmbPrivacy;
   private JLabel lblSafeSearch;
-  private JComboBox cmbSafeSearch;
+  private JComboBox<String> cmbSafeSearch;
   private JPanel jPanel5;
   private JLabel jLabel10;
-  private JComboBox cmbContentType;
+  private JComboBox<String> cmbContentType;
   private JLabel jLabel11;
-  private JComboBox cmbMediaType;
+  private JComboBox<String> cmbMediaType;
   private JPanel jPanel6;
   private JLabel jLabel12;
-  private JComboBox cmbGeotag;
+  private JComboBox<String> cmbGeotag;
   private JCheckBox cbxInGallery;
   private JCheckBox cbxInCommons;
   private JCheckBox cbxInGetty;

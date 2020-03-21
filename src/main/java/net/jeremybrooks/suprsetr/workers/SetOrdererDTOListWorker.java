@@ -52,27 +52,10 @@ import java.util.ResourceBundle;
  */
 public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SSPhotoset> {
 
-  /**
-   * Logging.
-   */
   private Logger logger = LogManager.getLogger(SetOrdererDTOListWorker.class);
-
-  /**
-   * The blocker used for feedback.
-   */
   private BlockerPanel blocker;
-
-  /**
-   * The list model to update.
-   */
-  private DefaultListModel listModel;
-
-
-  /**
-   * The dialog.
-   */
+  private DefaultListModel<SetOrdererDTO> listModel;
   private SetOrderer dialog;
-
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
@@ -82,7 +65,7 @@ public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SS
    * @param listModel the list model.
    * @param dialog    set orderer dialog.
    */
-  public SetOrdererDTOListWorker(BlockerPanel blocker, DefaultListModel listModel, SetOrderer dialog) {
+  public SetOrdererDTOListWorker(BlockerPanel blocker, DefaultListModel<SetOrdererDTO> listModel, SetOrderer dialog) {
     this.blocker = blocker;
     this.listModel = listModel;
     this.dialog = dialog;

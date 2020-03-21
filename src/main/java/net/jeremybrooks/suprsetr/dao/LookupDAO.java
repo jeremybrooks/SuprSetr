@@ -92,27 +92,18 @@ public class LookupDAO {
     if (key == null || key.isEmpty()) {
       return null;
     }
-
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
     String value = null;
-
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_LOOKUP_VALUE);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_LOOKUP_VALUE)) {
       ps.setString(1, key);
-      rs = ps.executeQuery();
-
-      if (rs.next()) {
-        value = rs.getString("VALUE");
+      try (ResultSet rs = ps.executeQuery()) {
+        if (rs.next()) {
+          value = rs.getString("VALUE");
+        }
       }
     } catch (Exception e) {
       logger.error("getValueForKey(" + key + "): ERROR.", e);
-    } finally {
-      DAOHelper.close(conn, ps, rs);
     }
-
     return value;
   }
 
@@ -137,32 +128,27 @@ public class LookupDAO {
       value = "";
     }
 
-    Connection conn = null;
-    PreparedStatement ps = null;
     int rowCount = 0;
 
-    try {
-      conn = DAOHelper.getConnection();
-
+    try (Connection conn = DAOHelper.getConnection()) {
       // does this key already exist?
       if (LookupDAO.getValueForKey(key) == null) {
         logger.info("Inserting key '" + key + "' and value '" + value + "'");
-        ps = conn.prepareStatement(SQL_INSERT_KEY_AND_VALUE);
-        ps.setString(1, key);
-        ps.setString(2, value);
+        try (PreparedStatement ps = conn.prepareStatement(SQL_INSERT_KEY_AND_VALUE)) {
+          ps.setString(1, key);
+          ps.setString(2, value);
+          rowCount = ps.executeUpdate();
+        }
       } else {
-
         logger.info("Updating key '" + key + "' and value '" + value + "'");
-        ps = conn.prepareStatement(SQL_UPDATE_VALUE);
-        ps.setString(1, value);
-        ps.setString(2, key);
+        try (PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_VALUE)) {
+          ps.setString(1, value);
+          ps.setString(2, key);
+          rowCount = ps.executeUpdate();
+        }
       }
-
-      rowCount = ps.executeUpdate();
     } catch (Exception e) {
       logger.error("setValueForKey(" + key + ", " + value + "): ERROR SETTING VALUE.", e);
-    } finally {
-      DAOHelper.close(conn, ps);
     }
     return rowCount;
   }
@@ -194,15 +180,10 @@ public class LookupDAO {
    * @throws Exception if there are any errors.
    */
   static void setDatabaseVersion(int version) throws Exception {
-    Connection conn = null;
-    PreparedStatement ps = null;
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_SET_DATABASE_VERSION);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_SET_DATABASE_VERSION)) {
       ps.setString(1, Integer.toString(version));
       ps.execute();
-    } finally {
-      DAOHelper.close(conn, ps);
     }
   }
 }
