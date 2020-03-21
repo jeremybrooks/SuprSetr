@@ -331,6 +331,7 @@ public class DAOHelper {
       // ignore; this always throws an exception
     }
     logger.info("Restoring database from " + restoreDirectory.getAbsolutePath());
-    DriverManager.getConnection("jdbc:derby:SuprSetrDB;restoreFrom=" + restoreDirectory.getAbsolutePath());
+    DriverManager.getConnection(String.format("%s;restoreFrom=%s/SuprSetrDB",
+        DB_CONN_STRING, restoreDirectory.getAbsolutePath()));
   }
 }

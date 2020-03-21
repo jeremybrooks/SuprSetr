@@ -20,6 +20,7 @@
 package net.jeremybrooks.suprsetr;
 
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -421,6 +422,7 @@ public class Preferences extends javax.swing.JDialog {
 
         //---- cbxAddManaged ----
         cbxAddManaged.setText(bundle.getString("Preferences.cbxAddManaged.text"));
+        cbxAddManaged.setToolTipText(bundle.getString("Preferences.cbxAddManaged.toolTipText"));
         cbxAddManaged.addActionListener(e -> cbxAddManagedActionPerformed(e));
         jPanel1.add(cbxAddManaged, new GridBagConstraints(0, 1, 3, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -428,6 +430,7 @@ public class Preferences extends javax.swing.JDialog {
 
         //---- cbxUpdate ----
         cbxUpdate.setText(bundle.getString("Preferences.cbxUpdate.text"));
+        cbxUpdate.setToolTipText(bundle.getString("Preferences.cbxUpdate.toolTipText"));
         cbxUpdate.addActionListener(e -> cbxUpdateActionPerformed(e));
         jPanel1.add(cbxUpdate, new GridBagConstraints(0, 3, 2, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -447,6 +450,7 @@ public class Preferences extends javax.swing.JDialog {
           "48",
           "72"
         }));
+        cmbRefresh.setToolTipText(bundle.getString("Preferences.cmbRefresh.toolTipText"));
         cmbRefresh.addActionListener(e -> cmbRefreshActionPerformed(e));
         jPanel1.add(cmbRefresh, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0,
           GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
@@ -468,6 +472,7 @@ public class Preferences extends javax.swing.JDialog {
 
         //---- cbxBackup ----
         cbxBackup.setText(bundle.getString("Preferences.lblBackup"));
+        cbxBackup.setToolTipText(bundle.getString("Preferences.cbxBackup.toolTipText"));
         cbxBackup.addActionListener(e -> cbxBackupActionPerformed(e));
         jPanel1.add(cbxBackup, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -489,6 +494,7 @@ public class Preferences extends javax.swing.JDialog {
           "25",
           "30"
         }));
+        cmbBackupCount.setToolTipText(bundle.getString("Preferences.cmbBackupCount.toolTipText"));
         jPanel1.add(cmbBackupCount, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
           new Insets(0, 0, 5, 5), 0, 0));
@@ -509,6 +515,7 @@ public class Preferences extends javax.swing.JDialog {
         //---- txtBackupDirectory ----
         txtBackupDirectory.setColumns(1);
         txtBackupDirectory.setEditable(false);
+        txtBackupDirectory.setToolTipText(bundle.getString("Preferences.txtBackupDirectory.toolTipText"));
         jPanel1.add(txtBackupDirectory, new GridBagConstraints(1, 11, 2, 1, 0.0, 0.0,
           GridBagConstraints.CENTER, GridBagConstraints.BOTH,
           new Insets(0, 0, 5, 0), 0, 0));

@@ -94,7 +94,7 @@ public class DatabaseRestoreWorker extends SwingWorker<Void, Void> {
 			blocker.updateMessage(resourceBundle.getString("DatabaseRestoreWorker.blocker.starting"));
 			DAOHelper.restoreDatabase(backupDirectory);
 		} catch (Exception e) {
-			logger.error("THERE WAS AN ERROR DURING DATABASE BACKUP.", e);
+			logger.error("THERE WAS AN ERROR DURING DATABASE RESTORE.", e);
 			JOptionPane.showMessageDialog(MainWindow.getMainWindow(),
 					resourceBundle.getString("DatabaseRestoreWorker.dialog.error.message"),
 					resourceBundle.getString("DatabaseRestoreWorker.dialog.error.title"),
@@ -110,6 +110,7 @@ public class DatabaseRestoreWorker extends SwingWorker<Void, Void> {
 	@Override
 	protected void done() {
 		blocker.unBlock();
+		MainWindow.getMainWindow().exitSuprSetr();
 	}
 
 }

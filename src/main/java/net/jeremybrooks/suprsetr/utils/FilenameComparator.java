@@ -22,6 +22,9 @@ package net.jeremybrooks.suprsetr.utils;
 import java.io.File;
 import java.util.Comparator;
 
+/**
+ * Sorts File objects by the natural order of their filenames.
+ */
 public class FilenameComparator implements Comparator<File> {
 
   @Override

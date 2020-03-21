@@ -29,7 +29,6 @@ import net.jeremybrooks.suprsetr.utils.FilenameContainsFilter;
 import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.workers.AddPhotosetWorker;
 import net.jeremybrooks.suprsetr.workers.DatabaseBackupWorker;
-import net.jeremybrooks.suprsetr.workers.DatabaseRestoreWorker;
 import net.jeremybrooks.suprsetr.workers.DeletePhotosetWorker;
 import net.jeremybrooks.suprsetr.workers.FavDeleteWorker;
 import net.jeremybrooks.suprsetr.workers.FavrTagrWorker;
@@ -1045,17 +1044,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
   private void mnuRestoreActionPerformed() {
-    JFileChooser jfc = new JFileChooser();
-    jfc.setDialogTitle(resourceBundle.getString("MainWindow.restore.dialog.title.text"));
-    jfc.setDialogType(JFileChooser.OPEN_DIALOG);
-    jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    int option = jfc.showOpenDialog(this);
-    if (option == JFileChooser.APPROVE_OPTION) {
-      BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.restore"));
-      setGlassPane(blocker);
-      blocker.block("");
-      new DatabaseRestoreWorker(blocker, jfc.getSelectedFile()).execute();
-    }
+    new RestoreDialog(this).setVisible(true);
   }
 
 

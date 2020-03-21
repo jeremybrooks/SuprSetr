@@ -38,6 +38,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxAddManaged"
 						"text": new FormMessage( null, "Preferences.cbxAddManaged.text" )
+						"toolTipText": new FormMessage( null, "Preferences.cbxAddManaged.toolTipText" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxAddManagedActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 1
@@ -47,6 +48,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxUpdate"
 						"text": new FormMessage( null, "Preferences.cbxUpdate.text" )
+						"toolTipText": new FormMessage( null, "Preferences.cbxUpdate.toolTipText" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxUpdateActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 3
@@ -71,6 +73,7 @@ new FormModel {
 							addElement( "48" )
 							addElement( "72" )
 						}
+						"toolTipText": new FormMessage( null, "Preferences.cmbRefresh.toolTipText" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cmbRefreshActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
@@ -98,6 +101,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "cbxBackup"
 						"text": new FormMessage( null, "Preferences.lblBackup" )
+						"toolTipText": new FormMessage( null, "Preferences.cbxBackup.toolTipText" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cbxBackupActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 9
@@ -121,6 +125,7 @@ new FormModel {
 							addElement( "25" )
 							addElement( "30" )
 						}
+						"toolTipText": new FormMessage( null, "Preferences.cmbBackupCount.toolTipText" )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
 						"gridy": 10
@@ -143,6 +148,7 @@ new FormModel {
 						name: "txtBackupDirectory"
 						"columns": 1
 						"editable": false
+						"toolTipText": new FormMessage( null, "Preferences.txtBackupDirectory.toolTipText" )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 11
 						"gridwidth": 2
