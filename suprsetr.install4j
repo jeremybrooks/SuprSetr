@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="8.0.4" transformSequenceNumber="8">
-  <directoryPresets config="./target/suprsetr-3.1.2-SNAPSHOT.jar" />
-  <application name="SuprSetr" applicationId="4587-1629-9396-6179" mediaDir="./target" shortName="suprsetr" publisher="Jeremy Brooks" publisherWeb="http://jeremybrooks.net" version="3.2.1-SNAPSHOT" allPathsRelative="true" macVolumeId="ae7cd5387594e08b" javaMinVersion="13" javaMaxVersion="13">
+  <directoryPresets config="./src/main/resources/images" />
+  <application name="SuprSetr" applicationId="4587-1629-9396-6179" mediaDir="./target" shortName="suprsetr" publisher="Jeremy Brooks" publisherWeb="https://jeremybrooks.net/suprsetr" version="3.3.0" allPathsRelative="true" macVolumeId="ae7cd5387594e08b" javaMinVersion="13" javaMaxVersion="13">
     <codeSigning macEnabled="true" macPkcs12File="../DeveloperIDApplication.p12" macNotarize="true" appleId="jeremyb@whirljack.net" />
     <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk13/jdk-13.0.2+8" />
   </application>
@@ -11,7 +11,7 @@
       <mountPoint id="22" />
     </mountPoints>
     <entries>
-      <fileEntry mountPoint="172" file="./target/suprsetr-3.2.1-SNAPSHOT.jar" />
+      <fileEntry mountPoint="172" file="./target/suprsetr-3.3.0.jar" />
       <dirEntry mountPoint="22" file="./target/lib" entryMode="subdir" subDirectory="lib" />
     </entries>
   </files>
@@ -29,6 +29,7 @@
         <file path="./src/main/resources/images/s16.png" />
         <file path="./src/main/resources/images/s32.png" />
         <file path="./src/main/resources/images/s48.png" />
+        <file path="./src/main/resources/images/s128.png" />
       </iconImageFiles>
     </launcher>
   </launchers>
