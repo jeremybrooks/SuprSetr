@@ -989,7 +989,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     if (option == JOptionPane.YES_OPTION) {
       try {
-        Desktop.getDesktop().browse(new URL("http://jeremybrooks.net/suprsetr/faq.html").toURI());
+        Desktop.getDesktop().browse(new URL("https://jeremybrooks.net/suprsetr/faq.html").toURI());
       } catch (Exception e) {
         logger.error("Could not open help URL.", e);
         JOptionPane.showMessageDialog(this,

@@ -112,10 +112,10 @@ public class SSConstants {
   public static final String DEFAULT_REFRESH_WAIT = "24";
   public static final String DEFAULT_FAVRTAGR_INTERVAL = "10";
 
-  public static final String VERSION_URL = "http://www.jeremybrooks.net/suprsetr/VERSION";
-  public static final String DOWNLOAD_URL = "http://www.jeremybrooks.net/suprsetr/download.html";
+  public static final String VERSION_URL = "https://www.jeremybrooks.net/suprsetr/VERSION";
+  public static final String DOWNLOAD_URL = "https://www.jeremybrooks.net/suprsetr/download.html";
 
-  public static final String ADD_MANAGED = "This set is managed by <a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a>";
+  public static final String ADD_MANAGED = "This set is managed by <a href=\"https://www.jeremybrooks.net/suprsetr\">SuprSetr</a>";
 
   public static final int DATABASE_SCHEMA_CURRENT_VERSION = 9;
 
