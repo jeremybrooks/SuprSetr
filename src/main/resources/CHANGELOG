@@ -1,3 +1,7 @@
+Version 3.4.0
+ * Update SuprSetr URL's to https
+ * Version Checker works
+
 Version 3.3.0
  * Fixed authentication issues
  * Requires Java 13
