@@ -30,56 +30,13 @@ If you are just looking for the installer, head over to [the SuprSetr home page]
  * Flickr seems to limit sets to 4,500 images
  * Picking a set image doesn't work when using proxy
  * If you don't limit searches using tags or dates, Flickr ignores other options
- 
-## Testing
-Things that have been tested and seem to work. Parenthesis indicate the operating
-system that it has been tested on (Mac, Linux, Windows)
-
- * Creating new sets based on tags (M)
- * Creating new sets with tags and negative tags (M)
- * Sets with limit on photo count (M)
- * Creating sets by date taken (M)
- * Updating sets by date taken (M)
- * Editing the primary photo for a set (M)
- * Editing title and description for a set (M)
- * Uses your existing legacy SuprSetr auth token and converts to an OAuth token (M)
- * Legacy auth token is deleted (M)
- * New users can authorize using OAuth workflow (M)
- * Uses existing database - no loss of set definitions (M)
- * Open set in browser (M)
- * Deleting sets (M)
- * Activity Log (M)
- * Hide Unmanaged Albums (M)
- * Case sensitive sort (display only) (M)
- * Compress logs (M)
- * Enable/Disable detailed logging (M)
- * View tutorial (M)
- * Help message (M)
- * Authorize Twitter (M)
- * Tweet when created (M)
- * Tweet when updated (M)
- * Proxy settings (M)
- * Creating sets based on machine tags (M)
- 
-Things that still need some testing and may not work
-
- * Lots of combinations of set criteria
- * FavrTagr
-
 
 # ROADMAP
- * 3.2.0
+SuprSetr is pretty much feature complete. There are some minor improvements that might be nice, but there are no firm plans to support these features:
 
-	FavrTagr can use machine tags (fave:count=10 for example) or regular tags
-	Better control of when FavrTagr creates tags
-	Support experimental search options (color, style, orientation)
-
- * 3.?.?
-    Split large search results into multiple sets
- 	
- * ?
- 	Support multiple accounts?
- 	Other social media integration?
+ * Split large search results into multiple sets, effectively bypassing the 4500 photo limit
+ * Support multiple accounts
+ * Other social media integration
 
 # DEVELOPERS
 

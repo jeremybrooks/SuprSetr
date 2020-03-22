@@ -1,24 +1,25 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr.flickr;
 
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import net.jeremybrooks.jinx.Jinx;
 import net.jeremybrooks.jinx.JinxConstants;
 import net.jeremybrooks.jinx.JinxException;
@@ -32,7 +33,6 @@ import net.jeremybrooks.jinx.logger.LogInterface;
 import net.jeremybrooks.jinx.response.photos.Photo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.scribe.model.Token;
 
 /**
  * @author Jeremy Brooks
@@ -58,7 +58,7 @@ public class JinxFactory {
   }
 
   public void init(String flickrKey, String flickrSecret) {
-    jinx = new Jinx(flickrKey, flickrSecret);
+    jinx = new Jinx(flickrKey, flickrSecret, JinxConstants.OAuthPermissions.write);
     logger.info("JinxFactory initiated with key and secret.");
   }
 
@@ -81,15 +81,15 @@ public class JinxFactory {
     jinx.setVerboseLogging(jinxLogger != null);
   }
 
-  Token getRequestToken() {
+  OAuth1RequestToken getRequestToken() throws Exception {
     return JinxFactory.jinx.getRequestToken();
   }
 
-  String getAuthenticationUrl(Token requestToken, JinxConstants.OAuthPermissions oAuthPermissions) throws JinxException {
-    return JinxFactory.jinx.getAuthorizationUrl(requestToken, oAuthPermissions);
+  String getAuthenticationUrl(OAuth1RequestToken requestToken) throws JinxException {
+    return JinxFactory.jinx.getAuthorizationUrl(requestToken);
   }
 
-  OAuthAccessToken getAccessToken(Token requestToken, String verificationCode) throws JinxException {
+  OAuthAccessToken getAccessToken(OAuth1RequestToken requestToken, String verificationCode) throws JinxException {
     return JinxFactory.jinx.getAccessToken(requestToken, verificationCode);
   }
 

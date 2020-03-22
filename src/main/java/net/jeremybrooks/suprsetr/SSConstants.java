@@ -1,23 +1,30 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr;
+
+import net.jeremybrooks.suprsetr.utils.SSUtils;
+
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 /**
  * Constants for SuprSetr.
@@ -27,16 +34,6 @@ package net.jeremybrooks.suprsetr;
  * @author Jeremy Brooks
  */
 public class SSConstants {
-
-
-  public static final String KEY_TOKEN = "token";
-  public static final String KEY_NSID = "nsid";
-  public static final String KEY_REALNAME = "realname";
-  public static final String KEY_USERNAME = "username";
-  public static final String KEY_ICONFARM = "iconfarm";
-  public static final String KEY_ICONSERVER = "iconserver";
-  public static final String KEY_PERMISSION = "permission";
-
   public static final String TAG_MATCH_MODE_NONE = "NONE";
   public static final String TAG_MATCH_MODE_ANY = "ANY";
   public static final String TAG_MATCH_MODE_ALL = "ALL";
@@ -100,6 +97,10 @@ public class SSConstants {
   public static final String LOOKUP_KEY_AUTO_REFRESH_TIME = "AUTO_REFRESH_TIME";
   public static final String LOOKUP_KEY_AUTO_REFRESH_EXIT_AFTER = "AUTO_REFRESH_EXIT_AFTER";
 
+  public static final String LOOKUP_KEY_BACKUP_AT_EXIT = "BACKUP_AT_EXIT";
+  public static final String LOOKUP_KEY_BACKUP_COUNT = "BACKUP_COUNT";
+  public static final String LOOKUP_KEY_BACKUP_DIRECTORY = "BACKUP_DIRECTORY";
+
   public static final String DEFAULT_TWEET_TEMPLATE =
       "There are %c new photos in my Flickr photoset %u (%t).";
 
@@ -117,4 +118,64 @@ public class SSConstants {
   public static final String ADD_MANAGED = "This set is managed by <a href=\"http://www.jeremybrooks.net/suprsetr\">SuprSetr</a>";
 
   public static final int DATABASE_SCHEMA_CURRENT_VERSION = 9;
+
+  /**
+   * This map contains the DDL necessary to update the database from version to version.
+   * Each entry in the Map contains the patch version, and a list of DDL necessary to
+   * bring the database up to that version.
+   */
+  public static final Map<Integer, List<String>> DB_UPGRADES = Map.ofEntries(
+      entry(2, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN LOCK_PRIMARY_PHOTO VARCHAR(1)",
+          "UPDATE PHOTOSET SET LOCK_PRIMARY_PHOTO = 'N'",
+          "ALTER TABLE PHOTOSET ALTER COLUMN DESCRIPTION SET DATA TYPE VARCHAR(32000)")),
+      entry(3, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN PRIVACY INTEGER",
+          "UPDATE PHOTOSET SET PRIVACY = 0",
+          "ALTER TABLE PHOTOSET ADD COLUMN SAFE_SEARCH INTEGER",
+          "UPDATE PHOTOSET SET SAFE_SEARCH = 0",
+          "ALTER TABLE PHOTOSET ADD COLUMN CONTENT_TYPE INTEGER",
+          "UPDATE PHOTOSET SET CONTENT_TYPE = 6",
+          "ALTER TABLE PHOTOSET ADD COLUMN MEDIA_TYPE INTEGER",
+          "UPDATE PHOTOSET SET MEDIA_TYPE = 0",
+          "ALTER TABLE PHOTOSET ADD COLUMN GEOTAGGED INTEGER",
+          "UPDATE PHOTOSET SET GEOTAGGED = 0",
+          "ALTER TABLE PHOTOSET ADD COLUMN IN_COMMONS VARCHAR(1)",
+          "UPDATE PHOTOSET SET IN_COMMONS = 'N'",
+          "ALTER TABLE PHOTOSET ADD COLUMN IN_GALLERY VARCHAR(1)",
+          "UPDATE PHOTOSET SET IN_GALLERY = 'N'",
+          "ALTER TABLE PHOTOSET ADD COLUMN IN_GETTY VARCHAR(1)",
+          "UPDATE PHOTOSET SET IN_GETTY = 'N'")),
+      entry(4, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN LIMIT_SIZE VARCHAR(1)",
+          "UPDATE PHOTOSET SET LIMIT_SIZE = 'N'",
+          "ALTER TABLE PHOTOSET ADD COLUMN SIZE_LIMIT INTEGER",
+          "UPDATE PHOTOSET SET SIZE_LIMIT = 0")),
+      entry(5, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN ON_THIS_DAY VARCHAR(1)",
+          "UPDATE PHOTOSET SET ON_THIS_DAY = 'N'",
+          "ALTER TABLE PHOTOSET ADD COLUMN OTD_MONTH INTEGER",
+          "UPDATE PHOTOSET SET OTD_MONTH = 1",
+          "ALTER TABLE PHOTOSET ADD COLUMN OTD_DAY INTEGER",
+          "UPDATE PHOTOSET SET OTD_DAY = 1",
+          "ALTER TABLE PHOTOSET ADD COLUMN OTD_YEAR_START INTEGER",
+          "UPDATE PHOTOSET SET OTD_YEAR_START = 1995",
+          "ALTER TABLE PHOTOSET ADD COLUMN OTD_YEAR_END INTEGER",
+          "UPDATE PHOTOSET SET OTD_YEAR_END = " + SSUtils.getCurrentYear())),
+      entry(6, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN VIDEO_COUNT INTEGER",
+          "UPDATE PHOTOSET SET VIDEO_COUNT = 0")),
+      entry(7, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN MACHINE_TAGS VARCHAR(2000)",
+          "ALTER TABLE PHOTOSET ADD COLUMN MACHINE_TAG_MATCH_MODE VARCHAR(8)",
+          "UPDATE PHOTOSET SET MACHINE_TAG_MATCH_MODE = '" + SSConstants.TAG_MATCH_MODE_NONE + "'")),
+      entry(8, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN TEXT_SEARCH VARCHAR(2000)",
+          "ALTER TABLE PHOTOSET ADD COLUMN VIEW_COUNT INTEGER",
+          "UPDATE PHOTOSET SET VIEW_COUNT = -1")),
+      entry(9, List.of(
+          "ALTER TABLE PHOTOSET ADD COLUMN COLOR_CODE VARCHAR(2000)",
+          "ALTER TABLE PHOTOSET ADD COLUMN PICTURE_STYLE VARCHAR(2000)",
+          "ALTER TABLE PHOTOSET ADD COLUMN ORIENTATION VARCHAR(2000)"))
+  );
 }

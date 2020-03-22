@@ -1,27 +1,28 @@
 <!--
-  ~ SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+  ~  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
   ~
-  ~ This file is part of SuprSetr.
+  ~  This file is part of SuprSetr.
   ~
-  ~ SuprSetr is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
+  ~   SuprSetr is free software: you can redistribute it and/or modify
+  ~   it under the terms of the GNU General Public License as published by
+  ~   the Free Software Foundation, either version 3 of the License, or
+  ~   (at your option) any later version.
   ~
-  ~ SuprSetr is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
+  ~   SuprSetr is distributed in the hope that it will be useful,
+  ~   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~   GNU General Public License for more details.
   ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with SuprSetr.  If not, see <http://www.gnu.org/licenses />.
+  ~   You should have received a copy of the GNU General Public License
+  ~   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jeremybrooks</groupId>
     <artifactId>suprsetr</artifactId>
-    <version>3.2.1-SNAPSHOT</version>
+    <version>3.3.0</version>
     <name>SuprSetr</name>
     <description>Automated set management for Flickr photosets.</description>
     <url>http://jeremybrooks.net/suprsetr</url>
@@ -36,12 +37,35 @@
         <name>Jeremy Brooks</name>
         <url>http://jeremybrooks.net</url>
     </organization>
+    <properties>
+        <maven.compiler.source>13</maven.compiler.source>
+        <maven.compiler.target>13</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- library versions -->
+        <commons-io.version>2.6</commons-io.version>
+        <derby.version>10.14.2.0</derby.version>
+        <jcalendar.version>1.4</jcalendar.version>
+        <jinx.version>3.0.0</jinx.version>
+        <junit.version>4.11</junit.version>
+        <log4j.version>2.11.0</log4j.version>
+        <twitter4j.version>4.0.7</twitter4j.version>
+
+        <!-- plugin versions -->
+        <gitflow-maven-plugin.version>1.14.0</gitflow-maven-plugin.version>
+        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    </properties>
     <scm>
         <connection>scm:git:git@github.com:jeremybrooks/suprsetr.git</connection>
         <developerConnection>scm:git:git@github.com:jeremybrooks/suprsetr.git</developerConnection>
         <url>git@github.com:suprsetr/suprsetr.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <developers>
         <developer>
             <email>jeremyb@whirljack.net</email>
@@ -53,58 +77,63 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.11.0</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.14.2.0</version>
+            <version>${derby.version}</version>
         </dependency>
         <dependency>
             <groupId>net.jeremybrooks</groupId>
             <artifactId>jinx</artifactId>
-            <version>2.0.2</version>
+            <version>${jinx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-core</artifactId>
-            <version>4.0.6</version>
+            <version>${twitter4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.toedter</groupId>
             <artifactId>jcalendar</artifactId>
-            <version>1.4</version>
+            <version>${jcalendar.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.swinglabs.swingx</groupId>
-            <artifactId>swingx-core</artifactId>
-            <version>1.6.5-1</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>${maven-release-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
+                <version>${maven-deploy-plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <source>8</source>
                 </configuration>
             </plugin>
             <plugin>
@@ -125,7 +154,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>${maven-jar-plugin.version}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <archive>
@@ -139,10 +168,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>com.amashchenko.maven.plugin</groupId>
+                <artifactId>gitflow-maven-plugin</artifactId>
+                <version>${gitflow-maven-plugin.version}</version>
                 <configuration>
-                    <source>10</source>
-                    <target>10</target>
+                    <skipTestProject>true</skipTestProject>
                 </configuration>
             </plugin>
         </plugins>

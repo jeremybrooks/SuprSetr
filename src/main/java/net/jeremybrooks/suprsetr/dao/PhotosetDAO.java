@@ -1,20 +1,20 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr.dao;
@@ -284,15 +284,12 @@ public class PhotosetDAO {
     if (p == null) {
       throw new Exception("insertPhotoset: CANNOT INSERT A NULL PHOTOSET");
     }
-    Connection conn = null;
-    PreparedStatement ps = null;
     int count;
 
     logger.info("Adding photoset " + p + " to database.");
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_INSERT_PHOTOSET);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_INSERT_PHOTOSET)) {
       ps.setString(1, p.getPhotosetId());
       ps.setString(2, p.getTitle());
       ps.setString(3, p.getDescription());
@@ -385,9 +382,6 @@ public class PhotosetDAO {
     } catch (Exception e) {
       logger.info("insertPhotoset: ERROR.", e);
       throw e;
-
-    } finally {
-      DAOHelper.close(conn, ps);
     }
 
     return count;
@@ -402,29 +396,27 @@ public class PhotosetDAO {
    */
   public static List<String> getPhotosetIdList() throws Exception {
     ArrayList<String> list = new ArrayList<>();
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
 
-    try {
-      conn = DAOHelper.getConnection();
+    try (Connection conn = DAOHelper.getConnection()) {
       if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE))) {
-        ps = conn.prepareStatement(SQL_GET_PHOTOSET_IDS_CASE_SENSITIVE);
+        try (PreparedStatement ps = conn.prepareStatement(SQL_GET_PHOTOSET_IDS_CASE_SENSITIVE);
+             ResultSet rs = ps.executeQuery()) {
+          while (rs.next()) {
+            list.add(rs.getString("ID"));
+          }
+        }
       } else {
-        ps = conn.prepareStatement(SQL_GET_PHOTOSET_IDS);
-      }
-      rs = ps.executeQuery();
-      while (rs.next()) {
-        list.add(rs.getString("ID"));
+        try (PreparedStatement ps = conn.prepareStatement(SQL_GET_PHOTOSET_IDS);
+             ResultSet rs = ps.executeQuery()) {
+          while (rs.next()) {
+            list.add(rs.getString("ID"));
+          }
+        }
       }
     } catch (Exception e) {
       logger.info("getPhotosetIdList: ERROR GETTING PHOTOSET ID LIST.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps, rs);
     }
-
-
     return list;
   }
 
@@ -441,23 +433,18 @@ public class PhotosetDAO {
    */
   public static SSPhotoset getPhotosetForId(String id) throws Exception {
     SSPhotoset ssp = null;
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_GET_PHOTOSET_BY_ID);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_GET_PHOTOSET_BY_ID)) {
       ps.setString(1, id);
-      rs = ps.executeQuery();
-      if (rs.next()) {
-        ssp = PhotosetDAO.buildPhotoset(rs);
+      try (ResultSet rs = ps.executeQuery()) {
+        if (rs.next()) {
+          ssp = PhotosetDAO.buildPhotoset(rs);
+        }
       }
     } catch (Exception e) {
       logger.error("getPhotosetForId(" + id + "): ERROR GETTING DATA.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps, rs);
     }
 
     return ssp;
@@ -539,31 +526,23 @@ public class PhotosetDAO {
   /**
    * Do the work of getting a list.
    *
-   * @param SQL executed to get records to build a list from.
+   * @param sql executed to get records to build a list from.
    * @return list of SSPhotoset objects, or empty list if no records are returned
    * by the SQL.
    * @throws Exception if there are any errors.
    */
-  private static List<SSPhotoset> getPhotosetList(String SQL) throws Exception {
+  private static List<SSPhotoset> getPhotosetList(String sql) throws Exception {
     List<SSPhotoset> list = new ArrayList<>();
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL);
-      rs = ps.executeQuery();
-
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
       while (rs.next()) {
         list.add(PhotosetDAO.buildPhotoset(rs));
       }
-
     } catch (Exception e) {
       logger.error("getPhotosetList: ERROR GETTING LIST.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps, rs);
     }
 
     return list;
@@ -586,25 +565,19 @@ public class PhotosetDAO {
     }
 
     int count;
-    Connection conn = null;
-    PreparedStatement ps = null;
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_UPDATE_METADATA_FOR_PHOTOSET);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_METADATA_FOR_PHOTOSET)) {
       ps.setString(1, photoset.getTitle());
       ps.setString(2, photoset.getDescription());
       ps.setInt(3, photoset.getPhotos());
       ps.setString(4, photoset.getPhotosetId());
 
       count = ps.executeUpdate();
-
     } catch (Exception e) {
       logger.error("updateMetadataForPhotoset(" + photoset + "): "
           + "ERROR WHILE UPDATING PHOTOSET RECORD.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps);
     }
 
     return count;
@@ -624,14 +597,11 @@ public class PhotosetDAO {
     }
 
     int count;
-    Connection conn = null;
-    PreparedStatement ps = null;
 
     logger.info("updatePhotoset: " + ssPhotoset);
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_UPDATE_PHOTOSET);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_PHOTOSET)) {
       ps.setString(1, ssPhotoset.getTitle());
       ps.setString(2, ssPhotoset.getDescription());
       ps.setString(3, Integer.toString(ssPhotoset.getFarm()));
@@ -722,8 +692,6 @@ public class PhotosetDAO {
       logger.error("updateMetadataForPhotoset(" + ssPhotoset + "): "
           + "ERROR WHILE UPDATING PHOTOSET RECORD.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps);
     }
 
     return count;
@@ -743,12 +711,9 @@ public class PhotosetDAO {
     }
 
     int count;
-    Connection conn = null;
-    PreparedStatement ps = null;
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_UPDATE_ICON_FOR_PHOTOSET);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_ICON_FOR_PHOTOSET)) {
       ps.setBytes(1, DAOHelper.iconToBytes(photoset.getPrimaryPhotoIcon()));
       ps.setString(2, photoset.getPhotosetId());
 
@@ -758,8 +723,6 @@ public class PhotosetDAO {
       logger.error("updateIconForPhotoset(" + photoset + "): "
           + "ERROR WHILE UPDATING ICON.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps);
     }
 
     return count;
@@ -779,12 +742,9 @@ public class PhotosetDAO {
     }
 
     int count;
-    Connection conn = null;
-    PreparedStatement ps = null;
 
-    try {
-      conn = DAOHelper.getConnection();
-      ps = conn.prepareStatement(SQL_DELETE_PHOTOSET);
+    try (Connection conn = DAOHelper.getConnection();
+         PreparedStatement ps = conn.prepareStatement(SQL_DELETE_PHOTOSET)) {
       ps.setString(1, ssPhotoset.getPhotosetId());
 
       logger.info("Deleting photoset " + ssPhotoset.getPhotosetId() + "["
@@ -794,8 +754,6 @@ public class PhotosetDAO {
     } catch (Exception e) {
       logger.error("delete(" + ssPhotoset.getPhotosetId() + "): ERROR WHILE DELETING RECORD.", e);
       throw e;
-    } finally {
-      DAOHelper.close(conn, ps);
     }
 
     return count;

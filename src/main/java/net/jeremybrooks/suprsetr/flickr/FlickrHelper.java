@@ -1,33 +1,31 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr.flickr;
 
 
-import net.jeremybrooks.jinx.JinxConstants;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import net.jeremybrooks.jinx.OAuthAccessToken;
 import net.jeremybrooks.jinx.api.OAuthApi;
 import net.jeremybrooks.suprsetr.Main;
-import net.jeremybrooks.suprsetr.utils.IOUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.scribe.model.Token;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,35 +48,20 @@ import java.net.URL;
  * @author Jeremy Brooks
  */
 public class FlickrHelper {
-
-
-  /**
-   * Logging.
-   */
   private static Logger logger = LogManager.getLogger(FlickrHelper.class);
-
-  /**
-   * Reference to the only instance of this class.
-   */
   private static FlickrHelper instance = null;
 
-  /**
-   * File that holds auth token info (old style auth).
-   */
-  private File tokenFile = null;
+  /* File that holds auth token info (old style auth). */
+  private File tokenFile;
 
-  /**
-   * File that holds oauth token info.
-   */
-  private File oauthTokenFile = null;
+  /* File that holds oauth token info. */
+  private File oauthTokenFile;
 
   private OAuthAccessToken oAuthAccessToken = null;
 
-  private Token tempToken = null;
+  private OAuth1RequestToken tempToken = null;
 
-  /**
-   * Private constructor. This class is a Singleton.
-   */
+  /* Private constructor. This class is a Singleton. */
   private FlickrHelper() {
     this.oauthTokenFile = new File(Main.configDir, "jinx_oauth.token");
     this.tokenFile = new File(Main.configDir, "jinx.token");
@@ -112,30 +95,24 @@ public class FlickrHelper {
     if (this.oauthTokenFile.exists()) {
       logger.info("Loading oauth token from " + this.oauthTokenFile.getAbsolutePath());
       oAuthAccessToken = new OAuthAccessToken();
-      InputStream in = null;
-      try {
-        in = new FileInputStream(oauthTokenFile);
+      try (InputStream in = new FileInputStream(oauthTokenFile)) {
         oAuthAccessToken.load(in);
         JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
         success = true;
       } catch (Exception e) {
         logger.warn("Unable to load oauth access token from file.", e);
-      } finally {
-        IOUtil.close(in);
       }
     } else if (this.tokenFile.exists()) {
       logger.info("Loading legacy auth token from " + this.tokenFile.getAbsolutePath());
-      InputStream in = null;
-      OutputStream out = null;
-      try {
+      try (InputStream in = new FileInputStream(tokenFile)) {
         logger.info("Converting legacy auth token to oauth token.");
-        in = new FileInputStream(tokenFile);
         OAuthApi oauth = JinxFactory.getInstance().getoAuthApi();
         oAuthAccessToken = oauth.getAccessToken(in);
         JinxFactory.getInstance().setAccessToken(oAuthAccessToken);
-        out = new FileOutputStream(oauthTokenFile);
-        oAuthAccessToken.store(out);
-        success = true;
+        try (OutputStream out = new FileOutputStream(oauthTokenFile)) {
+          oAuthAccessToken.store(out);
+          success = true;
+        }
       } catch (Exception e) {
         logger.warn("Unable to load legacy auth token from file.", e);
       } finally {
@@ -144,8 +121,6 @@ public class FlickrHelper {
         } else {
           logger.warn("Unable to delete old legacy auth token file.");
         }
-        IOUtil.close(out);
-        IOUtil.close(in);
       }
     }
 
@@ -181,7 +156,7 @@ public class FlickrHelper {
    */
   public URL getAuthenticationURL() throws Exception {
     tempToken = JinxFactory.getInstance().getRequestToken();
-    String url = JinxFactory.getInstance().getAuthenticationUrl(tempToken, JinxConstants.OAuthPermissions.write);
+    String url = JinxFactory.getInstance().getAuthenticationUrl(tempToken);
     return new URL(url);
   }
 
@@ -195,12 +170,8 @@ public class FlickrHelper {
   public void completeAuthentication(String verificationCode) throws Exception {
     this.oAuthAccessToken = JinxFactory.getInstance().getAccessToken(tempToken, verificationCode);
     JinxFactory.getInstance().setAccessToken(this.oAuthAccessToken);
-    OutputStream out = null;
-    try {
-      out = new FileOutputStream(oauthTokenFile);
+    try (OutputStream out = new FileOutputStream(oauthTokenFile)) {
       this.oAuthAccessToken.store(out);
-    } finally {
-      IOUtil.close(out);
     }
   }
 

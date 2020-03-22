@@ -1,20 +1,20 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr;
@@ -32,8 +32,8 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.VerticalLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -59,7 +59,6 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -88,41 +87,26 @@ public class SetEditor extends javax.swing.JDialog {
   /**
    * Mode we are being called in.
    */
-  public static enum EditorMode {
+  public enum EditorMode {
     CREATE, EDIT
   }
 
-  ;
+  /* The combo box model for 29 days. */
+  private static ComboBoxModel<String> MODEL_29_DAYS = new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"});
 
-  /**
-   * The combo box model for 29 days.
-   */
-  private static ComboBoxModel MODEL_29_DAYS = new javax.swing.DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"});
+  /* The combo box model for 30 days. */
+  private static ComboBoxModel<String> MODEL_30_DAYS = new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"});
 
-  /**
-   * The combo box model for 30 days.
-   */
-  private static ComboBoxModel MODEL_30_DAYS = new javax.swing.DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"});
-
-  /**
-   * The combo box model for 31 days.
-   */
-  private static ComboBoxModel MODEL_31_DAYS = new javax.swing.DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
+  /* The combo box model for 31 days. */
+  private static ComboBoxModel<String> MODEL_31_DAYS = new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
 
 
-  /**
-   * The mode.
-   */
+  /* The mode. */
   private EditorMode editorMode = EditorMode.CREATE;
 
-  /**
-   * The photoset we are working on.
-   */
+  /* The photoset we are working on. */
   private SSPhotoset ssPhotoset;
 
-  /**
-   * Logging.
-   */
   private Logger logger = LogManager.getLogger(SetEditor.class);
 
   private String[] sortModelArray = new String[12];
@@ -556,7 +540,7 @@ public class SetEditor extends javax.swing.JDialog {
 
     //======== this ========
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    Container contentPane = getContentPane();
+    var contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     //======== jTabbedPane1 ========
@@ -564,7 +548,7 @@ public class SetEditor extends javax.swing.JDialog {
 
       //======== basicPanel ========
       {
-        basicPanel.setLayout(new VerticalLayout(5));
+        basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
 
         //======== pnlTitle ========
         {
@@ -739,7 +723,7 @@ public class SetEditor extends javax.swing.JDialog {
         //======== pnlDates ========
         {
           pnlDates.setBorder(new TitledBorder(bundle.getString("SetEditor.pnlDates.border")));
-          pnlDates.setLayout(new VerticalLayout());
+          pnlDates.setLayout(new BoxLayout(pnlDates, BoxLayout.Y_AXIS));
 
           //======== panel1 ========
           {
@@ -938,7 +922,7 @@ public class SetEditor extends javax.swing.JDialog {
       //======== advancedPanel ========
       {
         advancedPanel.setVerifyInputWhenFocusTarget(false);
-        advancedPanel.setLayout(new VerticalLayout(5));
+        advancedPanel.setLayout(new BoxLayout(advancedPanel, BoxLayout.Y_AXIS));
 
         //======== pnlSocial ========
         {
@@ -959,7 +943,7 @@ public class SetEditor extends javax.swing.JDialog {
             Document styledDoc = txtTweet.getDocument();
             if (styledDoc instanceof AbstractDocument) {
                 AbstractDocument doc = (AbstractDocument)styledDoc;
-                doc.setDocumentFilter(new DocumentSizeFilter(140));
+                doc.setDocumentFilter(new DocumentSizeFilter(TwitterHelper.TWEET_LENGTH));
             }
             jScrollPane3.setViewportView(txtTweet);
           }
@@ -1155,7 +1139,7 @@ public class SetEditor extends javax.swing.JDialog {
 
       //======== experimentalPanel ========
       {
-        experimentalPanel.setLayout(new VerticalLayout(5));
+        experimentalPanel.setLayout(new BoxLayout(experimentalPanel, BoxLayout.Y_AXIS));
 
         //======== scrollPane1 ========
         {
@@ -1556,7 +1540,7 @@ public class SetEditor extends javax.swing.JDialog {
     setLocationRelativeTo(null);
 
     //---- btnGrpTweet ----
-    ButtonGroup btnGrpTweet = new ButtonGroup();
+    var btnGrpTweet = new ButtonGroup();
     btnGrpTweet.add(radioTweetNone);
     btnGrpTweet.add(radioTweetUpdated);
     btnGrpTweet.add(radioTweetCreated);
@@ -1934,7 +1918,7 @@ public class SetEditor extends javax.swing.JDialog {
 
     // CHECK TWEET LENGTH
     int tweetLength = TwitterHelper.calculateTweetLength(this.txtTweet.getText(), this.txtTitle.getText(), 1234, 1234);
-    if (tweetLength > 140) {
+    if (tweetLength > TwitterHelper.TWEET_LENGTH) {
       int result = JOptionPane.showConfirmDialog(this,
           resourceBundle.getString("SetEditor.validation.tweetTooLong.message"),
           resourceBundle.getString("SetEditor.validation.tweetTooLong.title"),
@@ -1956,7 +1940,7 @@ public class SetEditor extends javax.swing.JDialog {
             (!this.cbxOnThisDay.isSelected())
         ) {
       ok = false;
-      sb.append(String.format(resourceBundle.getString("SetEditor.validation.noFilters.error")));
+      sb.append(resourceBundle.getString("SetEditor.validation.noFilters.error"));
     }
 
     if (ok) {
@@ -2274,7 +2258,7 @@ public class SetEditor extends javax.swing.JDialog {
    * Document that is limited to a specific number of characters.
    *
    * <p>This document is used by the Tweet Profile text entry field to limit
-   * user entry to 140 characters.</p>
+   * user entry to {@link TwitterHelper#TWEET_LENGTH} characters.</p>
    */
   class LimitedPlainDocument extends PlainDocument {
 

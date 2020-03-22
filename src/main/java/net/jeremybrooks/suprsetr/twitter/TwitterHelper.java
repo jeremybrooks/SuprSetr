@@ -1,20 +1,20 @@
 /*
- * SuprSetr is Copyright 2010-2017 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
  *
- * This file is part of SuprSetr.
+ *  This file is part of SuprSetr.
  *
- * SuprSetr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *   SuprSetr is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * SuprSetr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *   SuprSetr is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
+ *   You should have received a copy of the GNU General Public License
+ *   along with SuprSetr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package net.jeremybrooks.suprsetr.twitter;
@@ -42,11 +42,8 @@ import java.util.ResourceBundle;
  */
 public class TwitterHelper {
 
-  /**
-   * Logging.
-   */
+  public static final int TWEET_LENGTH = 280;
   private static Logger logger = LogManager.getLogger(TwitterHelper.class);
-
   private static TwitterFactory twitterFactory = new TwitterFactory();
   private static Twitter twitter;
 
@@ -147,7 +144,7 @@ public class TwitterHelper {
    * <p>The user can define a template for their tweets. This method takes
    * that template, performs token substitution on it, adds the vanity
    * "via @SuprSetr" to the end (if there is room), and trims the tweet to
-   * 140 characters.</p>
+   * {@link #TWEET_LENGTH} characters.</p>
    *
    * <p>In addition, if the URL is not null, it will be shortened using
    * bit.ly and the shortened URL will be substituted for the %u token in the
@@ -159,7 +156,7 @@ public class TwitterHelper {
    * @param count    the count to substitute for the %c token.
    * @param total    the total count to substitute for the %C token.
    * @return the tweet text with all substitution and URL shortening done, and
-   * trimmed to 140 characters.
+   * trimmed to {@link #TWEET_LENGTH} characters.
    * @throws Exception if there are any errors.
    */
   public static String buildTweet(String template, String title, String url, int count, int total) throws Exception {
@@ -183,7 +180,7 @@ public class TwitterHelper {
     }
     // Add "via suprsetr" if user allows it and tweet is short enough
     if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA))) {
-      if (tweetLength + SSConstants.VIA_TWEET.length() <= 140) {
+      if (tweetLength + SSConstants.VIA_TWEET.length() <= TWEET_LENGTH) {
         template += SSConstants.VIA_TWEET;
       }
     }
@@ -193,10 +190,10 @@ public class TwitterHelper {
       template = template.replace("%u", url);
     }
 
-    if (tweetLength > 140) {
-      logger.info("Tweet is " + template.length() +
-          " characters, truncating to 140. (" + template + ")");
-      template = template.substring(0, 140);
+    if (tweetLength > TWEET_LENGTH) {
+      logger.info("Tweet is {} characters, truncating to {}. ({})",
+          template.length(), TWEET_LENGTH, template);
+      template = template.substring(0, TWEET_LENGTH);
     }
 
     return template;
@@ -222,7 +219,7 @@ public class TwitterHelper {
     }
     // Add "via suprsetr" if user allows it and tweet is short enough
     if (DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_ADD_VIA))) {
-      if (tweetLength + SSConstants.VIA_TWEET.length() <= 140) {
+      if (tweetLength + SSConstants.VIA_TWEET.length() <= TWEET_LENGTH) {
         tweetLength += SSConstants.VIA_TWEET.length();
       }
     }
