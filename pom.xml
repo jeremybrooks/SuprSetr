@@ -50,7 +50,7 @@
         <jinx.version>3.0.0</jinx.version>
         <junit.version>4.11</junit.version>
         <log4j.version>2.11.0</log4j.version>
-        <twitter4j.version>4.0.6</twitter4j.version>
+        <twitter4j.version>4.0.7</twitter4j.version>
 
         <!-- plugin versions -->
         <gitflow-maven-plugin.version>1.14.0</gitflow-maven-plugin.version>

@@ -32,6 +32,7 @@ import net.jeremybrooks.suprsetr.utils.SSUtils;
 import net.jeremybrooks.suprsetr.utils.SimpleCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -441,7 +442,7 @@ public class SetEditor extends javax.swing.JDialog {
     dateUploadedBefore = new JDateChooser();
     panel2 = new JPanel();
     cbxOnThisDay = new JCheckBox();
-    cmbOTDMonth = new JComboBox<>();
+    cmbOTDMonth = new JComboBox();
     cmbOTDDay = new JComboBox<>();
     jLabel9 = new JLabel();
     yearOTDStart = new JYearChooser();
@@ -450,7 +451,7 @@ public class SetEditor extends javax.swing.JDialog {
     cbxCurrentYear = new JCheckBox();
     pnlSort = new JPanel();
     jLabel1 = new JLabel();
-    cmbSortBy = new JComboBox<>();
+    cmbSortBy = new JComboBox();
     advancedPanel = new JPanel();
     pnlSocial = new JPanel();
     jScrollPane3 = new JScrollPane();
@@ -464,17 +465,17 @@ public class SetEditor extends javax.swing.JDialog {
     radioTweetCreated = new JRadioButton();
     jPanel4 = new JPanel();
     jLabel8 = new JLabel();
-    cmbPrivacy = new JComboBox<>();
+    cmbPrivacy = new JComboBox();
     lblSafeSearch = new JLabel();
-    cmbSafeSearch = new JComboBox<>();
+    cmbSafeSearch = new JComboBox();
     jPanel5 = new JPanel();
     jLabel10 = new JLabel();
-    cmbContentType = new JComboBox<>();
+    cmbContentType = new JComboBox();
     jLabel11 = new JLabel();
-    cmbMediaType = new JComboBox<>();
+    cmbMediaType = new JComboBox();
     jPanel6 = new JPanel();
     jLabel12 = new JLabel();
-    cmbGeotag = new JComboBox<>();
+    cmbGeotag = new JComboBox();
     cbxInGallery = new JCheckBox();
     cbxInCommons = new JCheckBox();
     cbxInGetty = new JCheckBox();
@@ -807,7 +808,7 @@ public class SetEditor extends javax.swing.JDialog {
             //---- cmbOTDMonth ----
             cmbOTDMonth.setToolTipText(bundle.getString("SetEditor.cmbOTDMonth.toolTipText"));
             cmbOTDMonth.addActionListener(e -> cmbOTDMonthActionPerformed());
-            cmbOTDMonth.setModel(new DefaultComboBoxModel<>(DateFormatSymbols.getInstance().getMonths()));
+            cmbOTDMonth.setModel(new DefaultComboBoxModel(DateFormatSymbols.getInstance().getMonths()));
             panel2.add(cmbOTDMonth, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
               GridBagConstraints.CENTER, GridBagConstraints.BOTH,
               new Insets(0, 0, 5, 5), 0, 0));
@@ -942,7 +943,7 @@ public class SetEditor extends javax.swing.JDialog {
             Document styledDoc = txtTweet.getDocument();
             if (styledDoc instanceof AbstractDocument) {
                 AbstractDocument doc = (AbstractDocument)styledDoc;
-                doc.setDocumentFilter(new DocumentSizeFilter(140));
+                doc.setDocumentFilter(new DocumentSizeFilter(TwitterHelper.TWEET_LENGTH));
             }
             jScrollPane3.setViewportView(txtTweet);
           }
@@ -1917,7 +1918,7 @@ public class SetEditor extends javax.swing.JDialog {
 
     // CHECK TWEET LENGTH
     int tweetLength = TwitterHelper.calculateTweetLength(this.txtTweet.getText(), this.txtTitle.getText(), 1234, 1234);
-    if (tweetLength > 140) {
+    if (tweetLength > TwitterHelper.TWEET_LENGTH) {
       int result = JOptionPane.showConfirmDialog(this,
           resourceBundle.getString("SetEditor.validation.tweetTooLong.message"),
           resourceBundle.getString("SetEditor.validation.tweetTooLong.title"),
@@ -2155,7 +2156,7 @@ public class SetEditor extends javax.swing.JDialog {
   private JDateChooser dateUploadedBefore;
   private JPanel panel2;
   private JCheckBox cbxOnThisDay;
-  private JComboBox<String> cmbOTDMonth;
+  private JComboBox cmbOTDMonth;
   private JComboBox<String> cmbOTDDay;
   private JLabel jLabel9;
   private JYearChooser yearOTDStart;
@@ -2164,7 +2165,7 @@ public class SetEditor extends javax.swing.JDialog {
   private JCheckBox cbxCurrentYear;
   private JPanel pnlSort;
   private JLabel jLabel1;
-  private JComboBox<String> cmbSortBy;
+  private JComboBox cmbSortBy;
   private JPanel advancedPanel;
   private JPanel pnlSocial;
   private JScrollPane jScrollPane3;
@@ -2178,17 +2179,17 @@ public class SetEditor extends javax.swing.JDialog {
   private JRadioButton radioTweetCreated;
   private JPanel jPanel4;
   private JLabel jLabel8;
-  private JComboBox<String> cmbPrivacy;
+  private JComboBox cmbPrivacy;
   private JLabel lblSafeSearch;
-  private JComboBox<String> cmbSafeSearch;
+  private JComboBox cmbSafeSearch;
   private JPanel jPanel5;
   private JLabel jLabel10;
-  private JComboBox<String> cmbContentType;
+  private JComboBox cmbContentType;
   private JLabel jLabel11;
-  private JComboBox<String> cmbMediaType;
+  private JComboBox cmbMediaType;
   private JPanel jPanel6;
   private JLabel jLabel12;
-  private JComboBox<String> cmbGeotag;
+  private JComboBox cmbGeotag;
   private JCheckBox cbxInGallery;
   private JCheckBox cbxInCommons;
   private JCheckBox cbxInGetty;
@@ -2257,7 +2258,7 @@ public class SetEditor extends javax.swing.JDialog {
    * Document that is limited to a specific number of characters.
    *
    * <p>This document is used by the Tweet Profile text entry field to limit
-   * user entry to 140 characters.</p>
+   * user entry to {@link TwitterHelper#TWEET_LENGTH} characters.</p>
    */
   class LimitedPlainDocument extends PlainDocument {
 

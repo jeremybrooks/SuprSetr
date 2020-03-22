@@ -436,7 +436,7 @@ new FormModel {
 								"lineWrap": true
 								"wrapStyleWord": true
 								auxiliary() {
-									"JavaCodeGenerator.postInitCode": "Document styledDoc = txtTweet.getDocument();\nif (styledDoc instanceof AbstractDocument) {\n    AbstractDocument doc = (AbstractDocument)styledDoc;\n    doc.setDocumentFilter(new DocumentSizeFilter(140));\n} "
+									"JavaCodeGenerator.postInitCode": "Document styledDoc = txtTweet.getDocument();\nif (styledDoc instanceof AbstractDocument) {\n    AbstractDocument doc = (AbstractDocument)styledDoc;\n    doc.setDocumentFilter(new DocumentSizeFilter(TwitterHelper.TWEET_LENGTH));\n} "
 								}
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
