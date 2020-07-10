@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.0.0.109" Java: "1.6.0_65" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.1.0.272" Java: "11.0.6" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
