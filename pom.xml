@@ -25,31 +25,31 @@
     <version>3.4.1-SNAPSHOT</version>
     <name>SuprSetr</name>
     <description>Automated set management for Flickr photosets.</description>
-    <url>http://jeremybrooks.net/suprsetr</url>
+    <url>https://jeremybrooks.net/suprsetr</url>
     <inceptionYear>2010</inceptionYear>
     <licenses>
         <license>
             <name>GNU General Public License</name>
-            <url>http://www.gnu.org/licenses/</url>
+            <url>https://www.gnu.org/licenses/</url>
         </license>
     </licenses>
     <organization>
         <name>Jeremy Brooks</name>
-        <url>http://jeremybrooks.net</url>
+        <url>https://jeremybrooks.net</url>
     </organization>
     <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- library versions -->
-        <commons-io.version>2.6</commons-io.version>
-        <derby.version>10.14.2.0</derby.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <derby.version>10.15.2.0</derby.version>
         <jcalendar.version>1.4</jcalendar.version>
         <jinx.version>3.0.0</jinx.version>
-        <junit.version>4.13.1</junit.version>
-        <log4j.version>2.13.2</log4j.version>
+        <junit.version>4.13.2</junit.version>
+        <log4j.version>2.16.0</log4j.version>
         <twitter4j.version>4.0.7</twitter4j.version>
 
         <!-- plugin versions -->
@@ -70,7 +70,7 @@
         <developer>
             <email>jeremyb@whirljack.net</email>
             <name>Jeremy Brooks</name>
-            <url>http://jeremybrooks.net</url>
+            <url>https://jeremybrooks.net</url>
         </developer>
     </developers>
     <dependencies>

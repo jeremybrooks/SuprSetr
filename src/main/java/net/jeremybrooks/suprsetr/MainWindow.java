@@ -93,7 +93,7 @@ public class MainWindow extends javax.swing.JFrame {
 
   private static final long serialVersionUID = 5381447617741236893L;
 
-  private Logger logger = LogManager.getLogger(MainWindow.class);
+  private static final Logger logger = LogManager.getLogger(MainWindow.class);
 
   /* List model. */
   private DefaultListModel listModel = new DefaultListModel();
@@ -251,7 +251,7 @@ public class MainWindow extends javax.swing.JFrame {
         //---- mnuBrowser ----
         mnuBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
         mnuBrowser.setText(bundle.getString("MainWindow.mnuBrowser.text"));
-        mnuBrowser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuBrowser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         mnuBrowser.addActionListener(e -> mnuBrowserActionPerformed());
         mnuFile.add(mnuBrowser);
 
@@ -283,35 +283,35 @@ public class MainWindow extends javax.swing.JFrame {
         //---- mnuCreateSet ----
         mnuCreateSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
         mnuCreateSet.setText(bundle.getString("MainWindow.mnuCreateSet.text"));
-        mnuCreateSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuCreateSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         mnuCreateSet.addActionListener(e -> mnuCreateSetActionPerformed());
         mnuEdit.add(mnuCreateSet);
 
         //---- mnuEditSet ----
         mnuEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
         mnuEditSet.setText(bundle.getString("MainWindow.mnuEditSet.text"));
-        mnuEditSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuEditSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         mnuEditSet.addActionListener(e -> mnuEditSetActionPerformed());
         mnuEdit.add(mnuEditSet);
 
         //---- mnuDeleteSet ----
         mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
         mnuDeleteSet.setText(bundle.getString("MainWindow.mnuDeleteSet.text"));
-        mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         mnuDeleteSet.addActionListener(e -> mnuDeleteSetActionPerformed());
         mnuEdit.add(mnuDeleteSet);
 
         //---- mnuRefreshSet ----
         mnuRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
         mnuRefreshSet.setText(bundle.getString("MainWindow.mnuRefreshSet.text"));
-        mnuRefreshSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuRefreshSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         mnuRefreshSet.addActionListener(e -> mnuRefreshSetActionPerformed());
         mnuEdit.add(mnuRefreshSet);
 
         //---- mnuRefreshAll ----
         mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
         mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
+        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()|KeyEvent.SHIFT_DOWN_MASK));
         mnuRefreshAll.addActionListener(e -> mnuRefreshAllActionPerformed());
         mnuEdit.add(mnuRefreshAll);
 
@@ -397,7 +397,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         //---- mnuLogWindow ----
         mnuLogWindow.setText(bundle.getString("MainWindow.mnuLogWindow.text"));
-        mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         mnuLogWindow.setIcon(new ImageIcon(getClass().getResource("/images/1072-terminal-toolbar-22x22.png")));
         mnuLogWindow.addActionListener(e -> mnuLogWindowActionPerformed());
         mnuTools.add(mnuLogWindow);
