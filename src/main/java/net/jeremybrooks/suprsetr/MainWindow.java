@@ -51,6 +51,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
@@ -62,10 +63,15 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -77,9 +83,11 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.Serial;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -93,6 +101,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class MainWindow extends javax.swing.JFrame {
 
+  @Serial
   private static final long serialVersionUID = 5381447617741236893L;
 
   private static final Logger logger = LogManager.getLogger(MainWindow.class);
@@ -112,7 +121,7 @@ public class MainWindow extends javax.swing.JFrame {
 
   private java.util.Timer autoRefreshTimer = null;
 
-  private static ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
 
   /*
    * Creates new form MainWindow
@@ -123,6 +132,53 @@ public class MainWindow extends javax.swing.JFrame {
 
   private void thisWindowClosing() {
     backupAndExit();
+  }
+
+  private void toolbarToggleEventHandler(ActionEvent e) {
+    JToolBar targetToolbar;
+    String key;
+    switch (((JMenuItem) e.getSource()).getName()) {
+      case "mnuToolbarEdit" -> {
+        targetToolbar = toolbarEdit;
+        key = SSConstants.LOOKUP_KEY_SHOW_EDIT_TOOLBAR;
+      }
+      case "mnuToolbarTools" -> {
+        targetToolbar = toolbarTools;
+        key = SSConstants.LOOKUP_KEY_SHOW_TOOLS_TOOLBAR;
+      }
+      default -> {
+        targetToolbar = null;
+        key = null;
+      }
+    }
+
+    if (Arrays.stream(pnlToolbar.getComponents())
+        .anyMatch(c -> c == targetToolbar)) {
+      pnlToolbar.remove(targetToolbar);
+      LookupDAO.setKeyAndValue(key, "N");
+    } else {
+      pnlToolbar.add(targetToolbar);
+      LookupDAO.setKeyAndValue(key, "Y");
+    }
+    validate();
+    repaint();
+  }
+
+  private void mnuViewMenuSelected() {
+    // set the text of the toolbar view menu to
+    // hide or show, to reflect the current visible status
+    List<Component> components = Arrays.stream(pnlToolbar.getComponents()).toList();
+    if (components.contains(toolbarEdit)) {
+      mnuToolbarEdit.setText(resourceBundle.getString("MainWindow.mnuToolbarEdit.text.hide"));
+    } else {
+      mnuToolbarEdit.setText(resourceBundle.getString("MainWindow.mnuToolbarEdit.text.show"));
+    }
+
+    if (components.contains(toolbarTools)) {
+      mnuToolbarTools.setText(resourceBundle.getString("MainWindow.mnuToolbarTools.text.hide"));
+    } else {
+      mnuToolbarTools.setText(resourceBundle.getString("MainWindow.mnuToolbarTools.text.show"));
+    }
   }
 
 
@@ -151,6 +207,14 @@ public class MainWindow extends javax.swing.JFrame {
     this.mnuHideUnmanaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED)));
     this.mnuHideManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_MANAGED)));
     this.mnuCaseSensitive.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE)));
+
+    // remove toolbars if the last state was hidden
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_SHOW_EDIT_TOOLBAR).equalsIgnoreCase("N")) {
+      pnlToolbar.remove(toolbarEdit);
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_SHOW_TOOLS_TOOLBAR).equalsIgnoreCase("N")) {
+      pnlToolbar.remove(toolbarTools);
+    }
 
     try {
       setBounds(
@@ -188,7 +252,7 @@ public class MainWindow extends javax.swing.JFrame {
   @SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
-    ResourceBundle bundle = this.resourceBundle;
+    ResourceBundle bundle = resourceBundle;
     jMenuBar1 = new JMenuBar();
     mnuFile = new JMenu();
     mnuBrowser = new JMenuItem();
@@ -210,6 +274,9 @@ public class MainWindow extends javax.swing.JFrame {
     mnuOrderAlphaDesc = new JRadioButtonMenuItem();
     mnuOrderHighLow = new JRadioButtonMenuItem();
     mnuOrderLowHigh = new JRadioButtonMenuItem();
+    mnuToolbars = new JMenu();
+    mnuToolbarEdit = new JMenuItem();
+    mnuToolbarTools = new JMenuItem();
     mnuTools = new JMenu();
     mnuFavr = new JMenuItem();
     mnuClearFave = new JMenuItem();
@@ -221,7 +288,8 @@ public class MainWindow extends javax.swing.JFrame {
     mnuTutorial = new JMenuItem();
     mnuSSHelp = new JMenuItem();
     mnuCheckUpdates = new JMenuItem();
-    jToolBar1 = new JToolBar();
+    pnlToolbar = new JPanel();
+    toolbarEdit = new JToolBar();
     btnAddSet = new JButton();
     btnEditSet = new JButton();
     btnDeleteSet = new JButton();
@@ -230,6 +298,12 @@ public class MainWindow extends javax.swing.JFrame {
     btnBrowser = new JButton();
     jLabel1 = new JLabel();
     txtFilter = new JTextField();
+    toolbarTools = new JToolBar();
+    btnFavr = new JButton();
+    btnClearFave = new JButton();
+    btnSetOrdering = new JButton();
+    btnLogs = new JButton();
+    btnConsole = new JButton();
     jScrollPane1 = new JScrollPane();
     jList1 = new JList();
     lblStatus = new JLabel();
@@ -338,6 +412,16 @@ public class MainWindow extends javax.swing.JFrame {
       //======== mnuView ========
       {
         mnuView.setText(bundle.getString("MainWindow.mnuView.text"));
+        mnuView.addMenuListener(new MenuListener() {
+          @Override
+          public void menuCanceled(MenuEvent e) {}
+          @Override
+          public void menuDeselected(MenuEvent e) {}
+          @Override
+          public void menuSelected(MenuEvent e) {
+            mnuViewMenuSelected();
+          }
+        });
 
         //---- mnuHideUnmanaged ----
         mnuHideUnmanaged.setText(bundle.getString("MainWindow.mnuHideUnmanaged.text"));
@@ -376,6 +460,25 @@ public class MainWindow extends javax.swing.JFrame {
         mnuOrderLowHigh.addActionListener(e -> mnuOrderLowHighActionPerformed());
         mnuView.add(mnuOrderLowHigh);
         mnuView.addSeparator();
+        mnuView.addSeparator();
+
+        //======== mnuToolbars ========
+        {
+          mnuToolbars.setText(bundle.getString("MainWindow.mnuToolbars.text"));
+
+          //---- mnuToolbarEdit ----
+          mnuToolbarEdit.setText(bundle.getString("MainWindow.mnuToolbarEdit.text.hide"));
+          mnuToolbarEdit.setName("mnuToolbarEdit");
+          mnuToolbarEdit.addActionListener(e -> toolbarToggleEventHandler(e));
+          mnuToolbars.add(mnuToolbarEdit);
+
+          //---- mnuToolbarTools ----
+          mnuToolbarTools.setText(bundle.getString("MainWindow.mnuToolbarTools.text.hide"));
+          mnuToolbarTools.setName("mnuToolbarTools");
+          mnuToolbarTools.addActionListener(e -> toolbarToggleEventHandler(e));
+          mnuToolbars.add(mnuToolbarTools);
+        }
+        mnuView.add(mnuToolbars);
       }
       jMenuBar1.add(mnuView);
 
@@ -448,83 +551,119 @@ public class MainWindow extends javax.swing.JFrame {
     }
     setJMenuBar(jMenuBar1);
 
-    //======== jToolBar1 ========
+    //======== pnlToolbar ========
     {
-      jToolBar1.setRollover(true);
+      pnlToolbar.setLayout(new GridLayout(0, 1));
 
-      //---- btnAddSet ----
-      btnAddSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
-      btnAddSet.setToolTipText(bundle.getString("MainWindow.btnAddSet.toolTipText"));
-      btnAddSet.setFocusable(false);
-      btnAddSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnAddSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnAddSet.addActionListener(e -> btnAddSetActionPerformed());
-      jToolBar1.add(btnAddSet);
+      //======== toolbarEdit ========
+      {
+        toolbarEdit.setRollover(true);
 
-      //---- btnEditSet ----
-      btnEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
-      btnEditSet.setToolTipText(bundle.getString("MainWindow.btnEditSet.toolTipText"));
-      btnEditSet.setFocusable(false);
-      btnEditSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnEditSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnEditSet.addActionListener(e -> btnEditSetActionPerformed());
-      jToolBar1.add(btnEditSet);
+        //---- btnAddSet ----
+        btnAddSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
+        btnAddSet.setToolTipText(bundle.getString("MainWindow.btnAddSet.toolTipText"));
+        btnAddSet.setFocusable(false);
+        btnAddSet.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnAddSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnAddSet.addActionListener(e -> btnAddSetActionPerformed());
+        toolbarEdit.add(btnAddSet);
 
-      //---- btnDeleteSet ----
-      btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
-      btnDeleteSet.setToolTipText(bundle.getString("MainWindow.btnDeleteSet.toolTipText"));
-      btnDeleteSet.setFocusable(false);
-      btnDeleteSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnDeleteSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnDeleteSet.addActionListener(e -> btnDeleteSetActionPerformed());
-      jToolBar1.add(btnDeleteSet);
+        //---- btnEditSet ----
+        btnEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
+        btnEditSet.setToolTipText(bundle.getString("MainWindow.btnEditSet.toolTipText"));
+        btnEditSet.setFocusable(false);
+        btnEditSet.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnEditSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnEditSet.addActionListener(e -> btnEditSetActionPerformed());
+        toolbarEdit.add(btnEditSet);
 
-      //---- btnRefreshSet ----
-      btnRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
-      btnRefreshSet.setToolTipText(bundle.getString("MainWindow.btnRefreshSet.toolTipText"));
-      btnRefreshSet.setFocusable(false);
-      btnRefreshSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnRefreshSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnRefreshSet.addActionListener(e -> btnRefreshSetActionPerformed());
-      jToolBar1.add(btnRefreshSet);
+        //---- btnDeleteSet ----
+        btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
+        btnDeleteSet.setToolTipText(bundle.getString("MainWindow.btnDeleteSet.toolTipText"));
+        btnDeleteSet.setFocusable(false);
+        btnDeleteSet.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnDeleteSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnDeleteSet.addActionListener(e -> btnDeleteSetActionPerformed());
+        toolbarEdit.add(btnDeleteSet);
 
-      //---- btnRefreshAll ----
-      btnRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
-      btnRefreshAll.setToolTipText(bundle.getString("MainWindow.btnRefreshAll.toolTipText"));
-      btnRefreshAll.setFocusable(false);
-      btnRefreshAll.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnRefreshAll.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnRefreshAll.addActionListener(e -> btnRefreshAllActionPerformed());
-      jToolBar1.add(btnRefreshAll);
+        //---- btnRefreshSet ----
+        btnRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
+        btnRefreshSet.setToolTipText(bundle.getString("MainWindow.btnRefreshSet.toolTipText"));
+        btnRefreshSet.setFocusable(false);
+        btnRefreshSet.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnRefreshSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnRefreshSet.addActionListener(e -> btnRefreshSetActionPerformed());
+        toolbarEdit.add(btnRefreshSet);
 
-      //---- btnBrowser ----
-      btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
-      btnBrowser.setToolTipText(bundle.getString("MainWindow.btnBrowser.toolTipText"));
-      btnBrowser.addActionListener(e -> btnBrowserActionPerformed());
-      jToolBar1.add(btnBrowser);
-      jToolBar1.addSeparator();
+        //---- btnRefreshAll ----
+        btnRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
+        btnRefreshAll.setToolTipText(bundle.getString("MainWindow.btnRefreshAll.toolTipText"));
+        btnRefreshAll.setFocusable(false);
+        btnRefreshAll.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnRefreshAll.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnRefreshAll.addActionListener(e -> btnRefreshAllActionPerformed());
+        toolbarEdit.add(btnRefreshAll);
 
-      //---- jLabel1 ----
-      jLabel1.setText("Filter");
-      jToolBar1.add(jLabel1);
+        //---- btnBrowser ----
+        btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
+        btnBrowser.setToolTipText(bundle.getString("MainWindow.btnBrowser.toolTipText"));
+        btnBrowser.addActionListener(e -> btnBrowserActionPerformed());
+        toolbarEdit.add(btnBrowser);
+        toolbarEdit.addSeparator();
 
-      //---- txtFilter ----
-      txtFilter.setToolTipText(bundle.getString("MainWindow.txtFilter.toolTipText"));
-      txtFilter.addFocusListener(new FocusAdapter() {
-        @Override
-        public void focusGained(FocusEvent e) {
-          txtFilterFocusGained();
-        }
-      });
-      txtFilter.addKeyListener(new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-          txtFilterKeyTyped(e);
-        }
-      });
-      jToolBar1.add(txtFilter);
+        //---- jLabel1 ----
+        jLabel1.setText("Filter");
+        toolbarEdit.add(jLabel1);
+
+        //---- txtFilter ----
+        txtFilter.setToolTipText(bundle.getString("MainWindow.txtFilter.toolTipText"));
+        txtFilter.addFocusListener(new FocusAdapter() {
+          @Override
+          public void focusGained(FocusEvent e) {
+            txtFilterFocusGained();
+          }
+        });
+        txtFilter.addKeyListener(new KeyAdapter() {
+          @Override
+          public void keyTyped(KeyEvent e) {
+            txtFilterKeyTyped(e);
+          }
+        });
+        toolbarEdit.add(txtFilter);
+      }
+      pnlToolbar.add(toolbarEdit);
+
+      //======== toolbarTools ========
+      {
+
+        //---- btnFavr ----
+        btnFavr.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar.png")));
+        btnFavr.addActionListener(e -> mnuFavrActionPerformed());
+        toolbarTools.add(btnFavr);
+
+        //---- btnClearFave ----
+        btnClearFave.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar-x.png")));
+        btnClearFave.addActionListener(e -> mnuClearFaveActionPerformed());
+        toolbarTools.add(btnClearFave);
+
+        //---- btnSetOrdering ----
+        btnSetOrdering.setIcon(new ImageIcon(getClass().getResource("/images/707-albums-toolbar-22x22.png")));
+        btnSetOrdering.addActionListener(e -> mnuSetOrderActionPerformed());
+        toolbarTools.add(btnSetOrdering);
+
+        //---- btnLogs ----
+        btnLogs.setIcon(new ImageIcon(getClass().getResource("/images/797-archive-toolbar-22x22.png")));
+        btnLogs.addActionListener(e -> mnuLogsActionPerformed());
+        toolbarTools.add(btnLogs);
+
+        //---- btnConsole ----
+        btnConsole.setIcon(new ImageIcon(getClass().getResource("/images/1072-terminal-toolbar-22x22.png")));
+        btnConsole.addActionListener(e -> mnuLogWindowActionPerformed());
+        toolbarTools.add(btnConsole);
+      }
+      pnlToolbar.add(toolbarTools);
     }
-    contentPane.add(jToolBar1, BorderLayout.NORTH);
+    contentPane.add(pnlToolbar, BorderLayout.NORTH);
 
     //======== jScrollPane1 ========
     {
@@ -651,7 +790,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
     logger.info("Database has been shut down");
 
-    logger.info("SuprSetr exiting. Goodbye.");    System.exit(0);
+    logger.info("SuprSetr exiting. Goodbye.");
+    System.exit(0);
   }
 
   private void mnuCreateSetActionPerformed() {
@@ -1210,7 +1350,6 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-
   private void doBackup(boolean exitWhenFinished) {
     BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.backup"));
     setGlassPane(blocker);
@@ -1444,6 +1583,9 @@ public class MainWindow extends javax.swing.JFrame {
   private JRadioButtonMenuItem mnuOrderAlphaDesc;
   private JRadioButtonMenuItem mnuOrderHighLow;
   private JRadioButtonMenuItem mnuOrderLowHigh;
+  private JMenu mnuToolbars;
+  private JMenuItem mnuToolbarEdit;
+  private JMenuItem mnuToolbarTools;
   private JMenu mnuTools;
   private JMenuItem mnuFavr;
   private JMenuItem mnuClearFave;
@@ -1455,7 +1597,8 @@ public class MainWindow extends javax.swing.JFrame {
   private JMenuItem mnuTutorial;
   private JMenuItem mnuSSHelp;
   private JMenuItem mnuCheckUpdates;
-  private JToolBar jToolBar1;
+  private JPanel pnlToolbar;
+  private JToolBar toolbarEdit;
   private JButton btnAddSet;
   private JButton btnEditSet;
   private JButton btnDeleteSet;
@@ -1464,6 +1607,12 @@ public class MainWindow extends javax.swing.JFrame {
   private JButton btnBrowser;
   private JLabel jLabel1;
   private JTextField txtFilter;
+  private JToolBar toolbarTools;
+  private JButton btnFavr;
+  private JButton btnClearFave;
+  private JButton btnSetOrdering;
+  private JButton btnLogs;
+  private JButton btnConsole;
   private JScrollPane jScrollPane1;
   private JList jList1;
   private JLabel lblStatus;

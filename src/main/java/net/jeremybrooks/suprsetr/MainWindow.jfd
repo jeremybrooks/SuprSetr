@@ -8,7 +8,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		auxiliary() {
-			"JavaCodeGenerator.i18nGetBundleFormat": "this.resourceBundle"
+			"JavaCodeGenerator.i18nGetBundleFormat": "resourceBundle"
 		}
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
@@ -18,72 +18,106 @@ new FormModel {
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/s16.png" )
 			"defaultCloseOperation": 0
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "thisWindowClosing", false ) )
-			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-				name: "jToolBar1"
-				"rollover": true
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnAddSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/746-plus-circle-toolbar.png" )
-					"toolTipText": new FormMessage( null, "MainWindow.btnAddSet.toolTipText" )
-					"focusable": false
-					"horizontalTextPosition": 0
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnAddSetActionPerformed", false ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 1
+				"rows": 0
+			} ) {
+				name: "pnlToolbar"
+				add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+					name: "toolbarEdit"
+					"rollover": true
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnAddSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/746-plus-circle-toolbar.png" )
+						"toolTipText": new FormMessage( null, "MainWindow.btnAddSet.toolTipText" )
+						"focusable": false
+						"horizontalTextPosition": 0
+						"verticalTextPosition": 3
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnAddSetActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnEditSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/830-pencil-toolbar.png" )
+						"toolTipText": new FormMessage( null, "MainWindow.btnEditSet.toolTipText" )
+						"focusable": false
+						"horizontalTextPosition": 0
+						"verticalTextPosition": 3
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnEditSetActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnDeleteSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/711-trash-toolbar-22x22.png" )
+						"toolTipText": new FormMessage( null, "MainWindow.btnDeleteSet.toolTipText" )
+						"focusable": false
+						"horizontalTextPosition": 0
+						"verticalTextPosition": 3
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnDeleteSetActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnRefreshSet"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar.png" )
+						"toolTipText": new FormMessage( null, "MainWindow.btnRefreshSet.toolTipText" )
+						"focusable": false
+						"horizontalTextPosition": 0
+						"verticalTextPosition": 3
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshSetActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnRefreshAll"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar-infinity.png" )
+						"toolTipText": new FormMessage( null, "MainWindow.btnRefreshAll.toolTipText" )
+						"focusable": false
+						"horizontalTextPosition": 0
+						"verticalTextPosition": 3
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshAllActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnBrowser"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/786-browser-toolbar-22x22.png" )
+						"toolTipText": new FormMessage( null, "MainWindow.btnBrowser.toolTipText" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBrowserActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+						name: "jSeparator2"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel1"
+						"text": "Filter"
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtFilter"
+						"toolTipText": new FormMessage( null, "MainWindow.txtFilter.toolTipText" )
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "txtFilterFocusGained", false ) )
+						addEvent( new FormEvent( "java.awt.event.KeyListener", "keyTyped", "txtFilterKeyTyped", true ) )
+					} )
 				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnEditSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/830-pencil-toolbar.png" )
-					"toolTipText": new FormMessage( null, "MainWindow.btnEditSet.toolTipText" )
-					"focusable": false
-					"horizontalTextPosition": 0
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnEditSetActionPerformed", false ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnDeleteSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/711-trash-toolbar-22x22.png" )
-					"toolTipText": new FormMessage( null, "MainWindow.btnDeleteSet.toolTipText" )
-					"focusable": false
-					"horizontalTextPosition": 0
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnDeleteSetActionPerformed", false ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnRefreshSet"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar.png" )
-					"toolTipText": new FormMessage( null, "MainWindow.btnRefreshSet.toolTipText" )
-					"focusable": false
-					"horizontalTextPosition": 0
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshSetActionPerformed", false ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnRefreshAll"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/759-refresh-2-toolbar-infinity.png" )
-					"toolTipText": new FormMessage( null, "MainWindow.btnRefreshAll.toolTipText" )
-					"focusable": false
-					"horizontalTextPosition": 0
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshAllActionPerformed", false ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnBrowser"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/786-browser-toolbar-22x22.png" )
-					"toolTipText": new FormMessage( null, "MainWindow.btnBrowser.toolTipText" )
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBrowserActionPerformed", false ) )
-				} )
-				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "jSeparator2"
-				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "jLabel1"
-					"text": "Filter"
-				} )
-				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "txtFilter"
-					"toolTipText": new FormMessage( null, "MainWindow.txtFilter.toolTipText" )
-					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "txtFilterFocusGained", false ) )
-					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyTyped", "txtFilterKeyTyped", true ) )
+				add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+					name: "toolbarTools"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnFavr"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/909-tags-toolbar.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuFavrActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnClearFave"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/909-tags-toolbar-x.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuClearFaveActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnSetOrdering"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/707-albums-toolbar-22x22.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuSetOrderActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnLogs"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/797-archive-toolbar-22x22.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogsActionPerformed", false ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnConsole"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1072-terminal-toolbar-22x22.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", false ) )
+					} )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"
@@ -191,6 +225,7 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "mnuView"
 					"text": new FormMessage( null, "MainWindow.mnuView.text" )
+					addEvent( new FormEvent( "javax.swing.event.MenuListener", "menuSelected", "mnuViewMenuSelected", false ) )
 					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
 						name: "mnuHideUnmanaged"
 						"text": new FormMessage( null, "MainWindow.mnuHideUnmanaged.text" )
@@ -237,7 +272,26 @@ new FormModel {
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuOrderLowHighActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator4"
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator1"
+					} )
+					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+						name: "mnuToolbars"
+						"text": new FormMessage( null, "MainWindow.mnuToolbars.text" )
+						add( new FormComponent( "javax.swing.JMenuItem" ) {
+							name: "mnuToolbarEdit"
+							"text": new FormMessage( null, "MainWindow.mnuToolbarEdit.text.hide" )
+							"name": "mnuToolbarEdit"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toolbarToggleEventHandler", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JMenuItem" ) {
+							name: "mnuToolbarTools"
+							"text": new FormMessage( null, "MainWindow.mnuToolbarTools.text.hide" )
+							"name": "mnuToolbarTools"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toolbarToggleEventHandler", true ) )
+						} )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
