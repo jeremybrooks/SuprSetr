@@ -107,19 +107,21 @@ public class MainWindow extends javax.swing.JFrame {
   private static final Logger logger = LogManager.getLogger(MainWindow.class);
 
   /* List model. */
-  private DefaultListModel listModel = new DefaultListModel();
+  private final DefaultListModel<SSPhotoset> listModel = new DefaultListModel<>();
 
   /* Master list. */
   private List<SSPhotoset> masterList;
 
   private static MainWindow theWindow;
 
-  private LogWindow logWindow = null;
+  private final LogWindow logWindow;
 
   /* Timer used to trigger filtering. */
-  private Timer filterTimer = null;
+  private final Timer filterTimer;
 
   private java.util.Timer autoRefreshTimer = null;
+
+  private static boolean blocked = false;
 
   private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
 
@@ -186,21 +188,11 @@ public class MainWindow extends javax.swing.JFrame {
     initComponents();
 
     switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER)) {
-      case SSConstants.LIST_SORT_ATOZ:
-        this.mnuOrderAlpha.setSelected(true);
-        break;
-      case SSConstants.LIST_SORT_ZTOA:
-        this.mnuOrderAlphaDesc.setSelected(true);
-        break;
-      case SSConstants.LIST_SORT_VIEW_HIGHLOW:
-        this.mnuOrderHighLow.setSelected(true);
-        break;
-      case SSConstants.LIST_SORT_VIEW_LOWHIGH:
-        this.mnuOrderLowHigh.setSelected(true);
-        break;
-      default:
-        this.mnuOrderAlpha.setSelected(true);
-        break;
+      case SSConstants.LIST_SORT_ATOZ -> this.mnuOrderAlpha.setSelected(true);
+      case SSConstants.LIST_SORT_ZTOA -> this.mnuOrderAlphaDesc.setSelected(true);
+      case SSConstants.LIST_SORT_VIEW_HIGHLOW -> this.mnuOrderHighLow.setSelected(true);
+      case SSConstants.LIST_SORT_VIEW_LOWHIGH -> this.mnuOrderLowHigh.setSelected(true);
+      default -> this.mnuOrderAlpha.setSelected(true);
     }
     this.updateStatusBar();
 
@@ -305,7 +297,7 @@ public class MainWindow extends javax.swing.JFrame {
     btnLogs = new JButton();
     btnConsole = new JButton();
     jScrollPane1 = new JScrollPane();
-    jList1 = new JList();
+    jList1 = new JList<>();
     lblStatus = new JLabel();
     mnuPopup = new JPopupMenu();
     mnuPopupCreate = new JMenuItem();
@@ -1367,7 +1359,14 @@ public class MainWindow extends javax.swing.JFrame {
    * @return true if the window is in a blocked state.
    */
   static boolean isBlocked() {
-    return theWindow.getGlassPane().isVisible();
+    return blocked;
+  }
+
+  /**
+   * Set the blocked state of the window.
+   */
+  static void setBlocked(boolean blocked) {
+    MainWindow.blocked = blocked;
   }
 
 
@@ -1429,21 +1428,11 @@ public class MainWindow extends javax.swing.JFrame {
   public void updateMasterList(String visiblePhotosetId) {
     try {
       switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER)) {
-        case SSConstants.LIST_SORT_ATOZ:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
-          break;
-        case SSConstants.LIST_SORT_ZTOA:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitleDescending();
-          break;
-        case SSConstants.LIST_SORT_VIEW_HIGHLOW:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountHighToLow();
-          break;
-        case SSConstants.LIST_SORT_VIEW_LOWHIGH:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountLowToHigh();
-          break;
-        default:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
-          break;
+        case SSConstants.LIST_SORT_ATOZ -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
+        case SSConstants.LIST_SORT_ZTOA -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitleDescending();
+        case SSConstants.LIST_SORT_VIEW_HIGHLOW -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountHighToLow();
+        case SSConstants.LIST_SORT_VIEW_LOWHIGH -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountLowToHigh();
+        default -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
       }
     } catch (Exception e) {
       JOptionPane.showMessageDialog(this,
@@ -1614,7 +1603,7 @@ public class MainWindow extends javax.swing.JFrame {
   private JButton btnLogs;
   private JButton btnConsole;
   private JScrollPane jScrollPane1;
-  private JList jList1;
+  private JList<SSPhotoset> jList1;
   private JLabel lblStatus;
   private JPopupMenu mnuPopup;
   private JMenuItem mnuPopupCreate;

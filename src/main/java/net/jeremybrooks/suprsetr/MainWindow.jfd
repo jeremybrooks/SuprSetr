@@ -130,6 +130,7 @@ new FormModel {
 					"cellRenderer": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					auxiliary() {
 						"JavaCodeGenerator.postInitCode": "this.jList1.setModel(this.listModel);\nthis.jList1.setCellRenderer(new SetListRenderer());"
+						"JavaCodeGenerator.typeParameters": "SSPhotoset"
 					}
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "jList1MousePressed", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseReleased", "jList1MouseReleased", true ) )

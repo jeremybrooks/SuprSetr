@@ -151,6 +151,7 @@ public class BlockerPanel extends JPanel implements MouseInputListener, KeyListe
 		lblMessage.setText(message);
 
 		// Show the blocker
+    MainWindow.setBlocked(true);
 		this.setVisible(true);
 	}
 
@@ -159,6 +160,7 @@ public class BlockerPanel extends JPanel implements MouseInputListener, KeyListe
 	 * Restore the cursor and hide the blocker panel.
 	 */
 	public void unBlock() {
+    MainWindow.setBlocked(false);
 		this.setCursor(this.oldCursor);
 		this.setVisible(false);
 		MainWindow.getMainWindow().enableFilter(true);
