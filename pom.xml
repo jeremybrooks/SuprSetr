@@ -49,7 +49,7 @@
         <jcalendar.version>1.4</jcalendar.version>
         <jinx.version>3.0.0</jinx.version>
         <junit.version>4.13.1</junit.version>
-        <log4j.version>2.11.0</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
         <twitter4j.version>4.0.7</twitter4j.version>
 
         <!-- plugin versions -->
