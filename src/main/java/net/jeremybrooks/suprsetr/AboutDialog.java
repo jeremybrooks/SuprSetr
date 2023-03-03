@@ -49,7 +49,7 @@ import java.util.ResourceBundle;
 public class AboutDialog extends javax.swing.JDialog {
 
   private static final long serialVersionUID = -7134729202657056791L;
-  private Logger logger = LogManager.getLogger(AboutDialog.class);
+  private static final Logger logger = LogManager.getLogger(AboutDialog.class);
   private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.about");
 
   /**

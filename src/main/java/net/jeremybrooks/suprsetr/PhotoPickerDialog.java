@@ -70,7 +70,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 	/**
 	 * Logging.
 	 */
-	private Logger logger = LogManager.getLogger(PhotoPickerDialog.class);
+	private static final Logger logger = LogManager.getLogger(PhotoPickerDialog.class);
 
 	/**
 	 * The photoset that we are displaying photos from.

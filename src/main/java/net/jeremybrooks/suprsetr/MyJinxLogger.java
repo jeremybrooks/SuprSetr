@@ -32,7 +32,7 @@ import org.apache.logging.log4j.Logger;
 public class MyJinxLogger implements LogInterface {
 
     /** Logger. */
-    private Logger logger = LogManager.getLogger(MyJinxLogger.class);
+    private static final Logger logger = LogManager.getLogger(MyJinxLogger.class);
 
     @Override
     public void log(String message) {

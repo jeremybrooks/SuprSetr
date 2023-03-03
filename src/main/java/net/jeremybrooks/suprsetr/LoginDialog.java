@@ -48,7 +48,7 @@ public class LoginDialog extends javax.swing.JDialog {
 	/**
 	 * Logging
 	 */
-	private Logger logger = LogManager.getLogger(LoginDialog.class);
+	private static final Logger logger = LogManager.getLogger(LoginDialog.class);
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.login");
 

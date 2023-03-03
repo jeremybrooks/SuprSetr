@@ -107,7 +107,7 @@ public class SetEditor extends javax.swing.JDialog {
   /* The photoset we are working on. */
   private SSPhotoset ssPhotoset;
 
-  private Logger logger = LogManager.getLogger(SetEditor.class);
+  private static final Logger logger = LogManager.getLogger(SetEditor.class);
 
   private String[] sortModelArray = new String[12];
   private String[] privacyModelArray = new String[6];

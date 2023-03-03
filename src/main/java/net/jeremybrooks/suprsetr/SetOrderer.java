@@ -60,7 +60,7 @@ import java.util.ResourceBundle;
 public class SetOrderer extends javax.swing.JDialog {
 
   private static final long serialVersionUID = -8987356410180796854L;
-  private Logger logger = LogManager.getLogger(SetOrderer.class);
+  private static final Logger logger = LogManager.getLogger(SetOrderer.class);
 
   private DefaultListModel<SetOrdererDTO> listModel;
 

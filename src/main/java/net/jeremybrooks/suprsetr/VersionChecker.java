@@ -37,7 +37,7 @@ import java.net.URL;
  */
 public class VersionChecker implements Runnable {
 
-  private Logger logger = LogManager.getLogger(VersionChecker.class);
+  private static final Logger logger = LogManager.getLogger(VersionChecker.class);
   private boolean showNoUpdateMessage;
   private boolean delayCheck;
 
