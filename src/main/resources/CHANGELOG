@@ -1,3 +1,9 @@
+Version 3.4.1
+ * Update dependency versions.
+ * Requires Java 17.
+ * Update install4j config to latest version.
+ * Resolve issue where logs don't roll over correctly.
+
 Version 3.4.0
  * Update SuprSetr URL's to https
  * Version Checker works
