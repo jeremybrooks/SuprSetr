@@ -53,6 +53,7 @@
         <twitter4j.version>4.0.7</twitter4j.version>
 
         <!-- plugin versions -->
+        <install4j-maven-plugin.version>1.1.2</install4j-maven-plugin.version>
         <gitflow-maven-plugin.version>1.19.0</gitflow-maven-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-deploy-plugin.version>3.1.0</maven-deploy-plugin.version>
@@ -114,6 +115,29 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>${project.artifactId}.install4j</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.png</include>
+                    <include>**/*.gif</include>
+                    <include>**/*.icns</include>
+                    <include>**/*.html</include>
+                    <include>log4j2.xml</include>
+                    <include>LICENSE</include>
+                    <include>CHANGELOG</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -177,6 +201,23 @@
                 <configuration>
                     <skipTestProject>true</skipTestProject>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.install4j</groupId>
+                <artifactId>install4j-maven-plugin</artifactId>
+                <version>${install4j-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile-installers</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <projectFile>${project.basedir}/target/classes/${project.artifactId}.install4j</projectFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
