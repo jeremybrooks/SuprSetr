@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.0.404" Java: "11.0.13" encoding: "UTF-8"
+JFDML JFormDesigner: "8.0.2.0.220" Java: "17.0.5" encoding: "UTF-8"
 
 new FormModel {
 	"i18n.bundlePackage": "net.jeremybrooks.suprsetr"
@@ -96,26 +96,31 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "btnFavr"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/909-tags-toolbar.png" )
+						"toolTipText": "Launch FavrTagr"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuFavrActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "btnClearFave"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/909-tags-toolbar-x.png" )
+						"toolTipText": "Clear fave tags"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuClearFaveActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "btnSetOrdering"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/707-albums-toolbar-22x22.png" )
+						"toolTipText": "Launch the album ordering tool"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuSetOrderActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "btnLogs"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/797-archive-toolbar-22x22.png" )
+						"toolTipText": "Compress logs"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogsActionPerformed", false ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "btnConsole"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/1072-terminal-toolbar-22x22.png" )
+						"toolTipText": "Show activity console"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "mnuLogWindowActionPerformed", false ) )
 					} )
 				} )
