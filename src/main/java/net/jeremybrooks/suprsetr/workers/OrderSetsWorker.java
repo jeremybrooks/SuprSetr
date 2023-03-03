@@ -42,22 +42,16 @@ import java.util.ResourceBundle;
  */
 public class OrderSetsWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = LogManager.getLogger(OrderSetsWorker.class);
+	/* Logging. */
+	private static final Logger logger = LogManager.getLogger(OrderSetsWorker.class);
 
-	/**
-	 * The blocker instance used to provide user with feedback.
-	 */
-	private BlockerPanel blocker;
+	/* The blocker instance used to provide user with feedback. */
+	private final BlockerPanel blocker;
 
-	/**
-	 * Array of photoset Id's indicating the order of photosets.
-	 */
-	private List<String> photosetIds;
+	/* Array of photoset Ids indicating the order of photosets. */
+	private final List<String> photosetIds;
 
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+	private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 	/**
 	 * Create an instance of OrderSetsWorker.

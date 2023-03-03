@@ -45,7 +45,7 @@ public class JinxFactory {
   private OAuthApi oAuthApi;
   private PhotosetsApi photosetsApi;
 
-  private final Logger logger = LogManager.getLogger(JinxFactory.class);
+  private static final Logger logger = LogManager.getLogger(JinxFactory.class);
 
   private JinxFactory() {
   }

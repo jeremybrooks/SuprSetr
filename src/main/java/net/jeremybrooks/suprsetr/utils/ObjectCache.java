@@ -34,7 +34,7 @@ import java.io.Serializable;
  * @author Jeremy Brooks
  */
 public class ObjectCache {
-  private final Logger logger = LogManager.getLogger(ObjectCache.class);
+  private static final Logger logger = LogManager.getLogger(ObjectCache.class);
   private final File cacheDir;
 
   public ObjectCache() throws IOException {

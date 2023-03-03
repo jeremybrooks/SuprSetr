@@ -53,22 +53,18 @@ import java.util.ResourceBundle;
  */
 public class DatabaseRestoreWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = LogManager.getLogger(DatabaseRestoreWorker.class);
+	/* Logging. */
+	private static final Logger logger = LogManager.getLogger(DatabaseRestoreWorker.class);
 
-	/**
-	 * The blocker instance used to provide user with feedback.
-	 */
-	private BlockerPanel blocker;
+	/* The blocker instance used to provide user with feedback. */
+	private final BlockerPanel blocker;
 
 	/**
 	 * The directory that holds the backup to restore from.
 	 */
-	private File backupDirectory;
+	private final File backupDirectory;
 
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+	private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
 	/**

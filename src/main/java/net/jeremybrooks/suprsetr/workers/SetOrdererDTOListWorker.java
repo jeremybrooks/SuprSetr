@@ -52,11 +52,12 @@ import java.util.ResourceBundle;
  */
 public class SetOrdererDTOListWorker extends SwingWorker<List<SetOrdererDTO>, SSPhotoset> {
 
-  private Logger logger = LogManager.getLogger(SetOrdererDTOListWorker.class);
-  private BlockerPanel blocker;
-  private DefaultListModel<SetOrdererDTO> listModel;
-  private SetOrderer dialog;
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private static final Logger logger = LogManager.getLogger(SetOrdererDTOListWorker.class);
+
+  private final BlockerPanel blocker;
+  private final DefaultListModel<SetOrdererDTO> listModel;
+  private final SetOrderer dialog;
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
    * Create a new instance of LoadFlickrSets.

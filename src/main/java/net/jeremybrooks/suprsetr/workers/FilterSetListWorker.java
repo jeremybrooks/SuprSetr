@@ -40,14 +40,14 @@ import java.util.ResourceBundle;
  * @author Jeremy Brooks
  */
 public class FilterSetListWorker extends SwingWorker<Void, SSPhotoset> {
-  private BlockerPanel blocker;
-  private List<SSPhotoset> list;
-  private String filter;
-  private DefaultListModel<SSPhotoset> listModel;
-  private boolean hideUnmanaged;
-  private boolean hideManaged;
-  private String visiblePhotosetId;
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private final BlockerPanel blocker;
+  private final List<SSPhotoset> list;
+  private final String filter;
+  private final DefaultListModel<SSPhotoset> listModel;
+  private final boolean hideUnmanaged;
+  private final boolean hideManaged;
+  private final String visiblePhotosetId;
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
    * Create a new instance of MasterListWorker.

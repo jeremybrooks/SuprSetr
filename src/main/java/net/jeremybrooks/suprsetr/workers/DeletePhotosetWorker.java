@@ -45,22 +45,18 @@ import java.util.ResourceBundle;
  */
 public class DeletePhotosetWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = LogManager.getLogger(DeletePhotosetWorker.class);
+	/* Logging. */
+	private static final Logger logger = LogManager.getLogger(DeletePhotosetWorker.class);
 
-	/**
-	 * The blocker instance used to provide user with feedback.
-	 */
-	private BlockerPanel blocker;
+	/* The blocker instance used to provide user with feedback. */
+	private final BlockerPanel blocker;
 
 	/**
 	 * The photoset to delete.
 	 */
-	private SSPhotoset ssPhotoset;
+	private final SSPhotoset ssPhotoset;
 
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+	private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
 	/**

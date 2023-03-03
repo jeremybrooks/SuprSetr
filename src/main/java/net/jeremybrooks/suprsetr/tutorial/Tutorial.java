@@ -55,7 +55,7 @@ public class Tutorial extends javax.swing.JDialog {
   @Serial
   private static final long serialVersionUID = 1675398273280362432L;
   /* Logging. */
-  private final Logger logger = LogManager.getLogger(Tutorial.class);
+  private static final Logger logger = LogManager.getLogger(Tutorial.class);
 
   /* The current page of the tutorial. */
   private int currentPage = 1;

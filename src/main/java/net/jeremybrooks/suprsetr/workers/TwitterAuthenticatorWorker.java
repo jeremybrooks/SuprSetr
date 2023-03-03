@@ -42,22 +42,16 @@ import java.util.ResourceBundle;
  */
 public class TwitterAuthenticatorWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = LogManager.getLogger(TwitterAuthenticatorWorker.class);
+	/* Logging. */
+	private static final Logger logger = LogManager.getLogger(TwitterAuthenticatorWorker.class);
 
-	/**
-	 * The blocker.
-	 */
-	private BlockerPanel blocker;
+	/* The blocker. */
+	private final BlockerPanel blocker;
 
-	/**
-	 * Parent dialog.
-	 */
-	private JDialog parent;
+	/* Parent dialog. */
+	private final JDialog parent;
 
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+	private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
 	/**

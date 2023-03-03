@@ -49,17 +49,13 @@ import java.util.ResourceBundle;
  */
 public class LoadFlickrSetsWorker extends SwingWorker<Void, SSPhotoset> {
 
-  /**
-   * Logging.
-   */
-  private Logger logger = LogManager.getLogger(LoadFlickrSetsWorker.class);
+  /* Logging. */
+  private static final Logger logger = LogManager.getLogger(LoadFlickrSetsWorker.class);
 
-  /**
-   * The blocker used for feedback.
-   */
-  private BlockerPanel blocker;
+  /* The blocker used for feedback. */
+  private final BlockerPanel blocker;
 
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
   /**

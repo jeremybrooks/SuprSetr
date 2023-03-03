@@ -51,7 +51,7 @@ public class PhotosetHelper {
   /**
    * Logging.
    */
-  private final Logger logger = LogManager.getLogger(PhotosetHelper.class);
+  private static final Logger logger = LogManager.getLogger(PhotosetHelper.class);
 
   /**
    * Reference to the only instance of this class.

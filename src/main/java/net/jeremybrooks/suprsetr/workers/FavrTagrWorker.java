@@ -61,9 +61,9 @@ import java.util.ResourceBundle;
  */
 public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
-  private Logger logger = LogManager.getLogger(FavrTagrWorker.class);
+  private static final Logger logger = LogManager.getLogger(FavrTagrWorker.class);
 
-  private BlockerPanel blocker;
+  private final BlockerPanel blocker;
 
   /* Count of how many photos had tags added. */
   private int count = 0;
@@ -82,7 +82,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
 
   private String tagType = "fav";
 
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
    * Create a new instance of FavrTagr.
@@ -107,15 +107,10 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
       logger.warn("Error parsing the intervals.", e);
     }
 
-    switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE)) {
-      case "0":
-        this.tagType = "fav";
-        break;
-      case "1":
-        this.tagType = "favrtagr:count=";
-        break;
-      default:
-        this.tagType = "fav";
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_TAG_TYPE).equals("1")) {
+      this.tagType = "favrtagr:count=";
+    } else {
+      this.tagType = "fav";
     }
 
     logger.info("Fave tag interval is " + this.interval + "; tag type is " + this.tagType);
@@ -204,7 +199,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
           // Don't even try if there are too many tags.
           if (existingTags.size() < 75) {
             try {
-              PhotoHelper.getInstance().addTags(p, newFaves.toArray(new String[newFaves.size()]));
+              PhotoHelper.getInstance().addTags(p, newFaves.toArray(new String[0]));
               LogWindow.addLogMessage(resourceBundle.getString("message.Photo") +
                   " " + p.getPhotoId() + "  " + resourceBundle.getString("FavrTagrWorker.message.taggedwith") + " " + newFaves);
               blocker.updateMessage(resourceBundle.getString("FavrTagrWorker.blocker.tagged") +
@@ -272,7 +267,7 @@ public class FavrTagrWorker extends SwingWorker<Void, Void> {
           this.favoritePhoto.getTitle(), this.maxFaves));
 
       blocker.unBlock();
-      LogWindow.addLogMessage(resourceBundle.getString("FavrTagrWorker.message.finished") + ".\n" + message.toString());
+      LogWindow.addLogMessage(resourceBundle.getString("FavrTagrWorker.message.finished") + ".\n" + message);
       Object[] options = {
           resourceBundle.getString("FavrTagrWorker.done.ok"),
           resourceBundle.getString("FavrTagrWorker.done.go")
