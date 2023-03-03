@@ -20,7 +20,9 @@
 
 <Configuration status="warn">
     <Appenders>
-        <RollingFile name="ROLLING" fileName="${sys:user.home}/.suprsetr/suprsetr.log" filePattern="suprsetr-%i.log">
+        <RollingFile name="ROLLING"
+                     fileName="${sys:user.home}/.suprsetr/suprsetr.log"
+                     filePattern="${sys:user.home}/.suprsetr/suprsetr-%i.log">
             <PatternLayout pattern="%d %p %c: %m%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB"/>
