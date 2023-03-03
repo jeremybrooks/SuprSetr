@@ -36,7 +36,7 @@ public class LookupDAO {
   /**
    * Logging.
    */
-  private static Logger logger = LogManager.getLogger(LookupDAO.class);
+  private static final Logger logger = LogManager.getLogger(LookupDAO.class);
 
   /**
    * SQL to look up a value based on the key.

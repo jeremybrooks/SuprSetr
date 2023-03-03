@@ -43,8 +43,8 @@ import java.util.ResourceBundle;
 public class TwitterHelper {
 
   public static final int TWEET_LENGTH = 280;
-  private static Logger logger = LogManager.getLogger(TwitterHelper.class);
-  private static TwitterFactory twitterFactory = new TwitterFactory();
+  private static final Logger logger = LogManager.getLogger(TwitterHelper.class);
+  private static final TwitterFactory twitterFactory = new TwitterFactory();
   private static Twitter twitter;
 
   /**
@@ -173,7 +173,7 @@ public class TwitterHelper {
     template = template.replace("%c", Integer.toString(count));
     template = template.replace("%C", Integer.toString(total));
 
-    // calculate length. URL's are wrapped with t.co URL's which are 22 characters
+    // calculate length. URLs are wrapped with t.co URLs which are 22 characters
     int tweetLength = template.trim().length();
     if (template.contains("%u")) {
       tweetLength += 20;

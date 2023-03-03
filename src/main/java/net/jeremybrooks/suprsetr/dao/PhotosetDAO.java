@@ -42,7 +42,7 @@ public class PhotosetDAO {
   /**
    * Logging.
    */
-  private static Logger logger = LogManager.getLogger(PhotosetDAO.class);
+  private static final Logger logger = LogManager.getLogger(PhotosetDAO.class);
 
   /**
    * SQL to insert a new record.

@@ -45,7 +45,7 @@ public class JinxFactory {
   private OAuthApi oAuthApi;
   private PhotosetsApi photosetsApi;
 
-  private Logger logger = LogManager.getLogger(JinxFactory.class);
+  private final Logger logger = LogManager.getLogger(JinxFactory.class);
 
   private JinxFactory() {
   }
@@ -67,7 +67,7 @@ public class JinxFactory {
     if (jinxProxy == null) {
       logger.info("Not using proxy.");
     } else {
-      logger.info("Using proxy " + jinxProxy.toString());
+      logger.info("Using proxy " + jinxProxy);
     }
   }
 
@@ -117,13 +117,13 @@ public class JinxFactory {
   /**
    * Build the photo page URL for this photo.
    *
-   * Photo URL's are in the format
-   * http://www.flickr.com/photos/{user-id}/{photo-id}
+   * <p>Photo URL's are in the format
+   * https://www.flickr.com/photos/{user-id}/{photo-id}</p>
    *
    * @param photo photo to build the URL for.
    * @return string representation of the photo page URL.
    */
   public String buildUrlForPhoto(Photo photo) {
-    return "http://www.flickr.com/photos/" + jinx.getoAuthAccessToken().getNsid() + '/' + photo.getPhotoId();
+    return "https://www.flickr.com/photos/" + jinx.getoAuthAccessToken().getNsid() + '/' + photo.getPhotoId();
   }
 }

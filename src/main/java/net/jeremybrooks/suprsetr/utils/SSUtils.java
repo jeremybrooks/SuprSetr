@@ -27,6 +27,7 @@ import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,16 +48,16 @@ import java.util.List;
  */
 public class SSUtils {
 
-  private static Logger logger = LogManager.getLogger(SSUtils.class);
+  private static final Logger logger = LogManager.getLogger(SSUtils.class);
 
   /* Date formatter in a nice full format. */
-  private static SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' HH:mm:ss");
+  private static final SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' HH:mm:ss");
 
   /* Date formatter for a yyyy-MM-dd format. */
-  private static SimpleDateFormat yyyyMMddFormatter = new SimpleDateFormat("yyyy-MM-dd");
+  private static final SimpleDateFormat yyyyMMddFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
   /* Date formatter for a yyyy-MM-dd HH:mm:ss format. */
-  private static SimpleDateFormat yyyyMMddHHmmssFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static final SimpleDateFormat yyyyMMddHHmmssFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   /* This is not the constructor you are looking for. */
   private SSUtils() {
@@ -362,6 +363,7 @@ public class SSUtils {
    * Comparator that sorts by photo title, but not sensitive to case.
    */
   static class PhotoTitleComparatorAscending implements Comparator<Photo>, Serializable {
+    @Serial
     private static final long serialVersionUID = 1387948757971388077L;
 
     @Override
@@ -374,6 +376,7 @@ public class SSUtils {
    * Comparator that sorts by photo title in descnending order, but is not sensitive to case.
    */
   static class PhotoTitleComparatorDescending implements Comparator<Photo>, Serializable {
+    @Serial
     private static final long serialVersionUID = -3766242945003682431L;
 
     @Override
@@ -386,6 +389,7 @@ public class SSUtils {
    * Comparator that sorts by photo views in ascending order.
    */
   static class PhotoViewsComparatorAscending implements Comparator<Photo>, Serializable {
+    @Serial
     private static final long serialVersionUID = 2703785877608384885L;
 
     @Override
@@ -398,6 +402,7 @@ public class SSUtils {
    * Comparator that sorts by photo views in descending order.
    */
   static class PhotoViewsComparatorDescending implements Comparator<Photo>, Serializable {
+    @Serial
     private static final long serialVersionUID = -8953067632780861868L;
 
     @Override

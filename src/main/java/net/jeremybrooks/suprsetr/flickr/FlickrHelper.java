@@ -48,14 +48,14 @@ import java.net.URL;
  * @author Jeremy Brooks
  */
 public class FlickrHelper {
-  private static Logger logger = LogManager.getLogger(FlickrHelper.class);
+  private static final Logger logger = LogManager.getLogger(FlickrHelper.class);
   private static FlickrHelper instance = null;
 
   /* File that holds auth token info (old style auth). */
-  private File tokenFile;
+  private final File tokenFile;
 
   /* File that holds oauth token info. */
-  private File oauthTokenFile;
+  private final File oauthTokenFile;
 
   private OAuthAccessToken oAuthAccessToken = null;
 

@@ -38,6 +38,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serial;
 import java.util.ResourceBundle;
 
 /**
@@ -51,25 +52,26 @@ import java.util.ResourceBundle;
  */
 public class Tutorial extends javax.swing.JDialog {
 
+  @Serial
   private static final long serialVersionUID = 1675398273280362432L;
   /* Logging. */
-  private Logger logger = LogManager.getLogger(Tutorial.class);
+  private final Logger logger = LogManager.getLogger(Tutorial.class);
 
   /* The current page of the tutorial. */
   private int currentPage = 1;
 
   /* The last page. */
-  private int lastPage = 5;
+  private final int lastPage = 5;
 
   /* Icon for the Next button. */
-  private ImageIcon nextIcon = new ImageIcon(getClass().getResource("/images/40-forward.png"));
+  private final ImageIcon nextIcon = new ImageIcon(getClass().getResource("/images/40-forward.png"));
 
   /* Icon for the Finish button */
-  private ImageIcon finishIcon = new ImageIcon(getClass().getResource("/images/s16.png"));
+  private final ImageIcon finishIcon = new ImageIcon(getClass().getResource("/images/s16.png"));
 
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.tutorial");
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.tutorial");
 
-  private String tutorialContentFilename;
+  private final String tutorialContentFilename;
 
   /**
    * Creates new form Tutorial1

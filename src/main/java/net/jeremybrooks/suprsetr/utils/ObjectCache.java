@@ -34,8 +34,8 @@ import java.io.Serializable;
  * @author Jeremy Brooks
  */
 public class ObjectCache {
-  private Logger logger = LogManager.getLogger(ObjectCache.class);
-  private File cacheDir;
+  private final Logger logger = LogManager.getLogger(ObjectCache.class);
+  private final File cacheDir;
 
   public ObjectCache() throws IOException {
     this("ObjectCacheDir-" + System.currentTimeMillis() + System.getProperty("java.io.tmpdir"));

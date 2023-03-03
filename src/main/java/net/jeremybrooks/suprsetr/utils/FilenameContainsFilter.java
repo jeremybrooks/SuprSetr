@@ -27,7 +27,7 @@ import java.io.FilenameFilter;
  */
 public class FilenameContainsFilter implements FilenameFilter {
 
-  private String contains;
+  private final String contains;
 
   public FilenameContainsFilter(String contains) {
     this.contains = contains;
