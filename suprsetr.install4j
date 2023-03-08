@@ -15,8 +15,8 @@
     </entries>
   </files>
   <launchers>
-    <launcher name="SuprSetr" id="23" icnsFile="${project.basedir}/src/main/resources/images/SuprSetr.icns">
-      <executable name="${project.artifactId}" iconSet="true" executableMode="gui" changeWorkingDirectory="false" singleInstance="true" dpiAware="false" />
+    <launcher name="SuprSetr" id="23" icnsFile="${project.basedir}/src/main/resources/images/SuprSetr.icns" useCustomMacosExecutableName="true" customMacosExecutableName="SuprSetr">
+      <executable name="SuprSetr" iconSet="true" executableMode="gui" changeWorkingDirectory="false" singleInstance="true" dpiAware="false" />
       <splashScreen show="true" bitmapFile="${project.basedir}/src/main/resources/images/Splash.png" />
       <java mainClass="net.jeremybrooks.suprsetr.Main">
         <classPath>
@@ -720,10 +720,10 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
     </styles>
   </installerGui>
   <mediaSets>
-    <macosArchive name="Mac OS X Single Bundle Archive" id="74" installDir="suprsetr" architecture="universal" launcherId="23">
+    <macosArchive name="Mac OS X Single Bundle Archive" id="74" installDir="suprsetr" volumeName="SuprSetr" architecture="universal" launcherId="23">
       <jreBundle jreBundleSource="none" />
     </macosArchive>
-    <macosArchive name="Mac OS X Single Bundle Archive (with JRE17)" id="24" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE" installDir="suprsetr" architecture="universal" launcherId="23">
+    <macosArchive name="Mac OS X Single Bundle Archive (with JRE17)" id="24" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE" installDir="suprsetr" volumeName="SuprSetr" architecture="universal" launcherId="23">
       <jreBundle includedJre="macosx-amd64-12.0.1" />
     </macosArchive>
     <windows name="Windows x64" id="72" installDir="suprsetr" architecture="64">
