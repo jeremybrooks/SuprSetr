@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -151,6 +151,7 @@ public class BlockerPanel extends JPanel implements MouseInputListener, KeyListe
 		lblMessage.setText(message);
 
 		// Show the blocker
+    MainWindow.setBlocked(true);
 		this.setVisible(true);
 	}
 
@@ -159,6 +160,7 @@ public class BlockerPanel extends JPanel implements MouseInputListener, KeyListe
 	 * Restore the cursor and hide the blocker panel.
 	 */
 	public void unBlock() {
+    MainWindow.setBlocked(false);
 		this.setCursor(this.oldCursor);
 		this.setVisible(false);
 		MainWindow.getMainWindow().enableFilter(true);

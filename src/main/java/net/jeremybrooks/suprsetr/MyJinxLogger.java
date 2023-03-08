@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -32,7 +32,7 @@ import org.apache.logging.log4j.Logger;
 public class MyJinxLogger implements LogInterface {
 
     /** Logger. */
-    private Logger logger = LogManager.getLogger(MyJinxLogger.class);
+    private static final Logger logger = LogManager.getLogger(MyJinxLogger.class);
 
     @Override
     public void log(String message) {

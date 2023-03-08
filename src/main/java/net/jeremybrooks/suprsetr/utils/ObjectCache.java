@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -34,8 +34,8 @@ import java.io.Serializable;
  * @author Jeremy Brooks
  */
 public class ObjectCache {
-  private Logger logger = LogManager.getLogger(ObjectCache.class);
-  private File cacheDir;
+  private static final Logger logger = LogManager.getLogger(ObjectCache.class);
+  private final File cacheDir;
 
   public ObjectCache() throws IOException {
     this("ObjectCacheDir-" + System.currentTimeMillis() + System.getProperty("java.io.tmpdir"));

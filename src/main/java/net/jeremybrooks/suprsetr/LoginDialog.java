@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -31,11 +31,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
 
@@ -51,7 +48,7 @@ public class LoginDialog extends javax.swing.JDialog {
 	/**
 	 * Logging
 	 */
-	private Logger logger = LogManager.getLogger(LoginDialog.class);
+	private static final Logger logger = LogManager.getLogger(LoginDialog.class);
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.login");
 
@@ -76,86 +73,71 @@ public class LoginDialog extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        ResourceBundle bundle = this.resourceBundle;
-        jScrollPane1 = new JScrollPane();
-        jTextArea1 = new JTextArea();
-        panel1 = new JPanel();
-        panel2 = new JPanel();
-        btnPreferences = new JButton();
-        panel3 = new JPanel();
-        btnCancel = new JButton();
-        btnAuthenticate = new JButton();
+  private void initComponents() {
+    ResourceBundle bundle = this.resourceBundle;
+    jScrollPane1 = new JScrollPane();
+    jTextArea1 = new JTextArea();
+    panel1 = new JPanel();
+    panel2 = new JPanel();
+    btnPreferences = new JButton();
+    panel3 = new JPanel();
+    btnCancel = new JButton();
+    btnAuthenticate = new JButton();
 
-        //======== this ========
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(bundle.getString("LoginDialog.this.title"));
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
+    //======== this ========
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    setTitle(bundle.getString("LoginDialog.this.title"));
+    var contentPane = getContentPane();
+    contentPane.setLayout(new BorderLayout());
 
-        //======== jScrollPane1 ========
-        {
+    //======== jScrollPane1 ========
+    {
 
-            //---- jTextArea1 ----
-            jTextArea1.setColumns(20);
-            jTextArea1.setEditable(false);
-            jTextArea1.setLineWrap(true);
-            jTextArea1.setRows(5);
-            jTextArea1.setText(bundle.getString("LoginDialog.jTextArea1.text"));
-            jTextArea1.setWrapStyleWord(true);
-            jScrollPane1.setViewportView(jTextArea1);
-        }
-        contentPane.add(jScrollPane1, BorderLayout.CENTER);
+      //---- jTextArea1 ----
+      jTextArea1.setColumns(20);
+      jTextArea1.setEditable(false);
+      jTextArea1.setLineWrap(true);
+      jTextArea1.setRows(5);
+      jTextArea1.setText(bundle.getString("LoginDialog.jTextArea1.text"));
+      jTextArea1.setWrapStyleWord(true);
+      jScrollPane1.setViewportView(jTextArea1);
+    }
+    contentPane.add(jScrollPane1, BorderLayout.CENTER);
 
-        //======== panel1 ========
-        {
-            panel1.setLayout(new BorderLayout());
+    //======== panel1 ========
+    {
+      panel1.setLayout(new BorderLayout());
 
-            //======== panel2 ========
-            {
-                panel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+      //======== panel2 ========
+      {
+        panel2.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-                //---- btnPreferences ----
-                btnPreferences.setText(bundle.getString("LoginDialog.btnPreferences.text"));
-                btnPreferences.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        btnPreferencesActionPerformed();
-                    }
-                });
-                panel2.add(btnPreferences);
-            }
-            panel1.add(panel2, BorderLayout.WEST);
+        //---- btnPreferences ----
+        btnPreferences.setText(bundle.getString("LoginDialog.btnPreferences.text"));
+        btnPreferences.addActionListener(e -> btnPreferencesActionPerformed());
+        panel2.add(btnPreferences);
+      }
+      panel1.add(panel2, BorderLayout.WEST);
 
-            //======== panel3 ========
-            {
-                panel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+      //======== panel3 ========
+      {
+        panel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-                //---- btnCancel ----
-                btnCancel.setText(bundle.getString("LoginDialog.btnCancel.text"));
-                btnCancel.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        btnCancelActionPerformed();
-                    }
-                });
-                panel3.add(btnCancel);
+        //---- btnCancel ----
+        btnCancel.setText(bundle.getString("LoginDialog.btnCancel.text"));
+        btnCancel.addActionListener(e -> btnCancelActionPerformed());
+        panel3.add(btnCancel);
 
-                //---- btnAuthenticate ----
-                btnAuthenticate.setText(bundle.getString("LoginDialog.btnAuthenticate.text"));
-                btnAuthenticate.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        btnAuthenticateActionPerformed();
-                    }
-                });
-                panel3.add(btnAuthenticate);
-            }
-            panel1.add(panel3, BorderLayout.CENTER);
-        }
-        contentPane.add(panel1, BorderLayout.SOUTH);
-        setSize(419, 302);
-        setLocationRelativeTo(null);
+        //---- btnAuthenticate ----
+        btnAuthenticate.setText(bundle.getString("LoginDialog.btnAuthenticate.text"));
+        btnAuthenticate.addActionListener(e -> btnAuthenticateActionPerformed());
+        panel3.add(btnAuthenticate);
+      }
+      panel1.add(panel3, BorderLayout.CENTER);
+    }
+    contentPane.add(panel1, BorderLayout.SOUTH);
+    setSize(419, 302);
+    setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
 
@@ -199,13 +181,13 @@ public class LoginDialog extends javax.swing.JDialog {
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-    private JScrollPane jScrollPane1;
-    private JTextArea jTextArea1;
-    private JPanel panel1;
-    private JPanel panel2;
-    private JButton btnPreferences;
-    private JPanel panel3;
-    private JButton btnCancel;
-    private JButton btnAuthenticate;
+  private JScrollPane jScrollPane1;
+  private JTextArea jTextArea1;
+  private JPanel panel1;
+  private JPanel panel2;
+  private JButton btnPreferences;
+  private JPanel panel3;
+  private JButton btnCancel;
+  private JButton btnAuthenticate;
 	// End of variables declaration//GEN-END:variables
 }

@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -100,6 +100,9 @@ public class SSConstants {
   public static final String LOOKUP_KEY_BACKUP_AT_EXIT = "BACKUP_AT_EXIT";
   public static final String LOOKUP_KEY_BACKUP_COUNT = "BACKUP_COUNT";
   public static final String LOOKUP_KEY_BACKUP_DIRECTORY = "BACKUP_DIRECTORY";
+
+  public static final String LOOKUP_KEY_SHOW_EDIT_TOOLBAR = "SHOW_EDIT_TOOLBAR";
+  public static final String LOOKUP_KEY_SHOW_TOOLS_TOOLBAR = "SHOW_TOOLS_TOOLBAR";
 
   public static final String DEFAULT_TWEET_TEMPLATE =
       "There are %c new photos in my Flickr photoset %u (%t).";

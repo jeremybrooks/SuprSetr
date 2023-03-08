@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -42,7 +42,7 @@ public class PhotosetDAO {
   /**
    * Logging.
    */
-  private static Logger logger = LogManager.getLogger(PhotosetDAO.class);
+  private static final Logger logger = LogManager.getLogger(PhotosetDAO.class);
 
   /**
    * SQL to insert a new record.

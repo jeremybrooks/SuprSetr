@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -48,42 +48,28 @@ import java.util.ResourceBundle;
  */
 public class LoadImagesWorker extends SwingWorker<Void, Void> {
 
-  /**
-   * Logging.
-   */
-  private Logger logger = LogManager.getLogger(LoadImagesWorker.class);
+  /* Logging. */
+  private static final Logger logger = LogManager.getLogger(LoadImagesWorker.class);
 
-  /**
-   * The blocker instance used to provide user with feedback.
-   */
-  private BlockerPanel blocker;
+  /* The blocker instance used to provide user with feedback. */
+  private final BlockerPanel blocker;
 
-  /**
-   * The photoset to get photos from.
-   */
-  private String photosetId;
+  /* The photoset to get photos from. */
+  private final String photosetId;
 
-  /**
-   * The page of photos to get.
-   */
-  private int page;
+  /* The page of photos to get. */
+  private final int page;
 
-  /**
-   * The object cache to use.
-   */
-  private ObjectCache cache;
+  /* The object cache to use. */
+  private final ObjectCache cache;
 
-  /**
-   * The photos object used by the picker.
-   */
-  private List<Photo> thePhotos;
+  /* The photos object used by the picker. */
+  private final List<Photo> thePhotos;
 
-  /**
-   * The parent frame.
-   */
-  private JDialog parent;
+  /* The parent frame. */
+  private final JDialog parent;
 
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
   /**

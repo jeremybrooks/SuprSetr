@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -27,14 +27,14 @@ import java.util.Map;
 /**
  * Simple cache implementation for the SetListCell.
  *
- * The SetListCell object is complex, and takes a relatively long time to
+ * <p>The SetListCell object is complex, and takes a relatively long time to
  * create. This cache allows us to reuse instances of the SetListCell. The
  * CellRenderer will use cached instances unless the instance has been marked
- * as invalid.
+ * as invalid.</p>
  *
- * This class is implemented as a Singleton. When a photoset is possibly changed,
+ * <p>This class is implemented as a Singleton. When a photoset is possibly changed,
  * for example by a refresh, the SetListCell in the cache will be marked as
- * invalid.
+ * invalid.</p>
  *
  * @author Jeremy Brooks
  */
@@ -44,7 +44,7 @@ public class SimpleCache {
   /**
    * Maps the photoset ID to the list cell instance.
    */
-  private Map<String, SetListCell> cache;
+  private final Map<String, SetListCell> cache;
 
   /**
    * Reference to this class.

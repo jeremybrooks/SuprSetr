@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -53,7 +53,7 @@ public class PhotoHelper {
   /**
    * Logging.
    */
-  private static Logger logger = LogManager.getLogger(PhotoHelper.class);
+  private static final Logger logger = LogManager.getLogger(PhotoHelper.class);
 
   /**
    * Reference to the only instance of this class.
@@ -125,11 +125,8 @@ public class PhotoHelper {
   public List<Photo> getPhotos(SearchParameters params, int max) throws Exception {
     int page = 1;
     int count = 0;
-    int perPage = 500;
 
-    if (max < 500) {
-      perPage = max;
-    }
+    int perPage = Math.min(max, 500);
 
     if (params == null) {
       throw new Exception("Cannot get photos for a null search parameter.");
@@ -257,7 +254,7 @@ public class PhotoHelper {
   /**
    * Get photo info.
    *
-   * @param p the photo get get info for.
+   * @param p the photo to get info for.
    * @return photo info for the specified photo.
    * @throws Exception if there are any errors.
    */

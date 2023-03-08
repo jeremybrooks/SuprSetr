@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -70,7 +70,7 @@ public class PhotoPickerDialog extends javax.swing.JDialog {
 	/**
 	 * Logging.
 	 */
-	private Logger logger = LogManager.getLogger(PhotoPickerDialog.class);
+	private static final Logger logger = LogManager.getLogger(PhotoPickerDialog.class);
 
 	/**
 	 * The photoset that we are displaying photos from.

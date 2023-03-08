@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -85,41 +85,19 @@ public class SearchHelper {
    * @param ssPhotoset the photoset to get search parameters for.
    * @return instance of SearchParameters which will match the options set in
    * the specified instance of SSPhotoset.
-   * @throws Exception if there are any errors.
    */
-  public SearchParameters getSearchParameters(SSPhotoset ssPhotoset) throws Exception {
+  public SearchParameters getSearchParameters(SSPhotoset ssPhotoset) {
     SearchParameters sp = new SearchParameters();
 
     sp.setUserId(FlickrHelper.getInstance().getNSID());
 
     switch (ssPhotoset.getSortOrder()) {
-      case 0:
-        sp.setSort(JinxConstants.SortOrder.interestingness_desc);
-        break;
-
-      case 1:
-        sp.setSort(JinxConstants.SortOrder.interestingness_asc);
-        break;
-
-      case 2:
-        sp.setSort(JinxConstants.SortOrder.date_taken_desc);
-        break;
-
-      case 3:
-        sp.setSort(JinxConstants.SortOrder.date_taken_asc);
-        break;
-
-      case 4:
-        sp.setSort(JinxConstants.SortOrder.date_posted_desc);
-        break;
-
-      case 5:
-        sp.setSort(JinxConstants.SortOrder.date_posted_asc);
-        break;
-
-      default:
-        sp.setSort(JinxConstants.SortOrder.interestingness_desc);
-        break;
+      case 1 -> sp.setSort(JinxConstants.SortOrder.interestingness_asc);
+      case 2 -> sp.setSort(JinxConstants.SortOrder.date_taken_desc);
+      case 3 -> sp.setSort(JinxConstants.SortOrder.date_taken_asc);
+      case 4 -> sp.setSort(JinxConstants.SortOrder.date_posted_desc);
+      case 5 -> sp.setSort(JinxConstants.SortOrder.date_posted_asc);
+      default -> sp.setSort(JinxConstants.SortOrder.interestingness_desc);
     }
     if (ssPhotoset.getTagMatchMode().equals(SSConstants.TAG_MATCH_MODE_ALL)) {
       sp.setTagMode(JinxConstants.TagMode.all);
@@ -156,113 +134,54 @@ public class SearchHelper {
     switch (ssPhotoset.getPrivacy()) {
       // order is public, friends, family, friends/family, private
       // default: do not set this parameter
-      case 0:
-        // do not set parameter; all results will be returned
-        break;
-      case 1:
-        sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyPublic);
-        break;
-
-      case 2:
-        sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFriends);
-        break;
-
-      case 3:
-        sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFamily);
-        break;
-
-      case 4:
-        sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFriendsAndFamily);
-        break;
-
-      case 5:
-        sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyPrivate);
-        break;
-
-      default:
-        // do not set parameter; all results will be returned
-        break;
+//      case 0 -> ignore;
+      case 1 -> sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyPublic);
+      case 2 -> sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFriends);
+      case 3 -> sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFamily);
+      case 4 -> sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyFriendsAndFamily);
+      case 5 -> sp.setPrivacyFilter(JinxConstants.PrivacyFilter.privacyPrivate);
+//      default -> ignore;
     }
 
     switch (ssPhotoset.getSafeSearch()) {
       // order is safe, moderate, restricted
       // default safe
-      case 0:
-        sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
-        break;
-      case 1:
-        sp.setSafetyLevel(JinxConstants.SafetyLevel.moderate);
-        break;
-      case 2:
-        sp.setSafetyLevel(JinxConstants.SafetyLevel.restricted);
-        break;
-      default:
-        sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
-        break;
+      case 0 -> sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
+      case 1 -> sp.setSafetyLevel(JinxConstants.SafetyLevel.moderate);
+      case 2 -> sp.setSafetyLevel(JinxConstants.SafetyLevel.restricted);
+      default -> sp.setSafetyLevel(JinxConstants.SafetyLevel.safe);
     }
 
     switch (ssPhotoset.getContentType()) {
       // order is photos, screenshots, other, photos/screenshots,
       // screenshots/other, photos/other, all
       // default all
-      case 0:
-        sp.setContentType(JinxConstants.ContentType.photo);
-        break;
-      case 1:
-        sp.setContentType(JinxConstants.ContentType.screenshot);
-        break;
-      case 2:
-        sp.setContentType(JinxConstants.ContentType.other);
-        break;
-      case 3:
-        sp.setContentType(JinxConstants.ContentType.photos_and_screenshots);
-        break;
-      case 4:
-        sp.setContentType(JinxConstants.ContentType.screenshots_and_other);
-        break;
-      case 5:
-        sp.setContentType(JinxConstants.ContentType.photos_and_other);
-        break;
-      case 6:
-        sp.setContentType(JinxConstants.ContentType.all);
-        break;
-      default:
-        sp.setContentType(JinxConstants.ContentType.all);
-        break;
+      case 0 -> sp.setContentType(JinxConstants.ContentType.photo);
+      case 1 -> sp.setContentType(JinxConstants.ContentType.screenshot);
+      case 2 -> sp.setContentType(JinxConstants.ContentType.other);
+      case 3 -> sp.setContentType(JinxConstants.ContentType.photos_and_screenshots);
+      case 4 -> sp.setContentType(JinxConstants.ContentType.screenshots_and_other);
+      case 5 -> sp.setContentType(JinxConstants.ContentType.photos_and_other);
+      case 6 -> sp.setContentType(JinxConstants.ContentType.all);
+      default -> sp.setContentType(JinxConstants.ContentType.all);
     }
 
     switch (ssPhotoset.getMediaType()) {
       // order is all, photos, video
       // default all
-      case 0:
-        sp.setMediaType(JinxConstants.MediaType.all);
-        break;
-      case 1:
-        sp.setMediaType(JinxConstants.MediaType.photos);
-        break;
-      case 2:
-        sp.setMediaType(JinxConstants.MediaType.videos);
-        break;
-      default:
-        sp.setMediaType(JinxConstants.MediaType.all);
-        break;
+      case 0 -> sp.setMediaType(JinxConstants.MediaType.all);
+      case 1 -> sp.setMediaType(JinxConstants.MediaType.photos);
+      case 2 -> sp.setMediaType(JinxConstants.MediaType.videos);
+      default -> sp.setMediaType(JinxConstants.MediaType.all);
     }
 
+    // order is ignore, has, does not have
+    // default ignore
     switch (ssPhotoset.getGeotagged()) {
-      // order is ignore, has, does not have
-      // default ignore
-      case 0:
-        // ignore
-        break;
-      case 1:
-        sp.setHasGeo(true);
-        break;
-      case 2:
-        sp.setHasGeo(false);
-        break;
-      default:
-        // ignore
-        break;
+//      case 0 -> ignore;
+      case 1 -> sp.setHasGeo(true);
+      case 2 -> sp.setHasGeo(false);
+//      default -> ignore;
     }
 
     // only set these if needed
@@ -303,14 +222,13 @@ public class SearchHelper {
 
 
   /**
-   * Get a search parameters object for a "On This Day" search.
+   * Get a search parameters object for "On This Day" search.
    *
    * @param ssPhotoset photoset defining the search parameters.
    * @param year       the year for the On This Day search.
    * @return search parameters for the day.
-   * @throws Exception if there are any errors.
    */
-  public SearchParameters getSearchParametersForOnThisDay(SSPhotoset ssPhotoset, int year) throws Exception {
+  public SearchParameters getSearchParametersForOnThisDay(SSPhotoset ssPhotoset, int year) {
     SearchParameters sp = this.getSearchParameters(ssPhotoset);
 
     // set the "Date taken" search parameter based on the month, day and year passed in

@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -51,7 +51,7 @@ public class PhotosetHelper {
   /**
    * Logging.
    */
-  private Logger logger = LogManager.getLogger(PhotosetHelper.class);
+  private static final Logger logger = LogManager.getLogger(PhotosetHelper.class);
 
   /**
    * Reference to the only instance of this class.

@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -37,7 +37,7 @@ import java.net.URL;
  */
 public class VersionChecker implements Runnable {
 
-  private Logger logger = LogManager.getLogger(VersionChecker.class);
+  private static final Logger logger = LogManager.getLogger(VersionChecker.class);
   private boolean showNoUpdateMessage;
   private boolean delayCheck;
 

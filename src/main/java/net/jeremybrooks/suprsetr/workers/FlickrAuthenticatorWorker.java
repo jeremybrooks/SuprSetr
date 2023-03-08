@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -44,21 +44,15 @@ import java.util.ResourceBundle;
  */
 public class FlickrAuthenticatorWorker extends SwingWorker<Void, Void> {
 
-	/**
-	 * Logging.
-	 */
-	private Logger logger = LogManager.getLogger(FlickrAuthenticatorWorker.class);
+	/* Logging. */
+	private static final Logger logger = LogManager.getLogger(FlickrAuthenticatorWorker.class);
 
-	/**
-	 * The blocker instance.
-	 */
-	private BlockerPanel blocker;
+	/* The blocker instance. */
+	private final BlockerPanel blocker;
 
-	/**
-	 * The parent dialog.
-	 */
-	private JDialog parent;
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+	/* The parent dialog. */
+	private final JDialog parent;
+	private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
 
 	/**

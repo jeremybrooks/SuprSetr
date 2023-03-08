@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -27,7 +27,7 @@ import java.io.FilenameFilter;
  */
 public class FilenameContainsFilter implements FilenameFilter {
 
-  private String contains;
+  private final String contains;
 
   public FilenameContainsFilter(String contains) {
     this.contains = contains;

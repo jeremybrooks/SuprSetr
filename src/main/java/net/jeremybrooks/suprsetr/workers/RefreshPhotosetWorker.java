@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -56,11 +56,11 @@ import java.util.ResourceBundle;
  */
 public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
-  private Logger logger = LogManager.getLogger(RefreshPhotosetWorker.class);
-  private BlockerPanel blocker;
-  private boolean exitWhenDone = false;
-  private List<SSPhotoset> photosetList = null;
-  private ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
+  private static final Logger logger = LogManager.getLogger(RefreshPhotosetWorker.class);
+  private final BlockerPanel blocker;
+  private final boolean exitWhenDone;
+  private final List<SSPhotoset> photosetList;
+  private final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.workers");
 
   /**
    * Create an instance of RefreshPhotoset.
@@ -109,9 +109,8 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
    * Update the specified photoset.
    *
    * @param ssPhotoset the photoset to refresh.
-   * @throws Exception if there are any errors.
    */
-  private void updatePhotoset(SSPhotoset ssPhotoset) throws Exception {
+  private void updatePhotoset(SSPhotoset ssPhotoset) {
     int oldCount = ssPhotoset.getPhotos() + ssPhotoset.getVideos();
     int matches;
     List<Photo> searchResults = null;
@@ -320,7 +319,7 @@ public class RefreshPhotosetWorker extends SwingWorker<Void, Void> {
 
   private List<Photo> doSearchForYear(SSPhotoset ssPhotoset, int year) throws Exception {
     SearchParameters params = SearchHelper.getInstance().getSearchParametersForOnThisDay(ssPhotoset, year);
-    blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.searchingon") + " " +
+    blocker.updateMessage(resourceBundle.getString("RefreshPhotosetWorker.blocker.searchingon") + " "
         + ssPhotoset.getOnThisDayMonth() + "/"
         + ssPhotoset.getOnThisDayDay() + "/"
         + year + "....");

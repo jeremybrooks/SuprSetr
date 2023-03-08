@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -60,7 +60,7 @@ public class Main {
   /* These are the "private" properties, such as API keys. */
   private static Properties privateProperties;
 
-  private static ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.misc");
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.misc");
 
   /**
    * Main.
@@ -69,7 +69,6 @@ public class Main {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-
     // test for Desktop API support
     if (!Desktop.isDesktopSupported()) {
       JOptionPane.showMessageDialog(null,
@@ -219,6 +218,12 @@ public class Main {
       if (!backupDir.mkdirs()) {
         logger.warn("Could not create the backup directory {}", backupDir.getAbsolutePath());
       }
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_SHOW_EDIT_TOOLBAR) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_SHOW_EDIT_TOOLBAR, "Y");
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_SHOW_TOOLS_TOOLBAR) == null) {
+      LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_SHOW_TOOLS_TOOLBAR, "N");
     }
 
     JinxFactory.getInstance().init(getPrivateProperty("FLICKR_KEY"), getPrivateProperty("FLICKR_SECRET"));

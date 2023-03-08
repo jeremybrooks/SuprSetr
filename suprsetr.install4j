@@ -1,56 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="8.0.4" transformSequenceNumber="8">
-  <directoryPresets config="./target/suprsetr-3.3.0.jar" />
-  <application name="SuprSetr" applicationId="4587-1629-9396-6179" mediaDir="./target" shortName="suprsetr" publisher="Jeremy Brooks" publisherWeb="https://jeremybrooks.net/suprsetr" version="3.4.0" allPathsRelative="true" macVolumeId="ae7cd5387594e08b" javaMinVersion="13" javaMaxVersion="13">
-    <codeSigning macEnabled="true" macPkcs12File="../DeveloperIDApplication.p12" macNotarize="true" appleId="jeremyb@whirljack.net" />
-    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk13/jdk-13.0.2+8" />
+<install4j version="10.0.5" transformSequenceNumber="10">
+  <directoryPresets config="./target/suprsetr-3.4.0.jar" />
+  <application name="${project.artifactId}" applicationId="4587-1629-9396-6179" mediaDir="${project.basedir}/target/media" shortName="${project.artifactId}" publisher="Jeremy Brooks" publisherWeb="https://jeremybrooks.net/suprsetr" version="${project.version}" allPathsRelative="true" macVolumeId="ae7cd5387594e08b" javaMinVersion="17" javaMaxVersion="17">
+    <codeSigning macEnabled="true" macPkcs12File="${project.basedir}/../DeveloperIdApplication.p12" macNotarize="true" appleId="jeremybrooks@me.com" />
+    <jreBundles jdkProviderId="Zulu" release="17/latest" />
   </application>
   <files>
     <mountPoints>
       <mountPoint id="172" location="lib" />
-      <mountPoint id="22" />
     </mountPoints>
     <entries>
-      <fileEntry mountPoint="172" file="./target/suprsetr-3.4.0.jar" />
-      <dirEntry mountPoint="22" file="./target/lib" entryMode="subdir" subDirectory="lib" />
+      <fileEntry mountPoint="172" file="${project.basedir}/target/${project.artifactId}-${project.version}.jar" />
+      <dirEntry mountPoint="172" file="${project.basedir}/target/lib" />
     </entries>
   </files>
   <launchers>
-    <launcher name="SuprSetr" id="23" icnsFile="./src/main/resources/images/SuprSetr.icns">
-      <executable name="SuprSetr" iconSet="true" executableMode="gui" changeWorkingDirectory="false" singleInstance="true" dpiAware="false" />
-      <splashScreen show="true" bitmapFile="./src/main/resources/images/Splash.png" />
+    <launcher name="SuprSetr" id="23" icnsFile="${project.basedir}/src/main/resources/images/SuprSetr.icns">
+      <executable name="${project.artifactId}" iconSet="true" executableMode="gui" changeWorkingDirectory="false" singleInstance="true" dpiAware="false" />
+      <splashScreen show="true" bitmapFile="${project.basedir}/src/main/resources/images/Splash.png" />
       <java mainClass="net.jeremybrooks.suprsetr.Main">
         <classPath>
           <scanDirectory location="lib" failOnError="false" />
         </classPath>
       </java>
-      <macStaticAssociationActions mode="selected" />
       <iconImageFiles>
-        <file path="./src/main/resources/images/s16.png" />
-        <file path="./src/main/resources/images/s32.png" />
-        <file path="./src/main/resources/images/s48.png" />
-        <file path="./src/main/resources/images/s128.png" />
+        <file path="${project.basedir}/src/main/resources/images/s16.png" />
+        <file path="${project.basedir}/src/main/resources/images/s32.png" />
+        <file path="${project.basedir}/src/main/resources/images/s48.png" />
+        <file path="${project.basedir}/src/main/resources/images/s128.png" />
       </iconImageFiles>
     </launcher>
   </launchers>
   <installerGui>
     <applications>
-      <application id="installer" beanClass="com.install4j.runtime.beans.applications.InstallerApplication" styleId="365" customIcnsFile="./images/SuprSetr.icns" customIcoFile="./images/icons.ico" launchInNewProcess="false">
+      <application id="installer" beanClass="com.install4j.runtime.beans.applications.InstallerApplication" styleId="365" customIcnsFile="${project.basedir}/images/SuprSetr.icns" launchInNewProcess="false">
         <serializedBean>
           <property name="customIconImageFiles">
             <add>
               <object class="com.install4j.api.beans.ExternalFile">
-                <string>./images/s16.png</string>
+                <string>${project.basedir}/images/s128.png</string>
               </object>
             </add>
             <add>
               <object class="com.install4j.api.beans.ExternalFile">
-                <string>./images/s32.png</string>
+                <string>${project.basedir}/images/s16.png</string>
               </object>
             </add>
             <add>
               <object class="com.install4j.api.beans.ExternalFile">
-                <string>./images/s48.png</string>
+                <string>${project.basedir}/images/s32.png</string>
+              </object>
+            </add>
+            <add>
+              <object class="com.install4j.api.beans.ExternalFile">
+                <string>${project.basedir}/images/s48.png</string>
               </object>
             </add>
           </property>
@@ -61,17 +64,25 @@
             <group id="379" beanClass="com.install4j.runtime.beans.groups.VerticalFormComponentGroup">
               <serializedBean>
                 <property name="backgroundColor">
-                  <object class="java.awt.Color">
-                    <int>255</int>
-                    <int>255</int>
-                    <int>255</int>
-                    <int>255</int>
+                  <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                    <object class="java.awt.Color">
+                      <int>255</int>
+                      <int>255</int>
+                      <int>255</int>
+                      <int>255</int>
+                    </object>
+                    <object class="java.awt.Color">
+                      <int>49</int>
+                      <int>52</int>
+                      <int>53</int>
+                      <int>255</int>
+                    </object>
                   </object>
                 </property>
                 <property name="imageAnchor" type="enum" class="com.install4j.api.beans.Anchor" value="NORTHEAST" />
                 <property name="imageFile">
                   <object class="com.install4j.api.beans.ExternalFile">
-                    <string>./images/s60.png</string>
+                    <string>${project.basedir}/images/s60.png</string>
                   </object>
                 </property>
               </serializedBean>
@@ -143,7 +154,7 @@ return true;
                     </property>
                     <property name="imageFile">
                       <object class="com.install4j.api.beans.ExternalFile">
-                        <string>./images/s128.png</string>
+                        <string>${project.basedir}/images/s128.png</string>
                       </object>
                     </property>
                   </serializedBean>
@@ -298,7 +309,7 @@ return console.askOkCancel(message, true);
                     </property>
                     <property name="imageFile">
                       <object class="com.install4j.api.beans.ExternalFile">
-                        <string>./images/s128.png</string>
+                        <string>${project.basedir}/images/s128.png</string>
                       </object>
                     </property>
                   </serializedBean>
@@ -315,22 +326,27 @@ return console.askOkCancel(message, true);
           </screen>
         </screens>
       </application>
-      <application id="uninstaller" beanClass="com.install4j.runtime.beans.applications.UninstallerApplication" styleId="365" customIcnsFile="./images/SuprSetr.icns" customIcoFile="./images/icons.ico" launchInNewProcess="false">
+      <application id="uninstaller" beanClass="com.install4j.runtime.beans.applications.UninstallerApplication" styleId="365" customIcnsFile="${project.basedir}/images/SuprSetr.icns" launchInNewProcess="false">
         <serializedBean>
           <property name="customIconImageFiles">
             <add>
               <object class="com.install4j.api.beans.ExternalFile">
-                <string>./images/s16.png</string>
+                <string>${project.basedir}/images/s128.png</string>
               </object>
             </add>
             <add>
               <object class="com.install4j.api.beans.ExternalFile">
-                <string>./images/s32.png</string>
+                <string>${project.basedir}/images/s16.png</string>
               </object>
             </add>
             <add>
               <object class="com.install4j.api.beans.ExternalFile">
-                <string>./images/s48.png</string>
+                <string>${project.basedir}/images/s32.png</string>
+              </object>
+            </add>
+            <add>
+              <object class="com.install4j.api.beans.ExternalFile">
+                <string>${project.basedir}/images/s48.png</string>
               </object>
             </add>
           </property>
@@ -343,17 +359,25 @@ return console.askOkCancel(message, true);
             <group id="379" beanClass="com.install4j.runtime.beans.groups.VerticalFormComponentGroup">
               <serializedBean>
                 <property name="backgroundColor">
-                  <object class="java.awt.Color">
-                    <int>255</int>
-                    <int>255</int>
-                    <int>255</int>
-                    <int>255</int>
+                  <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                    <object class="java.awt.Color">
+                      <int>255</int>
+                      <int>255</int>
+                      <int>255</int>
+                      <int>255</int>
+                    </object>
+                    <object class="java.awt.Color">
+                      <int>49</int>
+                      <int>52</int>
+                      <int>53</int>
+                      <int>255</int>
+                    </object>
                   </object>
                 </property>
                 <property name="imageAnchor" type="enum" class="com.install4j.api.beans.Anchor" value="NORTHEAST" />
                 <property name="imageFile">
                   <object class="com.install4j.api.beans.ExternalFile">
-                    <string>./images/s60.png</string>
+                    <string>${project.basedir}/images/s60.png</string>
                   </object>
                 </property>
               </serializedBean>
@@ -384,7 +408,7 @@ return console.askOkCancel(message, true);
                     </property>
                     <property name="imageFile">
                       <object class="com.install4j.api.beans.ExternalFile">
-                        <string>./images/s128.png</string>
+                        <string>${project.basedir}/images/s128.png</string>
                       </object>
                     </property>
                   </serializedBean>
@@ -439,7 +463,7 @@ return console.askYesNo(message, true);
                     </property>
                     <property name="imageFile">
                       <object class="com.install4j.api.beans.ExternalFile">
-                        <string>./images/s128.png</string>
+                        <string>${project.basedir}/images/s128.png</string>
                       </object>
                     </property>
                   </serializedBean>
@@ -494,11 +518,19 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
           <group id="372" beanClass="com.install4j.runtime.beans.groups.VerticalFormComponentGroup" useExternalParametrization="true" externalParametrizationName="Customize banner image" externalParametrizationMode="include">
             <serializedBean>
               <property name="backgroundColor">
-                <object class="java.awt.Color">
-                  <int>255</int>
-                  <int>255</int>
-                  <int>255</int>
-                  <int>255</int>
+                <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                  <object class="java.awt.Color">
+                    <int>255</int>
+                    <int>255</int>
+                    <int>255</int>
+                    <int>255</int>
+                  </object>
+                  <object class="java.awt.Color">
+                    <int>49</int>
+                    <int>52</int>
+                    <int>53</int>
+                    <int>255</int>
+                  </object>
                 </object>
               </property>
               <property name="borderSides">
@@ -507,11 +539,19 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
                 </object>
               </property>
               <property name="imageEdgeBackgroundColor">
-                <object class="java.awt.Color">
-                  <int>25</int>
-                  <int>143</int>
-                  <int>220</int>
-                  <int>255</int>
+                <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                  <object class="java.awt.Color">
+                    <int>25</int>
+                    <int>143</int>
+                    <int>220</int>
+                    <int>255</int>
+                  </object>
+                  <object class="java.awt.Color">
+                    <int>0</int>
+                    <int>74</int>
+                    <int>151</int>
+                    <int>255</int>
+                  </object>
                 </object>
               </property>
               <property name="imageEdgeBorder" type="boolean" value="true" />
@@ -565,11 +605,19 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
               <group id="379" beanClass="com.install4j.runtime.beans.groups.VerticalFormComponentGroup" useExternalParametrization="true" externalParametrizationName="Customize title bar" externalParametrizationMode="include">
                 <serializedBean>
                   <property name="backgroundColor">
-                    <object class="java.awt.Color">
-                      <int>255</int>
-                      <int>255</int>
-                      <int>255</int>
-                      <int>255</int>
+                    <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                      <object class="java.awt.Color">
+                        <int>255</int>
+                        <int>255</int>
+                        <int>255</int>
+                        <int>255</int>
+                      </object>
+                      <object class="java.awt.Color">
+                        <int>49</int>
+                        <int>52</int>
+                        <int>53</int>
+                        <int>255</int>
+                      </object>
                     </object>
                   </property>
                   <property name="borderSides">
@@ -672,15 +720,21 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
     </styles>
   </installerGui>
   <mediaSets>
-    <macosArchive name="Mac OS X Single Bundle Archive" id="74" installDir="suprsetr" launcherId="23" />
-    <macosArchive name="Mac OS X Single Bundle Archive (with JRE13)" id="24" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE13" installDir="suprsetr" launcherId="23">
-      <jreBundle jreBundleSource="generated" includedJre="macosx-amd64-12.0.1" />
+    <macosArchive name="Mac OS X Single Bundle Archive" id="74" installDir="suprsetr" architecture="universal" launcherId="23">
+      <jreBundle jreBundleSource="none" />
     </macosArchive>
-    <windows name="Windows x64" id="72" installDir="suprsetr" />
-    <windows name="Windows x64 (with JRE13)" id="78" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE13" installDir="suprsetr">
-      <jreBundle jreBundleSource="generated" includedJre="windows-amd64-12.0.1" />
+    <macosArchive name="Mac OS X Single Bundle Archive (with JRE17)" id="24" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE" installDir="suprsetr" architecture="universal" launcherId="23">
+      <jreBundle includedJre="macosx-amd64-12.0.1" />
+    </macosArchive>
+    <windows name="Windows x64" id="72" installDir="suprsetr" architecture="64">
+      <jreBundle jreBundleSource="none" />
     </windows>
-    <unixInstaller name="Linux Installer" id="73" mediaFileName="${compiler:sys.shortName}_linux_${compiler:sys.version}" installDir="suprsetr" />
+    <windows name="Windows x64 (with JRE17)" id="78" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE" installDir="suprsetr" architecture="64">
+      <jreBundle includedJre="windows-amd64-12.0.1" />
+    </windows>
+    <unixInstaller name="Linux Installer" id="73" mediaFileName="${compiler:sys.shortName}_linux_${compiler:sys.version}" installDir="suprsetr">
+      <jreBundle jreBundleSource="none" />
+    </unixInstaller>
   </mediaSets>
   <buildIds>
     <mediaSet refId="74" />

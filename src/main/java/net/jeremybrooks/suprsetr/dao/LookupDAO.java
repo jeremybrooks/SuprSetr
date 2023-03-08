@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -36,7 +36,7 @@ public class LookupDAO {
   /**
    * Logging.
    */
-  private static Logger logger = LogManager.getLogger(LookupDAO.class);
+  private static final Logger logger = LogManager.getLogger(LookupDAO.class);
 
   /**
    * SQL to look up a value based on the key.

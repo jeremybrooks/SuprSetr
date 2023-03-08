@@ -1,5 +1,5 @@
 <!--
-  ~  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+  ~  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
   ~
   ~  This file is part of SuprSetr.
   ~
@@ -22,43 +22,44 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jeremybrooks</groupId>
     <artifactId>suprsetr</artifactId>
-    <version>3.4.0</version>
+    <version>3.4.1</version>
     <name>SuprSetr</name>
     <description>Automated set management for Flickr photosets.</description>
-    <url>http://jeremybrooks.net/suprsetr</url>
+    <url>https://jeremybrooks.net/suprsetr</url>
     <inceptionYear>2010</inceptionYear>
     <licenses>
         <license>
             <name>GNU General Public License</name>
-            <url>http://www.gnu.org/licenses/</url>
+            <url>https://www.gnu.org/licenses/</url>
         </license>
     </licenses>
     <organization>
         <name>Jeremy Brooks</name>
-        <url>http://jeremybrooks.net</url>
+        <url>https://jeremybrooks.net</url>
     </organization>
     <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- library versions -->
-        <commons-io.version>2.6</commons-io.version>
-        <derby.version>10.14.2.0</derby.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <derby.version>10.16.1.1</derby.version>
         <jcalendar.version>1.4</jcalendar.version>
-        <jinx.version>3.0.0</jinx.version>
-        <junit.version>4.13.1</junit.version>
-        <log4j.version>2.11.0</log4j.version>
+        <jinx.version>3.0.3</jinx.version>
+        <junit.version>4.13.2</junit.version>
+        <log4j.version>2.20.0</log4j.version>
         <twitter4j.version>4.0.7</twitter4j.version>
 
         <!-- plugin versions -->
-        <gitflow-maven-plugin.version>1.14.0</gitflow-maven-plugin.version>
-        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
-        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <install4j-maven-plugin.version>1.1.2</install4j-maven-plugin.version>
+        <gitflow-maven-plugin.version>1.19.0</gitflow-maven-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-deploy-plugin.version>3.1.0</maven-deploy-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+        <maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
     </properties>
     <scm>
         <connection>scm:git:git@github.com:jeremybrooks/suprsetr.git</connection>
@@ -70,7 +71,7 @@
         <developer>
             <email>jeremyb@whirljack.net</email>
             <name>Jeremy Brooks</name>
-            <url>http://jeremybrooks.net</url>
+            <url>https://jeremybrooks.net</url>
         </developer>
     </developers>
     <dependencies>
@@ -114,6 +115,29 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>${project.artifactId}.install4j</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.png</include>
+                    <include>**/*.gif</include>
+                    <include>**/*.icns</include>
+                    <include>**/*.html</include>
+                    <include>log4j2.xml</include>
+                    <include>LICENSE</include>
+                    <include>CHANGELOG</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -177,6 +201,23 @@
                 <configuration>
                     <skipTestProject>true</skipTestProject>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.install4j</groupId>
+                <artifactId>install4j-maven-plugin</artifactId>
+                <version>${install4j-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile-installers</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <projectFile>${project.basedir}/target/classes/${project.artifactId}.install4j</projectFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

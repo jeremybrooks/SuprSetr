@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -19,6 +19,7 @@
 
 package net.jeremybrooks.suprsetr;
 
+import javax.swing.*;
 import net.jeremybrooks.suprsetr.SetEditor.EditorMode;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
@@ -51,6 +52,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
@@ -62,22 +64,31 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.Serial;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -91,26 +102,29 @@ import java.util.zip.ZipOutputStream;
  */
 public class MainWindow extends javax.swing.JFrame {
 
+  @Serial
   private static final long serialVersionUID = 5381447617741236893L;
 
-  private Logger logger = LogManager.getLogger(MainWindow.class);
+  private static final Logger logger = LogManager.getLogger(MainWindow.class);
 
   /* List model. */
-  private DefaultListModel listModel = new DefaultListModel();
+  private final DefaultListModel<SSPhotoset> listModel = new DefaultListModel<>();
 
   /* Master list. */
   private List<SSPhotoset> masterList;
 
   private static MainWindow theWindow;
 
-  private LogWindow logWindow = null;
+  private final LogWindow logWindow;
 
   /* Timer used to trigger filtering. */
-  private Timer filterTimer = null;
+  private final Timer filterTimer;
 
   private java.util.Timer autoRefreshTimer = null;
 
-  private static ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
+  private static boolean blocked = false;
+
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("net.jeremybrooks.suprsetr.mainwindow");
 
   /*
    * Creates new form MainWindow
@@ -119,32 +133,81 @@ public class MainWindow extends javax.swing.JFrame {
     this.doOpenInBrowserAction();
   }
 
+  private void thisWindowClosing() {
+    backupAndExit();
+  }
+
+  private void toolbarToggleEventHandler(ActionEvent e) {
+    JToolBar targetToolbar;
+    String key;
+    switch (((JMenuItem) e.getSource()).getName()) {
+      case "mnuToolbarEdit" -> {
+        targetToolbar = toolbarEdit;
+        key = SSConstants.LOOKUP_KEY_SHOW_EDIT_TOOLBAR;
+      }
+      case "mnuToolbarTools" -> {
+        targetToolbar = toolbarTools;
+        key = SSConstants.LOOKUP_KEY_SHOW_TOOLS_TOOLBAR;
+      }
+      default -> {
+        targetToolbar = null;
+        key = null;
+      }
+    }
+
+    if (Arrays.stream(pnlToolbar.getComponents())
+        .anyMatch(c -> c == targetToolbar)) {
+      pnlToolbar.remove(targetToolbar);
+      LookupDAO.setKeyAndValue(key, "N");
+    } else {
+      pnlToolbar.add(targetToolbar);
+      LookupDAO.setKeyAndValue(key, "Y");
+    }
+    validate();
+    repaint();
+  }
+
+  private void mnuViewMenuSelected() {
+    // set the text of the toolbar view menu to
+    // hide or show, to reflect the current visible status
+    List<Component> components = Arrays.stream(pnlToolbar.getComponents()).toList();
+    if (components.contains(toolbarEdit)) {
+      mnuToolbarEdit.setText(resourceBundle.getString("MainWindow.mnuToolbarEdit.text.hide"));
+    } else {
+      mnuToolbarEdit.setText(resourceBundle.getString("MainWindow.mnuToolbarEdit.text.show"));
+    }
+
+    if (components.contains(toolbarTools)) {
+      mnuToolbarTools.setText(resourceBundle.getString("MainWindow.mnuToolbarTools.text.hide"));
+    } else {
+      mnuToolbarTools.setText(resourceBundle.getString("MainWindow.mnuToolbarTools.text.show"));
+    }
+  }
+
 
   public MainWindow() {
     initComponents();
 
     switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER)) {
-      case SSConstants.LIST_SORT_ATOZ:
-        this.mnuOrderAlpha.setSelected(true);
-        break;
-      case SSConstants.LIST_SORT_ZTOA:
-        this.mnuOrderAlphaDesc.setSelected(true);
-        break;
-      case SSConstants.LIST_SORT_VIEW_HIGHLOW:
-        this.mnuOrderHighLow.setSelected(true);
-        break;
-      case SSConstants.LIST_SORT_VIEW_LOWHIGH:
-        this.mnuOrderLowHigh.setSelected(true);
-        break;
-      default:
-        this.mnuOrderAlpha.setSelected(true);
-        break;
+      case SSConstants.LIST_SORT_ATOZ -> this.mnuOrderAlpha.setSelected(true);
+      case SSConstants.LIST_SORT_ZTOA -> this.mnuOrderAlphaDesc.setSelected(true);
+      case SSConstants.LIST_SORT_VIEW_HIGHLOW -> this.mnuOrderHighLow.setSelected(true);
+      case SSConstants.LIST_SORT_VIEW_LOWHIGH -> this.mnuOrderLowHigh.setSelected(true);
+      default -> this.mnuOrderAlpha.setSelected(true);
     }
     this.updateStatusBar();
 
     this.mnuHideUnmanaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_UNMANAGED)));
     this.mnuHideManaged.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_HIDE_MANAGED)));
     this.mnuCaseSensitive.setSelected(DAOHelper.stringToBoolean(LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_CASE_SENSITIVE)));
+
+    // remove toolbars if the last state was hidden
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_SHOW_EDIT_TOOLBAR).equalsIgnoreCase("N")) {
+      pnlToolbar.remove(toolbarEdit);
+    }
+    if (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_SHOW_TOOLS_TOOLBAR).equalsIgnoreCase("N")) {
+      pnlToolbar.remove(toolbarTools);
+    }
 
     try {
       setBounds(
@@ -182,407 +245,493 @@ public class MainWindow extends javax.swing.JFrame {
   @SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
-    ResourceBundle bundle = this.resourceBundle;
-    jMenuBar1 = new JMenuBar();
-    mnuFile = new JMenu();
-    mnuBrowser = new JMenuItem();
-    mnuBackup = new JMenuItem();
-    mnuRestore = new JMenuItem();
-    mnuQuit = new JMenuItem();
-    mnuEdit = new JMenu();
-    mnuCreateSet = new JMenuItem();
-    mnuEditSet = new JMenuItem();
-    mnuDeleteSet = new JMenuItem();
-    mnuRefreshSet = new JMenuItem();
-    mnuRefreshAll = new JMenuItem();
-    mnuPreferences = new JMenuItem();
-    mnuView = new JMenu();
-    mnuHideUnmanaged = new JCheckBoxMenuItem();
-    mnuHideManaged = new JCheckBoxMenuItem();
-    mnuCaseSensitive = new JCheckBoxMenuItem();
-    mnuOrderAlpha = new JRadioButtonMenuItem();
-    mnuOrderAlphaDesc = new JRadioButtonMenuItem();
-    mnuOrderHighLow = new JRadioButtonMenuItem();
-    mnuOrderLowHigh = new JRadioButtonMenuItem();
-    mnuTools = new JMenu();
-    mnuFavr = new JMenuItem();
-    mnuClearFave = new JMenuItem();
-    mnuSetOrder = new JMenuItem();
-    mnuLogs = new JMenuItem();
-    mnuLogWindow = new JMenuItem();
-    mnuHelp = new JMenu();
-    mnuAbout = new JMenuItem();
-    mnuTutorial = new JMenuItem();
-    mnuSSHelp = new JMenuItem();
-    mnuCheckUpdates = new JMenuItem();
-    jToolBar1 = new JToolBar();
-    btnAddSet = new JButton();
-    btnEditSet = new JButton();
-    btnDeleteSet = new JButton();
-    btnRefreshSet = new JButton();
-    btnRefreshAll = new JButton();
-    btnBrowser = new JButton();
-    jLabel1 = new JLabel();
-    txtFilter = new JTextField();
-    jScrollPane1 = new JScrollPane();
-    jList1 = new JList();
-    lblStatus = new JLabel();
-    mnuPopup = new JPopupMenu();
-    mnuPopupCreate = new JMenuItem();
-    mnuPopupEdit = new JMenuItem();
-    mnuPopupDelete = new JMenuItem();
-    mnuPopupRefresh = new JMenuItem();
-    mnuPopupOpen = new JMenuItem();
+      ResourceBundle bundle = resourceBundle;
+      jMenuBar1 = new JMenuBar();
+      mnuFile = new JMenu();
+      mnuBrowser = new JMenuItem();
+      mnuBackup = new JMenuItem();
+      mnuRestore = new JMenuItem();
+      mnuQuit = new JMenuItem();
+      mnuEdit = new JMenu();
+      mnuCreateSet = new JMenuItem();
+      mnuEditSet = new JMenuItem();
+      mnuDeleteSet = new JMenuItem();
+      mnuRefreshSet = new JMenuItem();
+      mnuRefreshAll = new JMenuItem();
+      mnuPreferences = new JMenuItem();
+      mnuView = new JMenu();
+      mnuHideUnmanaged = new JCheckBoxMenuItem();
+      mnuHideManaged = new JCheckBoxMenuItem();
+      mnuCaseSensitive = new JCheckBoxMenuItem();
+      mnuOrderAlpha = new JRadioButtonMenuItem();
+      mnuOrderAlphaDesc = new JRadioButtonMenuItem();
+      mnuOrderHighLow = new JRadioButtonMenuItem();
+      mnuOrderLowHigh = new JRadioButtonMenuItem();
+      mnuToolbars = new JMenu();
+      mnuToolbarEdit = new JMenuItem();
+      mnuToolbarTools = new JMenuItem();
+      mnuTools = new JMenu();
+      mnuFavr = new JMenuItem();
+      mnuClearFave = new JMenuItem();
+      mnuSetOrder = new JMenuItem();
+      mnuLogs = new JMenuItem();
+      mnuLogWindow = new JMenuItem();
+      mnuHelp = new JMenu();
+      mnuAbout = new JMenuItem();
+      mnuTutorial = new JMenuItem();
+      mnuSSHelp = new JMenuItem();
+      mnuCheckUpdates = new JMenuItem();
+      pnlToolbar = new JPanel();
+      toolbarEdit = new JToolBar();
+      btnAddSet = new JButton();
+      btnEditSet = new JButton();
+      btnDeleteSet = new JButton();
+      btnRefreshSet = new JButton();
+      btnRefreshAll = new JButton();
+      btnBrowser = new JButton();
+      jLabel1 = new JLabel();
+      txtFilter = new JTextField();
+      toolbarTools = new JToolBar();
+      btnFavr = new JButton();
+      btnClearFave = new JButton();
+      btnSetOrdering = new JButton();
+      btnLogs = new JButton();
+      btnConsole = new JButton();
+      jScrollPane1 = new JScrollPane();
+      jList1 = new JList<>();
+      lblStatus = new JLabel();
+      mnuPopup = new JPopupMenu();
+      mnuPopupCreate = new JMenuItem();
+      mnuPopupEdit = new JMenuItem();
+      mnuPopupDelete = new JMenuItem();
+      mnuPopupRefresh = new JMenuItem();
+      mnuPopupOpen = new JMenuItem();
 
-    //======== this ========
-    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    setTitle(bundle.getString("MainWindow.this.title"));
-    setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
-    var contentPane = getContentPane();
-    contentPane.setLayout(new BorderLayout());
-
-    //======== jMenuBar1 ========
-    {
-
-      //======== mnuFile ========
-      {
-        mnuFile.setText(bundle.getString("MainWindow.mnuFile.text"));
-
-        //---- mnuBrowser ----
-        mnuBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
-        mnuBrowser.setText(bundle.getString("MainWindow.mnuBrowser.text"));
-        mnuBrowser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuBrowser.addActionListener(e -> mnuBrowserActionPerformed());
-        mnuFile.add(mnuBrowser);
-
-        //---- mnuBackup ----
-        mnuBackup.setIcon(new ImageIcon(getClass().getResource("/images/1052-database-toolbar-22x22.png")));
-        mnuBackup.setText(bundle.getString("MainWindow.mnuBackup.text"));
-        mnuBackup.addActionListener(e -> mnuBackupActionPerformed());
-        mnuFile.add(mnuBackup);
-
-        //---- mnuRestore ----
-        mnuRestore.setIcon(new ImageIcon(getClass().getResource("/images/1052-database-toolbar-22x22.png")));
-        mnuRestore.setText(bundle.getString("MainWindow.mnuRestore.text"));
-        mnuRestore.addActionListener(e -> mnuRestoreActionPerformed());
-        mnuFile.add(mnuRestore);
-        mnuFile.addSeparator();
-
-        //---- mnuQuit ----
-        mnuQuit.setIcon(new ImageIcon(getClass().getResource("/images/602-exit.png")));
-        mnuQuit.setText(bundle.getString("MainWindow.mnuQuit.text"));
-        mnuQuit.addActionListener(e -> mnuQuitActionPerformed());
-        mnuFile.add(mnuQuit);
-      }
-      jMenuBar1.add(mnuFile);
-
-      //======== mnuEdit ========
-      {
-        mnuEdit.setText(bundle.getString("MainWindow.mnuEdit.text"));
-
-        //---- mnuCreateSet ----
-        mnuCreateSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
-        mnuCreateSet.setText(bundle.getString("MainWindow.mnuCreateSet.text"));
-        mnuCreateSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuCreateSet.addActionListener(e -> mnuCreateSetActionPerformed());
-        mnuEdit.add(mnuCreateSet);
-
-        //---- mnuEditSet ----
-        mnuEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
-        mnuEditSet.setText(bundle.getString("MainWindow.mnuEditSet.text"));
-        mnuEditSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuEditSet.addActionListener(e -> mnuEditSetActionPerformed());
-        mnuEdit.add(mnuEditSet);
-
-        //---- mnuDeleteSet ----
-        mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
-        mnuDeleteSet.setText(bundle.getString("MainWindow.mnuDeleteSet.text"));
-        mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuDeleteSet.addActionListener(e -> mnuDeleteSetActionPerformed());
-        mnuEdit.add(mnuDeleteSet);
-
-        //---- mnuRefreshSet ----
-        mnuRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
-        mnuRefreshSet.setText(bundle.getString("MainWindow.mnuRefreshSet.text"));
-        mnuRefreshSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuRefreshSet.addActionListener(e -> mnuRefreshSetActionPerformed());
-        mnuEdit.add(mnuRefreshSet);
-
-        //---- mnuRefreshAll ----
-        mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
-        mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
-        mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()|KeyEvent.SHIFT_MASK));
-        mnuRefreshAll.addActionListener(e -> mnuRefreshAllActionPerformed());
-        mnuEdit.add(mnuRefreshAll);
-
-        //---- mnuPreferences ----
-        mnuPreferences.setIcon(new ImageIcon(getClass().getResource("/images/740-gear-toolbar.png")));
-        mnuPreferences.setText(bundle.getString("MainWindow.mnuPreferences.text"));
-        mnuPreferences.addActionListener(e -> mnuPreferencesActionPerformed());
-        mnuEdit.add(mnuPreferences);
-      }
-      jMenuBar1.add(mnuEdit);
-
-      //======== mnuView ========
-      {
-        mnuView.setText(bundle.getString("MainWindow.mnuView.text"));
-
-        //---- mnuHideUnmanaged ----
-        mnuHideUnmanaged.setText(bundle.getString("MainWindow.mnuHideUnmanaged.text"));
-        mnuHideUnmanaged.addActionListener(e -> mnuHideUnmanagedActionPerformed());
-        mnuView.add(mnuHideUnmanaged);
-
-        //---- mnuHideManaged ----
-        mnuHideManaged.setText(bundle.getString("MainWindow.mnuHideManaged.text"));
-        mnuHideManaged.addActionListener(e -> mnuHideManagedActionPerformed());
-        mnuView.add(mnuHideManaged);
-        mnuView.addSeparator();
-
-        //---- mnuCaseSensitive ----
-        mnuCaseSensitive.setText(bundle.getString("MainWindow.mnuCaseSensitive.text"));
-        mnuCaseSensitive.addActionListener(e -> mnuCaseSensitiveActionPerformed());
-        mnuView.add(mnuCaseSensitive);
-        mnuView.addSeparator();
-
-        //---- mnuOrderAlpha ----
-        mnuOrderAlpha.setText(bundle.getString("MainWindow.mnuOrderAlpha.text"));
-        mnuOrderAlpha.addActionListener(e -> mnuOrderAlphaActionPerformed());
-        mnuView.add(mnuOrderAlpha);
-
-        //---- mnuOrderAlphaDesc ----
-        mnuOrderAlphaDesc.setText(bundle.getString("MainWindow.mnuOrderAlphaDesc.text"));
-        mnuOrderAlphaDesc.addActionListener(e -> mnuOrderAlphaDescActionPerformed());
-        mnuView.add(mnuOrderAlphaDesc);
-
-        //---- mnuOrderHighLow ----
-        mnuOrderHighLow.setText(bundle.getString("MainWindow.mnuOrderHighLow.text"));
-        mnuOrderHighLow.addActionListener(e -> mnuOrderHighLowActionPerformed());
-        mnuView.add(mnuOrderHighLow);
-
-        //---- mnuOrderLowHigh ----
-        mnuOrderLowHigh.setText(bundle.getString("MainWindow.mnuOrderLowHigh.text"));
-        mnuOrderLowHigh.addActionListener(e -> mnuOrderLowHighActionPerformed());
-        mnuView.add(mnuOrderLowHigh);
-        mnuView.addSeparator();
-      }
-      jMenuBar1.add(mnuView);
-
-      //======== mnuTools ========
-      {
-        mnuTools.setText(bundle.getString("MainWindow.mnuTools.text"));
-
-        //---- mnuFavr ----
-        mnuFavr.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar.png")));
-        mnuFavr.setText(bundle.getString("MainWindow.mnuFavr.text"));
-        mnuFavr.addActionListener(e -> mnuFavrActionPerformed());
-        mnuTools.add(mnuFavr);
-
-        //---- mnuClearFave ----
-        mnuClearFave.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar-x.png")));
-        mnuClearFave.setText(bundle.getString("MainWindow.mnuClearFave.text"));
-        mnuClearFave.addActionListener(e -> mnuClearFaveActionPerformed());
-        mnuTools.add(mnuClearFave);
-
-        //---- mnuSetOrder ----
-        mnuSetOrder.setIcon(new ImageIcon(getClass().getResource("/images/707-albums-toolbar-22x22.png")));
-        mnuSetOrder.setText(bundle.getString("MainWindow.mnuSetOrder.text"));
-        mnuSetOrder.addActionListener(e -> mnuSetOrderActionPerformed());
-        mnuTools.add(mnuSetOrder);
-
-        //---- mnuLogs ----
-        mnuLogs.setIcon(new ImageIcon(getClass().getResource("/images/797-archive-toolbar-22x22.png")));
-        mnuLogs.setText(bundle.getString("MainWindow.mnuLogs.text"));
-        mnuLogs.addActionListener(e -> mnuLogsActionPerformed());
-        mnuTools.add(mnuLogs);
-
-        //---- mnuLogWindow ----
-        mnuLogWindow.setText(bundle.getString("MainWindow.mnuLogWindow.text"));
-        mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        mnuLogWindow.setIcon(new ImageIcon(getClass().getResource("/images/1072-terminal-toolbar-22x22.png")));
-        mnuLogWindow.addActionListener(e -> mnuLogWindowActionPerformed());
-        mnuTools.add(mnuLogWindow);
-      }
-      jMenuBar1.add(mnuTools);
-
-      //======== mnuHelp ========
-      {
-        mnuHelp.setText(bundle.getString("MainWindow.mnuHelp.text"));
-
-        //---- mnuAbout ----
-        mnuAbout.setIcon(new ImageIcon(getClass().getResource("/images/739-question-toolbar.png")));
-        mnuAbout.setText(bundle.getString("MainWindow.mnuAbout.text"));
-        mnuAbout.addActionListener(e -> mnuAboutActionPerformed());
-        mnuHelp.add(mnuAbout);
-
-        //---- mnuTutorial ----
-        mnuTutorial.setIcon(new ImageIcon(getClass().getResource("/images/724-info-toolbar.png")));
-        mnuTutorial.setText(bundle.getString("MainWindow.mnuTutorial.text"));
-        mnuTutorial.addActionListener(e -> mnuTutorialActionPerformed());
-        mnuHelp.add(mnuTutorial);
-
-        //---- mnuSSHelp ----
-        mnuSSHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-toolbar.png")));
-        mnuSSHelp.setText(bundle.getString("MainWindow.mnuSSHelp.text"));
-        mnuSSHelp.addActionListener(e -> mnuSSHelpActionPerformed());
-        mnuHelp.add(mnuSSHelp);
-
-        //---- mnuCheckUpdates ----
-        mnuCheckUpdates.setIcon(new ImageIcon(getClass().getResource("/images/55-network-22x22.png")));
-        mnuCheckUpdates.setText(bundle.getString("MainWindow.mnuCheckUpdates.text"));
-        mnuCheckUpdates.addActionListener(e -> mnuCheckUpdatesActionPerformed());
-        mnuHelp.add(mnuCheckUpdates);
-      }
-      jMenuBar1.add(mnuHelp);
-    }
-    setJMenuBar(jMenuBar1);
-
-    //======== jToolBar1 ========
-    {
-      jToolBar1.setRollover(true);
-
-      //---- btnAddSet ----
-      btnAddSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
-      btnAddSet.setToolTipText(bundle.getString("MainWindow.btnAddSet.toolTipText"));
-      btnAddSet.setFocusable(false);
-      btnAddSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnAddSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnAddSet.addActionListener(e -> btnAddSetActionPerformed());
-      jToolBar1.add(btnAddSet);
-
-      //---- btnEditSet ----
-      btnEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
-      btnEditSet.setToolTipText(bundle.getString("MainWindow.btnEditSet.toolTipText"));
-      btnEditSet.setFocusable(false);
-      btnEditSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnEditSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnEditSet.addActionListener(e -> btnEditSetActionPerformed());
-      jToolBar1.add(btnEditSet);
-
-      //---- btnDeleteSet ----
-      btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
-      btnDeleteSet.setToolTipText(bundle.getString("MainWindow.btnDeleteSet.toolTipText"));
-      btnDeleteSet.setFocusable(false);
-      btnDeleteSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnDeleteSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnDeleteSet.addActionListener(e -> btnDeleteSetActionPerformed());
-      jToolBar1.add(btnDeleteSet);
-
-      //---- btnRefreshSet ----
-      btnRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
-      btnRefreshSet.setToolTipText(bundle.getString("MainWindow.btnRefreshSet.toolTipText"));
-      btnRefreshSet.setFocusable(false);
-      btnRefreshSet.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnRefreshSet.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnRefreshSet.addActionListener(e -> btnRefreshSetActionPerformed());
-      jToolBar1.add(btnRefreshSet);
-
-      //---- btnRefreshAll ----
-      btnRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
-      btnRefreshAll.setToolTipText(bundle.getString("MainWindow.btnRefreshAll.toolTipText"));
-      btnRefreshAll.setFocusable(false);
-      btnRefreshAll.setHorizontalTextPosition(SwingConstants.CENTER);
-      btnRefreshAll.setVerticalTextPosition(SwingConstants.BOTTOM);
-      btnRefreshAll.addActionListener(e -> btnRefreshAllActionPerformed());
-      jToolBar1.add(btnRefreshAll);
-
-      //---- btnBrowser ----
-      btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
-      btnBrowser.setToolTipText(bundle.getString("MainWindow.btnBrowser.toolTipText"));
-      btnBrowser.addActionListener(e -> btnBrowserActionPerformed());
-      jToolBar1.add(btnBrowser);
-      jToolBar1.addSeparator();
-
-      //---- jLabel1 ----
-      jLabel1.setText("Filter");
-      jToolBar1.add(jLabel1);
-
-      //---- txtFilter ----
-      txtFilter.setToolTipText(bundle.getString("MainWindow.txtFilter.toolTipText"));
-      txtFilter.addFocusListener(new FocusAdapter() {
-        @Override
-        public void focusGained(FocusEvent e) {
-          txtFilterFocusGained();
-        }
+      //======== this ========
+      setTitle(bundle.getString("MainWindow.this.title"));
+      setIconImage(new ImageIcon(getClass().getResource("/images/s16.png")).getImage());
+      setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+      addWindowListener(new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+              thisWindowClosing();
+          }
       });
-      txtFilter.addKeyListener(new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-          txtFilterKeyTyped(e);
-        }
-      });
-      jToolBar1.add(txtFilter);
-    }
-    contentPane.add(jToolBar1, BorderLayout.NORTH);
+      var contentPane = getContentPane();
+      contentPane.setLayout(new BorderLayout());
 
-    //======== jScrollPane1 ========
-    {
+      //======== jMenuBar1 ========
+      {
 
-      //---- jList1 ----
-      jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-      jList1.setCellRenderer(null);
-      jList1.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-          jList1MousePressed(e);
-        }
-        @Override
-        public void mouseReleased(MouseEvent e) {
-          jList1MouseReleased(e);
-        }
-      });
-      this.jList1.setModel(this.listModel);
-      this.jList1.setCellRenderer(new SetListRenderer());
-      jScrollPane1.setViewportView(jList1);
-    }
-    contentPane.add(jScrollPane1, BorderLayout.CENTER);
+          //======== mnuFile ========
+          {
+              mnuFile.setText(bundle.getString("MainWindow.mnuFile.text"));
 
-    //---- lblStatus ----
-    lblStatus.setText(bundle.getString("MainWindow.lblStatus.text"));
-    contentPane.add(lblStatus, BorderLayout.SOUTH);
-    setSize(488, 522);
-    setLocationRelativeTo(null);
+              //---- mnuBrowser ----
+              mnuBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
+              mnuBrowser.setText(bundle.getString("MainWindow.mnuBrowser.text"));
+              mnuBrowser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+              mnuBrowser.addActionListener(e -> mnuBrowserActionPerformed());
+              mnuFile.add(mnuBrowser);
 
-    //======== mnuPopup ========
-    {
-      mnuPopup.setLayout(new BoxLayout(mnuPopup, BoxLayout.Y_AXIS));
+              //---- mnuBackup ----
+              mnuBackup.setIcon(new ImageIcon(getClass().getResource("/images/1052-database-toolbar-22x22.png")));
+              mnuBackup.setText(bundle.getString("MainWindow.mnuBackup.text"));
+              mnuBackup.addActionListener(e -> mnuBackupActionPerformed());
+              mnuFile.add(mnuBackup);
 
-      //---- mnuPopupCreate ----
-      mnuPopupCreate.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
-      mnuPopupCreate.setText(bundle.getString("MainWindow.mnuPopupCreate.text"));
-      mnuPopupCreate.addActionListener(e -> mnuPopupCreateActionPerformed());
-      mnuPopup.add(mnuPopupCreate);
+              //---- mnuRestore ----
+              mnuRestore.setIcon(new ImageIcon(getClass().getResource("/images/1052-database-toolbar-22x22.png")));
+              mnuRestore.setText(bundle.getString("MainWindow.mnuRestore.text"));
+              mnuRestore.addActionListener(e -> mnuRestoreActionPerformed());
+              mnuFile.add(mnuRestore);
+              mnuFile.addSeparator();
 
-      //---- mnuPopupEdit ----
-      mnuPopupEdit.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
-      mnuPopupEdit.setText(bundle.getString("MainWindow.mnuPopupEdit.text"));
-      mnuPopupEdit.addActionListener(e -> mnuPopupEditActionPerformed());
-      mnuPopup.add(mnuPopupEdit);
+              //---- mnuQuit ----
+              mnuQuit.setIcon(new ImageIcon(getClass().getResource("/images/602-exit.png")));
+              mnuQuit.setText(bundle.getString("MainWindow.mnuQuit.text"));
+              mnuQuit.addActionListener(e -> mnuQuitActionPerformed());
+              mnuFile.add(mnuQuit);
+          }
+          jMenuBar1.add(mnuFile);
 
-      //---- mnuPopupDelete ----
-      mnuPopupDelete.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
-      mnuPopupDelete.setText(bundle.getString("MainWindow.mnuPopupDelete.text"));
-      mnuPopupDelete.addActionListener(e -> mnuPopupDeleteActionPerformed());
-      mnuPopup.add(mnuPopupDelete);
+          //======== mnuEdit ========
+          {
+              mnuEdit.setText(bundle.getString("MainWindow.mnuEdit.text"));
 
-      //---- mnuPopupRefresh ----
-      mnuPopupRefresh.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
-      mnuPopupRefresh.setText(bundle.getString("MainWindow.mnuPopupRefresh.text"));
-      mnuPopupRefresh.addActionListener(e -> mnuPopupRefreshActionPerformed());
-      mnuPopup.add(mnuPopupRefresh);
+              //---- mnuCreateSet ----
+              mnuCreateSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
+              mnuCreateSet.setText(bundle.getString("MainWindow.mnuCreateSet.text"));
+              mnuCreateSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+              mnuCreateSet.addActionListener(e -> mnuCreateSetActionPerformed());
+              mnuEdit.add(mnuCreateSet);
 
-      //---- mnuPopupOpen ----
-      mnuPopupOpen.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
-      mnuPopupOpen.setText(bundle.getString("MainWindow.mnuPopupOpen.text"));
-      mnuPopupOpen.addActionListener(e -> mnuPopupOpenActionPerformed());
-      mnuPopup.add(mnuPopupOpen);
-    }
+              //---- mnuEditSet ----
+              mnuEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
+              mnuEditSet.setText(bundle.getString("MainWindow.mnuEditSet.text"));
+              mnuEditSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+              mnuEditSet.addActionListener(e -> mnuEditSetActionPerformed());
+              mnuEdit.add(mnuEditSet);
 
-    //---- buttonGroup1 ----
-    var buttonGroup1 = new ButtonGroup();
-    buttonGroup1.add(mnuOrderAlpha);
-    buttonGroup1.add(mnuOrderAlphaDesc);
-    buttonGroup1.add(mnuOrderHighLow);
-    buttonGroup1.add(mnuOrderLowHigh);
+              //---- mnuDeleteSet ----
+              mnuDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
+              mnuDeleteSet.setText(bundle.getString("MainWindow.mnuDeleteSet.text"));
+              mnuDeleteSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+              mnuDeleteSet.addActionListener(e -> mnuDeleteSetActionPerformed());
+              mnuEdit.add(mnuDeleteSet);
+
+              //---- mnuRefreshSet ----
+              mnuRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
+              mnuRefreshSet.setText(bundle.getString("MainWindow.mnuRefreshSet.text"));
+              mnuRefreshSet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+              mnuRefreshSet.addActionListener(e -> mnuRefreshSetActionPerformed());
+              mnuEdit.add(mnuRefreshSet);
+
+              //---- mnuRefreshAll ----
+              mnuRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
+              mnuRefreshAll.setText(bundle.getString("MainWindow.mnuRefreshAll.text"));
+              mnuRefreshAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()|KeyEvent.SHIFT_DOWN_MASK));
+              mnuRefreshAll.addActionListener(e -> mnuRefreshAllActionPerformed());
+              mnuEdit.add(mnuRefreshAll);
+
+              //---- mnuPreferences ----
+              mnuPreferences.setIcon(new ImageIcon(getClass().getResource("/images/740-gear-toolbar.png")));
+              mnuPreferences.setText(bundle.getString("MainWindow.mnuPreferences.text"));
+              mnuPreferences.addActionListener(e -> mnuPreferencesActionPerformed());
+              mnuEdit.add(mnuPreferences);
+          }
+          jMenuBar1.add(mnuEdit);
+
+          //======== mnuView ========
+          {
+              mnuView.setText(bundle.getString("MainWindow.mnuView.text"));
+              mnuView.addMenuListener(new MenuListener() {
+                  @Override
+                  public void menuCanceled(MenuEvent e) {}
+                  @Override
+                  public void menuDeselected(MenuEvent e) {}
+                  @Override
+                  public void menuSelected(MenuEvent e) {
+                      mnuViewMenuSelected();
+                  }
+              });
+
+              //---- mnuHideUnmanaged ----
+              mnuHideUnmanaged.setText(bundle.getString("MainWindow.mnuHideUnmanaged.text"));
+              mnuHideUnmanaged.addActionListener(e -> mnuHideUnmanagedActionPerformed());
+              mnuView.add(mnuHideUnmanaged);
+
+              //---- mnuHideManaged ----
+              mnuHideManaged.setText(bundle.getString("MainWindow.mnuHideManaged.text"));
+              mnuHideManaged.addActionListener(e -> mnuHideManagedActionPerformed());
+              mnuView.add(mnuHideManaged);
+              mnuView.addSeparator();
+
+              //---- mnuCaseSensitive ----
+              mnuCaseSensitive.setText(bundle.getString("MainWindow.mnuCaseSensitive.text"));
+              mnuCaseSensitive.addActionListener(e -> mnuCaseSensitiveActionPerformed());
+              mnuView.add(mnuCaseSensitive);
+              mnuView.addSeparator();
+
+              //---- mnuOrderAlpha ----
+              mnuOrderAlpha.setText(bundle.getString("MainWindow.mnuOrderAlpha.text"));
+              mnuOrderAlpha.addActionListener(e -> mnuOrderAlphaActionPerformed());
+              mnuView.add(mnuOrderAlpha);
+
+              //---- mnuOrderAlphaDesc ----
+              mnuOrderAlphaDesc.setText(bundle.getString("MainWindow.mnuOrderAlphaDesc.text"));
+              mnuOrderAlphaDesc.addActionListener(e -> mnuOrderAlphaDescActionPerformed());
+              mnuView.add(mnuOrderAlphaDesc);
+
+              //---- mnuOrderHighLow ----
+              mnuOrderHighLow.setText(bundle.getString("MainWindow.mnuOrderHighLow.text"));
+              mnuOrderHighLow.addActionListener(e -> mnuOrderHighLowActionPerformed());
+              mnuView.add(mnuOrderHighLow);
+
+              //---- mnuOrderLowHigh ----
+              mnuOrderLowHigh.setText(bundle.getString("MainWindow.mnuOrderLowHigh.text"));
+              mnuOrderLowHigh.addActionListener(e -> mnuOrderLowHighActionPerformed());
+              mnuView.add(mnuOrderLowHigh);
+              mnuView.addSeparator();
+              mnuView.addSeparator();
+
+              //======== mnuToolbars ========
+              {
+                  mnuToolbars.setText(bundle.getString("MainWindow.mnuToolbars.text"));
+
+                  //---- mnuToolbarEdit ----
+                  mnuToolbarEdit.setText(bundle.getString("MainWindow.mnuToolbarEdit.text.hide"));
+                  mnuToolbarEdit.setName("mnuToolbarEdit");
+                  mnuToolbarEdit.addActionListener(e -> toolbarToggleEventHandler(e));
+                  mnuToolbars.add(mnuToolbarEdit);
+
+                  //---- mnuToolbarTools ----
+                  mnuToolbarTools.setText(bundle.getString("MainWindow.mnuToolbarTools.text.hide"));
+                  mnuToolbarTools.setName("mnuToolbarTools");
+                  mnuToolbarTools.addActionListener(e -> toolbarToggleEventHandler(e));
+                  mnuToolbars.add(mnuToolbarTools);
+              }
+              mnuView.add(mnuToolbars);
+          }
+          jMenuBar1.add(mnuView);
+
+          //======== mnuTools ========
+          {
+              mnuTools.setText(bundle.getString("MainWindow.mnuTools.text"));
+
+              //---- mnuFavr ----
+              mnuFavr.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar.png")));
+              mnuFavr.setText(bundle.getString("MainWindow.mnuFavr.text"));
+              mnuFavr.addActionListener(e -> mnuFavrActionPerformed());
+              mnuTools.add(mnuFavr);
+
+              //---- mnuClearFave ----
+              mnuClearFave.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar-x.png")));
+              mnuClearFave.setText(bundle.getString("MainWindow.mnuClearFave.text"));
+              mnuClearFave.addActionListener(e -> mnuClearFaveActionPerformed());
+              mnuTools.add(mnuClearFave);
+
+              //---- mnuSetOrder ----
+              mnuSetOrder.setIcon(new ImageIcon(getClass().getResource("/images/707-albums-toolbar-22x22.png")));
+              mnuSetOrder.setText(bundle.getString("MainWindow.mnuSetOrder.text"));
+              mnuSetOrder.addActionListener(e -> mnuSetOrderActionPerformed());
+              mnuTools.add(mnuSetOrder);
+
+              //---- mnuLogs ----
+              mnuLogs.setIcon(new ImageIcon(getClass().getResource("/images/797-archive-toolbar-22x22.png")));
+              mnuLogs.setText(bundle.getString("MainWindow.mnuLogs.text"));
+              mnuLogs.addActionListener(e -> mnuLogsActionPerformed());
+              mnuTools.add(mnuLogs);
+
+              //---- mnuLogWindow ----
+              mnuLogWindow.setText(bundle.getString("MainWindow.mnuLogWindow.text"));
+              mnuLogWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+              mnuLogWindow.setIcon(new ImageIcon(getClass().getResource("/images/1072-terminal-toolbar-22x22.png")));
+              mnuLogWindow.addActionListener(e -> mnuLogWindowActionPerformed());
+              mnuTools.add(mnuLogWindow);
+          }
+          jMenuBar1.add(mnuTools);
+
+          //======== mnuHelp ========
+          {
+              mnuHelp.setText(bundle.getString("MainWindow.mnuHelp.text"));
+
+              //---- mnuAbout ----
+              mnuAbout.setIcon(new ImageIcon(getClass().getResource("/images/739-question-toolbar.png")));
+              mnuAbout.setText(bundle.getString("MainWindow.mnuAbout.text"));
+              mnuAbout.addActionListener(e -> mnuAboutActionPerformed());
+              mnuHelp.add(mnuAbout);
+
+              //---- mnuTutorial ----
+              mnuTutorial.setIcon(new ImageIcon(getClass().getResource("/images/724-info-toolbar.png")));
+              mnuTutorial.setText(bundle.getString("MainWindow.mnuTutorial.text"));
+              mnuTutorial.addActionListener(e -> mnuTutorialActionPerformed());
+              mnuHelp.add(mnuTutorial);
+
+              //---- mnuSSHelp ----
+              mnuSSHelp.setIcon(new ImageIcon(getClass().getResource("/images/739-question-toolbar.png")));
+              mnuSSHelp.setText(bundle.getString("MainWindow.mnuSSHelp.text"));
+              mnuSSHelp.addActionListener(e -> mnuSSHelpActionPerformed());
+              mnuHelp.add(mnuSSHelp);
+
+              //---- mnuCheckUpdates ----
+              mnuCheckUpdates.setIcon(new ImageIcon(getClass().getResource("/images/55-network-22x22.png")));
+              mnuCheckUpdates.setText(bundle.getString("MainWindow.mnuCheckUpdates.text"));
+              mnuCheckUpdates.addActionListener(e -> mnuCheckUpdatesActionPerformed());
+              mnuHelp.add(mnuCheckUpdates);
+          }
+          jMenuBar1.add(mnuHelp);
+      }
+      setJMenuBar(jMenuBar1);
+
+      //======== pnlToolbar ========
+      {
+          pnlToolbar.setLayout(new GridLayout(0, 1));
+
+          //======== toolbarEdit ========
+          {
+              toolbarEdit.setRollover(true);
+
+              //---- btnAddSet ----
+              btnAddSet.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
+              btnAddSet.setToolTipText(bundle.getString("MainWindow.btnAddSet.toolTipText"));
+              btnAddSet.setFocusable(false);
+              btnAddSet.setHorizontalTextPosition(SwingConstants.CENTER);
+              btnAddSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+              btnAddSet.addActionListener(e -> btnAddSetActionPerformed());
+              toolbarEdit.add(btnAddSet);
+
+              //---- btnEditSet ----
+              btnEditSet.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
+              btnEditSet.setToolTipText(bundle.getString("MainWindow.btnEditSet.toolTipText"));
+              btnEditSet.setFocusable(false);
+              btnEditSet.setHorizontalTextPosition(SwingConstants.CENTER);
+              btnEditSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+              btnEditSet.addActionListener(e -> btnEditSetActionPerformed());
+              toolbarEdit.add(btnEditSet);
+
+              //---- btnDeleteSet ----
+              btnDeleteSet.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
+              btnDeleteSet.setToolTipText(bundle.getString("MainWindow.btnDeleteSet.toolTipText"));
+              btnDeleteSet.setFocusable(false);
+              btnDeleteSet.setHorizontalTextPosition(SwingConstants.CENTER);
+              btnDeleteSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+              btnDeleteSet.addActionListener(e -> btnDeleteSetActionPerformed());
+              toolbarEdit.add(btnDeleteSet);
+
+              //---- btnRefreshSet ----
+              btnRefreshSet.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
+              btnRefreshSet.setToolTipText(bundle.getString("MainWindow.btnRefreshSet.toolTipText"));
+              btnRefreshSet.setFocusable(false);
+              btnRefreshSet.setHorizontalTextPosition(SwingConstants.CENTER);
+              btnRefreshSet.setVerticalTextPosition(SwingConstants.BOTTOM);
+              btnRefreshSet.addActionListener(e -> btnRefreshSetActionPerformed());
+              toolbarEdit.add(btnRefreshSet);
+
+              //---- btnRefreshAll ----
+              btnRefreshAll.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar-infinity.png")));
+              btnRefreshAll.setToolTipText(bundle.getString("MainWindow.btnRefreshAll.toolTipText"));
+              btnRefreshAll.setFocusable(false);
+              btnRefreshAll.setHorizontalTextPosition(SwingConstants.CENTER);
+              btnRefreshAll.setVerticalTextPosition(SwingConstants.BOTTOM);
+              btnRefreshAll.addActionListener(e -> btnRefreshAllActionPerformed());
+              toolbarEdit.add(btnRefreshAll);
+
+              //---- btnBrowser ----
+              btnBrowser.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
+              btnBrowser.setToolTipText(bundle.getString("MainWindow.btnBrowser.toolTipText"));
+              btnBrowser.addActionListener(e -> btnBrowserActionPerformed());
+              toolbarEdit.add(btnBrowser);
+              toolbarEdit.addSeparator();
+
+              //---- jLabel1 ----
+              jLabel1.setText("Filter");
+              toolbarEdit.add(jLabel1);
+
+              //---- txtFilter ----
+              txtFilter.setToolTipText(bundle.getString("MainWindow.txtFilter.toolTipText"));
+              txtFilter.addFocusListener(new FocusAdapter() {
+                  @Override
+                  public void focusGained(FocusEvent e) {
+                      txtFilterFocusGained();
+                  }
+              });
+              txtFilter.addKeyListener(new KeyAdapter() {
+                  @Override
+                  public void keyTyped(KeyEvent e) {
+                      txtFilterKeyTyped(e);
+                  }
+              });
+              toolbarEdit.add(txtFilter);
+          }
+          pnlToolbar.add(toolbarEdit);
+
+          //======== toolbarTools ========
+          {
+
+              //---- btnFavr ----
+              btnFavr.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar.png")));
+              btnFavr.setToolTipText("Launch FavrTagr");
+              btnFavr.addActionListener(e -> mnuFavrActionPerformed());
+              toolbarTools.add(btnFavr);
+
+              //---- btnClearFave ----
+              btnClearFave.setIcon(new ImageIcon(getClass().getResource("/images/909-tags-toolbar-x.png")));
+              btnClearFave.setToolTipText("Clear fave tags");
+              btnClearFave.addActionListener(e -> mnuClearFaveActionPerformed());
+              toolbarTools.add(btnClearFave);
+
+              //---- btnSetOrdering ----
+              btnSetOrdering.setIcon(new ImageIcon(getClass().getResource("/images/707-albums-toolbar-22x22.png")));
+              btnSetOrdering.setToolTipText("Launch the album ordering tool");
+              btnSetOrdering.addActionListener(e -> mnuSetOrderActionPerformed());
+              toolbarTools.add(btnSetOrdering);
+
+              //---- btnLogs ----
+              btnLogs.setIcon(new ImageIcon(getClass().getResource("/images/797-archive-toolbar-22x22.png")));
+              btnLogs.setToolTipText("Compress logs");
+              btnLogs.addActionListener(e -> mnuLogsActionPerformed());
+              toolbarTools.add(btnLogs);
+
+              //---- btnConsole ----
+              btnConsole.setIcon(new ImageIcon(getClass().getResource("/images/1072-terminal-toolbar-22x22.png")));
+              btnConsole.setToolTipText("Show activity console");
+              btnConsole.addActionListener(e -> mnuLogWindowActionPerformed());
+              toolbarTools.add(btnConsole);
+          }
+          pnlToolbar.add(toolbarTools);
+      }
+      contentPane.add(pnlToolbar, BorderLayout.NORTH);
+
+      //======== jScrollPane1 ========
+      {
+
+          //---- jList1 ----
+          jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+          jList1.setCellRenderer(null);
+          jList1.addMouseListener(new MouseAdapter() {
+              @Override
+              public void mousePressed(MouseEvent e) {
+                  jList1MousePressed(e);
+              }
+              @Override
+              public void mouseReleased(MouseEvent e) {
+                  jList1MouseReleased(e);
+              }
+          });
+          this.jList1.setModel(this.listModel);
+          this.jList1.setCellRenderer(new SetListRenderer());
+          jScrollPane1.setViewportView(jList1);
+      }
+      contentPane.add(jScrollPane1, BorderLayout.CENTER);
+
+      //---- lblStatus ----
+      lblStatus.setText(bundle.getString("MainWindow.lblStatus.text"));
+      contentPane.add(lblStatus, BorderLayout.SOUTH);
+      setSize(488, 522);
+      setLocationRelativeTo(null);
+
+      //======== mnuPopup ========
+      {
+          mnuPopup.setLayout(new BoxLayout(mnuPopup, BoxLayout.Y_AXIS));
+
+          //---- mnuPopupCreate ----
+          mnuPopupCreate.setIcon(new ImageIcon(getClass().getResource("/images/746-plus-circle-toolbar.png")));
+          mnuPopupCreate.setText(bundle.getString("MainWindow.mnuPopupCreate.text"));
+          mnuPopupCreate.addActionListener(e -> mnuPopupCreateActionPerformed());
+          mnuPopup.add(mnuPopupCreate);
+
+          //---- mnuPopupEdit ----
+          mnuPopupEdit.setIcon(new ImageIcon(getClass().getResource("/images/830-pencil-toolbar.png")));
+          mnuPopupEdit.setText(bundle.getString("MainWindow.mnuPopupEdit.text"));
+          mnuPopupEdit.addActionListener(e -> mnuPopupEditActionPerformed());
+          mnuPopup.add(mnuPopupEdit);
+
+          //---- mnuPopupDelete ----
+          mnuPopupDelete.setIcon(new ImageIcon(getClass().getResource("/images/711-trash-toolbar-22x22.png")));
+          mnuPopupDelete.setText(bundle.getString("MainWindow.mnuPopupDelete.text"));
+          mnuPopupDelete.addActionListener(e -> mnuPopupDeleteActionPerformed());
+          mnuPopup.add(mnuPopupDelete);
+
+          //---- mnuPopupRefresh ----
+          mnuPopupRefresh.setIcon(new ImageIcon(getClass().getResource("/images/759-refresh-2-toolbar.png")));
+          mnuPopupRefresh.setText(bundle.getString("MainWindow.mnuPopupRefresh.text"));
+          mnuPopupRefresh.addActionListener(e -> mnuPopupRefreshActionPerformed());
+          mnuPopup.add(mnuPopupRefresh);
+
+          //---- mnuPopupOpen ----
+          mnuPopupOpen.setIcon(new ImageIcon(getClass().getResource("/images/786-browser-toolbar-22x22.png")));
+          mnuPopupOpen.setText(bundle.getString("MainWindow.mnuPopupOpen.text"));
+          mnuPopupOpen.addActionListener(e -> mnuPopupOpenActionPerformed());
+          mnuPopup.add(mnuPopupOpen);
+      }
+
+      //---- buttonGroup1 ----
+      var buttonGroup1 = new ButtonGroup();
+      buttonGroup1.add(mnuOrderAlpha);
+      buttonGroup1.add(mnuOrderAlphaDesc);
+      buttonGroup1.add(mnuOrderHighLow);
+      buttonGroup1.add(mnuOrderLowHigh);
   }// </editor-fold>//GEN-END:initComponents
 
 
@@ -639,7 +788,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
     logger.info("Database has been shut down");
 
-    logger.info("SuprSetr exiting. Goodbye.");    System.exit(0);
+    logger.info("SuprSetr exiting. Goodbye.");
+    System.exit(0);
   }
 
   private void mnuCreateSetActionPerformed() {
@@ -1198,7 +1348,6 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
 
-
   private void doBackup(boolean exitWhenFinished) {
     BlockerPanel blocker = new BlockerPanel(this, resourceBundle.getString("MainWindow.blocker.backup"));
     setGlassPane(blocker);
@@ -1216,7 +1365,14 @@ public class MainWindow extends javax.swing.JFrame {
    * @return true if the window is in a blocked state.
    */
   static boolean isBlocked() {
-    return theWindow.getGlassPane().isVisible();
+    return blocked;
+  }
+
+  /**
+   * Set the blocked state of the window.
+   */
+  static void setBlocked(boolean blocked) {
+    MainWindow.blocked = blocked;
   }
 
 
@@ -1278,21 +1434,11 @@ public class MainWindow extends javax.swing.JFrame {
   public void updateMasterList(String visiblePhotosetId) {
     try {
       switch (LookupDAO.getValueForKey(SSConstants.LOOKUP_KEY_LIST_SORT_ORDER)) {
-        case SSConstants.LIST_SORT_ATOZ:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
-          break;
-        case SSConstants.LIST_SORT_ZTOA:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitleDescending();
-          break;
-        case SSConstants.LIST_SORT_VIEW_HIGHLOW:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountHighToLow();
-          break;
-        case SSConstants.LIST_SORT_VIEW_LOWHIGH:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountLowToHigh();
-          break;
-        default:
-          this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
-          break;
+        case SSConstants.LIST_SORT_ATOZ -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
+        case SSConstants.LIST_SORT_ZTOA -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitleDescending();
+        case SSConstants.LIST_SORT_VIEW_HIGHLOW -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountHighToLow();
+        case SSConstants.LIST_SORT_VIEW_LOWHIGH -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndViewCountLowToHigh();
+        default -> this.masterList = PhotosetDAO.getPhotosetListOrderByManagedAndTitle();
       }
     } catch (Exception e) {
       JOptionPane.showMessageDialog(this,
@@ -1432,6 +1578,9 @@ public class MainWindow extends javax.swing.JFrame {
   private JRadioButtonMenuItem mnuOrderAlphaDesc;
   private JRadioButtonMenuItem mnuOrderHighLow;
   private JRadioButtonMenuItem mnuOrderLowHigh;
+  private JMenu mnuToolbars;
+  private JMenuItem mnuToolbarEdit;
+  private JMenuItem mnuToolbarTools;
   private JMenu mnuTools;
   private JMenuItem mnuFavr;
   private JMenuItem mnuClearFave;
@@ -1443,7 +1592,8 @@ public class MainWindow extends javax.swing.JFrame {
   private JMenuItem mnuTutorial;
   private JMenuItem mnuSSHelp;
   private JMenuItem mnuCheckUpdates;
-  private JToolBar jToolBar1;
+  private JPanel pnlToolbar;
+  private JToolBar toolbarEdit;
   private JButton btnAddSet;
   private JButton btnEditSet;
   private JButton btnDeleteSet;
@@ -1452,8 +1602,14 @@ public class MainWindow extends javax.swing.JFrame {
   private JButton btnBrowser;
   private JLabel jLabel1;
   private JTextField txtFilter;
+  private JToolBar toolbarTools;
+  private JButton btnFavr;
+  private JButton btnClearFave;
+  private JButton btnSetOrdering;
+  private JButton btnLogs;
+  private JButton btnConsole;
   private JScrollPane jScrollPane1;
-  private JList jList1;
+  private JList<SSPhotoset> jList1;
   private JLabel lblStatus;
   private JPopupMenu mnuPopup;
   private JMenuItem mnuPopupCreate;

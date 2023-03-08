@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -60,7 +60,7 @@ import java.util.ResourceBundle;
 public class SetOrderer extends javax.swing.JDialog {
 
   private static final long serialVersionUID = -8987356410180796854L;
-  private Logger logger = LogManager.getLogger(SetOrderer.class);
+  private static final Logger logger = LogManager.getLogger(SetOrderer.class);
 
   private DefaultListModel<SetOrdererDTO> listModel;
 

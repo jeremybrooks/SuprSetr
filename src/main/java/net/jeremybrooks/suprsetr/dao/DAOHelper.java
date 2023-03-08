@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * @author Jeremy Brooks
  */
 public class DAOHelper {
-  private static Logger logger = LogManager.getLogger(DAOHelper.class);
+  private static final Logger logger = LogManager.getLogger(DAOHelper.class);
 
   /* Database connection string. */
   private static final String DB_CONN_STRING = "jdbc:derby:SuprSetrDB";
@@ -115,10 +115,8 @@ public class DAOHelper {
    * Create the database.
    *
    * <p>The photoset and lookup tables will be created.</p>
-   *
-   * @throws Exception if there are any errors.
    */
-  public static void createDatabase() throws Exception {
+  public static void createDatabase() {
 
     try (Connection conn = DriverManager.getConnection(DB_CONN_STRING + ";create=true");
          Statement s = conn.createStatement()) {

@@ -1,5 +1,5 @@
 /*
- *  SuprSetr is Copyright 2010-2020 by Jeremy Brooks
+ *  SuprSetr is Copyright 2010-2023 by Jeremy Brooks
  *
  *  This file is part of SuprSetr.
  *
@@ -20,7 +20,6 @@
 package net.jeremybrooks.suprsetr;
 
 
-import javax.swing.*;
 import net.jeremybrooks.suprsetr.dao.DAOHelper;
 import net.jeremybrooks.suprsetr.dao.LookupDAO;
 import net.jeremybrooks.suprsetr.flickr.FlickrHelper;
@@ -59,6 +58,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.Serial;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,8 +73,9 @@ import java.util.ResourceBundle;
  */
 public class Preferences extends javax.swing.JDialog {
 
+  @Serial
   private static final long serialVersionUID = 6297020767085159090L;
-  private Logger logger = LogManager.getLogger(Preferences.class);
+  private static final Logger logger = LogManager.getLogger(Preferences.class);
 
   /**
    * Constant defining the options tab panel.
@@ -887,31 +888,29 @@ public class Preferences extends javax.swing.JDialog {
 
   private void cmbFavrActionPerformed(java.awt.event.ActionEvent evt) {
     switch (this.cmbFavr.getSelectedIndex()) {
-      case 0:
+      case 0 -> {
         this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "10");
-        break;
-      case 1:
+      }
+      case 1 -> {
         this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "25");
-        break;
-      case 2:
+      }
+      case 2 -> {
         this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "100");
-        break;
-      case 3:
+      }
+      case 3 -> {
         this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "0");
-        break;
-      case 4:
+      }
+      case 4 -> {
         this.displayCustomIntervalFields(false);
         LookupDAO.setKeyAndValue(SSConstants.LOOKUP_KEY_FAVRTAGR_INTERVAL, "4");
-        break;
-      case 5:
-        this.displayCustomIntervalFields(true);
-        break;
-      default:
-        break;
+      }
+      case 5 -> this.displayCustomIntervalFields(true);
+      default -> {
+      }
     }
   }
 
