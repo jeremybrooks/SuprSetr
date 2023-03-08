@@ -723,13 +723,13 @@ SuprSetr has been uninstalled, but the database and other files created by SuprS
     <macosArchive name="Mac OS X Single Bundle Archive" id="74" installDir="suprsetr" architecture="universal" launcherId="23">
       <jreBundle jreBundleSource="none" />
     </macosArchive>
-    <macosArchive name="Mac OS X Single Bundle Archive (with JRE17)" id="24" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE13" installDir="suprsetr" architecture="universal" launcherId="23">
+    <macosArchive name="Mac OS X Single Bundle Archive (with JRE17)" id="24" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE" installDir="suprsetr" architecture="universal" launcherId="23">
       <jreBundle includedJre="macosx-amd64-12.0.1" />
     </macosArchive>
     <windows name="Windows x64" id="72" installDir="suprsetr" architecture="64">
       <jreBundle jreBundleSource="none" />
     </windows>
-    <windows name="Windows x64 (with JRE17)" id="78" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE13" installDir="suprsetr" architecture="64">
+    <windows name="Windows x64 (with JRE17)" id="78" mediaFileName="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}_withJRE" installDir="suprsetr" architecture="64">
       <jreBundle includedJre="windows-amd64-12.0.1" />
     </windows>
     <unixInstaller name="Linux Installer" id="73" mediaFileName="${compiler:sys.shortName}_linux_${compiler:sys.version}" installDir="suprsetr">
